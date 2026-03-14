@@ -18,30 +18,48 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
-  Category,
-  Pet,
-  PetCreateParams,
-  PetFindByStatusParams,
-  PetFindByStatusResponse,
-  PetFindByTagsParams,
-  PetFindByTagsResponse,
-  PetUpdateByIDParams,
-  PetUpdateParams,
-  PetUploadImageParams,
-  PetUploadImageResponse,
-  Pets,
-  Tag,
-} from './resources/pets';
-import {
-  User,
-  UserCreateParams,
-  UserCreateWithListParams,
-  UserLoginParams,
-  UserLoginResponse,
-  UserUpdateParams,
-  Users,
-} from './resources/users';
-import { Store, StoreListInventoryResponse } from './resources/store/store';
+  Brand,
+  BrandAIProductParams,
+  BrandAIProductResponse,
+  BrandAIProductsParams,
+  BrandAIProductsResponse,
+  BrandAIQueryParams,
+  BrandAIQueryResponse,
+  BrandFontsParams,
+  BrandFontsResponse,
+  BrandIdentifyFromTransactionParams,
+  BrandIdentifyFromTransactionResponse,
+  BrandPrefetchByEmailParams,
+  BrandPrefetchByEmailResponse,
+  BrandPrefetchParams,
+  BrandPrefetchResponse,
+  BrandRetrieveByEmailParams,
+  BrandRetrieveByEmailResponse,
+  BrandRetrieveByIsinParams,
+  BrandRetrieveByIsinResponse,
+  BrandRetrieveByNameParams,
+  BrandRetrieveByNameResponse,
+  BrandRetrieveByTickerParams,
+  BrandRetrieveByTickerResponse,
+  BrandRetrieveNaicsParams,
+  BrandRetrieveNaicsResponse,
+  BrandRetrieveParams,
+  BrandRetrieveResponse,
+  BrandRetrieveSimplifiedParams,
+  BrandRetrieveSimplifiedResponse,
+  BrandScreenshotParams,
+  BrandScreenshotResponse,
+  BrandStyleguideParams,
+  BrandStyleguideResponse,
+  BrandWebScrapeHTMLParams,
+  BrandWebScrapeHTMLResponse,
+  BrandWebScrapeImagesParams,
+  BrandWebScrapeImagesResponse,
+  BrandWebScrapeMdParams,
+  BrandWebScrapeMdResponse,
+  BrandWebScrapeSitemapParams,
+  BrandWebScrapeSitemapResponse,
+} from './resources/brand';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -57,7 +75,7 @@ import { isEmptyObj } from './internal/utils/values';
 
 export interface ClientOptions {
   /**
-   * Defaults to process.env['PETSTORE_API_KEY'].
+   * Defaults to process.env['CONTEXT_DEV_API_KEY'].
    */
   apiKey?: string | undefined;
 
@@ -151,8 +169,8 @@ export class ContextDev {
   /**
    * API Client for interfacing with the Context Dev API.
    *
-   * @param {string | undefined} [opts.apiKey=process.env['PETSTORE_API_KEY'] ?? undefined]
-   * @param {string} [opts.baseURL=process.env['CONTEXT_DEV_BASE_URL'] ?? https://petstore3.swagger.io/api/v3] - Override the default base URL for the API.
+   * @param {string | undefined} [opts.apiKey=process.env['CONTEXT_DEV_API_KEY'] ?? undefined]
+   * @param {string} [opts.baseURL=process.env['CONTEXT_DEV_BASE_URL'] ?? https://api.context.dev/v1] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -162,19 +180,19 @@ export class ContextDev {
    */
   constructor({
     baseURL = readEnv('CONTEXT_DEV_BASE_URL'),
-    apiKey = readEnv('PETSTORE_API_KEY'),
+    apiKey = readEnv('CONTEXT_DEV_API_KEY'),
     ...opts
   }: ClientOptions = {}) {
     if (apiKey === undefined) {
       throw new Errors.ContextDevError(
-        "The PETSTORE_API_KEY environment variable is missing or empty; either provide it, or instantiate the ContextDev client with an apiKey option, like new ContextDev({ apiKey: 'My API Key' }).",
+        "The CONTEXT_DEV_API_KEY environment variable is missing or empty; either provide it, or instantiate the ContextDev client with an apiKey option, like new ContextDev({ apiKey: 'My API Key' }).",
       );
     }
 
     const options: ClientOptions = {
       apiKey,
       ...opts,
-      baseURL: baseURL || `https://petstore3.swagger.io/api/v3`,
+      baseURL: baseURL || `https://api.context.dev/v1`,
     };
 
     this.baseURL = options.baseURL!;
@@ -220,7 +238,7 @@ export class ContextDev {
    * Check whether the base URL is set to its default.
    */
   #baseURLOverridden(): boolean {
-    return this.baseURL !== 'https://petstore3.swagger.io/api/v3';
+    return this.baseURL !== 'https://api.context.dev/v1';
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
@@ -232,9 +250,12 @@ export class ContextDev {
   }
 
   protected async authHeaders(opts: FinalRequestOptions): Promise<NullableHeaders | undefined> {
-    return buildHeaders([{ api_key: this.apiKey }]);
+    return buildHeaders([{ Authorization: `Bearer ${this.apiKey}` }]);
   }
 
+  /**
+   * Basic re-implementation of `qs.stringify` for primitive types.
+   */
   protected stringifyQuery(query: object | Record<string, unknown>): string {
     return stringifyQuery(query);
   }
@@ -739,54 +760,55 @@ export class ContextDev {
 
   static toFile = Uploads.toFile;
 
-  /**
-   * Everything about your Pets
-   */
-  pets: API.Pets = new API.Pets(this);
-  /**
-   * Access to Petstore orders
-   */
-  store: API.Store = new API.Store(this);
-  /**
-   * Operations about user
-   */
-  users: API.Users = new API.Users(this);
+  brand: API.Brand = new API.Brand(this);
 }
 
-ContextDev.Pets = Pets;
-ContextDev.Store = Store;
-ContextDev.Users = Users;
+ContextDev.Brand = Brand;
 
 export declare namespace ContextDev {
   export type RequestOptions = Opts.RequestOptions;
 
   export {
-    Pets as Pets,
-    type Category as Category,
-    type Pet as Pet,
-    type Tag as Tag,
-    type PetFindByStatusResponse as PetFindByStatusResponse,
-    type PetFindByTagsResponse as PetFindByTagsResponse,
-    type PetUploadImageResponse as PetUploadImageResponse,
-    type PetCreateParams as PetCreateParams,
-    type PetUpdateParams as PetUpdateParams,
-    type PetFindByStatusParams as PetFindByStatusParams,
-    type PetFindByTagsParams as PetFindByTagsParams,
-    type PetUpdateByIDParams as PetUpdateByIDParams,
-    type PetUploadImageParams as PetUploadImageParams,
+    Brand as Brand,
+    type BrandRetrieveResponse as BrandRetrieveResponse,
+    type BrandAIProductResponse as BrandAIProductResponse,
+    type BrandAIProductsResponse as BrandAIProductsResponse,
+    type BrandAIQueryResponse as BrandAIQueryResponse,
+    type BrandFontsResponse as BrandFontsResponse,
+    type BrandIdentifyFromTransactionResponse as BrandIdentifyFromTransactionResponse,
+    type BrandPrefetchResponse as BrandPrefetchResponse,
+    type BrandPrefetchByEmailResponse as BrandPrefetchByEmailResponse,
+    type BrandRetrieveByEmailResponse as BrandRetrieveByEmailResponse,
+    type BrandRetrieveByIsinResponse as BrandRetrieveByIsinResponse,
+    type BrandRetrieveByNameResponse as BrandRetrieveByNameResponse,
+    type BrandRetrieveByTickerResponse as BrandRetrieveByTickerResponse,
+    type BrandRetrieveNaicsResponse as BrandRetrieveNaicsResponse,
+    type BrandRetrieveSimplifiedResponse as BrandRetrieveSimplifiedResponse,
+    type BrandScreenshotResponse as BrandScreenshotResponse,
+    type BrandStyleguideResponse as BrandStyleguideResponse,
+    type BrandWebScrapeHTMLResponse as BrandWebScrapeHTMLResponse,
+    type BrandWebScrapeImagesResponse as BrandWebScrapeImagesResponse,
+    type BrandWebScrapeMdResponse as BrandWebScrapeMdResponse,
+    type BrandWebScrapeSitemapResponse as BrandWebScrapeSitemapResponse,
+    type BrandRetrieveParams as BrandRetrieveParams,
+    type BrandAIProductParams as BrandAIProductParams,
+    type BrandAIProductsParams as BrandAIProductsParams,
+    type BrandAIQueryParams as BrandAIQueryParams,
+    type BrandFontsParams as BrandFontsParams,
+    type BrandIdentifyFromTransactionParams as BrandIdentifyFromTransactionParams,
+    type BrandPrefetchParams as BrandPrefetchParams,
+    type BrandPrefetchByEmailParams as BrandPrefetchByEmailParams,
+    type BrandRetrieveByEmailParams as BrandRetrieveByEmailParams,
+    type BrandRetrieveByIsinParams as BrandRetrieveByIsinParams,
+    type BrandRetrieveByNameParams as BrandRetrieveByNameParams,
+    type BrandRetrieveByTickerParams as BrandRetrieveByTickerParams,
+    type BrandRetrieveNaicsParams as BrandRetrieveNaicsParams,
+    type BrandRetrieveSimplifiedParams as BrandRetrieveSimplifiedParams,
+    type BrandScreenshotParams as BrandScreenshotParams,
+    type BrandStyleguideParams as BrandStyleguideParams,
+    type BrandWebScrapeHTMLParams as BrandWebScrapeHTMLParams,
+    type BrandWebScrapeImagesParams as BrandWebScrapeImagesParams,
+    type BrandWebScrapeMdParams as BrandWebScrapeMdParams,
+    type BrandWebScrapeSitemapParams as BrandWebScrapeSitemapParams,
   };
-
-  export { Store as Store, type StoreListInventoryResponse as StoreListInventoryResponse };
-
-  export {
-    Users as Users,
-    type User as User,
-    type UserLoginResponse as UserLoginResponse,
-    type UserCreateParams as UserCreateParams,
-    type UserUpdateParams as UserUpdateParams,
-    type UserCreateWithListParams as UserCreateWithListParams,
-    type UserLoginParams as UserLoginParams,
-  };
-
-  export type Order = API.Order;
 }

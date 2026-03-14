@@ -1,62 +1,47 @@
-# Shared
+# Brand
 
 Types:
 
-- <code><a href="./src/resources/shared.ts">Order</a></code>
-
-# Pets
-
-Types:
-
-- <code><a href="./src/resources/pets.ts">Category</a></code>
-- <code><a href="./src/resources/pets.ts">Pet</a></code>
-- <code><a href="./src/resources/pets.ts">Tag</a></code>
-- <code><a href="./src/resources/pets.ts">PetFindByStatusResponse</a></code>
-- <code><a href="./src/resources/pets.ts">PetFindByTagsResponse</a></code>
-- <code><a href="./src/resources/pets.ts">PetUploadImageResponse</a></code>
-
-Methods:
-
-- <code title="post /pet">client.pets.<a href="./src/resources/pets.ts">create</a>({ ...params }) -> Pet</code>
-- <code title="get /pet/{petId}">client.pets.<a href="./src/resources/pets.ts">retrieve</a>(petID) -> Pet</code>
-- <code title="put /pet">client.pets.<a href="./src/resources/pets.ts">update</a>({ ...params }) -> Pet</code>
-- <code title="delete /pet/{petId}">client.pets.<a href="./src/resources/pets.ts">delete</a>(petID) -> void</code>
-- <code title="get /pet/findByStatus">client.pets.<a href="./src/resources/pets.ts">findByStatus</a>({ ...params }) -> PetFindByStatusResponse</code>
-- <code title="get /pet/findByTags">client.pets.<a href="./src/resources/pets.ts">findByTags</a>({ ...params }) -> PetFindByTagsResponse</code>
-- <code title="post /pet/{petId}">client.pets.<a href="./src/resources/pets.ts">updateByID</a>(petID, { ...params }) -> void</code>
-- <code title="post /pet/{petId}/uploadImage">client.pets.<a href="./src/resources/pets.ts">uploadImage</a>(petID, image, { ...params }) -> PetUploadImageResponse</code>
-
-# Store
-
-Types:
-
-- <code><a href="./src/resources/store/store.ts">StoreListInventoryResponse</a></code>
+- <code><a href="./src/resources/brand.ts">BrandRetrieveResponse</a></code>
+- <code><a href="./src/resources/brand.ts">BrandAIProductResponse</a></code>
+- <code><a href="./src/resources/brand.ts">BrandAIProductsResponse</a></code>
+- <code><a href="./src/resources/brand.ts">BrandAIQueryResponse</a></code>
+- <code><a href="./src/resources/brand.ts">BrandFontsResponse</a></code>
+- <code><a href="./src/resources/brand.ts">BrandIdentifyFromTransactionResponse</a></code>
+- <code><a href="./src/resources/brand.ts">BrandPrefetchResponse</a></code>
+- <code><a href="./src/resources/brand.ts">BrandPrefetchByEmailResponse</a></code>
+- <code><a href="./src/resources/brand.ts">BrandRetrieveByEmailResponse</a></code>
+- <code><a href="./src/resources/brand.ts">BrandRetrieveByIsinResponse</a></code>
+- <code><a href="./src/resources/brand.ts">BrandRetrieveByNameResponse</a></code>
+- <code><a href="./src/resources/brand.ts">BrandRetrieveByTickerResponse</a></code>
+- <code><a href="./src/resources/brand.ts">BrandRetrieveNaicsResponse</a></code>
+- <code><a href="./src/resources/brand.ts">BrandRetrieveSimplifiedResponse</a></code>
+- <code><a href="./src/resources/brand.ts">BrandScreenshotResponse</a></code>
+- <code><a href="./src/resources/brand.ts">BrandStyleguideResponse</a></code>
+- <code><a href="./src/resources/brand.ts">BrandWebScrapeHTMLResponse</a></code>
+- <code><a href="./src/resources/brand.ts">BrandWebScrapeImagesResponse</a></code>
+- <code><a href="./src/resources/brand.ts">BrandWebScrapeMdResponse</a></code>
+- <code><a href="./src/resources/brand.ts">BrandWebScrapeSitemapResponse</a></code>
 
 Methods:
 
-- <code title="get /store/inventory">client.store.<a href="./src/resources/store/store.ts">listInventory</a>() -> StoreListInventoryResponse</code>
-
-## Orders
-
-Methods:
-
-- <code title="post /store/order">client.store.orders.<a href="./src/resources/store/orders.ts">create</a>({ ...params }) -> Order</code>
-- <code title="get /store/order/{orderId}">client.store.orders.<a href="./src/resources/store/orders.ts">retrieve</a>(orderID) -> Order</code>
-- <code title="delete /store/order/{orderId}">client.store.orders.<a href="./src/resources/store/orders.ts">delete</a>(orderID) -> void</code>
-
-# Users
-
-Types:
-
-- <code><a href="./src/resources/users.ts">User</a></code>
-- <code><a href="./src/resources/users.ts">UserLoginResponse</a></code>
-
-Methods:
-
-- <code title="post /user">client.users.<a href="./src/resources/users.ts">create</a>({ ...params }) -> User</code>
-- <code title="get /user/{username}">client.users.<a href="./src/resources/users.ts">retrieve</a>(username) -> User</code>
-- <code title="put /user/{username}">client.users.<a href="./src/resources/users.ts">update</a>(existingUsername, { ...params }) -> void</code>
-- <code title="delete /user/{username}">client.users.<a href="./src/resources/users.ts">delete</a>(username) -> void</code>
-- <code title="post /user/createWithList">client.users.<a href="./src/resources/users.ts">createWithList</a>([ ...items ]) -> User</code>
-- <code title="get /user/login">client.users.<a href="./src/resources/users.ts">login</a>({ ...params }) -> string</code>
-- <code title="get /user/logout">client.users.<a href="./src/resources/users.ts">logout</a>() -> void</code>
+- <code title="get /brand/retrieve">client.brand.<a href="./src/resources/brand.ts">retrieve</a>({ ...params }) -> BrandRetrieveResponse</code>
+- <code title="post /brand/ai/product">client.brand.<a href="./src/resources/brand.ts">aiProduct</a>({ ...params }) -> BrandAIProductResponse</code>
+- <code title="post /brand/ai/products">client.brand.<a href="./src/resources/brand.ts">aiProducts</a>({ ...params }) -> BrandAIProductsResponse</code>
+- <code title="post /brand/ai/query">client.brand.<a href="./src/resources/brand.ts">aiQuery</a>({ ...params }) -> BrandAIQueryResponse</code>
+- <code title="get /brand/fonts">client.brand.<a href="./src/resources/brand.ts">fonts</a>({ ...params }) -> BrandFontsResponse</code>
+- <code title="get /brand/transaction_identifier">client.brand.<a href="./src/resources/brand.ts">identifyFromTransaction</a>({ ...params }) -> BrandIdentifyFromTransactionResponse</code>
+- <code title="post /brand/prefetch">client.brand.<a href="./src/resources/brand.ts">prefetch</a>({ ...params }) -> BrandPrefetchResponse</code>
+- <code title="post /brand/prefetch-by-email">client.brand.<a href="./src/resources/brand.ts">prefetchByEmail</a>({ ...params }) -> BrandPrefetchByEmailResponse</code>
+- <code title="get /brand/retrieve-by-email">client.brand.<a href="./src/resources/brand.ts">retrieveByEmail</a>({ ...params }) -> BrandRetrieveByEmailResponse</code>
+- <code title="get /brand/retrieve-by-isin">client.brand.<a href="./src/resources/brand.ts">retrieveByIsin</a>({ ...params }) -> BrandRetrieveByIsinResponse</code>
+- <code title="get /brand/retrieve-by-name">client.brand.<a href="./src/resources/brand.ts">retrieveByName</a>({ ...params }) -> BrandRetrieveByNameResponse</code>
+- <code title="get /brand/retrieve-by-ticker">client.brand.<a href="./src/resources/brand.ts">retrieveByTicker</a>({ ...params }) -> BrandRetrieveByTickerResponse</code>
+- <code title="get /brand/naics">client.brand.<a href="./src/resources/brand.ts">retrieveNaics</a>({ ...params }) -> BrandRetrieveNaicsResponse</code>
+- <code title="get /brand/retrieve-simplified">client.brand.<a href="./src/resources/brand.ts">retrieveSimplified</a>({ ...params }) -> BrandRetrieveSimplifiedResponse</code>
+- <code title="get /brand/screenshot">client.brand.<a href="./src/resources/brand.ts">screenshot</a>({ ...params }) -> BrandScreenshotResponse</code>
+- <code title="get /brand/styleguide">client.brand.<a href="./src/resources/brand.ts">styleguide</a>({ ...params }) -> BrandStyleguideResponse</code>
+- <code title="get /web/scrape/html">client.brand.<a href="./src/resources/brand.ts">webScrapeHTML</a>({ ...params }) -> BrandWebScrapeHTMLResponse</code>
+- <code title="get /web/scrape/images">client.brand.<a href="./src/resources/brand.ts">webScrapeImages</a>({ ...params }) -> BrandWebScrapeImagesResponse</code>
+- <code title="get /web/scrape/markdown">client.brand.<a href="./src/resources/brand.ts">webScrapeMd</a>({ ...params }) -> BrandWebScrapeMdResponse</code>
+- <code title="get /web/scrape/sitemap">client.brand.<a href="./src/resources/brand.ts">webScrapeSitemap</a>({ ...params }) -> BrandWebScrapeSitemapResponse</code>
