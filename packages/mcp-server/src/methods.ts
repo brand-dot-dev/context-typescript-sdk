@@ -11,6 +11,30 @@ export type SdkMethod = {
 
 export const sdkMethods: SdkMethod[] = [
   {
+    clientCallName: 'client.web.webScrapeHTML',
+    fullyQualifiedName: 'web.webScrapeHTML',
+    httpMethod: 'get',
+    httpPath: '/web/scrape/html',
+  },
+  {
+    clientCallName: 'client.web.webScrapeImages',
+    fullyQualifiedName: 'web.webScrapeImages',
+    httpMethod: 'get',
+    httpPath: '/web/scrape/images',
+  },
+  {
+    clientCallName: 'client.web.webScrapeMd',
+    fullyQualifiedName: 'web.webScrapeMd',
+    httpMethod: 'get',
+    httpPath: '/web/scrape/markdown',
+  },
+  {
+    clientCallName: 'client.web.webScrapeSitemap',
+    fullyQualifiedName: 'web.webScrapeSitemap',
+    httpMethod: 'get',
+    httpPath: '/web/scrape/sitemap',
+  },
+  {
     clientCallName: 'client.brand.retrieve',
     fullyQualifiedName: 'brand.retrieve',
     httpMethod: 'get',
@@ -105,30 +129,6 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'brand.styleguide',
     httpMethod: 'get',
     httpPath: '/brand/styleguide',
-  },
-  {
-    clientCallName: 'client.brand.webScrapeHTML',
-    fullyQualifiedName: 'brand.webScrapeHTML',
-    httpMethod: 'get',
-    httpPath: '/web/scrape/html',
-  },
-  {
-    clientCallName: 'client.brand.webScrapeImages',
-    fullyQualifiedName: 'brand.webScrapeImages',
-    httpMethod: 'get',
-    httpPath: '/web/scrape/images',
-  },
-  {
-    clientCallName: 'client.brand.webScrapeMd',
-    fullyQualifiedName: 'brand.webScrapeMd',
-    httpMethod: 'get',
-    httpPath: '/web/scrape/markdown',
-  },
-  {
-    clientCallName: 'client.brand.webScrapeSitemap',
-    fullyQualifiedName: 'brand.webScrapeSitemap',
-    httpMethod: 'get',
-    httpPath: '/web/scrape/sitemap',
   },
 ];
 
