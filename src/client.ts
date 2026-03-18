@@ -18,21 +18,18 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
+  AI,
+  AIAIQueryParams,
+  AIAIQueryResponse,
+  AIExtractProductParams,
+  AIExtractProductResponse,
+  AIExtractProductsParams,
+  AIExtractProductsResponse,
+} from './resources/ai';
+import {
   Brand,
-  BrandAIProductParams,
-  BrandAIProductResponse,
-  BrandAIProductsParams,
-  BrandAIProductsResponse,
-  BrandAIQueryParams,
-  BrandAIQueryResponse,
-  BrandFontsParams,
-  BrandFontsResponse,
   BrandIdentifyFromTransactionParams,
   BrandIdentifyFromTransactionResponse,
-  BrandPrefetchByEmailParams,
-  BrandPrefetchByEmailResponse,
-  BrandPrefetchParams,
-  BrandPrefetchResponse,
   BrandRetrieveByEmailParams,
   BrandRetrieveByEmailResponse,
   BrandRetrieveByIsinParams,
@@ -41,25 +38,39 @@ import {
   BrandRetrieveByNameResponse,
   BrandRetrieveByTickerParams,
   BrandRetrieveByTickerResponse,
-  BrandRetrieveNaicsParams,
-  BrandRetrieveNaicsResponse,
   BrandRetrieveParams,
   BrandRetrieveResponse,
   BrandRetrieveSimplifiedParams,
   BrandRetrieveSimplifiedResponse,
-  BrandScreenshotParams,
-  BrandScreenshotResponse,
-  BrandStyleguideParams,
-  BrandStyleguideResponse,
-  BrandWebScrapeHTMLParams,
-  BrandWebScrapeHTMLResponse,
-  BrandWebScrapeImagesParams,
-  BrandWebScrapeImagesResponse,
-  BrandWebScrapeMdParams,
-  BrandWebScrapeMdResponse,
-  BrandWebScrapeSitemapParams,
-  BrandWebScrapeSitemapResponse,
 } from './resources/brand';
+import { Industry, IndustryRetrieveNaicsParams, IndustryRetrieveNaicsResponse } from './resources/industry';
+import {
+  Style,
+  StyleExtractFontsParams,
+  StyleExtractFontsResponse,
+  StyleExtractStyleguideParams,
+  StyleExtractStyleguideResponse,
+} from './resources/style';
+import {
+  Utility,
+  UtilityPrefetchByEmailParams,
+  UtilityPrefetchByEmailResponse,
+  UtilityPrefetchParams,
+  UtilityPrefetchResponse,
+} from './resources/utility';
+import {
+  Web,
+  WebScreenshotParams,
+  WebScreenshotResponse,
+  WebWebScrapeHTMLParams,
+  WebWebScrapeHTMLResponse,
+  WebWebScrapeImagesParams,
+  WebWebScrapeImagesResponse,
+  WebWebScrapeMdParams,
+  WebWebScrapeMdResponse,
+  WebWebScrapeSitemapParams,
+  WebWebScrapeSitemapResponse,
+} from './resources/web';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -760,55 +771,85 @@ export class ContextDev {
 
   static toFile = Uploads.toFile;
 
+  web: API.Web = new API.Web(this);
+  ai: API.AI = new API.AI(this);
+  style: API.Style = new API.Style(this);
   brand: API.Brand = new API.Brand(this);
+  industry: API.Industry = new API.Industry(this);
+  utility: API.Utility = new API.Utility(this);
 }
 
+ContextDev.Web = Web;
+ContextDev.AI = AI;
+ContextDev.Style = Style;
 ContextDev.Brand = Brand;
+ContextDev.Industry = Industry;
+ContextDev.Utility = Utility;
 
 export declare namespace ContextDev {
   export type RequestOptions = Opts.RequestOptions;
 
   export {
+    Web as Web,
+    type WebScreenshotResponse as WebScreenshotResponse,
+    type WebWebScrapeHTMLResponse as WebWebScrapeHTMLResponse,
+    type WebWebScrapeImagesResponse as WebWebScrapeImagesResponse,
+    type WebWebScrapeMdResponse as WebWebScrapeMdResponse,
+    type WebWebScrapeSitemapResponse as WebWebScrapeSitemapResponse,
+    type WebScreenshotParams as WebScreenshotParams,
+    type WebWebScrapeHTMLParams as WebWebScrapeHTMLParams,
+    type WebWebScrapeImagesParams as WebWebScrapeImagesParams,
+    type WebWebScrapeMdParams as WebWebScrapeMdParams,
+    type WebWebScrapeSitemapParams as WebWebScrapeSitemapParams,
+  };
+
+  export {
+    AI as AI,
+    type AIAIQueryResponse as AIAIQueryResponse,
+    type AIExtractProductResponse as AIExtractProductResponse,
+    type AIExtractProductsResponse as AIExtractProductsResponse,
+    type AIAIQueryParams as AIAIQueryParams,
+    type AIExtractProductParams as AIExtractProductParams,
+    type AIExtractProductsParams as AIExtractProductsParams,
+  };
+
+  export {
+    Style as Style,
+    type StyleExtractFontsResponse as StyleExtractFontsResponse,
+    type StyleExtractStyleguideResponse as StyleExtractStyleguideResponse,
+    type StyleExtractFontsParams as StyleExtractFontsParams,
+    type StyleExtractStyleguideParams as StyleExtractStyleguideParams,
+  };
+
+  export {
     Brand as Brand,
     type BrandRetrieveResponse as BrandRetrieveResponse,
-    type BrandAIProductResponse as BrandAIProductResponse,
-    type BrandAIProductsResponse as BrandAIProductsResponse,
-    type BrandAIQueryResponse as BrandAIQueryResponse,
-    type BrandFontsResponse as BrandFontsResponse,
     type BrandIdentifyFromTransactionResponse as BrandIdentifyFromTransactionResponse,
-    type BrandPrefetchResponse as BrandPrefetchResponse,
-    type BrandPrefetchByEmailResponse as BrandPrefetchByEmailResponse,
     type BrandRetrieveByEmailResponse as BrandRetrieveByEmailResponse,
     type BrandRetrieveByIsinResponse as BrandRetrieveByIsinResponse,
     type BrandRetrieveByNameResponse as BrandRetrieveByNameResponse,
     type BrandRetrieveByTickerResponse as BrandRetrieveByTickerResponse,
-    type BrandRetrieveNaicsResponse as BrandRetrieveNaicsResponse,
     type BrandRetrieveSimplifiedResponse as BrandRetrieveSimplifiedResponse,
-    type BrandScreenshotResponse as BrandScreenshotResponse,
-    type BrandStyleguideResponse as BrandStyleguideResponse,
-    type BrandWebScrapeHTMLResponse as BrandWebScrapeHTMLResponse,
-    type BrandWebScrapeImagesResponse as BrandWebScrapeImagesResponse,
-    type BrandWebScrapeMdResponse as BrandWebScrapeMdResponse,
-    type BrandWebScrapeSitemapResponse as BrandWebScrapeSitemapResponse,
     type BrandRetrieveParams as BrandRetrieveParams,
-    type BrandAIProductParams as BrandAIProductParams,
-    type BrandAIProductsParams as BrandAIProductsParams,
-    type BrandAIQueryParams as BrandAIQueryParams,
-    type BrandFontsParams as BrandFontsParams,
     type BrandIdentifyFromTransactionParams as BrandIdentifyFromTransactionParams,
-    type BrandPrefetchParams as BrandPrefetchParams,
-    type BrandPrefetchByEmailParams as BrandPrefetchByEmailParams,
     type BrandRetrieveByEmailParams as BrandRetrieveByEmailParams,
     type BrandRetrieveByIsinParams as BrandRetrieveByIsinParams,
     type BrandRetrieveByNameParams as BrandRetrieveByNameParams,
     type BrandRetrieveByTickerParams as BrandRetrieveByTickerParams,
-    type BrandRetrieveNaicsParams as BrandRetrieveNaicsParams,
     type BrandRetrieveSimplifiedParams as BrandRetrieveSimplifiedParams,
-    type BrandScreenshotParams as BrandScreenshotParams,
-    type BrandStyleguideParams as BrandStyleguideParams,
-    type BrandWebScrapeHTMLParams as BrandWebScrapeHTMLParams,
-    type BrandWebScrapeImagesParams as BrandWebScrapeImagesParams,
-    type BrandWebScrapeMdParams as BrandWebScrapeMdParams,
-    type BrandWebScrapeSitemapParams as BrandWebScrapeSitemapParams,
+  };
+
+  export {
+    Industry as Industry,
+    type IndustryRetrieveNaicsResponse as IndustryRetrieveNaicsResponse,
+    type IndustryRetrieveNaicsParams as IndustryRetrieveNaicsParams,
+  };
+
+  export {
+    Utility as Utility,
+    type UtilityPrefetchResponse as UtilityPrefetchResponse,
+    type UtilityPrefetchByEmailResponse as UtilityPrefetchByEmailResponse,
+    type UtilityPrefetchParams as UtilityPrefetchParams,
+    type UtilityPrefetchByEmailParams as UtilityPrefetchByEmailParams,
   };
 }
