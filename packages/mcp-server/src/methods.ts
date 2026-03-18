@@ -11,6 +11,12 @@ export type SdkMethod = {
 
 export const sdkMethods: SdkMethod[] = [
   {
+    clientCallName: 'client.web.screenshot',
+    fullyQualifiedName: 'web.screenshot',
+    httpMethod: 'get',
+    httpPath: '/brand/screenshot',
+  },
+  {
     clientCallName: 'client.web.webScrapeHTML',
     fullyQualifiedName: 'web.webScrapeHTML',
     httpMethod: 'get',
@@ -35,52 +41,46 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/web/scrape/sitemap',
   },
   {
+    clientCallName: 'client.ai.aiQuery',
+    fullyQualifiedName: 'ai.aiQuery',
+    httpMethod: 'post',
+    httpPath: '/brand/ai/query',
+  },
+  {
+    clientCallName: 'client.ai.extractProduct',
+    fullyQualifiedName: 'ai.extractProduct',
+    httpMethod: 'post',
+    httpPath: '/brand/ai/product',
+  },
+  {
+    clientCallName: 'client.ai.extractProducts',
+    fullyQualifiedName: 'ai.extractProducts',
+    httpMethod: 'post',
+    httpPath: '/brand/ai/products',
+  },
+  {
+    clientCallName: 'client.style.extractFonts',
+    fullyQualifiedName: 'style.extractFonts',
+    httpMethod: 'get',
+    httpPath: '/brand/fonts',
+  },
+  {
+    clientCallName: 'client.style.extractStyleguide',
+    fullyQualifiedName: 'style.extractStyleguide',
+    httpMethod: 'get',
+    httpPath: '/brand/styleguide',
+  },
+  {
     clientCallName: 'client.brand.retrieve',
     fullyQualifiedName: 'brand.retrieve',
     httpMethod: 'get',
     httpPath: '/brand/retrieve',
   },
   {
-    clientCallName: 'client.brand.aiProduct',
-    fullyQualifiedName: 'brand.aiProduct',
-    httpMethod: 'post',
-    httpPath: '/brand/ai/product',
-  },
-  {
-    clientCallName: 'client.brand.aiProducts',
-    fullyQualifiedName: 'brand.aiProducts',
-    httpMethod: 'post',
-    httpPath: '/brand/ai/products',
-  },
-  {
-    clientCallName: 'client.brand.aiQuery',
-    fullyQualifiedName: 'brand.aiQuery',
-    httpMethod: 'post',
-    httpPath: '/brand/ai/query',
-  },
-  {
-    clientCallName: 'client.brand.fonts',
-    fullyQualifiedName: 'brand.fonts',
-    httpMethod: 'get',
-    httpPath: '/brand/fonts',
-  },
-  {
     clientCallName: 'client.brand.identifyFromTransaction',
     fullyQualifiedName: 'brand.identifyFromTransaction',
     httpMethod: 'get',
     httpPath: '/brand/transaction_identifier',
-  },
-  {
-    clientCallName: 'client.brand.prefetch',
-    fullyQualifiedName: 'brand.prefetch',
-    httpMethod: 'post',
-    httpPath: '/brand/prefetch',
-  },
-  {
-    clientCallName: 'client.brand.prefetchByEmail',
-    fullyQualifiedName: 'brand.prefetchByEmail',
-    httpMethod: 'post',
-    httpPath: '/brand/prefetch-by-email',
   },
   {
     clientCallName: 'client.brand.retrieveByEmail',
@@ -107,28 +107,28 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/brand/retrieve-by-ticker',
   },
   {
-    clientCallName: 'client.brand.retrieveNaics',
-    fullyQualifiedName: 'brand.retrieveNaics',
-    httpMethod: 'get',
-    httpPath: '/brand/naics',
-  },
-  {
     clientCallName: 'client.brand.retrieveSimplified',
     fullyQualifiedName: 'brand.retrieveSimplified',
     httpMethod: 'get',
     httpPath: '/brand/retrieve-simplified',
   },
   {
-    clientCallName: 'client.brand.screenshot',
-    fullyQualifiedName: 'brand.screenshot',
+    clientCallName: 'client.industry.retrieveNaics',
+    fullyQualifiedName: 'industry.retrieveNaics',
     httpMethod: 'get',
-    httpPath: '/brand/screenshot',
+    httpPath: '/brand/naics',
   },
   {
-    clientCallName: 'client.brand.styleguide',
-    fullyQualifiedName: 'brand.styleguide',
-    httpMethod: 'get',
-    httpPath: '/brand/styleguide',
+    clientCallName: 'client.utility.prefetch',
+    fullyQualifiedName: 'utility.prefetch',
+    httpMethod: 'post',
+    httpPath: '/brand/prefetch',
+  },
+  {
+    clientCallName: 'client.utility.prefetchByEmail',
+    fullyQualifiedName: 'utility.prefetchByEmail',
+    httpMethod: 'post',
+    httpPath: '/brand/prefetch-by-email',
   },
 ];
 

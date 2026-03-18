@@ -9,6 +9,28 @@ const client = new ContextDev({
 
 describe('resource web', () => {
   // Mock server tests are disabled
+  test.skip('screenshot: only required params', async () => {
+    const responsePromise = client.web.screenshot({ domain: 'domain' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('screenshot: required and optional params', async () => {
+    const response = await client.web.screenshot({
+      domain: 'domain',
+      fullScreenshot: 'true',
+      page: 'login',
+      prioritize: 'speed',
+    });
+  });
+
+  // Mock server tests are disabled
   test.skip('webScrapeHTML: only required params', async () => {
     const responsePromise = client.web.webScrapeHTML({ url: 'https://example.com' });
     const rawResponse = await responsePromise.asResponse();
