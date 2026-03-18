@@ -51,15 +51,18 @@ import {
   BrandScreenshotResponse,
   BrandStyleguideParams,
   BrandStyleguideResponse,
-  BrandWebScrapeHTMLParams,
-  BrandWebScrapeHTMLResponse,
-  BrandWebScrapeImagesParams,
-  BrandWebScrapeImagesResponse,
-  BrandWebScrapeMdParams,
-  BrandWebScrapeMdResponse,
-  BrandWebScrapeSitemapParams,
-  BrandWebScrapeSitemapResponse,
 } from './resources/brand';
+import {
+  Web,
+  WebWebScrapeHTMLParams,
+  WebWebScrapeHTMLResponse,
+  WebWebScrapeImagesParams,
+  WebWebScrapeImagesResponse,
+  WebWebScrapeMdParams,
+  WebWebScrapeMdResponse,
+  WebWebScrapeSitemapParams,
+  WebWebScrapeSitemapResponse,
+} from './resources/web';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -760,13 +763,27 @@ export class ContextDev {
 
   static toFile = Uploads.toFile;
 
+  web: API.Web = new API.Web(this);
   brand: API.Brand = new API.Brand(this);
 }
 
+ContextDev.Web = Web;
 ContextDev.Brand = Brand;
 
 export declare namespace ContextDev {
   export type RequestOptions = Opts.RequestOptions;
+
+  export {
+    Web as Web,
+    type WebWebScrapeHTMLResponse as WebWebScrapeHTMLResponse,
+    type WebWebScrapeImagesResponse as WebWebScrapeImagesResponse,
+    type WebWebScrapeMdResponse as WebWebScrapeMdResponse,
+    type WebWebScrapeSitemapResponse as WebWebScrapeSitemapResponse,
+    type WebWebScrapeHTMLParams as WebWebScrapeHTMLParams,
+    type WebWebScrapeImagesParams as WebWebScrapeImagesParams,
+    type WebWebScrapeMdParams as WebWebScrapeMdParams,
+    type WebWebScrapeSitemapParams as WebWebScrapeSitemapParams,
+  };
 
   export {
     Brand as Brand,
@@ -786,10 +803,6 @@ export declare namespace ContextDev {
     type BrandRetrieveSimplifiedResponse as BrandRetrieveSimplifiedResponse,
     type BrandScreenshotResponse as BrandScreenshotResponse,
     type BrandStyleguideResponse as BrandStyleguideResponse,
-    type BrandWebScrapeHTMLResponse as BrandWebScrapeHTMLResponse,
-    type BrandWebScrapeImagesResponse as BrandWebScrapeImagesResponse,
-    type BrandWebScrapeMdResponse as BrandWebScrapeMdResponse,
-    type BrandWebScrapeSitemapResponse as BrandWebScrapeSitemapResponse,
     type BrandRetrieveParams as BrandRetrieveParams,
     type BrandAIProductParams as BrandAIProductParams,
     type BrandAIProductsParams as BrandAIProductsParams,
@@ -806,9 +819,5 @@ export declare namespace ContextDev {
     type BrandRetrieveSimplifiedParams as BrandRetrieveSimplifiedParams,
     type BrandScreenshotParams as BrandScreenshotParams,
     type BrandStyleguideParams as BrandStyleguideParams,
-    type BrandWebScrapeHTMLParams as BrandWebScrapeHTMLParams,
-    type BrandWebScrapeImagesParams as BrandWebScrapeImagesParams,
-    type BrandWebScrapeMdParams as BrandWebScrapeMdParams,
-    type BrandWebScrapeSitemapParams as BrandWebScrapeSitemapParams,
   };
 }

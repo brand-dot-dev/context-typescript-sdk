@@ -1,3 +1,19 @@
+# Web
+
+Types:
+
+- <code><a href="./src/resources/web.ts">WebWebScrapeHTMLResponse</a></code>
+- <code><a href="./src/resources/web.ts">WebWebScrapeImagesResponse</a></code>
+- <code><a href="./src/resources/web.ts">WebWebScrapeMdResponse</a></code>
+- <code><a href="./src/resources/web.ts">WebWebScrapeSitemapResponse</a></code>
+
+Methods:
+
+- <code title="get /web/scrape/html">client.web.<a href="./src/resources/web.ts">webScrapeHTML</a>({ ...params }) -> WebWebScrapeHTMLResponse</code>
+- <code title="get /web/scrape/images">client.web.<a href="./src/resources/web.ts">webScrapeImages</a>({ ...params }) -> WebWebScrapeImagesResponse</code>
+- <code title="get /web/scrape/markdown">client.web.<a href="./src/resources/web.ts">webScrapeMd</a>({ ...params }) -> WebWebScrapeMdResponse</code>
+- <code title="get /web/scrape/sitemap">client.web.<a href="./src/resources/web.ts">webScrapeSitemap</a>({ ...params }) -> WebWebScrapeSitemapResponse</code>
+
 # Brand
 
 Types:
@@ -18,10 +34,6 @@ Types:
 - <code><a href="./src/resources/brand.ts">BrandRetrieveSimplifiedResponse</a></code>
 - <code><a href="./src/resources/brand.ts">BrandScreenshotResponse</a></code>
 - <code><a href="./src/resources/brand.ts">BrandStyleguideResponse</a></code>
-- <code><a href="./src/resources/brand.ts">BrandWebScrapeHTMLResponse</a></code>
-- <code><a href="./src/resources/brand.ts">BrandWebScrapeImagesResponse</a></code>
-- <code><a href="./src/resources/brand.ts">BrandWebScrapeMdResponse</a></code>
-- <code><a href="./src/resources/brand.ts">BrandWebScrapeSitemapResponse</a></code>
 
 Methods:
 
@@ -41,7 +53,3 @@ Methods:
 - <code title="get /brand/retrieve-simplified">client.brand.<a href="./src/resources/brand.ts">retrieveSimplified</a>({ ...params }) -> BrandRetrieveSimplifiedResponse</code>
 - <code title="get /brand/screenshot">client.brand.<a href="./src/resources/brand.ts">screenshot</a>({ ...params }) -> BrandScreenshotResponse</code>
 - <code title="get /brand/styleguide">client.brand.<a href="./src/resources/brand.ts">styleguide</a>({ ...params }) -> BrandStyleguideResponse</code>
-- <code title="get /web/scrape/html">client.brand.<a href="./src/resources/brand.ts">webScrapeHTML</a>({ ...params }) -> BrandWebScrapeHTMLResponse</code>
-- <code title="get /web/scrape/images">client.brand.<a href="./src/resources/brand.ts">webScrapeImages</a>({ ...params }) -> BrandWebScrapeImagesResponse</code>
-- <code title="get /web/scrape/markdown">client.brand.<a href="./src/resources/brand.ts">webScrapeMd</a>({ ...params }) -> BrandWebScrapeMdResponse</code>
-- <code title="get /web/scrape/sitemap">client.brand.<a href="./src/resources/brand.ts">webScrapeSitemap</a>({ ...params }) -> BrandWebScrapeSitemapResponse</code>

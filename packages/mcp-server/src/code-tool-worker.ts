@@ -104,6 +104,10 @@ function getTSDiagnostics(code: string): string[] {
 
 const fuse = new Fuse(
   [
+    'client.web.webScrapeHTML',
+    'client.web.webScrapeImages',
+    'client.web.webScrapeMd',
+    'client.web.webScrapeSitemap',
     'client.brand.aiProduct',
     'client.brand.aiProducts',
     'client.brand.aiQuery',
@@ -120,10 +124,6 @@ const fuse = new Fuse(
     'client.brand.retrieveSimplified',
     'client.brand.screenshot',
     'client.brand.styleguide',
-    'client.brand.webScrapeHTML',
-    'client.brand.webScrapeImages',
-    'client.brand.webScrapeMd',
-    'client.brand.webScrapeSitemap',
   ],
   { threshold: 1, shouldSort: true },
 );
