@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.0 (2026-03-18)
+
+Full Changelog: [v0.2.0...v0.3.0](https://github.com/brand-dot-dev/context-typescript-sdk/compare/v0.2.0...v0.3.0)
+
+### Features
+
+* **api:** api update ([dc135a5](https://github.com/brand-dot-dev/context-typescript-sdk/commit/dc135a5c4a01de856d7ee19efa958af62ff4e132))
+* **api:** manual updates ([7cb981d](https://github.com/brand-dot-dev/context-typescript-sdk/commit/7cb981dbb19152fc272b33b119a7099410e48c50))
+* **api:** manual updates ([6f77533](https://github.com/brand-dot-dev/context-typescript-sdk/commit/6f77533b4bdf4ca48092d378f883d01f8142a779))
+
 ## 0.2.0 (2026-03-18)
 
 Full Changelog: [v0.1.0...v0.2.0](https://github.com/brand-dot-dev/context-typescript-sdk/compare/v0.1.0...v0.2.0)
