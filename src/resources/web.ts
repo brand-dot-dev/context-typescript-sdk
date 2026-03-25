@@ -16,8 +16,7 @@ export class Web extends APIResource {
   }
 
   /**
-   * Scrapes the given URL and returns the raw HTML content of the page. Uses
-   * automatic proxy escalation to handle blocked sites.
+   * Scrapes the given URL and returns the raw HTML content of the page.
    */
   webScrapeHTML(
     query: WebWebScrapeHTMLParams,
@@ -39,9 +38,8 @@ export class Web extends APIResource {
   }
 
   /**
-   * Scrapes the given URL, converts the HTML content to GitHub Flavored Markdown
-   * (GFM), and returns the result. Uses automatic proxy escalation to handle blocked
-   * sites.
+   * Scrapes the given URL, converts the HTML content to Markdown, and returns the
+   * result.
    */
   webScrapeMd(query: WebWebScrapeMdParams, options?: RequestOptions): APIPromise<WebWebScrapeMdResponse> {
     return this._client.get('/web/scrape/markdown', { query, ...options });
