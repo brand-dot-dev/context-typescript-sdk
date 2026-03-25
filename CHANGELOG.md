@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.4.0 (2026-03-25)
+
+Full Changelog: [v0.3.1...v0.4.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v0.3.1...v0.4.0)
+
+### Features
+
+* **api:** api update ([dc135a5](https://github.com/context-dot-dev/context-typescript-sdk/commit/dc135a5c4a01de856d7ee19efa958af62ff4e132))
+* **api:** api update ([50c0ae4](https://github.com/context-dot-dev/context-typescript-sdk/commit/50c0ae45d4f06facdbb47a61500eb64784eec547))
+* **api:** manual updates ([7cb981d](https://github.com/context-dot-dev/context-typescript-sdk/commit/7cb981dbb19152fc272b33b119a7099410e48c50))
+* **api:** manual updates ([6f77533](https://github.com/context-dot-dev/context-typescript-sdk/commit/6f77533b4bdf4ca48092d378f883d01f8142a779))
+* **api:** manual updates ([b1780ab](https://github.com/context-dot-dev/context-typescript-sdk/commit/b1780abcb9b87f3c940e7bff49651dfa6a78efa5))
+
+
+### Chores
+
+* **internal:** support x-stainless-mcp-client-permissions headers in MCP servers ([4676c22](https://github.com/context-dot-dev/context-typescript-sdk/commit/4676c2225c175647bcaaa336c45f770b5973dc52))
+* **internal:** tweak CI branches ([f9c3d86](https://github.com/context-dot-dev/context-typescript-sdk/commit/f9c3d8651c90cbbb454cd8d8c22de1fcc1830704))
+* sync repo ([19ef94c](https://github.com/context-dot-dev/context-typescript-sdk/commit/19ef94cb1c75159e8dead8d21fa38a360d127be9))
+* update SDK settings ([bacb300](https://github.com/context-dot-dev/context-typescript-sdk/commit/bacb30007ccdb47aed126e558100d5ab5e5043f3))
+
 ## 0.3.1 (2026-03-25)
 
 Full Changelog: [v0.3.0...v0.3.1](https://github.com/context-dot-dev/typescript-sdk/compare/v0.3.0...v0.3.1)
