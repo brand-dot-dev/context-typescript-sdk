@@ -129,7 +129,7 @@ export namespace WebWebScrapeImagesResponse {
     /**
      * The HTML element the image was found in
      */
-    element: 'img' | 'svg' | 'link' | 'source' | 'video';
+    element: 'img' | 'svg' | 'link' | 'source' | 'video' | 'css' | 'object' | 'meta' | 'background';
 
     /**
      * The image source - can be a URL, inline HTML (for SVGs), or a base64 data URI
