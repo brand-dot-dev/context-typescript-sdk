@@ -129,7 +129,7 @@ export namespace WebWebScrapeImagesResponse {
     /**
      * The HTML element the image was found in
      */
-    element: 'img' | 'svg' | 'link' | 'source' | 'video';
+    element: 'img' | 'svg' | 'link' | 'source' | 'video' | 'css' | 'object' | 'meta' | 'background';
 
     /**
      * The image source - can be a URL, inline HTML (for SVGs), or a base64 data URI
@@ -274,6 +274,12 @@ export interface WebWebScrapeMdParams {
    * Shorten base64-encoded image data in the Markdown output
    */
   shortenBase64Images?: boolean;
+
+  /**
+   * Extract only the main content of the page, excluding headers, footers, sidebars,
+   * and navigation
+   */
+  useMainContentOnly?: boolean;
 }
 
 export interface WebWebScrapeSitemapParams {
