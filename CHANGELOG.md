@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.1.0 (2026-03-28)
+
+Full Changelog: [v1.0.1...v1.1.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.0.1...v1.1.0)
+
+### Features
+
+* **api:** api update ([a2de140](https://github.com/context-dot-dev/context-typescript-sdk/commit/a2de140e3c6fc84fc1ac6ba0687791ebd240442a))
+* **api:** api update ([5a78e41](https://github.com/context-dot-dev/context-typescript-sdk/commit/5a78e4152accbe64cb41dbc43f057132fd651b44))
+
+
+### Chores
+
+* **ci:** escape input path in publish-npm workflow ([bb90d39](https://github.com/context-dot-dev/context-typescript-sdk/commit/bb90d39c47c8eb13a337507ffc03ccef93db197b))
+* **internal:** codegen related update ([c658fd1](https://github.com/context-dot-dev/context-typescript-sdk/commit/c658fd1b8f7270e2d54c9aed39b59b67b165c496))
+* **internal:** support custom-instructions-path flag in MCP servers ([34b0150](https://github.com/context-dot-dev/context-typescript-sdk/commit/34b0150e4887578596139019d36b045a6b09cc88))
+* **internal:** support local docs search in MCP servers ([118d95d](https://github.com/context-dot-dev/context-typescript-sdk/commit/118d95dc88b884f3210f5be2c36335eb2f728a49))
+
 ## 1.0.1 (2026-03-25)
 
 Full Changelog: [v1.0.0...v1.0.1](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.0.0...v1.0.1)
