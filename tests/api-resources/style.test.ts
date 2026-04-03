@@ -45,7 +45,6 @@ describe('resource style', () => {
         {
           directUrl: 'https://example.com',
           domain: 'domain',
-          prioritize: 'speed',
           timeoutMS: 1000,
         },
         { path: '/_stainless_unknown_path' },
