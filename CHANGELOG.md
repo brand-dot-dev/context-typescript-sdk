@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.2.0 (2026-04-03)
+
+Full Changelog: [v1.1.0...v1.2.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.1.0...v1.2.0)
+
+### Features
+
+* **api:** api update ([c931051](https://github.com/context-dot-dev/context-typescript-sdk/commit/c931051a1454a44794d666b7a2695d2683cacc09))
+
+
+### Chores
+
+* **internal:** fix MCP docker image builds in yarn projects ([d7023c7](https://github.com/context-dot-dev/context-typescript-sdk/commit/d7023c786b668d3afc62d151698bd05d0ab35f56))
+* **internal:** improve local docs search for MCP servers ([2a5884c](https://github.com/context-dot-dev/context-typescript-sdk/commit/2a5884cf913182d4cb05e5cc3a9a86f9a74aea47))
+* **internal:** improve local docs search for MCP servers ([6c0fe3f](https://github.com/context-dot-dev/context-typescript-sdk/commit/6c0fe3fb873609517518ce1b0b5d5a9c1a788d62))
+* **internal:** support type annotations when running MCP in local execution mode ([1b6f120](https://github.com/context-dot-dev/context-typescript-sdk/commit/1b6f1206b80413ac77ab7be9b471525323cb3efc))
+* **internal:** use link instead of file in MCP server package.json files ([dbabdac](https://github.com/context-dot-dev/context-typescript-sdk/commit/dbabdac818620983c0d464313aea3f8efa854772))
+* **mcp-server:** add support for session id, forward client info ([bb8cffe](https://github.com/context-dot-dev/context-typescript-sdk/commit/bb8cffe6ec501635c5c90206e2578f626ae11949))
+* **mcp-server:** log client info ([ae415f7](https://github.com/context-dot-dev/context-typescript-sdk/commit/ae415f745c8e24bc82b42ade8be3b5d43925422f))
+
 ## 1.1.0 (2026-03-28)
 
 Full Changelog: [v1.0.1...v1.1.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.0.1...v1.1.0)
