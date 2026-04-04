@@ -16,6 +16,15 @@ export class Web extends APIResource {
   }
 
   /**
+   * Performs a crawl starting from a given URL, extracts page content as Markdown,
+   * and returns results for all crawled pages. Only follows links within the same
+   * domain as the starting URL. Costs 1 credit per successful page crawled.
+   */
+  webCrawlMd(body: WebWebCrawlMdParams, options?: RequestOptions): APIPromise<WebWebCrawlMdResponse> {
+    return this._client.post('/web/crawl', { body, ...options });
+  }
+
+  /**
    * Scrapes the given URL and returns the raw HTML content of the page.
    */
   webScrapeHTML(
@@ -83,6 +92,74 @@ export interface WebScreenshotResponse {
    * Status of the response, e.g., 'ok'
    */
   status?: string;
+}
+
+export interface WebWebCrawlMdResponse {
+  metadata: WebWebCrawlMdResponse.Metadata;
+
+  results: Array<WebWebCrawlMdResponse.Result>;
+}
+
+export namespace WebWebCrawlMdResponse {
+  export interface Metadata {
+    /**
+     * Maximum crawl depth reached during the crawl
+     */
+    maxCrawlDepth: number;
+
+    /**
+     * Number of pages that failed to crawl
+     */
+    numFailed: number;
+
+    /**
+     * Number of pages successfully crawled
+     */
+    numSucceeded: number;
+
+    /**
+     * Total number of URLs crawled
+     */
+    numUrls: number;
+  }
+
+  export interface Result {
+    /**
+     * Extracted page content as Markdown (empty string on failure)
+     */
+    markdown: string;
+
+    metadata: Result.Metadata;
+  }
+
+  export namespace Result {
+    export interface Metadata {
+      /**
+       * Depth relative to the start URL. 0 = start URL, 1 = one link away.
+       */
+      crawlDepth: number;
+
+      /**
+       * HTTP status code of the response
+       */
+      statusCode: number;
+
+      /**
+       * true if the page was fetched and parsed successfully
+       */
+      success: boolean;
+
+      /**
+       * The page's <title> content (empty string if unavailable)
+       */
+      title: string;
+
+      /**
+       * The URL that was fetched
+       */
+      url: string;
+    }
+  }
 }
 
 export interface WebWebScrapeHTMLResponse {
@@ -239,6 +316,56 @@ export interface WebScreenshotParams {
   prioritize?: 'speed' | 'quality';
 }
 
+export interface WebWebCrawlMdParams {
+  /**
+   * The starting URL for the crawl (must include http:// or https:// protocol)
+   */
+  url: string;
+
+  /**
+   * When true, follow links on subdomains of the starting URL's domain (e.g.
+   * docs.example.com when starting from example.com). www and apex are always
+   * treated as equivalent.
+   */
+  followSubdomains?: boolean;
+
+  /**
+   * Include image references in the Markdown output
+   */
+  includeImages?: boolean;
+
+  /**
+   * Preserve hyperlinks in the Markdown output
+   */
+  includeLinks?: boolean;
+
+  /**
+   * Maximum link depth from the starting URL (0 = only the starting page)
+   */
+  maxDepth?: number;
+
+  /**
+   * Maximum number of pages to crawl. Hard cap: 500.
+   */
+  maxPages?: number;
+
+  /**
+   * Truncate base64-encoded image data in the Markdown output
+   */
+  shortenBase64Images?: boolean;
+
+  /**
+   * Regex pattern. Only URLs matching this pattern will be followed and scraped.
+   */
+  urlRegex?: string;
+
+  /**
+   * Extract only the main content, stripping headers, footers, sidebars, and
+   * navigation
+   */
+  useMainContentOnly?: boolean;
+}
+
 export interface WebWebScrapeHTMLParams {
   /**
    * Full URL to scrape (must include http:// or https:// protocol)
@@ -299,11 +426,13 @@ export interface WebWebScrapeSitemapParams {
 export declare namespace Web {
   export {
     type WebScreenshotResponse as WebScreenshotResponse,
+    type WebWebCrawlMdResponse as WebWebCrawlMdResponse,
     type WebWebScrapeHTMLResponse as WebWebScrapeHTMLResponse,
     type WebWebScrapeImagesResponse as WebWebScrapeImagesResponse,
     type WebWebScrapeMdResponse as WebWebScrapeMdResponse,
     type WebWebScrapeSitemapResponse as WebWebScrapeSitemapResponse,
     type WebScreenshotParams as WebScreenshotParams,
+    type WebWebCrawlMdParams as WebWebCrawlMdParams,
     type WebWebScrapeHTMLParams as WebWebScrapeHTMLParams,
     type WebWebScrapeImagesParams as WebWebScrapeImagesParams,
     type WebWebScrapeMdParams as WebWebScrapeMdParams,

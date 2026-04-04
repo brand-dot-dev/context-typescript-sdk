@@ -31,6 +31,33 @@ describe('resource web', () => {
   });
 
   // Mock server tests are disabled
+  test.skip('webCrawlMd: only required params', async () => {
+    const responsePromise = client.web.webCrawlMd({ url: 'https://example.com' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('webCrawlMd: required and optional params', async () => {
+    const response = await client.web.webCrawlMd({
+      url: 'https://example.com',
+      followSubdomains: true,
+      includeImages: true,
+      includeLinks: true,
+      maxDepth: 0,
+      maxPages: 1,
+      shortenBase64Images: true,
+      urlRegex: 'urlRegex',
+      useMainContentOnly: true,
+    });
+  });
+
+  // Mock server tests are disabled
   test.skip('webScrapeHTML: only required params', async () => {
     const responsePromise = client.web.webScrapeHTML({ url: 'https://example.com' });
     const rawResponse = await responsePromise.asResponse();
