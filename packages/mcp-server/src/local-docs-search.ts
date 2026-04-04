@@ -238,6 +238,52 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     },
   },
   {
+    name: 'web_crawl_md',
+    endpoint: '/web/crawl',
+    httpMethod: 'post',
+    summary: 'Crawl website and extract Markdown',
+    description:
+      'Performs a crawl starting from a given URL, extracts page content as Markdown, and returns results for all crawled pages. Only follows links within the same domain as the starting URL. Costs 1 credit per successful page crawled.',
+    stainlessPath: '(resource) web > (method) web_crawl_md',
+    qualified: 'client.web.webCrawlMd',
+    params: [
+      'url: string;',
+      'followSubdomains?: boolean;',
+      'includeImages?: boolean;',
+      'includeLinks?: boolean;',
+      'maxDepth?: number;',
+      'maxPages?: number;',
+      'shortenBase64Images?: boolean;',
+      'urlRegex?: string;',
+      'useMainContentOnly?: boolean;',
+    ],
+    response:
+      '{ metadata: { maxCrawlDepth: number; numFailed: number; numSucceeded: number; numUrls: number; }; results: { markdown: string; metadata: { crawlDepth: number; statusCode: number; success: boolean; title: string; url: string; }; }[]; }',
+    markdown:
+      "## web_crawl_md\n\n`client.web.webCrawlMd(url: string, followSubdomains?: boolean, includeImages?: boolean, includeLinks?: boolean, maxDepth?: number, maxPages?: number, shortenBase64Images?: boolean, urlRegex?: string, useMainContentOnly?: boolean): { metadata: object; results: object[]; }`\n\n**post** `/web/crawl`\n\nPerforms a crawl starting from a given URL, extracts page content as Markdown, and returns results for all crawled pages. Only follows links within the same domain as the starting URL. Costs 1 credit per successful page crawled.\n\n### Parameters\n\n- `url: string`\n  The starting URL for the crawl (must include http:// or https:// protocol)\n\n- `followSubdomains?: boolean`\n  When true, follow links on subdomains of the starting URL's domain (e.g. docs.example.com when starting from example.com). www and apex are always treated as equivalent.\n\n- `includeImages?: boolean`\n  Include image references in the Markdown output\n\n- `includeLinks?: boolean`\n  Preserve hyperlinks in the Markdown output\n\n- `maxDepth?: number`\n  Maximum link depth from the starting URL (0 = only the starting page)\n\n- `maxPages?: number`\n  Maximum number of pages to crawl. Hard cap: 500.\n\n- `shortenBase64Images?: boolean`\n  Truncate base64-encoded image data in the Markdown output\n\n- `urlRegex?: string`\n  Regex pattern. Only URLs matching this pattern will be followed and scraped.\n\n- `useMainContentOnly?: boolean`\n  Extract only the main content, stripping headers, footers, sidebars, and navigation\n\n### Returns\n\n- `{ metadata: { maxCrawlDepth: number; numFailed: number; numSucceeded: number; numUrls: number; }; results: { markdown: string; metadata: { crawlDepth: number; statusCode: number; success: boolean; title: string; url: string; }; }[]; }`\n\n  - `metadata: { maxCrawlDepth: number; numFailed: number; numSucceeded: number; numUrls: number; }`\n  - `results: { markdown: string; metadata: { crawlDepth: number; statusCode: number; success: boolean; title: string; url: string; }; }[]`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.web.webCrawlMd({ url: 'https://example.com' });\n\nconsole.log(response);\n```",
+    perLanguage: {
+      http: {
+        example:
+          'curl https://api.context.dev/v1/web/crawl \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "url": "https://example.com"\n        }\'',
+      },
+      python: {
+        method: 'web.web_crawl_md',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.web.web_crawl_md(\n    url="https://example.com",\n)\nprint(response.metadata)',
+      },
+      ruby: {
+        method: 'web.web_crawl_md',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.web.web_crawl_md(url: "https://example.com")\n\nputs(response)',
+      },
+      typescript: {
+        method: 'client.web.webCrawlMd',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.web.webCrawlMd({ url: 'https://example.com' });\n\nconsole.log(response.metadata);",
+      },
+    },
+  },
+  {
     name: 'extract_products',
     endpoint: '/brand/ai/products',
     httpMethod: 'post',

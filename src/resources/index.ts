@@ -44,11 +44,13 @@ export {
 export {
   Web,
   type WebScreenshotResponse,
+  type WebWebCrawlMdResponse,
   type WebWebScrapeHTMLResponse,
   type WebWebScrapeImagesResponse,
   type WebWebScrapeMdResponse,
   type WebWebScrapeSitemapResponse,
   type WebScreenshotParams,
+  type WebWebCrawlMdParams,
   type WebWebScrapeHTMLParams,
   type WebWebScrapeImagesParams,
   type WebWebScrapeMdParams,
