@@ -109,6 +109,7 @@ function getTSDiagnostics(code: string): string[] {
 const fuse = new Fuse(
   [
     'client.web.screenshot',
+    'client.web.webCrawlMd',
     'client.web.webScrapeHTML',
     'client.web.webScrapeImages',
     'client.web.webScrapeMd',
