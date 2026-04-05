@@ -24,7 +24,7 @@ describe('resource brand', () => {
   test.skip('retrieve: required and optional params', async () => {
     const response = await client.brand.retrieve({
       domain: 'domain',
-      force_language: 'albanian',
+      force_language: 'afrikaans',
       maxSpeed: true,
       timeoutMS: 1000,
     });
@@ -48,7 +48,7 @@ describe('resource brand', () => {
       transaction_info: 'transaction_info',
       city: 'city',
       country_gl: 'ad',
-      force_language: 'albanian',
+      force_language: 'afrikaans',
       high_confidence_only: true,
       maxSpeed: true,
       mcc: 'mcc',
@@ -73,7 +73,7 @@ describe('resource brand', () => {
   test.skip('retrieveByEmail: required and optional params', async () => {
     const response = await client.brand.retrieveByEmail({
       email: 'dev@stainless.com',
-      force_language: 'albanian',
+      force_language: 'afrikaans',
       maxSpeed: true,
       timeoutMS: 1000,
     });
@@ -95,7 +95,7 @@ describe('resource brand', () => {
   test.skip('retrieveByIsin: required and optional params', async () => {
     const response = await client.brand.retrieveByIsin({
       isin: 'SE60513A9993',
-      force_language: 'albanian',
+      force_language: 'afrikaans',
       maxSpeed: true,
       timeoutMS: 1000,
     });
@@ -118,7 +118,7 @@ describe('resource brand', () => {
     const response = await client.brand.retrieveByName({
       name: 'xxx',
       country_gl: 'ad',
-      force_language: 'albanian',
+      force_language: 'afrikaans',
       maxSpeed: true,
       timeoutMS: 1000,
     });
@@ -140,7 +140,7 @@ describe('resource brand', () => {
   test.skip('retrieveByTicker: required and optional params', async () => {
     const response = await client.brand.retrieveByTicker({
       ticker: 'ticker',
-      force_language: 'albanian',
+      force_language: 'afrikaans',
       maxSpeed: true,
       ticker_exchange: 'AMEX',
       timeoutMS: 1000,
