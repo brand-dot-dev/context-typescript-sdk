@@ -202,11 +202,12 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     httpMethod: 'get',
     summary: 'Take screenshot of website',
     description:
-      'Capture a screenshot of a website. Supports both viewport (standard browser view) and full-page screenshots. Can also screenshot specific page types (login, pricing, etc.) by using heuristics to find the appropriate URL. Returns a URL to the uploaded screenshot image hosted on our CDN.',
+      "Capture a screenshot of a website. Supports both viewport (standard browser view) and full-page screenshots. Can also screenshot specific page types (login, pricing, etc.) by using heuristics to find the appropriate URL. Either 'domain' or 'directUrl' must be provided as a query parameter, but not both. Returns a URL to the uploaded screenshot image hosted on our CDN.",
     stainlessPath: '(resource) web > (method) screenshot',
     qualified: 'client.web.screenshot',
     params: [
-      'domain: string;',
+      'directUrl?: string;',
+      'domain?: string;',
       "fullScreenshot?: 'true' | 'false';",
       "page?: 'login' | 'signup' | 'blog' | 'careers' | 'pricing' | 'terms' | 'privacy' | 'contact';",
       "prioritize?: 'speed' | 'quality';",
@@ -214,7 +215,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     response:
       "{ code?: number; domain?: string; screenshot?: string; screenshotType?: 'viewport' | 'fullPage'; status?: string; }",
     markdown:
-      "## screenshot\n\n`client.web.screenshot(domain: string, fullScreenshot?: 'true' | 'false', page?: 'login' | 'signup' | 'blog' | 'careers' | 'pricing' | 'terms' | 'privacy' | 'contact', prioritize?: 'speed' | 'quality'): { code?: number; domain?: string; screenshot?: string; screenshotType?: 'viewport' | 'fullPage'; status?: string; }`\n\n**get** `/brand/screenshot`\n\nCapture a screenshot of a website. Supports both viewport (standard browser view) and full-page screenshots. Can also screenshot specific page types (login, pricing, etc.) by using heuristics to find the appropriate URL. Returns a URL to the uploaded screenshot image hosted on our CDN.\n\n### Parameters\n\n- `domain: string`\n  Domain name to take screenshot of (e.g., 'example.com', 'google.com'). The domain will be automatically normalized and validated.\n\n- `fullScreenshot?: 'true' | 'false'`\n  Optional parameter to determine screenshot type. If 'true', takes a full page screenshot capturing all content. If 'false' or not provided, takes a viewport screenshot (standard browser view).\n\n- `page?: 'login' | 'signup' | 'blog' | 'careers' | 'pricing' | 'terms' | 'privacy' | 'contact'`\n  Optional parameter to specify which page type to screenshot. If provided, the system will scrape the domain's links and use heuristics to find the most appropriate URL for the specified page type (30 supported languages). If not provided, screenshots the main domain landing page.\n\n- `prioritize?: 'speed' | 'quality'`\n  Optional parameter to prioritize screenshot capture. If 'speed', optimizes for faster capture with basic quality. If 'quality', optimizes for higher quality with longer wait times. Defaults to 'quality' if not provided.\n\n### Returns\n\n- `{ code?: number; domain?: string; screenshot?: string; screenshotType?: 'viewport' | 'fullPage'; status?: string; }`\n\n  - `code?: number`\n  - `domain?: string`\n  - `screenshot?: string`\n  - `screenshotType?: 'viewport' | 'fullPage'`\n  - `status?: string`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.web.screenshot({ domain: 'domain' });\n\nconsole.log(response);\n```",
+      "## screenshot\n\n`client.web.screenshot(directUrl?: string, domain?: string, fullScreenshot?: 'true' | 'false', page?: 'login' | 'signup' | 'blog' | 'careers' | 'pricing' | 'terms' | 'privacy' | 'contact', prioritize?: 'speed' | 'quality'): { code?: number; domain?: string; screenshot?: string; screenshotType?: 'viewport' | 'fullPage'; status?: string; }`\n\n**get** `/brand/screenshot`\n\nCapture a screenshot of a website. Supports both viewport (standard browser view) and full-page screenshots. Can also screenshot specific page types (login, pricing, etc.) by using heuristics to find the appropriate URL. Either 'domain' or 'directUrl' must be provided as a query parameter, but not both. Returns a URL to the uploaded screenshot image hosted on our CDN.\n\n### Parameters\n\n- `directUrl?: string`\n  A specific URL to screenshot directly, bypassing domain resolution (e.g., 'https://example.com/pricing'). When provided, the screenshot is taken of this exact URL.\n\n- `domain?: string`\n  Domain name to take screenshot of (e.g., 'example.com', 'google.com'). The domain will be automatically normalized and validated.\n\n- `fullScreenshot?: 'true' | 'false'`\n  Optional parameter to determine screenshot type. If 'true', takes a full page screenshot capturing all content. If 'false' or not provided, takes a viewport screenshot (standard browser view).\n\n- `page?: 'login' | 'signup' | 'blog' | 'careers' | 'pricing' | 'terms' | 'privacy' | 'contact'`\n  Optional parameter to specify which page type to screenshot. If provided, the system will scrape the domain's links and use heuristics to find the most appropriate URL for the specified page type (30 supported languages). If not provided, screenshots the main domain landing page. Only applicable when using 'domain', not 'directUrl'.\n\n- `prioritize?: 'speed' | 'quality'`\n  Optional parameter to prioritize screenshot capture. If 'speed', optimizes for faster capture with basic quality. If 'quality', optimizes for higher quality with longer wait times. Defaults to 'quality' if not provided.\n\n### Returns\n\n- `{ code?: number; domain?: string; screenshot?: string; screenshotType?: 'viewport' | 'fullPage'; status?: string; }`\n\n  - `code?: number`\n  - `domain?: string`\n  - `screenshot?: string`\n  - `screenshotType?: 'viewport' | 'fullPage'`\n  - `status?: string`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.web.screenshot();\n\nconsole.log(response);\n```",
     perLanguage: {
       http: {
         example:
@@ -223,17 +224,17 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       python: {
         method: 'web.screenshot',
         example:
-          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.web.screenshot(\n    domain="domain",\n)\nprint(response.code)',
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.web.screenshot()\nprint(response.code)',
       },
       ruby: {
         method: 'web.screenshot',
         example:
-          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.web.screenshot(domain: "domain")\n\nputs(response)',
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.web.screenshot\n\nputs(response)',
       },
       typescript: {
         method: 'client.web.screenshot',
         example:
-          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.web.screenshot({ domain: 'domain' });\n\nconsole.log(response.code);",
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.web.screenshot();\n\nconsole.log(response.code);",
       },
     },
   },
