@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.4.0 (2026-04-09)
+
+Full Changelog: [v1.3.0...v1.4.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.3.0...v1.4.0)
+
+### Features
+
+* **api:** api update ([00211db](https://github.com/context-dot-dev/context-typescript-sdk/commit/00211dbdc84a2167ac49ce7cedacb28c7743d8af))
+* **api:** api update ([d4416f9](https://github.com/context-dot-dev/context-typescript-sdk/commit/d4416f9292d9a8ae6c2016d01731d0441fab59c2))
+* **api:** api update ([78842c0](https://github.com/context-dot-dev/context-typescript-sdk/commit/78842c0a3533c40e1937fb78841013c9cc85925a))
+
+
+### Chores
+
+* **internal:** codegen related update ([14914b3](https://github.com/context-dot-dev/context-typescript-sdk/commit/14914b3fd7dbf78eb0a07dc16e33dfeeda6f2d31))
+* **internal:** fix MCP server import ordering ([642d570](https://github.com/context-dot-dev/context-typescript-sdk/commit/642d570ff5484b1f5a0a36692ee525e741703efc))
+* **mcp-server:** increase local docs search result count from 5 to 10 ([679128a](https://github.com/context-dot-dev/context-typescript-sdk/commit/679128abd18b28aac48c144d75868ea3f067bbaf))
+
 ## 1.3.0 (2026-04-04)
 
 Full Changelog: [v1.2.0...v1.3.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.2.0...v1.3.0)
