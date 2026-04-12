@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.5.0 (2026-04-12)
+
+Full Changelog: [v1.4.0...v1.5.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.4.0...v1.5.0)
+
+### Features
+
+* **api:** api update ([e5ee2d5](https://github.com/context-dot-dev/context-typescript-sdk/commit/e5ee2d54006fcd865a8c89865705aaf06183aefe))
+
+
+### Chores
+
+* **internal:** show error causes in MCP servers when running in local mode ([c68ea4c](https://github.com/context-dot-dev/context-typescript-sdk/commit/c68ea4cf8f32414a6966918313bd4f2032b320e9))
+
 ## 1.4.0 (2026-04-09)
 
 Full Changelog: [v1.3.0...v1.4.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.3.0...v1.4.0)
