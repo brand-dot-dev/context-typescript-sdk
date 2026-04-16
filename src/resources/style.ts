@@ -134,6 +134,13 @@ export namespace StyleExtractStyleguideResponse {
     elementSpacing: Styleguide.ElementSpacing;
 
     /**
+     * Font assets keyed by family name as it appears in fontFamily/fontFallbacks
+     * (non-generic names only). Clients match typography.fontFamily / fontWeight or
+     * button styles to pick a file URL from files.
+     */
+    fontLinks: { [key: string]: Styleguide.FontLinks };
+
+    /**
      * The primary color mode of the website design
      */
     mode: 'light' | 'dark';
@@ -426,6 +433,29 @@ export namespace StyleExtractStyleguideResponse {
       xl: string;
 
       xs: string;
+    }
+
+    export interface FontLinks {
+      /**
+       * Upright font files keyed by weight string (e.g. "400" for regular, "500",
+       * "700"). Values are absolute URLs.
+       */
+      files: { [key: string]: string };
+
+      type: 'google' | 'custom';
+
+      /**
+       * Google Fonts category when type is google (e.g. sans-serif, serif, monospace,
+       * display, handwriting). Omitted for custom fonts when unknown.
+       */
+      category?: string;
+
+      /**
+       * Present when type is custom: human-readable name derived from the fontLinks key
+       * (strip build/hash suffixes, split camelCase / PascalCase, normalize separators).
+       * Google entries omit this.
+       */
+      displayName?: string;
     }
 
     /**
