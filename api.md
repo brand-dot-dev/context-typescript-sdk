@@ -32,8 +32,6 @@ Methods:
 - <code title="post /brand/ai/product">client.ai.<a href="./src/resources/ai.ts">extractProduct</a>({ ...params }) -> AIExtractProductResponse</code>
 - <code title="post /brand/ai/products">client.ai.<a href="./src/resources/ai.ts">extractProducts</a>({ ...params }) -> AIExtractProductsResponse</code>
 
-# Style
-
 # Brand
 
 Types:
