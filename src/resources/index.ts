@@ -27,7 +27,7 @@ export {
   type BrandRetrieveSimplifiedParams,
 } from './brand';
 export { Industry, type IndustryRetrieveNaicsResponse, type IndustryRetrieveNaicsParams } from './industry';
-export { Style, type StyleExtractStyleguideResponse, type StyleExtractStyleguideParams } from './style';
+export { Style } from './style';
 export {
   Utility,
   type UtilityPrefetchResponse,
