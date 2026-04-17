@@ -65,12 +65,6 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/brand/ai/products',
   },
   {
-    clientCallName: 'client.style.extractStyleguide',
-    fullyQualifiedName: 'style.extractStyleguide',
-    httpMethod: 'get',
-    httpPath: '/brand/styleguide',
-  },
-  {
     clientCallName: 'client.brand.retrieve',
     fullyQualifiedName: 'brand.retrieve',
     httpMethod: 'get',

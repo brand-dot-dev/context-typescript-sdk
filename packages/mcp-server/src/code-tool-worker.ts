@@ -117,7 +117,6 @@ const fuse = new Fuse(
     'client.ai.aiQuery',
     'client.ai.extractProduct',
     'client.ai.extractProducts',
-    'client.style.extractStyleguide',
     'client.brand.identifyFromTransaction',
     'client.brand.retrieve',
     'client.brand.retrieveByEmail',

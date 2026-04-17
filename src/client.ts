@@ -44,7 +44,7 @@ import {
   BrandRetrieveSimplifiedResponse,
 } from './resources/brand';
 import { Industry, IndustryRetrieveNaicsParams, IndustryRetrieveNaicsResponse } from './resources/industry';
-import { Style, StyleExtractStyleguideParams, StyleExtractStyleguideResponse } from './resources/style';
+import { Style } from './resources/style';
 import {
   Utility,
   UtilityPrefetchByEmailParams,
@@ -811,11 +811,7 @@ export declare namespace ContextDev {
     type AIExtractProductsParams as AIExtractProductsParams,
   };
 
-  export {
-    Style as Style,
-    type StyleExtractStyleguideResponse as StyleExtractStyleguideResponse,
-    type StyleExtractStyleguideParams as StyleExtractStyleguideParams,
-  };
+  export { Style as Style };
 
   export {
     Brand as Brand,

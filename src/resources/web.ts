@@ -320,13 +320,15 @@ export namespace WebWebScrapeSitemapResponse {
 export interface WebExtractFontsParams {
   /**
    * A specific URL to fetch fonts from directly, bypassing domain resolution (e.g.,
-   * 'https://example.com/design-system').
+   * 'https://example.com/design-system'). When provided, fonts are extracted from
+   * this exact URL. You must provide either 'domain' or 'directUrl', but not both.
    */
   directUrl?: string;
 
   /**
    * Domain name to extract fonts from (e.g., 'example.com', 'google.com'). The
-   * domain will be automatically normalized and validated.
+   * domain will be automatically normalized and validated. You must provide either
+   * 'domain' or 'directUrl', but not both.
    */
   domain?: string;
 
