@@ -165,16 +165,15 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     name: 'web_scrape_sitemap',
     endpoint: '/web/scrape/sitemap',
     httpMethod: 'get',
-    summary: 'Crawl website sitemap',
-    description:
-      'Crawls the sitemap of the given domain and returns all discovered page URLs. Supports sitemap index files (recursive), parallel fetching with concurrency control, deduplication, and filters out non-page resources (images, PDFs, etc.).',
+    summary: 'Crawl Sitemap',
+    description: "Crawl an entire website's sitemap and return all discovered page URLs",
     stainlessPath: '(resource) web > (method) web_scrape_sitemap',
     qualified: 'client.web.webScrapeSitemap',
     params: ['domain: string;', 'maxLinks?: number;'],
     response:
       '{ domain: string; meta: { errors: number; sitemapsDiscovered: number; sitemapsFetched: number; sitemapsSkipped: number; }; success: true; urls: string[]; }',
     markdown:
-      "## web_scrape_sitemap\n\n`client.web.webScrapeSitemap(domain: string, maxLinks?: number): { domain: string; meta: object; success: true; urls: string[]; }`\n\n**get** `/web/scrape/sitemap`\n\nCrawls the sitemap of the given domain and returns all discovered page URLs. Supports sitemap index files (recursive), parallel fetching with concurrency control, deduplication, and filters out non-page resources (images, PDFs, etc.).\n\n### Parameters\n\n- `domain: string`\n  Domain name to crawl sitemaps for (e.g., 'example.com'). The domain will be automatically normalized and validated.\n\n- `maxLinks?: number`\n  Maximum number of links to return from the sitemap crawl. Defaults to 10,000. Minimum is 1, maximum is 100,000.\n\n### Returns\n\n- `{ domain: string; meta: { errors: number; sitemapsDiscovered: number; sitemapsFetched: number; sitemapsSkipped: number; }; success: true; urls: string[]; }`\n\n  - `domain: string`\n  - `meta: { errors: number; sitemapsDiscovered: number; sitemapsFetched: number; sitemapsSkipped: number; }`\n  - `success: true`\n  - `urls: string[]`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.web.webScrapeSitemap({ domain: 'domain' });\n\nconsole.log(response);\n```",
+      "## web_scrape_sitemap\n\n`client.web.webScrapeSitemap(domain: string, maxLinks?: number): { domain: string; meta: object; success: true; urls: string[]; }`\n\n**get** `/web/scrape/sitemap`\n\nCrawl an entire website's sitemap and return all discovered page URLs\n\n### Parameters\n\n- `domain: string`\n  Domain to build a sitemap for\n\n- `maxLinks?: number`\n  Maximum number of links to return from the sitemap crawl. Defaults to 10,000. Minimum is 1, maximum is 100,000.\n\n### Returns\n\n- `{ domain: string; meta: { errors: number; sitemapsDiscovered: number; sitemapsFetched: number; sitemapsSkipped: number; }; success: true; urls: string[]; }`\n\n  - `domain: string`\n  - `meta: { errors: number; sitemapsDiscovered: number; sitemapsFetched: number; sitemapsSkipped: number; }`\n  - `success: true`\n  - `urls: string[]`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.web.webScrapeSitemap({ domain: 'domain' });\n\nconsole.log(response);\n```",
     perLanguage: {
       http: {
         example:
