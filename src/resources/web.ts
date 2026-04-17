@@ -58,9 +58,7 @@ export class Web extends APIResource {
   }
 
   /**
-   * Crawls the sitemap of the given domain and returns all discovered page URLs.
-   * Supports sitemap index files (recursive), parallel fetching with concurrency
-   * control, deduplication, and filters out non-page resources (images, PDFs, etc.).
+   * Crawl an entire website's sitemap and return all discovered page URLs
    */
   webScrapeSitemap(
     query: WebWebScrapeSitemapParams,
@@ -436,8 +434,7 @@ export interface WebWebScrapeMdParams {
 
 export interface WebWebScrapeSitemapParams {
   /**
-   * Domain name to crawl sitemaps for (e.g., 'example.com'). The domain will be
-   * automatically normalized and validated.
+   * Domain to build a sitemap for
    */
   domain: string;
 
