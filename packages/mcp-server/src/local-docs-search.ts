@@ -54,14 +54,14 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     name: 'web_scrape_html',
     endpoint: '/web/scrape/html',
     httpMethod: 'get',
-    summary: 'Scrape raw HTML from a URL',
+    summary: 'Scrape HTML',
     description: 'Scrapes the given URL and returns the raw HTML content of the page.',
     stainlessPath: '(resource) web > (method) web_scrape_html',
     qualified: 'client.web.webScrapeHTML',
     params: ['url: string;', 'maxAgeMs?: number;'],
     response: '{ html: string; success: true; url: string; }',
     markdown:
-      "## web_scrape_html\n\n`client.web.webScrapeHTML(url: string, maxAgeMs?: number): { html: string; success: true; url: string; }`\n\n**get** `/web/scrape/html`\n\nScrapes the given URL and returns the raw HTML content of the page.\n\n### Parameters\n\n- `url: string`\n  Full URL to scrape (must include http:// or https:// protocol)\n\n- `maxAgeMs?: number`\n  Return a cached result if a prior scrape for the same parameters exists and is younger than this many milliseconds. Defaults to 1 day (86400000 ms) when omitted. Set to 0 to always scrape fresh.\n\n### Returns\n\n- `{ html: string; success: true; url: string; }`\n\n  - `html: string`\n  - `success: true`\n  - `url: string`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.web.webScrapeHTML({ url: 'https://example.com' });\n\nconsole.log(response);\n```",
+      "## web_scrape_html\n\n`client.web.webScrapeHTML(url: string, maxAgeMs?: number): { html: string; success: true; url: string; }`\n\n**get** `/web/scrape/html`\n\nScrapes the given URL and returns the raw HTML content of the page.\n\n### Parameters\n\n- `url: string`\n  Full URL to scrape (must include http:// or https:// protocol)\n\n- `maxAgeMs?: number`\n  Return a cached result if a prior scrape for the same parameters exists and is younger than this many milliseconds. Defaults to 1 day (86400000 ms) when omitted. Max is 30 days (2592000000 ms). Set to 0 to always scrape fresh.\n\n### Returns\n\n- `{ html: string; success: true; url: string; }`\n\n  - `html: string`\n  - `success: true`\n  - `url: string`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.web.webScrapeHTML({ url: 'https://example.com' });\n\nconsole.log(response);\n```",
     perLanguage: {
       http: {
         example:
