@@ -9,6 +9,33 @@ const client = new ContextDev({
 
 describe('resource web', () => {
   // Mock server tests are disabled
+  test.skip('extractFonts', async () => {
+    const responsePromise = client.web.extractFonts();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('extractFonts: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.web.extractFonts(
+        {
+          directUrl: 'https://example.com',
+          domain: 'domain',
+          timeoutMS: 1000,
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(ContextDev.NotFoundError);
+  });
+
+  // Mock server tests are disabled
   test.skip('screenshot', async () => {
     const responsePromise = client.web.screenshot();
     const rawResponse = await responsePromise.asResponse();

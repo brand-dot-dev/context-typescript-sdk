@@ -285,6 +285,42 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     },
   },
   {
+    name: 'extract_fonts',
+    endpoint: '/web/fonts',
+    httpMethod: 'get',
+    summary: 'Scrape Fonts',
+    description:
+      "Scrape font information from a website including font families, usage statistics, fallbacks, and element/word counts. Either 'domain' or 'directUrl' must be provided as a query parameter, but not both.",
+    stainlessPath: '(resource) web > (method) extract_fonts',
+    qualified: 'client.web.extractFonts',
+    params: ['directUrl?: string;', 'domain?: string;', 'timeoutMS?: number;'],
+    response:
+      '{ code: number; domain: string; fonts: { fallbacks: string[]; font: string; num_elements: number; num_words: number; percent_elements: number; percent_words: number; uses: string[]; }[]; status: string; }',
+    markdown:
+      "## extract_fonts\n\n`client.web.extractFonts(directUrl?: string, domain?: string, timeoutMS?: number): { code: number; domain: string; fonts: object[]; status: string; }`\n\n**get** `/web/fonts`\n\nScrape font information from a website including font families, usage statistics, fallbacks, and element/word counts. Either 'domain' or 'directUrl' must be provided as a query parameter, but not both.\n\n### Parameters\n\n- `directUrl?: string`\n  A specific URL to fetch fonts from directly, bypassing domain resolution (e.g., 'https://example.com/design-system').\n\n- `domain?: string`\n  Domain name to extract fonts from (e.g., 'example.com', 'google.com'). The domain will be automatically normalized and validated.\n\n- `timeoutMS?: number`\n  Optional timeout in milliseconds for the request. If the request takes longer than this value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5 minutes).\n\n### Returns\n\n- `{ code: number; domain: string; fonts: { fallbacks: string[]; font: string; num_elements: number; num_words: number; percent_elements: number; percent_words: number; uses: string[]; }[]; status: string; }`\n\n  - `code: number`\n  - `domain: string`\n  - `fonts: { fallbacks: string[]; font: string; num_elements: number; num_words: number; percent_elements: number; percent_words: number; uses: string[]; }[]`\n  - `status: string`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.web.extractFonts();\n\nconsole.log(response);\n```",
+    perLanguage: {
+      http: {
+        example:
+          'curl https://api.context.dev/v1/web/fonts \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
+      },
+      python: {
+        method: 'web.extract_fonts',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.web.extract_fonts()\nprint(response.code)',
+      },
+      ruby: {
+        method: 'web.extract_fonts',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.web.extract_fonts\n\nputs(response)',
+      },
+      typescript: {
+        method: 'client.web.extractFonts',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.web.extractFonts();\n\nconsole.log(response.code);",
+      },
+    },
+  },
+  {
     name: 'extract_products',
     endpoint: '/brand/ai/products',
     httpMethod: 'post',

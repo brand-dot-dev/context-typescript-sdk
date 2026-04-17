@@ -37,12 +37,14 @@ export {
 } from './utility';
 export {
   Web,
+  type WebExtractFontsResponse,
   type WebScreenshotResponse,
   type WebWebCrawlMdResponse,
   type WebWebScrapeHTMLResponse,
   type WebWebScrapeImagesResponse,
   type WebWebScrapeMdResponse,
   type WebWebScrapeSitemapResponse,
+  type WebExtractFontsParams,
   type WebScreenshotParams,
   type WebWebCrawlMdParams,
   type WebWebScrapeHTMLParams,
