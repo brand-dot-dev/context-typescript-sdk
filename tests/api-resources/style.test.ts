@@ -9,23 +9,6 @@ const client = new ContextDev({
 
 describe('resource style', () => {
   // Mock server tests are disabled
-  test.skip('extractFonts: only required params', async () => {
-    const responsePromise = client.style.extractFonts({ domain: 'domain' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Mock server tests are disabled
-  test.skip('extractFonts: required and optional params', async () => {
-    const response = await client.style.extractFonts({ domain: 'domain', timeoutMS: 1000 });
-  });
-
-  // Mock server tests are disabled
   test.skip('extractStyleguide', async () => {
     const responsePromise = client.style.extractStyleguide();
     const rawResponse = await responsePromise.asResponse();

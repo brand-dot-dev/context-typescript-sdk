@@ -434,42 +434,6 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     },
   },
   {
-    name: 'extract_fonts',
-    endpoint: '/brand/fonts',
-    httpMethod: 'get',
-    summary: 'Extract fonts from website',
-    description:
-      "Extract font information from a brand's website including font families, usage statistics, fallbacks, and element/word counts.",
-    stainlessPath: '(resource) style > (method) extract_fonts',
-    qualified: 'client.style.extractFonts',
-    params: ['domain: string;', 'timeoutMS?: number;'],
-    response:
-      '{ code: number; domain: string; fonts: { fallbacks: string[]; font: string; num_elements: number; num_words: number; percent_elements: number; percent_words: number; uses: string[]; }[]; status: string; }',
-    markdown:
-      "## extract_fonts\n\n`client.style.extractFonts(domain: string, timeoutMS?: number): { code: number; domain: string; fonts: object[]; status: string; }`\n\n**get** `/brand/fonts`\n\nExtract font information from a brand's website including font families, usage statistics, fallbacks, and element/word counts.\n\n### Parameters\n\n- `domain: string`\n  Domain name to extract fonts from (e.g., 'example.com', 'google.com'). The domain will be automatically normalized and validated.\n\n- `timeoutMS?: number`\n  Optional timeout in milliseconds for the request. If the request takes longer than this value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5 minutes).\n\n### Returns\n\n- `{ code: number; domain: string; fonts: { fallbacks: string[]; font: string; num_elements: number; num_words: number; percent_elements: number; percent_words: number; uses: string[]; }[]; status: string; }`\n\n  - `code: number`\n  - `domain: string`\n  - `fonts: { fallbacks: string[]; font: string; num_elements: number; num_words: number; percent_elements: number; percent_words: number; uses: string[]; }[]`\n  - `status: string`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.style.extractFonts({ domain: 'domain' });\n\nconsole.log(response);\n```",
-    perLanguage: {
-      http: {
-        example:
-          'curl https://api.context.dev/v1/brand/fonts \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
-      },
-      python: {
-        method: 'style.extract_fonts',
-        example:
-          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.style.extract_fonts(\n    domain="domain",\n)\nprint(response.code)',
-      },
-      ruby: {
-        method: 'style.extract_fonts',
-        example:
-          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.style.extract_fonts(domain: "domain")\n\nputs(response)',
-      },
-      typescript: {
-        method: 'client.style.extractFonts',
-        example:
-          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.style.extractFonts({ domain: 'domain' });\n\nconsole.log(response.code);",
-      },
-    },
-  },
-  {
     name: 'retrieve',
     endpoint: '/brand/retrieve',
     httpMethod: 'get',

@@ -36,12 +36,10 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/style.ts">StyleExtractFontsResponse</a></code>
 - <code><a href="./src/resources/style.ts">StyleExtractStyleguideResponse</a></code>
 
 Methods:
 
-- <code title="get /brand/fonts">client.style.<a href="./src/resources/style.ts">extractFonts</a>({ ...params }) -> StyleExtractFontsResponse</code>
 - <code title="get /brand/styleguide">client.style.<a href="./src/resources/style.ts">extractStyleguide</a>({ ...params }) -> StyleExtractStyleguideResponse</code>
 
 # Brand

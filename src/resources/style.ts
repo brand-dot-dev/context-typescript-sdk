@@ -6,17 +6,6 @@ import { RequestOptions } from '../internal/request-options';
 
 export class Style extends APIResource {
   /**
-   * Extract font information from a brand's website including font families, usage
-   * statistics, fallbacks, and element/word counts.
-   */
-  extractFonts(
-    query: StyleExtractFontsParams,
-    options?: RequestOptions,
-  ): APIPromise<StyleExtractFontsResponse> {
-    return this._client.get('/brand/fonts', { query, ...options });
-  }
-
-  /**
    * Automatically extract comprehensive design system information from a brand's
    * website including colors, typography, spacing, shadows, and UI components.
    * Either 'domain' or 'directUrl' must be provided as a query parameter, but not
@@ -27,67 +16,6 @@ export class Style extends APIResource {
     options?: RequestOptions,
   ): APIPromise<StyleExtractStyleguideResponse> {
     return this._client.get('/brand/styleguide', { query, ...options });
-  }
-}
-
-export interface StyleExtractFontsResponse {
-  /**
-   * HTTP status code, e.g., 200
-   */
-  code: number;
-
-  /**
-   * The normalized domain that was processed
-   */
-  domain: string;
-
-  /**
-   * Array of font usage information
-   */
-  fonts: Array<StyleExtractFontsResponse.Font>;
-
-  /**
-   * Status of the response, e.g., 'ok'
-   */
-  status: string;
-}
-
-export namespace StyleExtractFontsResponse {
-  export interface Font {
-    /**
-     * Array of fallback font families
-     */
-    fallbacks: Array<string>;
-
-    /**
-     * Font family name
-     */
-    font: string;
-
-    /**
-     * Number of elements using this font
-     */
-    num_elements: number;
-
-    /**
-     * Number of words using this font
-     */
-    num_words: number;
-
-    /**
-     * Percentage of elements using this font
-     */
-    percent_elements: number;
-
-    /**
-     * Percentage of words using this font
-     */
-    percent_words: number;
-
-    /**
-     * Array of CSS selectors or element types where this font is used
-     */
-    uses: Array<string>;
   }
 }
 
@@ -604,21 +532,6 @@ export namespace StyleExtractStyleguideResponse {
   }
 }
 
-export interface StyleExtractFontsParams {
-  /**
-   * Domain name to extract fonts from (e.g., 'example.com', 'google.com'). The
-   * domain will be automatically normalized and validated.
-   */
-  domain: string;
-
-  /**
-   * Optional timeout in milliseconds for the request. If the request takes longer
-   * than this value, it will be aborted with a 408 status code. Maximum allowed
-   * value is 300000ms (5 minutes).
-   */
-  timeoutMS?: number;
-}
-
 export interface StyleExtractStyleguideParams {
   /**
    * A specific URL to fetch the styleguide from directly, bypassing domain
@@ -642,9 +555,7 @@ export interface StyleExtractStyleguideParams {
 
 export declare namespace Style {
   export {
-    type StyleExtractFontsResponse as StyleExtractFontsResponse,
     type StyleExtractStyleguideResponse as StyleExtractStyleguideResponse,
-    type StyleExtractFontsParams as StyleExtractFontsParams,
     type StyleExtractStyleguideParams as StyleExtractStyleguideParams,
   };
 }
