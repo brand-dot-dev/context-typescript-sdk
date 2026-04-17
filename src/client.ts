@@ -44,7 +44,6 @@ import {
   BrandRetrieveSimplifiedResponse,
 } from './resources/brand';
 import { Industry, IndustryRetrieveNaicsParams, IndustryRetrieveNaicsResponse } from './resources/industry';
-import { Style } from './resources/style';
 import {
   Utility,
   UtilityPrefetchByEmailParams,
@@ -769,7 +768,6 @@ export class ContextDev {
 
   web: API.Web = new API.Web(this);
   ai: API.AI = new API.AI(this);
-  style: API.Style = new API.Style(this);
   brand: API.Brand = new API.Brand(this);
   industry: API.Industry = new API.Industry(this);
   utility: API.Utility = new API.Utility(this);
@@ -777,7 +775,6 @@ export class ContextDev {
 
 ContextDev.Web = Web;
 ContextDev.AI = AI;
-ContextDev.Style = Style;
 ContextDev.Brand = Brand;
 ContextDev.Industry = Industry;
 ContextDev.Utility = Utility;
@@ -810,8 +807,6 @@ export declare namespace ContextDev {
     type AIExtractProductParams as AIExtractProductParams,
     type AIExtractProductsParams as AIExtractProductsParams,
   };
-
-  export { Style as Style };
 
   export {
     Brand as Brand,
