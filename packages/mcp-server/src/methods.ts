@@ -17,6 +17,18 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/web/fonts',
   },
   {
+    clientCallName: 'client.web.extractStyleguide',
+    fullyQualifiedName: 'web.extractStyleguide',
+    httpMethod: 'get',
+    httpPath: '/web/styleguide',
+  },
+  {
+    clientCallName: 'client.web.screenshot',
+    fullyQualifiedName: 'web.screenshot',
+    httpMethod: 'get',
+    httpPath: '/web/screenshot',
+  },
+  {
     clientCallName: 'client.web.webCrawlMd',
     fullyQualifiedName: 'web.webCrawlMd',
     httpMethod: 'post',

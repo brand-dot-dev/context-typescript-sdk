@@ -36,6 +36,62 @@ describe('resource web', () => {
   });
 
   // Mock server tests are disabled
+  test.skip('extractStyleguide', async () => {
+    const responsePromise = client.web.extractStyleguide();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('extractStyleguide: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.web.extractStyleguide(
+        {
+          directUrl: 'https://example.com',
+          domain: 'domain',
+          timeoutMS: 1000,
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(ContextDev.NotFoundError);
+  });
+
+  // Mock server tests are disabled
+  test.skip('screenshot', async () => {
+    const responsePromise = client.web.screenshot();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('screenshot: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.web.screenshot(
+        {
+          directUrl: 'https://example.com',
+          domain: 'domain',
+          fullScreenshot: 'true',
+          page: 'login',
+          prioritize: 'speed',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(ContextDev.NotFoundError);
+  });
+
+  // Mock server tests are disabled
   test.skip('webCrawlMd: only required params', async () => {
     const responsePromise = client.web.webCrawlMd({ url: 'https://example.com' });
     const rawResponse = await responsePromise.asResponse();

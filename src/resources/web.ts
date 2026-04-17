@@ -17,6 +17,27 @@ export class Web extends APIResource {
   }
 
   /**
+   * Extract a comprehensive design system from a website including colors,
+   * typography, spacing, shadows, and UI components.
+   */
+  extractStyleguide(
+    query: WebExtractStyleguideParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<WebExtractStyleguideResponse> {
+    return this._client.get('/web/styleguide', { query, ...options });
+  }
+
+  /**
+   * Capture a screenshot of a website.
+   */
+  screenshot(
+    query: WebScreenshotParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<WebScreenshotResponse> {
+    return this._client.get('/web/screenshot', { query, ...options });
+  }
+
+  /**
    * Performs a crawl starting from a given URL, extracts page content as Markdown,
    * and returns results for all crawled pages.
    */
@@ -123,6 +144,546 @@ export namespace WebExtractFontsResponse {
      */
     uses: Array<string>;
   }
+}
+
+export interface WebExtractStyleguideResponse {
+  /**
+   * HTTP status code
+   */
+  code?: number;
+
+  /**
+   * The normalized domain that was processed
+   */
+  domain?: string;
+
+  /**
+   * Status of the response, e.g., 'ok'
+   */
+  status?: string;
+
+  /**
+   * Comprehensive styleguide data extracted from the website
+   */
+  styleguide?: WebExtractStyleguideResponse.Styleguide;
+}
+
+export namespace WebExtractStyleguideResponse {
+  /**
+   * Comprehensive styleguide data extracted from the website
+   */
+  export interface Styleguide {
+    /**
+     * Primary colors used on the website
+     */
+    colors: Styleguide.Colors;
+
+    /**
+     * UI component styles
+     */
+    components: Styleguide.Components;
+
+    /**
+     * Spacing system used on the website
+     */
+    elementSpacing: Styleguide.ElementSpacing;
+
+    /**
+     * Font assets keyed by family name as it appears in fontFamily/fontFallbacks
+     * (non-generic names only). Clients match typography.fontFamily / fontWeight or
+     * button styles to pick a file URL from files.
+     */
+    fontLinks: { [key: string]: Styleguide.FontLinks };
+
+    /**
+     * The primary color mode of the website design
+     */
+    mode: 'light' | 'dark';
+
+    /**
+     * Shadow styles used on the website
+     */
+    shadows: Styleguide.Shadows;
+
+    /**
+     * Typography styles used on the website
+     */
+    typography: Styleguide.Typography;
+  }
+
+  export namespace Styleguide {
+    /**
+     * Primary colors used on the website
+     */
+    export interface Colors {
+      /**
+       * Accent color (hex format)
+       */
+      accent: string;
+
+      /**
+       * Background color (hex format)
+       */
+      background: string;
+
+      /**
+       * Text color (hex format)
+       */
+      text: string;
+    }
+
+    /**
+     * UI component styles
+     */
+    export interface Components {
+      /**
+       * Button component styles
+       */
+      button: Components.Button;
+
+      /**
+       * Card component style
+       */
+      card?: Components.Card;
+    }
+
+    export namespace Components {
+      /**
+       * Button component styles
+       */
+      export interface Button {
+        link?: Button.Link;
+
+        primary?: Button.Primary;
+
+        secondary?: Button.Secondary;
+      }
+
+      export namespace Button {
+        export interface Link {
+          backgroundColor: string;
+
+          /**
+           * Border color as CSS hex (#RRGGBB or #RRGGBBAA when computed border-color has
+           * alpha)
+           */
+          borderColor: string;
+
+          borderRadius: string;
+
+          borderStyle: string;
+
+          borderWidth: string;
+
+          /**
+           * Computed box-shadow (comma-separated layers when present)
+           */
+          boxShadow: string;
+
+          color: string;
+
+          /**
+           * Ready-to-use CSS declaration block for this component style
+           */
+          css: string;
+
+          fontSize: string;
+
+          fontWeight: number;
+
+          /**
+           * Sampled minimum height of the button box (typically px)
+           */
+          minHeight: string;
+
+          /**
+           * Sampled minimum width of the button box (typically px)
+           */
+          minWidth: string;
+
+          padding: string;
+
+          textDecoration: string;
+
+          /**
+           * Full ordered font list from computed font-family
+           */
+          fontFallbacks?: Array<string>;
+
+          /**
+           * Primary button typeface (first in fontFallbacks)
+           */
+          fontFamily?: string;
+
+          /**
+           * Hex color of the underline when it differs from the text color
+           */
+          textDecorationColor?: string;
+        }
+
+        export interface Primary {
+          backgroundColor: string;
+
+          /**
+           * Border color as CSS hex (#RRGGBB or #RRGGBBAA when computed border-color has
+           * alpha)
+           */
+          borderColor: string;
+
+          borderRadius: string;
+
+          borderStyle: string;
+
+          borderWidth: string;
+
+          /**
+           * Computed box-shadow (comma-separated layers when present)
+           */
+          boxShadow: string;
+
+          color: string;
+
+          /**
+           * Ready-to-use CSS declaration block for this component style
+           */
+          css: string;
+
+          fontSize: string;
+
+          fontWeight: number;
+
+          /**
+           * Sampled minimum height of the button box (typically px)
+           */
+          minHeight: string;
+
+          /**
+           * Sampled minimum width of the button box (typically px)
+           */
+          minWidth: string;
+
+          padding: string;
+
+          textDecoration: string;
+
+          /**
+           * Full ordered font list from computed font-family
+           */
+          fontFallbacks?: Array<string>;
+
+          /**
+           * Primary button typeface (first in fontFallbacks)
+           */
+          fontFamily?: string;
+
+          /**
+           * Hex color of the underline when it differs from the text color
+           */
+          textDecorationColor?: string;
+        }
+
+        export interface Secondary {
+          backgroundColor: string;
+
+          /**
+           * Border color as CSS hex (#RRGGBB or #RRGGBBAA when computed border-color has
+           * alpha)
+           */
+          borderColor: string;
+
+          borderRadius: string;
+
+          borderStyle: string;
+
+          borderWidth: string;
+
+          /**
+           * Computed box-shadow (comma-separated layers when present)
+           */
+          boxShadow: string;
+
+          color: string;
+
+          /**
+           * Ready-to-use CSS declaration block for this component style
+           */
+          css: string;
+
+          fontSize: string;
+
+          fontWeight: number;
+
+          /**
+           * Sampled minimum height of the button box (typically px)
+           */
+          minHeight: string;
+
+          /**
+           * Sampled minimum width of the button box (typically px)
+           */
+          minWidth: string;
+
+          padding: string;
+
+          textDecoration: string;
+
+          /**
+           * Full ordered font list from computed font-family
+           */
+          fontFallbacks?: Array<string>;
+
+          /**
+           * Primary button typeface (first in fontFallbacks)
+           */
+          fontFamily?: string;
+
+          /**
+           * Hex color of the underline when it differs from the text color
+           */
+          textDecorationColor?: string;
+        }
+      }
+
+      /**
+       * Card component style
+       */
+      export interface Card {
+        backgroundColor: string;
+
+        /**
+         * Border color as CSS hex (#RRGGBB or #RRGGBBAA when computed border-color has
+         * alpha)
+         */
+        borderColor: string;
+
+        borderRadius: string;
+
+        borderStyle: string;
+
+        borderWidth: string;
+
+        boxShadow: string;
+
+        /**
+         * Ready-to-use CSS declaration block for this component style
+         */
+        css: string;
+
+        padding: string;
+
+        textColor: string;
+      }
+    }
+
+    /**
+     * Spacing system used on the website
+     */
+    export interface ElementSpacing {
+      lg: string;
+
+      md: string;
+
+      sm: string;
+
+      xl: string;
+
+      xs: string;
+    }
+
+    export interface FontLinks {
+      /**
+       * Upright font files keyed by weight string (e.g. "400" for regular, "500",
+       * "700"). Values are absolute URLs.
+       */
+      files: { [key: string]: string };
+
+      type: 'google' | 'custom';
+
+      /**
+       * Google Fonts category when type is google (e.g. sans-serif, serif, monospace,
+       * display, handwriting). Omitted for custom fonts when unknown.
+       */
+      category?: string;
+
+      /**
+       * Present when type is custom: human-readable name derived from the fontLinks key
+       * (strip build/hash suffixes, split camelCase / PascalCase, normalize separators).
+       * Google entries omit this.
+       */
+      displayName?: string;
+    }
+
+    /**
+     * Shadow styles used on the website
+     */
+    export interface Shadows {
+      inner: string;
+
+      lg: string;
+
+      md: string;
+
+      sm: string;
+
+      xl: string;
+    }
+
+    /**
+     * Typography styles used on the website
+     */
+    export interface Typography {
+      /**
+       * Heading styles
+       */
+      headings: Typography.Headings;
+
+      p?: Typography.P;
+    }
+
+    export namespace Typography {
+      /**
+       * Heading styles
+       */
+      export interface Headings {
+        h1?: Headings.H1;
+
+        h2?: Headings.H2;
+
+        h3?: Headings.H3;
+
+        h4?: Headings.H4;
+      }
+
+      export namespace Headings {
+        export interface H1 {
+          /**
+           * Full ordered font list from resolved computed font-family
+           */
+          fontFallbacks: Array<string>;
+
+          /**
+           * Primary face (first family in the computed stack)
+           */
+          fontFamily: string;
+
+          fontSize: string;
+
+          fontWeight: number;
+
+          letterSpacing: string;
+
+          lineHeight: string;
+        }
+
+        export interface H2 {
+          /**
+           * Full ordered font list from resolved computed font-family
+           */
+          fontFallbacks: Array<string>;
+
+          /**
+           * Primary face (first family in the computed stack)
+           */
+          fontFamily: string;
+
+          fontSize: string;
+
+          fontWeight: number;
+
+          letterSpacing: string;
+
+          lineHeight: string;
+        }
+
+        export interface H3 {
+          /**
+           * Full ordered font list from resolved computed font-family
+           */
+          fontFallbacks: Array<string>;
+
+          /**
+           * Primary face (first family in the computed stack)
+           */
+          fontFamily: string;
+
+          fontSize: string;
+
+          fontWeight: number;
+
+          letterSpacing: string;
+
+          lineHeight: string;
+        }
+
+        export interface H4 {
+          /**
+           * Full ordered font list from resolved computed font-family
+           */
+          fontFallbacks: Array<string>;
+
+          /**
+           * Primary face (first family in the computed stack)
+           */
+          fontFamily: string;
+
+          fontSize: string;
+
+          fontWeight: number;
+
+          letterSpacing: string;
+
+          lineHeight: string;
+        }
+      }
+
+      export interface P {
+        /**
+         * Full ordered font list from resolved computed font-family
+         */
+        fontFallbacks: Array<string>;
+
+        /**
+         * Primary face (first family in the computed stack)
+         */
+        fontFamily: string;
+
+        fontSize: string;
+
+        fontWeight: number;
+
+        letterSpacing: string;
+
+        lineHeight: string;
+      }
+    }
+  }
+}
+
+export interface WebScreenshotResponse {
+  /**
+   * HTTP status code
+   */
+  code?: number;
+
+  /**
+   * The normalized domain that was processed
+   */
+  domain?: string;
+
+  /**
+   * Public URL of the uploaded screenshot image
+   */
+  screenshot?: string;
+
+  /**
+   * Type of screenshot that was captured
+   */
+  screenshotType?: 'viewport' | 'fullPage';
+
+  /**
+   * Status of the response, e.g., 'ok'
+   */
+  status?: string;
 }
 
 export interface WebWebCrawlMdResponse {
@@ -340,6 +901,69 @@ export interface WebExtractFontsParams {
   timeoutMS?: number;
 }
 
+export interface WebExtractStyleguideParams {
+  /**
+   * A specific URL to fetch the styleguide from directly, bypassing domain
+   * resolution (e.g., 'https://example.com/design-system'). When provided, the
+   * styleguide is extracted from this exact URL. You must provide either 'domain' or
+   * 'directUrl', but not both.
+   */
+  directUrl?: string;
+
+  /**
+   * Domain name to extract styleguide from (e.g., 'example.com', 'google.com'). The
+   * domain will be automatically normalized and validated. You must provide either
+   * 'domain' or 'directUrl', but not both.
+   */
+  domain?: string;
+
+  /**
+   * Optional timeout in milliseconds for the request. If the request takes longer
+   * than this value, it will be aborted with a 408 status code. Maximum allowed
+   * value is 300000ms (5 minutes).
+   */
+  timeoutMS?: number;
+}
+
+export interface WebScreenshotParams {
+  /**
+   * A specific URL to screenshot directly, bypassing domain resolution (e.g.,
+   * 'https://example.com/pricing'). When provided, the screenshot is taken of this
+   * exact URL. You must provide either 'domain' or 'directUrl', but not both.
+   */
+  directUrl?: string;
+
+  /**
+   * Domain name to take screenshot of (e.g., 'example.com', 'google.com'). The
+   * domain will be automatically normalized and validated. You must provide either
+   * 'domain' or 'directUrl', but not both.
+   */
+  domain?: string;
+
+  /**
+   * Optional parameter to determine screenshot type. If 'true', takes a full page
+   * screenshot capturing all content. If 'false' or not provided, takes a viewport
+   * screenshot (standard browser view).
+   */
+  fullScreenshot?: 'true' | 'false';
+
+  /**
+   * Optional parameter to specify which page type to screenshot. If provided, the
+   * system will scrape the domain's links and use heuristics to find the most
+   * appropriate URL for the specified page type (30 supported languages). If not
+   * provided, screenshots the main domain landing page. Only applicable when using
+   * 'domain', not 'directUrl'.
+   */
+  page?: 'login' | 'signup' | 'blog' | 'careers' | 'pricing' | 'terms' | 'privacy' | 'contact';
+
+  /**
+   * Optional parameter to prioritize screenshot capture. If 'speed', optimizes for
+   * faster capture with basic quality. If 'quality', optimizes for higher quality
+   * with longer wait times. Defaults to 'quality' if not provided.
+   */
+  prioritize?: 'speed' | 'quality';
+}
+
 export interface WebWebCrawlMdParams {
   /**
    * The starting URL for the crawl (must include http:// or https:// protocol)
@@ -463,12 +1087,16 @@ export interface WebWebScrapeSitemapParams {
 export declare namespace Web {
   export {
     type WebExtractFontsResponse as WebExtractFontsResponse,
+    type WebExtractStyleguideResponse as WebExtractStyleguideResponse,
+    type WebScreenshotResponse as WebScreenshotResponse,
     type WebWebCrawlMdResponse as WebWebCrawlMdResponse,
     type WebWebScrapeHTMLResponse as WebWebScrapeHTMLResponse,
     type WebWebScrapeImagesResponse as WebWebScrapeImagesResponse,
     type WebWebScrapeMdResponse as WebWebScrapeMdResponse,
     type WebWebScrapeSitemapResponse as WebWebScrapeSitemapResponse,
     type WebExtractFontsParams as WebExtractFontsParams,
+    type WebExtractStyleguideParams as WebExtractStyleguideParams,
+    type WebScreenshotParams as WebScreenshotParams,
     type WebWebCrawlMdParams as WebWebCrawlMdParams,
     type WebWebScrapeHTMLParams as WebWebScrapeHTMLParams,
     type WebWebScrapeImagesParams as WebWebScrapeImagesParams,
