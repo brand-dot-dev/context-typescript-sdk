@@ -51,8 +51,7 @@ export class Web extends APIResource {
   }
 
   /**
-   * Scrapes the given URL, converts the HTML content to Markdown, and returns the
-   * result.
+   * Scrapes the given URL into LLM usable Markdown.
    */
   webScrapeMd(query: WebWebScrapeMdParams, options?: RequestOptions): APIPromise<WebWebScrapeMdResponse> {
     return this._client.get('/web/scrape/markdown', { query, ...options });
@@ -401,7 +400,7 @@ export interface WebWebScrapeImagesParams {
 
 export interface WebWebScrapeMdParams {
   /**
-   * Full URL to scrape and convert to markdown (must include http:// or https://
+   * Full URL to scrape into LLM usable Markdown (must include http:// or https://
    * protocol)
    */
   url: string;
@@ -419,7 +418,7 @@ export interface WebWebScrapeMdParams {
   /**
    * Return a cached result if a prior scrape for the same parameters exists and is
    * younger than this many milliseconds. Defaults to 1 day (86400000 ms) when
-   * omitted. Set to 0 to always scrape fresh.
+   * omitted. Max is 30 days (2592000000 ms). Set to 0 to always scrape fresh.
    */
   maxAgeMs?: number;
 
