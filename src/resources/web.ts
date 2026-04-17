@@ -6,6 +6,18 @@ import { RequestOptions } from '../internal/request-options';
 
 export class Web extends APIResource {
   /**
+   * Scrape font information from a website including font families, usage
+   * statistics, fallbacks, and element/word counts. Either 'domain' or 'directUrl'
+   * must be provided as a query parameter, but not both.
+   */
+  extractFonts(
+    query: WebExtractFontsParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<WebExtractFontsResponse> {
+    return this._client.get('/web/fonts', { query, ...options });
+  }
+
+  /**
    * Capture a screenshot of a website. Supports both viewport (standard browser
    * view) and full-page screenshots. Can also screenshot specific page types (login,
    * pricing, etc.) by using heuristics to find the appropriate URL. Either 'domain'
@@ -64,6 +76,67 @@ export class Web extends APIResource {
     options?: RequestOptions,
   ): APIPromise<WebWebScrapeSitemapResponse> {
     return this._client.get('/web/scrape/sitemap', { query, ...options });
+  }
+}
+
+export interface WebExtractFontsResponse {
+  /**
+   * HTTP status code, e.g., 200
+   */
+  code: number;
+
+  /**
+   * The normalized domain that was processed
+   */
+  domain: string;
+
+  /**
+   * Array of font usage information
+   */
+  fonts: Array<WebExtractFontsResponse.Font>;
+
+  /**
+   * Status of the response, e.g., 'ok'
+   */
+  status: string;
+}
+
+export namespace WebExtractFontsResponse {
+  export interface Font {
+    /**
+     * Array of fallback font families
+     */
+    fallbacks: Array<string>;
+
+    /**
+     * Font family name
+     */
+    font: string;
+
+    /**
+     * Number of elements using this font
+     */
+    num_elements: number;
+
+    /**
+     * Number of words using this font
+     */
+    num_words: number;
+
+    /**
+     * Percentage of elements using this font
+     */
+    percent_elements: number;
+
+    /**
+     * Percentage of words using this font
+     */
+    percent_words: number;
+
+    /**
+     * Array of CSS selectors or element types where this font is used
+     */
+    uses: Array<string>;
   }
 }
 
@@ -286,6 +359,27 @@ export namespace WebWebScrapeSitemapResponse {
   }
 }
 
+export interface WebExtractFontsParams {
+  /**
+   * A specific URL to fetch fonts from directly, bypassing domain resolution (e.g.,
+   * 'https://example.com/design-system').
+   */
+  directUrl?: string;
+
+  /**
+   * Domain name to extract fonts from (e.g., 'example.com', 'google.com'). The
+   * domain will be automatically normalized and validated.
+   */
+  domain?: string;
+
+  /**
+   * Optional timeout in milliseconds for the request. If the request takes longer
+   * than this value, it will be aborted with a 408 status code. Maximum allowed
+   * value is 300000ms (5 minutes).
+   */
+  timeoutMS?: number;
+}
+
 export interface WebScreenshotParams {
   /**
    * A specific URL to screenshot directly, bypassing domain resolution (e.g.,
@@ -446,12 +540,14 @@ export interface WebWebScrapeSitemapParams {
 
 export declare namespace Web {
   export {
+    type WebExtractFontsResponse as WebExtractFontsResponse,
     type WebScreenshotResponse as WebScreenshotResponse,
     type WebWebCrawlMdResponse as WebWebCrawlMdResponse,
     type WebWebScrapeHTMLResponse as WebWebScrapeHTMLResponse,
     type WebWebScrapeImagesResponse as WebWebScrapeImagesResponse,
     type WebWebScrapeMdResponse as WebWebScrapeMdResponse,
     type WebWebScrapeSitemapResponse as WebWebScrapeSitemapResponse,
+    type WebExtractFontsParams as WebExtractFontsParams,
     type WebScreenshotParams as WebScreenshotParams,
     type WebWebCrawlMdParams as WebWebCrawlMdParams,
     type WebWebScrapeHTMLParams as WebWebScrapeHTMLParams,

@@ -11,6 +11,12 @@ export type SdkMethod = {
 
 export const sdkMethods: SdkMethod[] = [
   {
+    clientCallName: 'client.web.extractFonts',
+    fullyQualifiedName: 'web.extractFonts',
+    httpMethod: 'get',
+    httpPath: '/web/fonts',
+  },
+  {
     clientCallName: 'client.web.screenshot',
     fullyQualifiedName: 'web.screenshot',
     httpMethod: 'get',
