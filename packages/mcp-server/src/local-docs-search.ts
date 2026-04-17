@@ -58,10 +58,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     description: 'Scrapes the given URL and returns the raw HTML content of the page.',
     stainlessPath: '(resource) web > (method) web_scrape_html',
     qualified: 'client.web.webScrapeHTML',
-    params: ['url: string;'],
+    params: ['url: string;', 'maxAgeMs?: number;'],
     response: '{ html: string; success: true; url: string; }',
     markdown:
-      "## web_scrape_html\n\n`client.web.webScrapeHTML(url: string): { html: string; success: true; url: string; }`\n\n**get** `/web/scrape/html`\n\nScrapes the given URL and returns the raw HTML content of the page.\n\n### Parameters\n\n- `url: string`\n  Full URL to scrape (must include http:// or https:// protocol)\n\n### Returns\n\n- `{ html: string; success: true; url: string; }`\n\n  - `html: string`\n  - `success: true`\n  - `url: string`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.web.webScrapeHTML({ url: 'https://example.com' });\n\nconsole.log(response);\n```",
+      "## web_scrape_html\n\n`client.web.webScrapeHTML(url: string, maxAgeMs?: number): { html: string; success: true; url: string; }`\n\n**get** `/web/scrape/html`\n\nScrapes the given URL and returns the raw HTML content of the page.\n\n### Parameters\n\n- `url: string`\n  Full URL to scrape (must include http:// or https:// protocol)\n\n- `maxAgeMs?: number`\n  Return a cached result if a prior scrape for the same parameters exists and is younger than this many milliseconds. Defaults to 1 day (86400000 ms) when omitted. Set to 0 to always scrape fresh.\n\n### Returns\n\n- `{ html: string; success: true; url: string; }`\n\n  - `html: string`\n  - `success: true`\n  - `url: string`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.web.webScrapeHTML({ url: 'https://example.com' });\n\nconsole.log(response);\n```",
     perLanguage: {
       http: {
         example:
@@ -96,12 +96,13 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'url: string;',
       'includeImages?: boolean;',
       'includeLinks?: boolean;',
+      'maxAgeMs?: number;',
       'shortenBase64Images?: boolean;',
       'useMainContentOnly?: boolean;',
     ],
     response: '{ markdown: string; success: true; url: string; }',
     markdown:
-      "## web_scrape_md\n\n`client.web.webScrapeMd(url: string, includeImages?: boolean, includeLinks?: boolean, shortenBase64Images?: boolean, useMainContentOnly?: boolean): { markdown: string; success: true; url: string; }`\n\n**get** `/web/scrape/markdown`\n\nScrapes the given URL, converts the HTML content to Markdown, and returns the result.\n\n### Parameters\n\n- `url: string`\n  Full URL to scrape and convert to markdown (must include http:// or https:// protocol)\n\n- `includeImages?: boolean`\n  Include image references in Markdown output\n\n- `includeLinks?: boolean`\n  Preserve hyperlinks in Markdown output\n\n- `shortenBase64Images?: boolean`\n  Shorten base64-encoded image data in the Markdown output\n\n- `useMainContentOnly?: boolean`\n  Extract only the main content of the page, excluding headers, footers, sidebars, and navigation\n\n### Returns\n\n- `{ markdown: string; success: true; url: string; }`\n\n  - `markdown: string`\n  - `success: true`\n  - `url: string`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.web.webScrapeMd({ url: 'https://example.com' });\n\nconsole.log(response);\n```",
+      "## web_scrape_md\n\n`client.web.webScrapeMd(url: string, includeImages?: boolean, includeLinks?: boolean, maxAgeMs?: number, shortenBase64Images?: boolean, useMainContentOnly?: boolean): { markdown: string; success: true; url: string; }`\n\n**get** `/web/scrape/markdown`\n\nScrapes the given URL, converts the HTML content to Markdown, and returns the result.\n\n### Parameters\n\n- `url: string`\n  Full URL to scrape and convert to markdown (must include http:// or https:// protocol)\n\n- `includeImages?: boolean`\n  Include image references in Markdown output\n\n- `includeLinks?: boolean`\n  Preserve hyperlinks in Markdown output\n\n- `maxAgeMs?: number`\n  Return a cached result if a prior scrape for the same parameters exists and is younger than this many milliseconds. Defaults to 1 day (86400000 ms) when omitted. Set to 0 to always scrape fresh.\n\n- `shortenBase64Images?: boolean`\n  Shorten base64-encoded image data in the Markdown output\n\n- `useMainContentOnly?: boolean`\n  Extract only the main content of the page, excluding headers, footers, sidebars, and navigation\n\n### Returns\n\n- `{ markdown: string; success: true; url: string; }`\n\n  - `markdown: string`\n  - `success: true`\n  - `url: string`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.web.webScrapeMd({ url: 'https://example.com' });\n\nconsole.log(response);\n```",
     perLanguage: {
       http: {
         example:
