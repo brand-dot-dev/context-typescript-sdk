@@ -387,7 +387,7 @@ export interface WebWebScrapeHTMLParams {
   /**
    * Return a cached result if a prior scrape for the same parameters exists and is
    * younger than this many milliseconds. Defaults to 1 day (86400000 ms) when
-   * omitted. Set to 0 to always scrape fresh.
+   * omitted. Max is 30 days (2592000000 ms). Set to 0 to always scrape fresh.
    */
   maxAgeMs?: number;
 }
