@@ -21,8 +21,7 @@ export class Web extends APIResource {
 
   /**
    * Performs a crawl starting from a given URL, extracts page content as Markdown,
-   * and returns results for all crawled pages. Only follows links within the same
-   * domain as the starting URL. Costs 1 credit per successful page crawled.
+   * and returns results for all crawled pages.
    */
   webCrawlMd(body: WebWebCrawlMdParams, options?: RequestOptions): APIPromise<WebWebCrawlMdResponse> {
     return this._client.post('/web/crawl', { body, ...options });
