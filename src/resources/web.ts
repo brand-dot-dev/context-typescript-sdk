@@ -75,7 +75,7 @@ export class Web extends APIResource {
   }
 
   /**
-   * Crawl an entire website's sitemap and return all discovered page URLs
+   * Crawl an entire website's sitemap and return all discovered page URLs.
    */
   webScrapeSitemap(
     query: WebWebScrapeSitemapParams,
