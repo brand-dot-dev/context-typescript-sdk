@@ -242,7 +242,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     name: 'web_crawl_md',
     endpoint: '/web/crawl',
     httpMethod: 'post',
-    summary: 'Crawl website and extract Markdown',
+    summary: 'Crawl Website & Scrape Markdown',
     description:
       'Performs a crawl starting from a given URL, extracts page content as Markdown, and returns results for all crawled pages. Only follows links within the same domain as the starting URL. Costs 1 credit per successful page crawled.',
     stainlessPath: '(resource) web > (method) web_crawl_md',
