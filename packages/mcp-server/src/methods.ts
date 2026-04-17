@@ -17,12 +17,6 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/web/fonts',
   },
   {
-    clientCallName: 'client.web.screenshot',
-    fullyQualifiedName: 'web.screenshot',
-    httpMethod: 'get',
-    httpPath: '/brand/screenshot',
-  },
-  {
     clientCallName: 'client.web.webCrawlMd',
     fullyQualifiedName: 'web.webCrawlMd',
     httpMethod: 'post',
