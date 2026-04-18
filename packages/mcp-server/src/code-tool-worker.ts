@@ -126,6 +126,7 @@ const fuse = new Fuse(
     'client.brand.retrieveByName',
     'client.brand.retrieveByTicker',
     'client.brand.retrieveSimplified',
+    'client.industry.retrieveNaics',
     'client.utility.prefetch',
     'client.utility.prefetchByEmail',
   ],

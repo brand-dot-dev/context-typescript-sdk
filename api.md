@@ -60,6 +60,14 @@ Methods:
 
 # Industry
 
+Types:
+
+- <code><a href="./src/resources/industry.ts">IndustryRetrieveNaicsResponse</a></code>
+
+Methods:
+
+- <code title="get /web/naics">client.industry.<a href="./src/resources/industry.ts">retrieveNaics</a>({ ...params }) -> IndustryRetrieveNaicsResponse</code>
+
 # Utility
 
 Types:
