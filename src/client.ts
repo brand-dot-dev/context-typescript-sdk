@@ -43,7 +43,7 @@ import {
   BrandRetrieveSimplifiedParams,
   BrandRetrieveSimplifiedResponse,
 } from './resources/brand';
-import { Industry, IndustryRetrieveNaicsParams, IndustryRetrieveNaicsResponse } from './resources/industry';
+import { Industry } from './resources/industry';
 import {
   Utility,
   UtilityPrefetchByEmailParams,
@@ -834,11 +834,7 @@ export declare namespace ContextDev {
     type BrandRetrieveSimplifiedParams as BrandRetrieveSimplifiedParams,
   };
 
-  export {
-    Industry as Industry,
-    type IndustryRetrieveNaicsResponse as IndustryRetrieveNaicsResponse,
-    type IndustryRetrieveNaicsParams as IndustryRetrieveNaicsParams,
-  };
+  export { Industry as Industry };
 
   export {
     Utility as Utility,
