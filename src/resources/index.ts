@@ -26,7 +26,7 @@ export {
   type BrandRetrieveByTickerParams,
   type BrandRetrieveSimplifiedParams,
 } from './brand';
-export { Industry } from './industry';
+export { Industry, type IndustryRetrieveNaicsResponse, type IndustryRetrieveNaicsParams } from './industry';
 export {
   Utility,
   type UtilityPrefetchResponse,
