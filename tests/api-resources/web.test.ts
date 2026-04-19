@@ -113,7 +113,7 @@ describe('resource web', () => {
       maxDepth: 0,
       maxPages: 1,
       shortenBase64Images: true,
-      urlRegex: 'urlRegex',
+      urlRegex: '^https?://[^/]+/blog/',
       useMainContentOnly: true,
     });
   });
@@ -190,6 +190,10 @@ describe('resource web', () => {
 
   // Mock server tests are disabled
   test.skip('webScrapeSitemap: required and optional params', async () => {
-    const response = await client.web.webScrapeSitemap({ domain: 'domain', maxLinks: 1 });
+    const response = await client.web.webScrapeSitemap({
+      domain: 'domain',
+      maxLinks: 1,
+      urlRegex: '^https?://[^/]+/blog/',
+    });
   });
 });
