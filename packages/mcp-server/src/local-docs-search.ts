@@ -169,11 +169,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     description: "Crawl an entire website's sitemap and return all discovered page URLs.",
     stainlessPath: '(resource) web > (method) web_scrape_sitemap',
     qualified: 'client.web.webScrapeSitemap',
-    params: ['domain: string;', 'maxLinks?: number;'],
+    params: ['domain: string;', 'maxLinks?: number;', 'urlRegex?: string;'],
     response:
       '{ domain: string; meta: { errors: number; sitemapsDiscovered: number; sitemapsFetched: number; sitemapsSkipped: number; }; success: true; urls: string[]; }',
     markdown:
-      "## web_scrape_sitemap\n\n`client.web.webScrapeSitemap(domain: string, maxLinks?: number): { domain: string; meta: object; success: true; urls: string[]; }`\n\n**get** `/web/scrape/sitemap`\n\nCrawl an entire website's sitemap and return all discovered page URLs.\n\n### Parameters\n\n- `domain: string`\n  Domain to build a sitemap for\n\n- `maxLinks?: number`\n  Maximum number of links to return from the sitemap crawl. Defaults to 10,000. Minimum is 1, maximum is 100,000.\n\n### Returns\n\n- `{ domain: string; meta: { errors: number; sitemapsDiscovered: number; sitemapsFetched: number; sitemapsSkipped: number; }; success: true; urls: string[]; }`\n\n  - `domain: string`\n  - `meta: { errors: number; sitemapsDiscovered: number; sitemapsFetched: number; sitemapsSkipped: number; }`\n  - `success: true`\n  - `urls: string[]`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.web.webScrapeSitemap({ domain: 'domain' });\n\nconsole.log(response);\n```",
+      "## web_scrape_sitemap\n\n`client.web.webScrapeSitemap(domain: string, maxLinks?: number, urlRegex?: string): { domain: string; meta: object; success: true; urls: string[]; }`\n\n**get** `/web/scrape/sitemap`\n\nCrawl an entire website's sitemap and return all discovered page URLs.\n\n### Parameters\n\n- `domain: string`\n  Domain to build a sitemap for\n\n- `maxLinks?: number`\n  Maximum number of links to return from the sitemap crawl. Defaults to 10,000. Minimum is 1, maximum is 100,000.\n\n- `urlRegex?: string`\n  Optional RE2-compatible regex pattern. Only URLs matching this pattern are returned and counted against maxLinks.\n\n### Returns\n\n- `{ domain: string; meta: { errors: number; sitemapsDiscovered: number; sitemapsFetched: number; sitemapsSkipped: number; }; success: true; urls: string[]; }`\n\n  - `domain: string`\n  - `meta: { errors: number; sitemapsDiscovered: number; sitemapsFetched: number; sitemapsSkipped: number; }`\n  - `success: true`\n  - `urls: string[]`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.web.webScrapeSitemap({ domain: 'domain' });\n\nconsole.log(response);\n```",
     perLanguage: {
       http: {
         example:
@@ -264,7 +264,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     perLanguage: {
       http: {
         example:
-          'curl https://api.context.dev/v1/web/crawl \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "url": "https://example.com"\n        }\'',
+          'curl https://api.context.dev/v1/web/crawl \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "url": "https://example.com",\n          "urlRegex": "^https?://[^/]+/blog/"\n        }\'',
       },
       python: {
         method: 'web.web_crawl_md',
