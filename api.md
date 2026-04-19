@@ -2,6 +2,8 @@
 
 Types:
 
+- <code><a href="./src/resources/web.ts">WebExtractFontsResponse</a></code>
+- <code><a href="./src/resources/web.ts">WebExtractStyleguideResponse</a></code>
 - <code><a href="./src/resources/web.ts">WebScreenshotResponse</a></code>
 - <code><a href="./src/resources/web.ts">WebWebCrawlMdResponse</a></code>
 - <code><a href="./src/resources/web.ts">WebWebScrapeHTMLResponse</a></code>
@@ -11,7 +13,9 @@ Types:
 
 Methods:
 
-- <code title="get /brand/screenshot">client.web.<a href="./src/resources/web.ts">screenshot</a>({ ...params }) -> WebScreenshotResponse</code>
+- <code title="get /web/fonts">client.web.<a href="./src/resources/web.ts">extractFonts</a>({ ...params }) -> WebExtractFontsResponse</code>
+- <code title="get /web/styleguide">client.web.<a href="./src/resources/web.ts">extractStyleguide</a>({ ...params }) -> WebExtractStyleguideResponse</code>
+- <code title="get /web/screenshot">client.web.<a href="./src/resources/web.ts">screenshot</a>({ ...params }) -> WebScreenshotResponse</code>
 - <code title="post /web/crawl">client.web.<a href="./src/resources/web.ts">webCrawlMd</a>({ ...params }) -> WebWebCrawlMdResponse</code>
 - <code title="get /web/scrape/html">client.web.<a href="./src/resources/web.ts">webScrapeHTML</a>({ ...params }) -> WebWebScrapeHTMLResponse</code>
 - <code title="get /web/scrape/images">client.web.<a href="./src/resources/web.ts">webScrapeImages</a>({ ...params }) -> WebWebScrapeImagesResponse</code>
@@ -31,18 +35,6 @@ Methods:
 - <code title="post /brand/ai/query">client.ai.<a href="./src/resources/ai.ts">aiQuery</a>({ ...params }) -> AIAIQueryResponse</code>
 - <code title="post /brand/ai/product">client.ai.<a href="./src/resources/ai.ts">extractProduct</a>({ ...params }) -> AIExtractProductResponse</code>
 - <code title="post /brand/ai/products">client.ai.<a href="./src/resources/ai.ts">extractProducts</a>({ ...params }) -> AIExtractProductsResponse</code>
-
-# Style
-
-Types:
-
-- <code><a href="./src/resources/style.ts">StyleExtractFontsResponse</a></code>
-- <code><a href="./src/resources/style.ts">StyleExtractStyleguideResponse</a></code>
-
-Methods:
-
-- <code title="get /brand/fonts">client.style.<a href="./src/resources/style.ts">extractFonts</a>({ ...params }) -> StyleExtractFontsResponse</code>
-- <code title="get /brand/styleguide">client.style.<a href="./src/resources/style.ts">extractStyleguide</a>({ ...params }) -> StyleExtractStyleguideResponse</code>
 
 # Brand
 
@@ -74,7 +66,7 @@ Types:
 
 Methods:
 
-- <code title="get /brand/naics">client.industry.<a href="./src/resources/industry.ts">retrieveNaics</a>({ ...params }) -> IndustryRetrieveNaicsResponse</code>
+- <code title="get /web/naics">client.industry.<a href="./src/resources/industry.ts">retrieveNaics</a>({ ...params }) -> IndustryRetrieveNaicsResponse</code>
 
 # Utility
 

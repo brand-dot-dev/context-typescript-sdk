@@ -28,13 +28,6 @@ export {
 } from './brand';
 export { Industry, type IndustryRetrieveNaicsResponse, type IndustryRetrieveNaicsParams } from './industry';
 export {
-  Style,
-  type StyleExtractFontsResponse,
-  type StyleExtractStyleguideResponse,
-  type StyleExtractFontsParams,
-  type StyleExtractStyleguideParams,
-} from './style';
-export {
   Utility,
   type UtilityPrefetchResponse,
   type UtilityPrefetchByEmailResponse,
@@ -43,12 +36,16 @@ export {
 } from './utility';
 export {
   Web,
+  type WebExtractFontsResponse,
+  type WebExtractStyleguideResponse,
   type WebScreenshotResponse,
   type WebWebCrawlMdResponse,
   type WebWebScrapeHTMLResponse,
   type WebWebScrapeImagesResponse,
   type WebWebScrapeMdResponse,
   type WebWebScrapeSitemapResponse,
+  type WebExtractFontsParams,
+  type WebExtractStyleguideParams,
   type WebScreenshotParams,
   type WebWebCrawlMdParams,
   type WebWebScrapeHTMLParams,

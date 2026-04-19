@@ -11,10 +11,22 @@ export type SdkMethod = {
 
 export const sdkMethods: SdkMethod[] = [
   {
+    clientCallName: 'client.web.extractFonts',
+    fullyQualifiedName: 'web.extractFonts',
+    httpMethod: 'get',
+    httpPath: '/web/fonts',
+  },
+  {
+    clientCallName: 'client.web.extractStyleguide',
+    fullyQualifiedName: 'web.extractStyleguide',
+    httpMethod: 'get',
+    httpPath: '/web/styleguide',
+  },
+  {
     clientCallName: 'client.web.screenshot',
     fullyQualifiedName: 'web.screenshot',
     httpMethod: 'get',
-    httpPath: '/brand/screenshot',
+    httpPath: '/web/screenshot',
   },
   {
     clientCallName: 'client.web.webCrawlMd',
@@ -65,18 +77,6 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/brand/ai/products',
   },
   {
-    clientCallName: 'client.style.extractFonts',
-    fullyQualifiedName: 'style.extractFonts',
-    httpMethod: 'get',
-    httpPath: '/brand/fonts',
-  },
-  {
-    clientCallName: 'client.style.extractStyleguide',
-    fullyQualifiedName: 'style.extractStyleguide',
-    httpMethod: 'get',
-    httpPath: '/brand/styleguide',
-  },
-  {
     clientCallName: 'client.brand.retrieve',
     fullyQualifiedName: 'brand.retrieve',
     httpMethod: 'get',
@@ -122,7 +122,7 @@ export const sdkMethods: SdkMethod[] = [
     clientCallName: 'client.industry.retrieveNaics',
     fullyQualifiedName: 'industry.retrieveNaics',
     httpMethod: 'get',
-    httpPath: '/brand/naics',
+    httpPath: '/web/naics',
   },
   {
     clientCallName: 'client.utility.prefetch',

@@ -45,13 +45,6 @@ import {
 } from './resources/brand';
 import { Industry, IndustryRetrieveNaicsParams, IndustryRetrieveNaicsResponse } from './resources/industry';
 import {
-  Style,
-  StyleExtractFontsParams,
-  StyleExtractFontsResponse,
-  StyleExtractStyleguideParams,
-  StyleExtractStyleguideResponse,
-} from './resources/style';
-import {
   Utility,
   UtilityPrefetchByEmailParams,
   UtilityPrefetchByEmailResponse,
@@ -60,6 +53,10 @@ import {
 } from './resources/utility';
 import {
   Web,
+  WebExtractFontsParams,
+  WebExtractFontsResponse,
+  WebExtractStyleguideParams,
+  WebExtractStyleguideResponse,
   WebScreenshotParams,
   WebScreenshotResponse,
   WebWebCrawlMdParams,
@@ -775,7 +772,6 @@ export class ContextDev {
 
   web: API.Web = new API.Web(this);
   ai: API.AI = new API.AI(this);
-  style: API.Style = new API.Style(this);
   brand: API.Brand = new API.Brand(this);
   industry: API.Industry = new API.Industry(this);
   utility: API.Utility = new API.Utility(this);
@@ -783,7 +779,6 @@ export class ContextDev {
 
 ContextDev.Web = Web;
 ContextDev.AI = AI;
-ContextDev.Style = Style;
 ContextDev.Brand = Brand;
 ContextDev.Industry = Industry;
 ContextDev.Utility = Utility;
@@ -793,12 +788,16 @@ export declare namespace ContextDev {
 
   export {
     Web as Web,
+    type WebExtractFontsResponse as WebExtractFontsResponse,
+    type WebExtractStyleguideResponse as WebExtractStyleguideResponse,
     type WebScreenshotResponse as WebScreenshotResponse,
     type WebWebCrawlMdResponse as WebWebCrawlMdResponse,
     type WebWebScrapeHTMLResponse as WebWebScrapeHTMLResponse,
     type WebWebScrapeImagesResponse as WebWebScrapeImagesResponse,
     type WebWebScrapeMdResponse as WebWebScrapeMdResponse,
     type WebWebScrapeSitemapResponse as WebWebScrapeSitemapResponse,
+    type WebExtractFontsParams as WebExtractFontsParams,
+    type WebExtractStyleguideParams as WebExtractStyleguideParams,
     type WebScreenshotParams as WebScreenshotParams,
     type WebWebCrawlMdParams as WebWebCrawlMdParams,
     type WebWebScrapeHTMLParams as WebWebScrapeHTMLParams,
@@ -815,14 +814,6 @@ export declare namespace ContextDev {
     type AIAIQueryParams as AIAIQueryParams,
     type AIExtractProductParams as AIExtractProductParams,
     type AIExtractProductsParams as AIExtractProductsParams,
-  };
-
-  export {
-    Style as Style,
-    type StyleExtractFontsResponse as StyleExtractFontsResponse,
-    type StyleExtractStyleguideResponse as StyleExtractStyleguideResponse,
-    type StyleExtractFontsParams as StyleExtractFontsParams,
-    type StyleExtractStyleguideParams as StyleExtractStyleguideParams,
   };
 
   export {

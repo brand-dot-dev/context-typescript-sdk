@@ -6,13 +6,13 @@ import { RequestOptions } from '../internal/request-options';
 
 export class Industry extends APIResource {
   /**
-   * Endpoint to classify any brand into a 2022 NAICS code.
+   * Classify any brand into 2022 NAICS industry codes from its domain or name.
    */
   retrieveNaics(
     query: IndustryRetrieveNaicsParams,
     options?: RequestOptions,
   ): APIPromise<IndustryRetrieveNaicsResponse> {
-    return this._client.get('/brand/naics', { query, ...options });
+    return this._client.get('/web/naics', { query, ...options });
   }
 }
 
@@ -59,9 +59,9 @@ export namespace IndustryRetrieveNaicsResponse {
 
 export interface IndustryRetrieveNaicsParams {
   /**
-   * Brand domain or title to retrieve NAICS code for. If a valid domain is provided
-   * in `input`, it will be used for classification, otherwise, we will search for
-   * the brand using the provided title.
+   * Brand domain or title to retrieve NAICS code for. If a valid domain is provided,
+   * it will be used for classification, otherwise, we will search for the brand
+   * using the provided title.
    */
   input: string;
 

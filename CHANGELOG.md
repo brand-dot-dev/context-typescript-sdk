@@ -1,5 +1,35 @@
 # Changelog
 
+## 1.5.0 (2026-04-19)
+
+Full Changelog: [v1.4.0...v1.5.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.4.0...v1.5.0)
+
+### Features
+
+* **api:** api update ([7629336](https://github.com/context-dot-dev/context-typescript-sdk/commit/7629336a0f4cd5ade69ef6e23b82db917e9a6ea0))
+* **api:** api update ([bf2c08c](https://github.com/context-dot-dev/context-typescript-sdk/commit/bf2c08cb781319c385e1534b0ee0a1d0243b3258))
+* **api:** api update ([a844d17](https://github.com/context-dot-dev/context-typescript-sdk/commit/a844d1709febab6c78987678931c3d9dbe7989ac))
+* **api:** api update ([b0547a0](https://github.com/context-dot-dev/context-typescript-sdk/commit/b0547a0fde4e3df57d7cb0e5747dc8fe02611180))
+* **api:** api update ([194e338](https://github.com/context-dot-dev/context-typescript-sdk/commit/194e3384994e16ba9bde08641055b831e166a2d9))
+* **api:** api update ([0709d4e](https://github.com/context-dot-dev/context-typescript-sdk/commit/0709d4e93cdbef889d95e2f884675e33b7b61ae3))
+* **api:** api update ([6e803b3](https://github.com/context-dot-dev/context-typescript-sdk/commit/6e803b3e8124477ae99341276cb140cc8045d2ba))
+* **api:** api update ([221b1bb](https://github.com/context-dot-dev/context-typescript-sdk/commit/221b1bba32427f9eb632e2817a75c492feb30c04))
+* **api:** api update ([803b286](https://github.com/context-dot-dev/context-typescript-sdk/commit/803b2865aafd1fb3fe0072bbe6b5a984a26ac4b7))
+* **api:** api update ([0787993](https://github.com/context-dot-dev/context-typescript-sdk/commit/07879938e28598f1e72b16984521835ba079f674))
+* **api:** api update ([4fa2550](https://github.com/context-dot-dev/context-typescript-sdk/commit/4fa255056846c26a9a6115fb4b8cbf670c5a3231))
+* **api:** api update ([05e1dab](https://github.com/context-dot-dev/context-typescript-sdk/commit/05e1dabe2bf651b0b484db1ccbedd7ca3667f97f))
+* **api:** api update ([ddcb928](https://github.com/context-dot-dev/context-typescript-sdk/commit/ddcb92867be6f60d976eb26a1a35cedf5235c851))
+* **api:** api update ([e5ee2d5](https://github.com/context-dot-dev/context-typescript-sdk/commit/e5ee2d54006fcd865a8c89865705aaf06183aefe))
+* **api:** manual updates ([ff2bb99](https://github.com/context-dot-dev/context-typescript-sdk/commit/ff2bb9931a49f5a0dd3a8e05f215b0d7914a3630))
+* **api:** manual updates ([7055059](https://github.com/context-dot-dev/context-typescript-sdk/commit/705505907b2f7f99a98131cb48fdb15f430755d0))
+* **api:** manual updates ([5876aff](https://github.com/context-dot-dev/context-typescript-sdk/commit/5876aff2e79f476e678a696a9ebae67665c75ebb))
+* **api:** manual updates ([05440e4](https://github.com/context-dot-dev/context-typescript-sdk/commit/05440e47a7aefd75030cf29198d0823258e3361e))
+
+
+### Chores
+
+* **internal:** show error causes in MCP servers when running in local mode ([c68ea4c](https://github.com/context-dot-dev/context-typescript-sdk/commit/c68ea4cf8f32414a6966918313bd4f2032b320e9))
+
 ## 1.4.0 (2026-04-09)
 
 Full Changelog: [v1.3.0...v1.4.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.3.0...v1.4.0)
