@@ -155,6 +155,13 @@ export interface WebExtractFontsResponse {
    * Status of the response, e.g., 'ok'
    */
   status: string;
+
+  /**
+   * Font assets keyed by family name as it appears in the fonts array (non-generic
+   * names only). Clients match entries in fonts to pick a file URL from files.
+   * Omitted when no families resolve to Google or custom @font-face URLs.
+   */
+  fontLinks?: { [key: string]: WebExtractFontsResponse.FontLinks };
 }
 
 export namespace WebExtractFontsResponse {
@@ -193,6 +200,29 @@ export namespace WebExtractFontsResponse {
      * Array of CSS selectors or element types where this font is used
      */
     uses: Array<string>;
+  }
+
+  export interface FontLinks {
+    /**
+     * Upright font files keyed by weight string (e.g. "400" for regular, "500",
+     * "700"). Values are absolute URLs.
+     */
+    files: { [key: string]: string };
+
+    type: 'google' | 'custom';
+
+    /**
+     * Google Fonts category when type is google (e.g. sans-serif, serif, monospace,
+     * display, handwriting). Omitted for custom fonts when unknown.
+     */
+    category?: string;
+
+    /**
+     * Present when type is custom: human-readable name derived from the fontLinks key
+     * (strip build/hash suffixes, split camelCase / PascalCase, normalize separators).
+     * Google entries omit this.
+     */
+    displayName?: string;
   }
 }
 
