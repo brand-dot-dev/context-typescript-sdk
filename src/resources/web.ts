@@ -8,6 +8,11 @@ export class Web extends APIResource {
   /**
    * Scrape font information from a website including font families, usage
    * statistics, fallbacks, and element/word counts.
+   *
+   * @example
+   * ```ts
+   * const response = await client.web.extractFonts();
+   * ```
    */
   extractFonts(
     query: WebExtractFontsParams | null | undefined = {},
@@ -19,6 +24,11 @@ export class Web extends APIResource {
   /**
    * Extract a comprehensive design system from a website including colors,
    * typography, spacing, shadows, and UI components.
+   *
+   * @example
+   * ```ts
+   * const response = await client.web.extractStyleguide();
+   * ```
    */
   extractStyleguide(
     query: WebExtractStyleguideParams | null | undefined = {},
@@ -29,6 +39,11 @@ export class Web extends APIResource {
 
   /**
    * Capture a screenshot of a website.
+   *
+   * @example
+   * ```ts
+   * const response = await client.web.screenshot();
+   * ```
    */
   screenshot(
     query: WebScreenshotParams | null | undefined = {},
@@ -40,6 +55,13 @@ export class Web extends APIResource {
   /**
    * Performs a crawl starting from a given URL, extracts page content as Markdown,
    * and returns results for all crawled pages.
+   *
+   * @example
+   * ```ts
+   * const response = await client.web.webCrawlMd({
+   *   url: 'https://example.com',
+   * });
+   * ```
    */
   webCrawlMd(body: WebWebCrawlMdParams, options?: RequestOptions): APIPromise<WebWebCrawlMdResponse> {
     return this._client.post('/web/crawl', { body, ...options });
@@ -47,6 +69,13 @@ export class Web extends APIResource {
 
   /**
    * Scrapes the given URL and returns the raw HTML content of the page.
+   *
+   * @example
+   * ```ts
+   * const response = await client.web.webScrapeHTML({
+   *   url: 'https://example.com',
+   * });
+   * ```
    */
   webScrapeHTML(
     query: WebWebScrapeHTMLParams,
@@ -59,6 +88,13 @@ export class Web extends APIResource {
    * Scrapes all images from the given URL. Extracts images from img, svg,
    * picture/source, link, and video elements including inline SVGs, base64 data
    * URIs, and standard URLs.
+   *
+   * @example
+   * ```ts
+   * const response = await client.web.webScrapeImages({
+   *   url: 'https://example.com',
+   * });
+   * ```
    */
   webScrapeImages(
     query: WebWebScrapeImagesParams,
@@ -69,6 +105,13 @@ export class Web extends APIResource {
 
   /**
    * Scrapes the given URL into LLM usable Markdown.
+   *
+   * @example
+   * ```ts
+   * const response = await client.web.webScrapeMd({
+   *   url: 'https://example.com',
+   * });
+   * ```
    */
   webScrapeMd(query: WebWebScrapeMdParams, options?: RequestOptions): APIPromise<WebWebScrapeMdResponse> {
     return this._client.get('/web/scrape/markdown', { query, ...options });
@@ -76,6 +119,13 @@ export class Web extends APIResource {
 
   /**
    * Crawl an entire website's sitemap and return all discovered page URLs.
+   *
+   * @example
+   * ```ts
+   * const response = await client.web.webScrapeSitemap({
+   *   domain: 'domain',
+   * });
+   * ```
    */
   webScrapeSitemap(
     query: WebWebScrapeSitemapParams,
@@ -105,6 +155,13 @@ export interface WebExtractFontsResponse {
    * Status of the response, e.g., 'ok'
    */
   status: string;
+
+  /**
+   * Font assets keyed by family name as it appears in the fonts array (non-generic
+   * names only). Clients match entries in fonts to pick a file URL from files.
+   * Omitted when no families resolve to Google or custom @font-face URLs.
+   */
+  fontLinks?: { [key: string]: WebExtractFontsResponse.FontLinks };
 }
 
 export namespace WebExtractFontsResponse {
@@ -143,6 +200,29 @@ export namespace WebExtractFontsResponse {
      * Array of CSS selectors or element types where this font is used
      */
     uses: Array<string>;
+  }
+
+  export interface FontLinks {
+    /**
+     * Upright font files keyed by weight string (e.g. "400" for regular, "500",
+     * "700"). Values are absolute URLs.
+     */
+    files: { [key: string]: string };
+
+    type: 'google' | 'custom';
+
+    /**
+     * Google Fonts category when type is google (e.g. sans-serif, serif, monospace,
+     * display, handwriting). Omitted for custom fonts when unknown.
+     */
+    category?: string;
+
+    /**
+     * Present when type is custom: human-readable name derived from the fontLinks key
+     * (strip build/hash suffixes, split camelCase / PascalCase, normalize separators).
+     * Google entries omit this.
+     */
+    displayName?: string;
   }
 }
 
@@ -988,6 +1068,13 @@ export interface WebWebCrawlMdParams {
   includeLinks?: boolean;
 
   /**
+   * Return a cached result if a prior scrape for the same parameters exists and is
+   * younger than this many milliseconds. Defaults to 1 day (86400000 ms) when
+   * omitted. Max is 30 days (2592000000 ms). Set to 0 to always scrape fresh.
+   */
+  maxAgeMs?: number;
+
+  /**
    * Maximum link depth from the starting URL (0 = only the starting page)
    */
   maxDepth?: number;
@@ -1082,6 +1169,12 @@ export interface WebWebScrapeSitemapParams {
    * Minimum is 1, maximum is 100,000.
    */
   maxLinks?: number;
+
+  /**
+   * Optional RE2-compatible regex pattern. Only URLs matching this pattern are
+   * returned and counted against maxLinks.
+   */
+  urlRegex?: string;
 }
 
 export declare namespace Web {

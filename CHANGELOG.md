@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.6.0 (2026-04-23)
+
+Full Changelog: [v1.5.0...v1.6.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.5.0...v1.6.0)
+
+### Features
+
+* **api:** api update ([041a278](https://github.com/context-dot-dev/context-typescript-sdk/commit/041a2782121b92c607943ce298c8f4792715352f))
+* **api:** api update ([28ef58f](https://github.com/context-dot-dev/context-typescript-sdk/commit/28ef58fb47b258bc92c9889856320bf6ebe76fd2))
+* **api:** api update ([2c5c869](https://github.com/context-dot-dev/context-typescript-sdk/commit/2c5c869e90f993f61bf8edb23a7fc8195388df8e))
+
+
+### Chores
+
+* **internal:** more robust bootstrap script ([877cd63](https://github.com/context-dot-dev/context-typescript-sdk/commit/877cd63e7e9971fdbfe0b9208c41e2839376f88c))
+* **internal:** update docs ordering ([cb90d70](https://github.com/context-dot-dev/context-typescript-sdk/commit/cb90d70bfcfcfe4273932d6e2e36be277961ff34))
+
 ## 1.5.0 (2026-04-19)
 
 Full Changelog: [v1.4.0...v1.5.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.4.0...v1.5.0)
