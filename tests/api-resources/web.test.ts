@@ -110,6 +110,7 @@ describe('resource web', () => {
       followSubdomains: true,
       includeImages: true,
       includeLinks: true,
+      maxAgeMs: 0,
       maxDepth: 0,
       maxPages: 1,
       shortenBase64Images: true,
