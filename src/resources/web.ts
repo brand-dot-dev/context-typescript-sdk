@@ -1068,6 +1068,13 @@ export interface WebWebCrawlMdParams {
   includeLinks?: boolean;
 
   /**
+   * Return a cached result if a prior scrape for the same parameters exists and is
+   * younger than this many milliseconds. Defaults to 1 day (86400000 ms) when
+   * omitted. Max is 30 days (2592000000 ms). Set to 0 to always scrape fresh.
+   */
+  maxAgeMs?: number;
+
+  /**
    * Maximum link depth from the starting URL (0 = only the starting page)
    */
   maxDepth?: number;
