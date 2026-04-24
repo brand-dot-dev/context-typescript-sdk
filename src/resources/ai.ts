@@ -119,6 +119,11 @@ export namespace AIExtractProductResponse {
     name: string;
 
     /**
+     * Stock Keeping Unit (product identifier). Null if no identifier is found.
+     */
+    sku: string | null;
+
+    /**
      * Tags associated with the product
      */
     tags: Array<string>;
@@ -193,6 +198,11 @@ export namespace AIExtractProductsResponse {
      * Name of the product
      */
     name: string;
+
+    /**
+     * Stock Keeping Unit (product identifier). Null if no identifier is found.
+     */
+    sku: string | null;
 
     /**
      * Tags associated with the product
