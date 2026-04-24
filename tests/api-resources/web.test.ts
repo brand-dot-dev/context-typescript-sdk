@@ -113,6 +113,7 @@ describe('resource web', () => {
       maxAgeMs: 0,
       maxDepth: 0,
       maxPages: 1,
+      parsePDF: true,
       shortenBase64Images: true,
       urlRegex: '^https?://[^/]+/blog/',
       useMainContentOnly: true,
@@ -133,7 +134,11 @@ describe('resource web', () => {
 
   // Mock server tests are disabled
   test.skip('webScrapeHTML: required and optional params', async () => {
-    const response = await client.web.webScrapeHTML({ url: 'https://example.com', maxAgeMs: 0 });
+    const response = await client.web.webScrapeHTML({
+      url: 'https://example.com',
+      maxAgeMs: 0,
+      parsePDF: true,
+    });
   });
 
   // Mock server tests are disabled
@@ -172,6 +177,7 @@ describe('resource web', () => {
       includeImages: true,
       includeLinks: true,
       maxAgeMs: 0,
+      parsePDF: true,
       shortenBase64Images: true,
       useMainContentOnly: true,
     });

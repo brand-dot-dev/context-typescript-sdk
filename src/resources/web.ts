@@ -785,6 +785,11 @@ export namespace WebWebCrawlMdResponse {
     numFailed: number;
 
     /**
+     * Number of URLs skipped (PDFs when parsePDF=false, or URLs not matching urlRegex)
+     */
+    numSkipped: number;
+
+    /**
      * Number of pages successfully crawled
      */
     numSucceeded: number;
@@ -1085,6 +1090,13 @@ export interface WebWebCrawlMdParams {
   maxPages?: number;
 
   /**
+   * When true (default), PDF pages are fetched and their text layer is extracted and
+   * converted to Markdown alongside HTML pages. When false, PDF pages are skipped
+   * entirely (not included in results and not counted as failures).
+   */
+  parsePDF?: boolean;
+
+  /**
    * Truncate base64-encoded image data in the Markdown output
    */
   shortenBase64Images?: boolean;
@@ -1113,6 +1125,13 @@ export interface WebWebScrapeHTMLParams {
    * omitted. Max is 30 days (2592000000 ms). Set to 0 to always scrape fresh.
    */
   maxAgeMs?: number;
+
+  /**
+   * When true (default), PDF URLs are fetched and their text layer is extracted and
+   * returned wrapped in <html><pdf>…</pdf></html>. When false, PDF URLs are skipped
+   * and a 400 WEBSITE_ACCESS_ERROR is returned.
+   */
+  parsePDF?: boolean;
 }
 
 export interface WebWebScrapeImagesParams {
@@ -1145,6 +1164,13 @@ export interface WebWebScrapeMdParams {
    * omitted. Max is 30 days (2592000000 ms). Set to 0 to always scrape fresh.
    */
   maxAgeMs?: number;
+
+  /**
+   * When true (default), PDF URLs are fetched and their text layer is extracted and
+   * converted to Markdown. When false, PDF URLs are skipped and a 400
+   * WEBSITE_ACCESS_ERROR is returned.
+   */
+  parsePDF?: boolean;
 
   /**
    * Shorten base64-encoded image data in the Markdown output
