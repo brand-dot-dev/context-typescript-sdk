@@ -29,4 +29,27 @@ describe('resource industry', () => {
       timeoutMS: 1000,
     });
   });
+
+  // Mock server tests are disabled
+  test.skip('retrieveSic: only required params', async () => {
+    const responsePromise = client.industry.retrieveSic({ input: 'input' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('retrieveSic: required and optional params', async () => {
+    const response = await client.industry.retrieveSic({
+      input: 'input',
+      maxResults: 1,
+      minResults: 1,
+      timeoutMS: 1000,
+      type: 'original_sic',
+    });
+  });
 });
