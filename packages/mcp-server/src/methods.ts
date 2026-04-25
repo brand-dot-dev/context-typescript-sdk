@@ -125,6 +125,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/web/naics',
   },
   {
+    clientCallName: 'client.industry.retrieveSic',
+    fullyQualifiedName: 'industry.retrieveSic',
+    httpMethod: 'get',
+    httpPath: '/web/sic',
+  },
+  {
     clientCallName: 'client.utility.prefetch',
     fullyQualifiedName: 'utility.prefetch',
     httpMethod: 'post',

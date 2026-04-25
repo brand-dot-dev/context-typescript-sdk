@@ -63,10 +63,12 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/industry.ts">IndustryRetrieveNaicsResponse</a></code>
+- <code><a href="./src/resources/industry.ts">IndustryRetrieveSicResponse</a></code>
 
 Methods:
 
 - <code title="get /web/naics">client.industry.<a href="./src/resources/industry.ts">retrieveNaics</a>({ ...params }) -> IndustryRetrieveNaicsResponse</code>
+- <code title="get /web/sic">client.industry.<a href="./src/resources/industry.ts">retrieveSic</a>({ ...params }) -> IndustryRetrieveSicResponse</code>
 
 # Utility
 

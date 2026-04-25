@@ -778,6 +778,48 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     },
   },
   {
+    name: 'retrieve_sic',
+    endpoint: '/web/sic',
+    httpMethod: 'get',
+    summary: 'Classify SIC industries',
+    description:
+      'Classify any brand into Standard Industrial Classification (SIC) codes from its domain or name. Choose between the original 1987 SIC system (`original_sic`) or the latest SIC list maintained by the SEC (`latest_sec`).',
+    stainlessPath: '(resource) industry > (method) retrieve_sic',
+    qualified: 'client.industry.retrieveSic',
+    params: [
+      'input: string;',
+      'maxResults?: number;',
+      'minResults?: number;',
+      'timeoutMS?: number;',
+      "type?: 'original_sic' | 'latest_sec';",
+    ],
+    response:
+      "{ classification?: 'original_sic' | 'latest_sec'; codes?: { code: string; confidence: 'high' | 'medium' | 'low'; name: string; majorGroup?: string; majorGroupName?: string; office?: string; }[]; domain?: string; status?: string; type?: string; }",
+    markdown:
+      "## retrieve_sic\n\n`client.industry.retrieveSic(input: string, maxResults?: number, minResults?: number, timeoutMS?: number, type?: 'original_sic' | 'latest_sec'): { classification?: 'original_sic' | 'latest_sec'; codes?: object[]; domain?: string; status?: string; type?: string; }`\n\n**get** `/web/sic`\n\nClassify any brand into Standard Industrial Classification (SIC) codes from its domain or name. Choose between the original 1987 SIC system (`original_sic`) or the latest SIC list maintained by the SEC (`latest_sec`).\n\n### Parameters\n\n- `input: string`\n  Brand domain or title to retrieve SIC code for. If a valid domain is provided, it will be used for classification, otherwise, we will search for the brand using the provided title.\n\n- `maxResults?: number`\n  Maximum number of SIC codes to return. Must be between 1 and 10. Defaults to 5.\n\n- `minResults?: number`\n  Minimum number of SIC codes to return. Must be at least 1. Defaults to 1.\n\n- `timeoutMS?: number`\n  Optional timeout in milliseconds for the request. If the request takes longer than this value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5 minutes).\n\n- `type?: 'original_sic' | 'latest_sec'`\n  Which SIC dataset to classify against. `original_sic` uses the 1987 Standard Industrial Classification system; `latest_sec` uses the current SIC list as published by the SEC. Defaults to `original_sic`.\n\n### Returns\n\n- `{ classification?: 'original_sic' | 'latest_sec'; codes?: { code: string; confidence: 'high' | 'medium' | 'low'; name: string; majorGroup?: string; majorGroupName?: string; office?: string; }[]; domain?: string; status?: string; type?: string; }`\n\n  - `classification?: 'original_sic' | 'latest_sec'`\n  - `codes?: { code: string; confidence: 'high' | 'medium' | 'low'; name: string; majorGroup?: string; majorGroupName?: string; office?: string; }[]`\n  - `domain?: string`\n  - `status?: string`\n  - `type?: string`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.industry.retrieveSic({ input: 'input' });\n\nconsole.log(response);\n```",
+    perLanguage: {
+      http: {
+        example:
+          'curl https://api.context.dev/v1/web/sic \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
+      },
+      python: {
+        method: 'industry.retrieve_sic',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.industry.retrieve_sic(\n    input="input",\n)\nprint(response.classification)',
+      },
+      ruby: {
+        method: 'industry.retrieve_sic',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.industry.retrieve_sic(input: "input")\n\nputs(response)',
+      },
+      typescript: {
+        method: 'client.industry.retrieveSic',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.industry.retrieveSic({ input: 'input' });\n\nconsole.log(response.classification);",
+      },
+    },
+  },
+  {
     name: 'prefetch',
     endpoint: '/brand/prefetch',
     httpMethod: 'post',
