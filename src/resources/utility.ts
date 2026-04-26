@@ -23,10 +23,7 @@ export class Utility extends APIResource {
    * for paid customers to optimize future requests. [You must be on a paid plan to
    * use this endpoint]
    */
-  prefetchByEmail(
-    body: UtilityPrefetchByEmailParams,
-    options?: RequestOptions,
-  ): APIPromise<UtilityPrefetchByEmailResponse> {
+  prefetchByEmail(body: UtilityPrefetchByEmailParams, options?: RequestOptions): APIPromise<UtilityPrefetchByEmailResponse> {
     return this._client.post('/brand/prefetch-by-email', { body, ...options });
   }
 }
@@ -100,6 +97,6 @@ export declare namespace Utility {
     type UtilityPrefetchResponse as UtilityPrefetchResponse,
     type UtilityPrefetchByEmailResponse as UtilityPrefetchByEmailResponse,
     type UtilityPrefetchParams as UtilityPrefetchParams,
-    type UtilityPrefetchByEmailParams as UtilityPrefetchByEmailParams,
+    type UtilityPrefetchByEmailParams as UtilityPrefetchByEmailParams
   };
 }
