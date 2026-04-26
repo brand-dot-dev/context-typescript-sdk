@@ -15,26 +15,19 @@ export class AI extends APIResource {
   }
 
   /**
-   * Beta feature: Given a single URL, determines if it is a product detail page,
-   * classifies the platform/product type, and extracts the product information.
-   * Supports Amazon, TikTok Shop, Etsy, and generic ecommerce sites.
+   * Given a single URL, determines if it is a product page and extracts the product
+   * information.
    */
-  extractProduct(
-    body: AIExtractProductParams,
-    options?: RequestOptions,
-  ): APIPromise<AIExtractProductResponse> {
+  extractProduct(body: AIExtractProductParams, options?: RequestOptions): APIPromise<AIExtractProductResponse> {
     return this._client.post('/brand/ai/product', { body, ...options });
   }
 
   /**
-   * Beta feature: Extract product information from a brand's website. We will
-   * analyze the website and return a list of products with details such as name,
-   * description, image, pricing, features, and more.
+   * Extract product information from a brand's website. We will analyze the website
+   * and return a list of products with details such as name, description, image,
+   * pricing, features, and more.
    */
-  extractProducts(
-    body: AIExtractProductsParams,
-    options?: RequestOptions,
-  ): APIPromise<AIExtractProductsResponse> {
+  extractProducts(body: AIExtractProductsParams, options?: RequestOptions): APIPromise<AIExtractProductsResponse> {
     return this._client.post('/brand/ai/products', { body, ...options });
   }
 }
@@ -368,13 +361,20 @@ export interface AIExtractProductParams {
   url: string;
 
   /**
+   * Return a cached result if a prior scrape for the same parameters exists and is
+   * younger than this many milliseconds. Defaults to 7 days (604800000 ms) when
+   * omitted. Max is 30 days (2592000000 ms). Set to 0 to always scrape fresh.
+   */
+  maxAgeMs?: number;
+
+  /**
    * Optional timeout in milliseconds for the request. Maximum allowed value is
    * 300000ms (5 minutes).
    */
   timeoutMS?: number;
 }
 
-export type AIExtractProductsParams = AIExtractProductsParams.ByDomain | AIExtractProductsParams.ByDirectURL;
+export type AIExtractProductsParams = AIExtractProductsParams.ByDomain | AIExtractProductsParams.ByDirectURL
 
 export declare namespace AIExtractProductsParams {
   export interface ByDomain {
@@ -382,6 +382,13 @@ export declare namespace AIExtractProductsParams {
      * The domain name to analyze.
      */
     domain: string;
+
+    /**
+     * Return a cached result if a prior scrape for the same parameters exists and is
+     * younger than this many milliseconds. Defaults to 7 days (604800000 ms) when
+     * omitted. Max is 30 days (2592000000 ms). Set to 0 to always scrape fresh.
+     */
+    maxAgeMs?: number;
 
     /**
      * Maximum number of products to extract.
@@ -403,6 +410,13 @@ export declare namespace AIExtractProductsParams {
     directUrl: string;
 
     /**
+     * Return a cached result if a prior scrape for the same parameters exists and is
+     * younger than this many milliseconds. Defaults to 7 days (604800000 ms) when
+     * omitted. Max is 30 days (2592000000 ms). Set to 0 to always scrape fresh.
+     */
+    maxAgeMs?: number;
+
+    /**
      * Maximum number of products to extract.
      */
     maxProducts?: number;
@@ -422,6 +436,6 @@ export declare namespace AI {
     type AIExtractProductsResponse as AIExtractProductsResponse,
     type AIAIQueryParams as AIAIQueryParams,
     type AIExtractProductParams as AIExtractProductParams,
-    type AIExtractProductsParams as AIExtractProductsParams,
+    type AIExtractProductsParams as AIExtractProductsParams
   };
 }

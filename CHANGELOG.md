@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.10.0 (2026-04-26)
+
+Full Changelog: [v1.9.0...v1.10.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.9.0...v1.10.0)
+
+### Features
+
+* **api:** api update ([2000efd](https://github.com/context-dot-dev/context-typescript-sdk/commit/2000efd1365caf34df4e4ac44960e56db12bce11))
+* **api:** api update ([6240ae5](https://github.com/context-dot-dev/context-typescript-sdk/commit/6240ae593111ff75c09da3ceb2a34fcc823ebc36))
+
+
+### Chores
+
+* **formatter:** run prettier and eslint separately ([3f0af39](https://github.com/context-dot-dev/context-typescript-sdk/commit/3f0af39b07d921a1b07815f5aa9d021f52f8331d))
+* restructure docs search code ([3e3fef6](https://github.com/context-dot-dev/context-typescript-sdk/commit/3e3fef65dde1ade8c0a6bdd76762d6aba0dd97d6))
+
 ## 1.9.0 (2026-04-25)
 
 Full Changelog: [v1.8.0...v1.9.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.8.0...v1.9.0)
