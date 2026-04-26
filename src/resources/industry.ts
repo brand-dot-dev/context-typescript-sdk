@@ -14,8 +14,8 @@ export class Industry extends APIResource {
 
   /**
    * Classify any brand into Standard Industrial Classification (SIC) codes from its
-   * domain or name. Choose between the original 1987 SIC system (`original_sic`) or
-   * the latest SIC list maintained by the SEC (`latest_sec`).
+   * domain or name. Choose between the original SIC system (`original_sic`) or the
+   * latest SIC list maintained by the SEC (`latest_sec`).
    */
   retrieveSic(query: IndustryRetrieveSicParams, options?: RequestOptions): APIPromise<IndustryRetrieveSicResponse> {
     return this._client.get('/web/sic', { query, ...options });
