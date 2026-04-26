@@ -2,10 +2,7 @@
 
 import ContextDev from 'context.dev';
 
-const client = new ContextDev({
-  apiKey: 'My API Key',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
-});
+const client = new ContextDev({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
 describe('resource industry', () => {
   // Mock server tests are disabled
@@ -23,11 +20,11 @@ describe('resource industry', () => {
   // Mock server tests are disabled
   test.skip('retrieveNaics: required and optional params', async () => {
     const response = await client.industry.retrieveNaics({
-      input: 'input',
-      maxResults: 1,
-      minResults: 1,
-      timeoutMS: 1000,
-    });
+    input: 'input',
+    maxResults: 1,
+    minResults: 1,
+    timeoutMS: 1000,
+  });
   });
 
   // Mock server tests are disabled
@@ -45,11 +42,11 @@ describe('resource industry', () => {
   // Mock server tests are disabled
   test.skip('retrieveSic: required and optional params', async () => {
     const response = await client.industry.retrieveSic({
-      input: 'input',
-      maxResults: 1,
-      minResults: 1,
-      timeoutMS: 1000,
-      type: 'original_sic',
-    });
+    input: 'input',
+    maxResults: 1,
+    minResults: 1,
+    timeoutMS: 1000,
+    type: 'original_sic',
+  });
   });
 });

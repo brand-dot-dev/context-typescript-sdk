@@ -17,76 +17,16 @@ import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
-import {
-  AI,
-  AIAIQueryParams,
-  AIAIQueryResponse,
-  AIExtractProductParams,
-  AIExtractProductResponse,
-  AIExtractProductsParams,
-  AIExtractProductsResponse,
-} from './resources/ai';
-import {
-  Brand,
-  BrandIdentifyFromTransactionParams,
-  BrandIdentifyFromTransactionResponse,
-  BrandRetrieveByEmailParams,
-  BrandRetrieveByEmailResponse,
-  BrandRetrieveByIsinParams,
-  BrandRetrieveByIsinResponse,
-  BrandRetrieveByNameParams,
-  BrandRetrieveByNameResponse,
-  BrandRetrieveByTickerParams,
-  BrandRetrieveByTickerResponse,
-  BrandRetrieveParams,
-  BrandRetrieveResponse,
-  BrandRetrieveSimplifiedParams,
-  BrandRetrieveSimplifiedResponse,
-} from './resources/brand';
-import {
-  Industry,
-  IndustryRetrieveNaicsParams,
-  IndustryRetrieveNaicsResponse,
-  IndustryRetrieveSicParams,
-  IndustryRetrieveSicResponse,
-} from './resources/industry';
-import {
-  Utility,
-  UtilityPrefetchByEmailParams,
-  UtilityPrefetchByEmailResponse,
-  UtilityPrefetchParams,
-  UtilityPrefetchResponse,
-} from './resources/utility';
-import {
-  Web,
-  WebExtractFontsParams,
-  WebExtractFontsResponse,
-  WebExtractStyleguideParams,
-  WebExtractStyleguideResponse,
-  WebScreenshotParams,
-  WebScreenshotResponse,
-  WebWebCrawlMdParams,
-  WebWebCrawlMdResponse,
-  WebWebScrapeHTMLParams,
-  WebWebScrapeHTMLResponse,
-  WebWebScrapeImagesParams,
-  WebWebScrapeImagesResponse,
-  WebWebScrapeMdParams,
-  WebWebScrapeMdResponse,
-  WebWebScrapeSitemapParams,
-  WebWebScrapeSitemapResponse,
-} from './resources/web';
+import { AI, AIAIQueryParams, AIAIQueryResponse, AIExtractProductParams, AIExtractProductResponse, AIExtractProductsParams, AIExtractProductsResponse } from './resources/ai';
+import { Brand, BrandIdentifyFromTransactionParams, BrandIdentifyFromTransactionResponse, BrandRetrieveByEmailParams, BrandRetrieveByEmailResponse, BrandRetrieveByIsinParams, BrandRetrieveByIsinResponse, BrandRetrieveByNameParams, BrandRetrieveByNameResponse, BrandRetrieveByTickerParams, BrandRetrieveByTickerResponse, BrandRetrieveParams, BrandRetrieveResponse, BrandRetrieveSimplifiedParams, BrandRetrieveSimplifiedResponse } from './resources/brand';
+import { Industry, IndustryRetrieveNaicsParams, IndustryRetrieveNaicsResponse, IndustryRetrieveSicParams, IndustryRetrieveSicResponse } from './resources/industry';
+import { Utility, UtilityPrefetchByEmailParams, UtilityPrefetchByEmailResponse, UtilityPrefetchParams, UtilityPrefetchResponse } from './resources/utility';
+import { Web, WebExtractFontsParams, WebExtractFontsResponse, WebExtractStyleguideParams, WebExtractStyleguideResponse, WebScreenshotParams, WebScreenshotResponse, WebWebCrawlMdParams, WebWebCrawlMdResponse, WebWebScrapeHTMLParams, WebWebScrapeHTMLResponse, WebWebScrapeImagesParams, WebWebScrapeImagesResponse, WebWebScrapeMdParams, WebWebScrapeMdResponse, WebWebScrapeSitemapParams, WebWebScrapeSitemapResponse } from './resources/web';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
 import { readEnv } from './internal/utils/env';
-import {
-  type LogLevel,
-  type Logger,
-  formatRequestDetails,
-  loggerFor,
-  parseLogLevel,
-} from './internal/utils/log';
+import { type LogLevel, type Logger, formatRequestDetails, loggerFor, parseLogLevel } from './internal/utils/log';
 import { isEmptyObj } from './internal/utils/values';
 
 export interface ClientOptions {
@@ -165,7 +105,7 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Context Dev API.
+ * API Client for interfacing with the Context Dev API. 
  */
 export class ContextDev {
   apiKey: string;
@@ -201,7 +141,7 @@ export class ContextDev {
   }: ClientOptions = {}) {
     if (apiKey === undefined) {
       throw new Errors.ContextDevError(
-        "The CONTEXT_DEV_API_KEY environment variable is missing or empty; either provide it, or instantiate the ContextDev client with an apiKey option, like new ContextDev({ apiKey: 'My API Key' }).",
+        'The CONTEXT_DEV_API_KEY environment variable is missing or empty; either provide it, or instantiate the ContextDev client with an apiKey option, like new ContextDev({ apiKey: \'My API Key\' }).'
       );
     }
 
@@ -217,10 +157,7 @@ export class ContextDev {
     const defaultLogLevel = 'warn';
     // Set default logLevel early so that we can log a warning in parseLogLevel.
     this.logLevel = defaultLogLevel;
-    this.logLevel =
-      parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ??
-      parseLogLevel(readEnv('CONTEXT_DEV_LOG'), "process.env['CONTEXT_DEV_LOG']", this) ??
-      defaultLogLevel;
+    this.logLevel = parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ?? parseLogLevel(readEnv('CONTEXT_DEV_LOG'), 'process.env[\'CONTEXT_DEV_LOG\']', this) ?? defaultLogLevel;
     this.fetchOptions = options.fetchOptions;
     this.maxRetries = options.maxRetries ?? 2;
     this.fetch = options.fetch ?? Shims.getDefaultFetch();
@@ -245,7 +182,7 @@ export class ContextDev {
       fetch: this.fetch,
       fetchOptions: this.fetchOptions,
       apiKey: this.apiKey,
-      ...options,
+      ...options
     });
     return client;
   }
@@ -258,7 +195,7 @@ export class ContextDev {
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
-    return this._options.defaultQuery;
+    return this._options.defaultQuery
   }
 
   protected validateHeaders({ values, nulls }: NullableHeaders) {
@@ -293,11 +230,7 @@ export class ContextDev {
     return Errors.APIError.generate(status, error, message, headers);
   }
 
-  buildURL(
-    path: string,
-    query: Record<string, unknown> | null | undefined,
-    defaultBaseURL?: string | undefined,
-  ): string {
+  buildURL(path: string, query: Record<string, unknown> | null | undefined, defaultBaseURL?: string | undefined): string {
     const baseURL = (!this.#baseURLOverridden() && defaultBaseURL) || this.baseURL;
     const url =
       isAbsoluteURL(path) ?
@@ -385,9 +318,7 @@ export class ContextDev {
 
     await this.prepareOptions(options);
 
-    const { req, url, timeout } = await this.buildRequest(options, {
-      retryCount: maxRetries - retriesRemaining,
-    });
+    const { req, url, timeout } = await this.buildRequest(options, { retryCount: maxRetries - retriesRemaining });
 
     await this.prepareRequest(req, { url, options });
 
@@ -396,16 +327,7 @@ export class ContextDev {
     const retryLogStr = retryOfRequestLogID === undefined ? '' : `, retryOf: ${retryOfRequestLogID}`;
     const startTime = Date.now();
 
-    loggerFor(this).debug(
-      `[${requestLogID}] sending request`,
-      formatRequestDetails({
-        retryOfRequestLogID,
-        method: options.method,
-        url,
-        options,
-        headers: req.headers,
-      }),
-    );
+    loggerFor(this).debug(`[${requestLogID}] sending request`, formatRequestDetails({ retryOfRequestLogID, method: options.method, url, options, headers: req.headers }));
 
     if (options.signal?.aborted) {
       throw new Errors.APIUserAbortError();
@@ -424,45 +346,21 @@ export class ContextDev {
       // deno throws "TypeError: error sending request for url (https://example/): client error (Connect): tcp connect error: Operation timed out (os error 60): Operation timed out (os error 60)"
       // undici throws "TypeError: fetch failed" with cause "ConnectTimeoutError: Connect Timeout Error (attempted address: example:443, timeout: 1ms)"
       // others do not provide enough information to distinguish timeouts from other connection errors
-      const isTimeout =
-        isAbortError(response) ||
-        /timed? ?out/i.test(String(response) + ('cause' in response ? String(response.cause) : ''));
+      const isTimeout = isAbortError(response) || /timed? ?out/i.test(String(response) + ('cause' in response ? String(response.cause) : ''))
       if (retriesRemaining) {
-        loggerFor(this).info(
-          `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - ${retryMessage}`,
-        );
-        loggerFor(this).debug(
-          `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (${retryMessage})`,
-          formatRequestDetails({
-            retryOfRequestLogID,
-            url,
-            durationMs: headersTime - startTime,
-            message: response.message,
-          }),
-        );
+        loggerFor(this).info(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - ${retryMessage}`)
+        loggerFor(this).debug(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (${retryMessage})`, formatRequestDetails({ retryOfRequestLogID, url, durationMs: headersTime - startTime, message: response.message }));
         return this.retryRequest(options, retriesRemaining, retryOfRequestLogID ?? requestLogID);
       }
-      loggerFor(this).info(
-        `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - error; no more retries left`,
-      );
-      loggerFor(this).debug(
-        `[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (error; no more retries left)`,
-        formatRequestDetails({
-          retryOfRequestLogID,
-          url,
-          durationMs: headersTime - startTime,
-          message: response.message,
-        }),
-      );
+      loggerFor(this).info(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} - error; no more retries left`)
+      loggerFor(this).debug(`[${requestLogID}] connection ${isTimeout ? 'timed out' : 'failed'} (error; no more retries left)`, formatRequestDetails({ retryOfRequestLogID, url, durationMs: headersTime - startTime, message: response.message }));
       if (isTimeout) {
         throw new Errors.APIConnectionTimeoutError();
       }
       throw new Errors.APIConnectionError({ cause: response });
     }
 
-    const responseInfo = `[${requestLogID}${retryLogStr}] ${req.method} ${url} ${
-      response.ok ? 'succeeded' : 'failed'
-    } with status ${response.status} in ${headersTime - startTime}ms`;
+    const responseInfo = `[${requestLogID}${retryLogStr}] ${req.method} ${url} ${response.ok ? 'succeeded' : 'failed'} with status ${response.status} in ${headersTime - startTime}ms`;
 
     if (!response.ok) {
       const shouldRetry = await this.shouldRetry(response);
@@ -471,60 +369,27 @@ export class ContextDev {
 
         // We don't need the body of this response.
         await Shims.CancelReadableStream(response.body);
-        loggerFor(this).info(`${responseInfo} - ${retryMessage}`);
-        loggerFor(this).debug(
-          `[${requestLogID}] response error (${retryMessage})`,
-          formatRequestDetails({
-            retryOfRequestLogID,
-            url: response.url,
-            status: response.status,
-            headers: response.headers,
-            durationMs: headersTime - startTime,
-          }),
-        );
-        return this.retryRequest(
-          options,
-          retriesRemaining,
-          retryOfRequestLogID ?? requestLogID,
-          response.headers,
-        );
+        loggerFor(this).info(`${responseInfo} - ${retryMessage}`)
+        loggerFor(this).debug(`[${requestLogID}] response error (${retryMessage})`, formatRequestDetails({ retryOfRequestLogID, url: response.url, status: response.status, headers: response.headers, durationMs: headersTime - startTime }));
+        return this.retryRequest(options, retriesRemaining, retryOfRequestLogID ?? requestLogID, response.headers);
       }
 
       const retryMessage = shouldRetry ? `error; no more retries left` : `error; not retryable`;
 
-      loggerFor(this).info(`${responseInfo} - ${retryMessage}`);
+      loggerFor(this).info(`${responseInfo} - ${retryMessage}`)
 
       const errText = await response.text().catch((err: any) => castToError(err).message);
       const errJSON = safeJSON(errText) as any;
       const errMessage = errJSON ? undefined : errText;
 
-      loggerFor(this).debug(
-        `[${requestLogID}] response error (${retryMessage})`,
-        formatRequestDetails({
-          retryOfRequestLogID,
-          url: response.url,
-          status: response.status,
-          headers: response.headers,
-          message: errMessage,
-          durationMs: Date.now() - startTime,
-        }),
-      );
+      loggerFor(this).debug(`[${requestLogID}] response error (${retryMessage})`, formatRequestDetails({ retryOfRequestLogID, url: response.url, status: response.status, headers: response.headers, message: errMessage, durationMs: Date.now() - startTime }));
 
       const err = this.makeStatusError(response.status, errJSON, errMessage, response.headers);
       throw err;
     }
 
-    loggerFor(this).info(responseInfo);
-    loggerFor(this).debug(
-      `[${requestLogID}] response start`,
-      formatRequestDetails({
-        retryOfRequestLogID,
-        url: response.url,
-        status: response.status,
-        headers: response.headers,
-        durationMs: headersTime - startTime,
-      }),
-    );
+    loggerFor(this).info(responseInfo)
+    loggerFor(this).debug(`[${requestLogID}] response start`, formatRequestDetails({ retryOfRequestLogID, url: response.url, status: response.status, headers: response.headers, durationMs: headersTime - startTime }));
 
     return { response, options, controller, requestLogID, retryOfRequestLogID, startTime };
   }
@@ -541,9 +406,7 @@ export class ContextDev {
 
     const timeout = setTimeout(abort, ms);
 
-    const isReadableBody =
-      ((globalThis as any).ReadableStream && options.body instanceof (globalThis as any).ReadableStream) ||
-      (typeof options.body === 'object' && options.body !== null && Symbol.asyncIterator in options.body);
+    const isReadableBody = ((globalThis as any).ReadableStream && options.body instanceof (globalThis as any).ReadableStream) || (typeof options.body === "object" && options.body !== null && Symbol.asyncIterator in options.body);
 
     const fetchOptions: RequestInit = {
       signal: controller.signal as any,
@@ -558,6 +421,7 @@ export class ContextDev {
     }
 
     try {
+
       // use undefined this binding; fetch errors if bound to something else in browser/cloudflare
       return await this.fetch.call(undefined, url, fetchOptions);
     } finally {
@@ -658,12 +522,11 @@ export class ContextDev {
     const req: FinalizedRequestInit = {
       method,
       headers: reqHeaders,
-      ...(options.signal && { signal: options.signal }),
-      ...((globalThis as any).ReadableStream &&
-        body instanceof (globalThis as any).ReadableStream && { duplex: 'half' }),
+      ...(options.signal && { signal: options.signal}),
+      ...((globalThis as any).ReadableStream && body instanceof (globalThis as any).ReadableStream && { duplex: "half" }),
       ...(body && { body }),
-      ...((this.fetchOptions as any) ?? {}),
-      ...((options.fetchOptions as any) ?? {}),
+      ...(this.fetchOptions as any ?? {}),
+      ...(options.fetchOptions as any ?? {}),
     };
 
     return { req, url, timeout: options.timeout };
@@ -688,17 +551,15 @@ export class ContextDev {
 
     const headers = buildHeaders([
       idempotencyHeaders,
-      {
-        Accept: 'application/json',
-        'User-Agent': this.getUserAgent(),
-        'X-Stainless-Retry-Count': String(retryCount),
-        ...(options.timeout ? { 'X-Stainless-Timeout': String(Math.trunc(options.timeout / 1000)) } : {}),
-        ...getPlatformHeaders(),
-      },
+      {Accept: 'application/json',
+      'User-Agent': this.getUserAgent(),
+      'X-Stainless-Retry-Count': String(retryCount),
+      ...(options.timeout ? { 'X-Stainless-Timeout': String(Math.trunc(options.timeout / 1000)) } : {}),
+      ...getPlatformHeaders()},
       await this.authHeaders(options),
       this._options.defaultHeaders,
       bodyHeaders,
-      options.headers,
+      options.headers
     ]);
 
     this.validateHeaders(headers);
@@ -725,9 +586,11 @@ export class ContextDev {
       ArrayBuffer.isView(body) ||
       body instanceof ArrayBuffer ||
       body instanceof DataView ||
-      (typeof body === 'string' &&
+      (
+        typeof body === 'string' &&
         // Preserve legacy string encoding behavior for now
-        headers.values.has('content-type')) ||
+        headers.values.has('content-type')
+      ) ||
       // `Blob` is superset of `File`
       ((globalThis as any).Blob && body instanceof (globalThis as any).Blob) ||
       // `FormData` -> `multipart/form-data`
@@ -758,7 +621,7 @@ export class ContextDev {
   }
 
   static ContextDev = this;
-  static DEFAULT_TIMEOUT = 60000; // 1 minute
+  static DEFAULT_TIMEOUT = 60000 // 1 minute
 
   static ContextDevError = Errors.ContextDevError;
   static APIError = Errors.APIError;
@@ -790,69 +653,69 @@ ContextDev.Industry = Industry;
 ContextDev.Utility = Utility;
 
 export declare namespace ContextDev {
-  export type RequestOptions = Opts.RequestOptions;
+      export type RequestOptions = Opts.RequestOptions;
 
-  export {
-    Web as Web,
-    type WebExtractFontsResponse as WebExtractFontsResponse,
-    type WebExtractStyleguideResponse as WebExtractStyleguideResponse,
-    type WebScreenshotResponse as WebScreenshotResponse,
-    type WebWebCrawlMdResponse as WebWebCrawlMdResponse,
-    type WebWebScrapeHTMLResponse as WebWebScrapeHTMLResponse,
-    type WebWebScrapeImagesResponse as WebWebScrapeImagesResponse,
-    type WebWebScrapeMdResponse as WebWebScrapeMdResponse,
-    type WebWebScrapeSitemapResponse as WebWebScrapeSitemapResponse,
-    type WebExtractFontsParams as WebExtractFontsParams,
-    type WebExtractStyleguideParams as WebExtractStyleguideParams,
-    type WebScreenshotParams as WebScreenshotParams,
-    type WebWebCrawlMdParams as WebWebCrawlMdParams,
-    type WebWebScrapeHTMLParams as WebWebScrapeHTMLParams,
-    type WebWebScrapeImagesParams as WebWebScrapeImagesParams,
-    type WebWebScrapeMdParams as WebWebScrapeMdParams,
-    type WebWebScrapeSitemapParams as WebWebScrapeSitemapParams,
-  };
+      export {
+  Web as Web,
+  type WebExtractFontsResponse as WebExtractFontsResponse,
+  type WebExtractStyleguideResponse as WebExtractStyleguideResponse,
+  type WebScreenshotResponse as WebScreenshotResponse,
+  type WebWebCrawlMdResponse as WebWebCrawlMdResponse,
+  type WebWebScrapeHTMLResponse as WebWebScrapeHTMLResponse,
+  type WebWebScrapeImagesResponse as WebWebScrapeImagesResponse,
+  type WebWebScrapeMdResponse as WebWebScrapeMdResponse,
+  type WebWebScrapeSitemapResponse as WebWebScrapeSitemapResponse,
+  type WebExtractFontsParams as WebExtractFontsParams,
+  type WebExtractStyleguideParams as WebExtractStyleguideParams,
+  type WebScreenshotParams as WebScreenshotParams,
+  type WebWebCrawlMdParams as WebWebCrawlMdParams,
+  type WebWebScrapeHTMLParams as WebWebScrapeHTMLParams,
+  type WebWebScrapeImagesParams as WebWebScrapeImagesParams,
+  type WebWebScrapeMdParams as WebWebScrapeMdParams,
+  type WebWebScrapeSitemapParams as WebWebScrapeSitemapParams
+};
 
-  export {
-    AI as AI,
-    type AIAIQueryResponse as AIAIQueryResponse,
-    type AIExtractProductResponse as AIExtractProductResponse,
-    type AIExtractProductsResponse as AIExtractProductsResponse,
-    type AIAIQueryParams as AIAIQueryParams,
-    type AIExtractProductParams as AIExtractProductParams,
-    type AIExtractProductsParams as AIExtractProductsParams,
-  };
+export {
+  AI as AI,
+  type AIAIQueryResponse as AIAIQueryResponse,
+  type AIExtractProductResponse as AIExtractProductResponse,
+  type AIExtractProductsResponse as AIExtractProductsResponse,
+  type AIAIQueryParams as AIAIQueryParams,
+  type AIExtractProductParams as AIExtractProductParams,
+  type AIExtractProductsParams as AIExtractProductsParams
+};
 
-  export {
-    Brand as Brand,
-    type BrandRetrieveResponse as BrandRetrieveResponse,
-    type BrandIdentifyFromTransactionResponse as BrandIdentifyFromTransactionResponse,
-    type BrandRetrieveByEmailResponse as BrandRetrieveByEmailResponse,
-    type BrandRetrieveByIsinResponse as BrandRetrieveByIsinResponse,
-    type BrandRetrieveByNameResponse as BrandRetrieveByNameResponse,
-    type BrandRetrieveByTickerResponse as BrandRetrieveByTickerResponse,
-    type BrandRetrieveSimplifiedResponse as BrandRetrieveSimplifiedResponse,
-    type BrandRetrieveParams as BrandRetrieveParams,
-    type BrandIdentifyFromTransactionParams as BrandIdentifyFromTransactionParams,
-    type BrandRetrieveByEmailParams as BrandRetrieveByEmailParams,
-    type BrandRetrieveByIsinParams as BrandRetrieveByIsinParams,
-    type BrandRetrieveByNameParams as BrandRetrieveByNameParams,
-    type BrandRetrieveByTickerParams as BrandRetrieveByTickerParams,
-    type BrandRetrieveSimplifiedParams as BrandRetrieveSimplifiedParams,
-  };
+export {
+  Brand as Brand,
+  type BrandRetrieveResponse as BrandRetrieveResponse,
+  type BrandIdentifyFromTransactionResponse as BrandIdentifyFromTransactionResponse,
+  type BrandRetrieveByEmailResponse as BrandRetrieveByEmailResponse,
+  type BrandRetrieveByIsinResponse as BrandRetrieveByIsinResponse,
+  type BrandRetrieveByNameResponse as BrandRetrieveByNameResponse,
+  type BrandRetrieveByTickerResponse as BrandRetrieveByTickerResponse,
+  type BrandRetrieveSimplifiedResponse as BrandRetrieveSimplifiedResponse,
+  type BrandRetrieveParams as BrandRetrieveParams,
+  type BrandIdentifyFromTransactionParams as BrandIdentifyFromTransactionParams,
+  type BrandRetrieveByEmailParams as BrandRetrieveByEmailParams,
+  type BrandRetrieveByIsinParams as BrandRetrieveByIsinParams,
+  type BrandRetrieveByNameParams as BrandRetrieveByNameParams,
+  type BrandRetrieveByTickerParams as BrandRetrieveByTickerParams,
+  type BrandRetrieveSimplifiedParams as BrandRetrieveSimplifiedParams
+};
 
-  export {
-    Industry as Industry,
-    type IndustryRetrieveNaicsResponse as IndustryRetrieveNaicsResponse,
-    type IndustryRetrieveSicResponse as IndustryRetrieveSicResponse,
-    type IndustryRetrieveNaicsParams as IndustryRetrieveNaicsParams,
-    type IndustryRetrieveSicParams as IndustryRetrieveSicParams,
-  };
+export {
+  Industry as Industry,
+  type IndustryRetrieveNaicsResponse as IndustryRetrieveNaicsResponse,
+  type IndustryRetrieveSicResponse as IndustryRetrieveSicResponse,
+  type IndustryRetrieveNaicsParams as IndustryRetrieveNaicsParams,
+  type IndustryRetrieveSicParams as IndustryRetrieveSicParams
+};
 
-  export {
-    Utility as Utility,
-    type UtilityPrefetchResponse as UtilityPrefetchResponse,
-    type UtilityPrefetchByEmailResponse as UtilityPrefetchByEmailResponse,
-    type UtilityPrefetchParams as UtilityPrefetchParams,
-    type UtilityPrefetchByEmailParams as UtilityPrefetchByEmailParams,
-  };
-}
+export {
+  Utility as Utility,
+  type UtilityPrefetchResponse as UtilityPrefetchResponse,
+  type UtilityPrefetchByEmailResponse as UtilityPrefetchByEmailResponse,
+  type UtilityPrefetchParams as UtilityPrefetchParams,
+  type UtilityPrefetchByEmailParams as UtilityPrefetchByEmailParams
+};
+    }

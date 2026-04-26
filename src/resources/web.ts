@@ -14,10 +14,7 @@ export class Web extends APIResource {
    * const response = await client.web.extractFonts();
    * ```
    */
-  extractFonts(
-    query: WebExtractFontsParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<WebExtractFontsResponse> {
+  extractFonts(query: WebExtractFontsParams | null | undefined = {}, options?: RequestOptions): APIPromise<WebExtractFontsResponse> {
     return this._client.get('/web/fonts', { query, ...options });
   }
 
@@ -30,10 +27,7 @@ export class Web extends APIResource {
    * const response = await client.web.extractStyleguide();
    * ```
    */
-  extractStyleguide(
-    query: WebExtractStyleguideParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<WebExtractStyleguideResponse> {
+  extractStyleguide(query: WebExtractStyleguideParams | null | undefined = {}, options?: RequestOptions): APIPromise<WebExtractStyleguideResponse> {
     return this._client.get('/web/styleguide', { query, ...options });
   }
 
@@ -45,10 +39,7 @@ export class Web extends APIResource {
    * const response = await client.web.screenshot();
    * ```
    */
-  screenshot(
-    query: WebScreenshotParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<WebScreenshotResponse> {
+  screenshot(query: WebScreenshotParams | null | undefined = {}, options?: RequestOptions): APIPromise<WebScreenshotResponse> {
     return this._client.get('/web/screenshot', { query, ...options });
   }
 
@@ -77,10 +68,7 @@ export class Web extends APIResource {
    * });
    * ```
    */
-  webScrapeHTML(
-    query: WebWebScrapeHTMLParams,
-    options?: RequestOptions,
-  ): APIPromise<WebWebScrapeHTMLResponse> {
+  webScrapeHTML(query: WebWebScrapeHTMLParams, options?: RequestOptions): APIPromise<WebWebScrapeHTMLResponse> {
     return this._client.get('/web/scrape/html', { query, ...options });
   }
 
@@ -96,10 +84,7 @@ export class Web extends APIResource {
    * });
    * ```
    */
-  webScrapeImages(
-    query: WebWebScrapeImagesParams,
-    options?: RequestOptions,
-  ): APIPromise<WebWebScrapeImagesResponse> {
+  webScrapeImages(query: WebWebScrapeImagesParams, options?: RequestOptions): APIPromise<WebWebScrapeImagesResponse> {
     return this._client.get('/web/scrape/images', { query, ...options });
   }
 
@@ -127,10 +112,7 @@ export class Web extends APIResource {
    * });
    * ```
    */
-  webScrapeSitemap(
-    query: WebWebScrapeSitemapParams,
-    options?: RequestOptions,
-  ): APIPromise<WebWebScrapeSitemapResponse> {
+  webScrapeSitemap(query: WebWebScrapeSitemapParams, options?: RequestOptions): APIPromise<WebWebScrapeSitemapResponse> {
     return this._client.get('/web/scrape/sitemap', { query, ...options });
   }
 }
@@ -1220,6 +1202,6 @@ export declare namespace Web {
     type WebWebScrapeHTMLParams as WebWebScrapeHTMLParams,
     type WebWebScrapeImagesParams as WebWebScrapeImagesParams,
     type WebWebScrapeMdParams as WebWebScrapeMdParams,
-    type WebWebScrapeSitemapParams as WebWebScrapeSitemapParams,
+    type WebWebScrapeSitemapParams as WebWebScrapeSitemapParams
   };
 }
