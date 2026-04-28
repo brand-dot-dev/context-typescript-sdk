@@ -2,7 +2,10 @@
 
 import ContextDev from 'context.dev';
 
-const client = new ContextDev({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new ContextDev({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 describe('resource utility', () => {
   // Mock server tests are disabled

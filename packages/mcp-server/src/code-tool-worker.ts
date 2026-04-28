@@ -59,8 +59,8 @@ function getTSDiagnostics(code: string): string[] {
   const codeWithImport = [
     'import { ContextDev } from "context.dev";',
     functionSource.type === 'declaration' ?
-      `async function run(${functionSource.client}: ContextDev)` :
-      `const run: (${functionSource.client}: ContextDev) => Promise<unknown> =`,
+      `async function run(${functionSource.client}: ContextDev)`
+    : `const run: (${functionSource.client}: ContextDev) => Promise<unknown> =`,
     functionSource.code,
   ].join('\n');
   const sourcePath = path.resolve('code.ts');
@@ -108,28 +108,28 @@ function getTSDiagnostics(code: string): string[] {
 
 const fuse = new Fuse(
   [
-    "client.web.extractFonts",
-    "client.web.extractStyleguide",
-    "client.web.screenshot",
-    "client.web.webCrawlMd",
-    "client.web.webScrapeHTML",
-    "client.web.webScrapeImages",
-    "client.web.webScrapeMd",
-    "client.web.webScrapeSitemap",
-    "client.ai.aiQuery",
-    "client.ai.extractProduct",
-    "client.ai.extractProducts",
-    "client.brand.identifyFromTransaction",
-    "client.brand.retrieve",
-    "client.brand.retrieveByEmail",
-    "client.brand.retrieveByIsin",
-    "client.brand.retrieveByName",
-    "client.brand.retrieveByTicker",
-    "client.brand.retrieveSimplified",
-    "client.industry.retrieveNaics",
-    "client.industry.retrieveSic",
-    "client.utility.prefetch",
-    "client.utility.prefetchByEmail"
+    'client.web.extractFonts',
+    'client.web.extractStyleguide',
+    'client.web.screenshot',
+    'client.web.webCrawlMd',
+    'client.web.webScrapeHTML',
+    'client.web.webScrapeImages',
+    'client.web.webScrapeMd',
+    'client.web.webScrapeSitemap',
+    'client.ai.aiQuery',
+    'client.ai.extractProduct',
+    'client.ai.extractProducts',
+    'client.brand.identifyFromTransaction',
+    'client.brand.retrieve',
+    'client.brand.retrieveByEmail',
+    'client.brand.retrieveByIsin',
+    'client.brand.retrieveByName',
+    'client.brand.retrieveByTicker',
+    'client.brand.retrieveSimplified',
+    'client.industry.retrieveNaics',
+    'client.industry.retrieveSic',
+    'client.utility.prefetch',
+    'client.utility.prefetchByEmail',
   ],
   { threshold: 1, shouldSort: true },
 );
@@ -212,7 +212,12 @@ function parseError(code: string, error: unknown): string | undefined {
     // Deno uses V8; the first "<anonymous>:LINE:COLUMN" is the top of stack.
     const lineNumber = error.stack?.match(/<anonymous>:([0-9]+):[0-9]+/)?.[1];
     // -1 for the zero-based indexing
-    const line = lineNumber && code.split('\n').at(parseInt(lineNumber, 10) - 1)?.trim();
+    const line =
+      lineNumber &&
+      code
+        .split('\n')
+        .at(parseInt(lineNumber, 10) - 1)
+        ?.trim();
     return line ? `${message}\n  at line ${lineNumber}\n    ${line}` : message;
   } catch {
     return message;
@@ -224,8 +229,9 @@ const fetch = async (req: Request): Promise<Response> => {
 
   const runFunctionSource = code ? getRunFunctionSource(code) : null;
   if (!runFunctionSource) {
-    const message = code
-      ? 'The code is missing a top-level `run` function.'
+    const message =
+      code ?
+        'The code is missing a top-level `run` function.'
       : 'The code argument is missing. Provide one containing a top-level `run` function.';
     return Response.json(
       {
@@ -270,7 +276,7 @@ const fetch = async (req: Request): Promise<Response> => {
   try {
     let run_ = async (client: any) => {};
     run_ = (await tseval(`${code}\nexport default run;`)).default;
-    const result = await run_(makeSdkProxy(client, { path: ["client"] }));
+    const result = await run_(makeSdkProxy(client, { path: ['client'] }));
     return Response.json({
       is_error: false,
       result,

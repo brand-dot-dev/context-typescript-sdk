@@ -8,7 +8,10 @@ export class Industry extends APIResource {
   /**
    * Classify any brand into 2022 NAICS industry codes from its domain or name.
    */
-  retrieveNaics(query: IndustryRetrieveNaicsParams, options?: RequestOptions): APIPromise<IndustryRetrieveNaicsResponse> {
+  retrieveNaics(
+    query: IndustryRetrieveNaicsParams,
+    options?: RequestOptions,
+  ): APIPromise<IndustryRetrieveNaicsResponse> {
     return this._client.get('/web/naics', { query, ...options });
   }
 
@@ -17,7 +20,10 @@ export class Industry extends APIResource {
    * domain or name. Choose between the original SIC system (`original_sic`) or the
    * latest SIC list maintained by the SEC (`latest_sec`).
    */
-  retrieveSic(query: IndustryRetrieveSicParams, options?: RequestOptions): APIPromise<IndustryRetrieveSicResponse> {
+  retrieveSic(
+    query: IndustryRetrieveSicParams,
+    options?: RequestOptions,
+  ): APIPromise<IndustryRetrieveSicResponse> {
     return this._client.get('/web/sic', { query, ...options });
   }
 }
@@ -194,6 +200,6 @@ export declare namespace Industry {
     type IndustryRetrieveNaicsResponse as IndustryRetrieveNaicsResponse,
     type IndustryRetrieveSicResponse as IndustryRetrieveSicResponse,
     type IndustryRetrieveNaicsParams as IndustryRetrieveNaicsParams,
-    type IndustryRetrieveSicParams as IndustryRetrieveSicParams
+    type IndustryRetrieveSicParams as IndustryRetrieveSicParams,
   };
 }

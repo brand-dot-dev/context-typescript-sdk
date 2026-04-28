@@ -19,7 +19,10 @@ export class Utility extends APIResource {
    * validates that it's not a disposable or free email provider, and queues the
    * domain for prefetching.
    */
-  prefetchByEmail(body: UtilityPrefetchByEmailParams, options?: RequestOptions): APIPromise<UtilityPrefetchByEmailResponse> {
+  prefetchByEmail(
+    body: UtilityPrefetchByEmailParams,
+    options?: RequestOptions,
+  ): APIPromise<UtilityPrefetchByEmailResponse> {
     return this._client.post('/brand/prefetch-by-email', { body, ...options });
   }
 }
@@ -93,6 +96,6 @@ export declare namespace Utility {
     type UtilityPrefetchResponse as UtilityPrefetchResponse,
     type UtilityPrefetchByEmailResponse as UtilityPrefetchByEmailResponse,
     type UtilityPrefetchParams as UtilityPrefetchParams,
-    type UtilityPrefetchByEmailParams as UtilityPrefetchByEmailParams
+    type UtilityPrefetchByEmailParams as UtilityPrefetchByEmailParams,
   };
 }
