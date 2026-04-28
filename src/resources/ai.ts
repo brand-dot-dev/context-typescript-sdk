@@ -18,7 +18,10 @@ export class AI extends APIResource {
    * Given a single URL, determines if it is a product page and extracts the product
    * information.
    */
-  extractProduct(body: AIExtractProductParams, options?: RequestOptions): APIPromise<AIExtractProductResponse> {
+  extractProduct(
+    body: AIExtractProductParams,
+    options?: RequestOptions,
+  ): APIPromise<AIExtractProductResponse> {
     return this._client.post('/brand/ai/product', { body, ...options });
   }
 
@@ -27,7 +30,10 @@ export class AI extends APIResource {
    * and return a list of products with details such as name, description, image,
    * pricing, features, and more.
    */
-  extractProducts(body: AIExtractProductsParams, options?: RequestOptions): APIPromise<AIExtractProductsResponse> {
+  extractProducts(
+    body: AIExtractProductsParams,
+    options?: RequestOptions,
+  ): APIPromise<AIExtractProductsResponse> {
     return this._client.post('/brand/ai/products', { body, ...options });
   }
 }
@@ -374,7 +380,7 @@ export interface AIExtractProductParams {
   timeoutMS?: number;
 }
 
-export type AIExtractProductsParams = AIExtractProductsParams.ByDomain | AIExtractProductsParams.ByDirectURL
+export type AIExtractProductsParams = AIExtractProductsParams.ByDomain | AIExtractProductsParams.ByDirectURL;
 
 export declare namespace AIExtractProductsParams {
   export interface ByDomain {
@@ -436,6 +442,6 @@ export declare namespace AI {
     type AIExtractProductsResponse as AIExtractProductsResponse,
     type AIAIQueryParams as AIAIQueryParams,
     type AIExtractProductParams as AIExtractProductParams,
-    type AIExtractProductsParams as AIExtractProductsParams
+    type AIExtractProductsParams as AIExtractProductsParams,
   };
 }

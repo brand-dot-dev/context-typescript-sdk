@@ -2,7 +2,10 @@
 
 import ContextDev from 'context.dev';
 
-const client = new ContextDev({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new ContextDev({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 describe('resource web', () => {
   // Mock server tests are disabled
@@ -20,13 +23,16 @@ describe('resource web', () => {
   // Mock server tests are disabled
   test.skip('extractFonts: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.web.extractFonts({
-    directUrl: 'https://example.com',
-    domain: 'domain',
-    timeoutMS: 1000,
-  }, { path: '/_stainless_unknown_path' }))
-      .rejects
-      .toThrow(ContextDev.NotFoundError);
+    await expect(
+      client.web.extractFonts(
+        {
+          directUrl: 'https://example.com',
+          domain: 'domain',
+          timeoutMS: 1000,
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(ContextDev.NotFoundError);
   });
 
   // Mock server tests are disabled
@@ -44,13 +50,16 @@ describe('resource web', () => {
   // Mock server tests are disabled
   test.skip('extractStyleguide: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.web.extractStyleguide({
-    directUrl: 'https://example.com',
-    domain: 'domain',
-    timeoutMS: 1000,
-  }, { path: '/_stainless_unknown_path' }))
-      .rejects
-      .toThrow(ContextDev.NotFoundError);
+    await expect(
+      client.web.extractStyleguide(
+        {
+          directUrl: 'https://example.com',
+          domain: 'domain',
+          timeoutMS: 1000,
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(ContextDev.NotFoundError);
   });
 
   // Mock server tests are disabled
@@ -68,15 +77,18 @@ describe('resource web', () => {
   // Mock server tests are disabled
   test.skip('screenshot: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.web.screenshot({
-    directUrl: 'https://example.com',
-    domain: 'domain',
-    fullScreenshot: 'true',
-    page: 'login',
-    prioritize: 'speed',
-  }, { path: '/_stainless_unknown_path' }))
-      .rejects
-      .toThrow(ContextDev.NotFoundError);
+    await expect(
+      client.web.screenshot(
+        {
+          directUrl: 'https://example.com',
+          domain: 'domain',
+          fullScreenshot: 'true',
+          page: 'login',
+          prioritize: 'speed',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(ContextDev.NotFoundError);
   });
 
   // Mock server tests are disabled
@@ -94,18 +106,18 @@ describe('resource web', () => {
   // Mock server tests are disabled
   test.skip('webCrawlMd: required and optional params', async () => {
     const response = await client.web.webCrawlMd({
-    url: 'https://example.com',
-    followSubdomains: true,
-    includeImages: true,
-    includeLinks: true,
-    maxAgeMs: 0,
-    maxDepth: 0,
-    maxPages: 1,
-    parsePDF: true,
-    shortenBase64Images: true,
-    urlRegex: '^https?://[^/]+/blog/',
-    useMainContentOnly: true,
-  });
+      url: 'https://example.com',
+      followSubdomains: true,
+      includeImages: true,
+      includeLinks: true,
+      maxAgeMs: 0,
+      maxDepth: 0,
+      maxPages: 1,
+      parsePDF: true,
+      shortenBase64Images: true,
+      urlRegex: '^https?://[^/]+/blog/',
+      useMainContentOnly: true,
+    });
   });
 
   // Mock server tests are disabled
@@ -123,10 +135,10 @@ describe('resource web', () => {
   // Mock server tests are disabled
   test.skip('webScrapeHTML: required and optional params', async () => {
     const response = await client.web.webScrapeHTML({
-    url: 'https://example.com',
-    maxAgeMs: 0,
-    parsePDF: true,
-  });
+      url: 'https://example.com',
+      maxAgeMs: 0,
+      parsePDF: true,
+    });
   });
 
   // Mock server tests are disabled
@@ -161,14 +173,14 @@ describe('resource web', () => {
   // Mock server tests are disabled
   test.skip('webScrapeMd: required and optional params', async () => {
     const response = await client.web.webScrapeMd({
-    url: 'https://example.com',
-    includeImages: true,
-    includeLinks: true,
-    maxAgeMs: 0,
-    parsePDF: true,
-    shortenBase64Images: true,
-    useMainContentOnly: true,
-  });
+      url: 'https://example.com',
+      includeImages: true,
+      includeLinks: true,
+      maxAgeMs: 0,
+      parsePDF: true,
+      shortenBase64Images: true,
+      useMainContentOnly: true,
+    });
   });
 
   // Mock server tests are disabled
@@ -186,9 +198,9 @@ describe('resource web', () => {
   // Mock server tests are disabled
   test.skip('webScrapeSitemap: required and optional params', async () => {
     const response = await client.web.webScrapeSitemap({
-    domain: 'domain',
-    maxLinks: 1,
-    urlRegex: '^https?://[^/]+/blog/',
-  });
+      domain: 'domain',
+      maxLinks: 1,
+      urlRegex: '^https?://[^/]+/blog/',
+    });
   });
 });
