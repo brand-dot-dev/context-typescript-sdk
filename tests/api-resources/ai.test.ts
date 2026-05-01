@@ -73,7 +73,11 @@ describe('resource ai', () => {
 
   // Mock server tests are disabled
   test.skip('extractProduct: required and optional params', async () => {
-    const response = await client.ai.extractProduct({ url: 'https://example.com', timeoutMS: 1000 });
+    const response = await client.ai.extractProduct({
+      url: 'https://example.com',
+      maxAgeMs: 0,
+      timeoutMS: 1000,
+    });
   });
 
   // Mock server tests are disabled
@@ -92,6 +96,7 @@ describe('resource ai', () => {
   test.skip('extractProducts: required and optional params', async () => {
     const response = await client.ai.extractProducts({
       domain: 'domain',
+      maxAgeMs: 0,
       maxProducts: 1,
       timeoutMS: 1000,
     });
