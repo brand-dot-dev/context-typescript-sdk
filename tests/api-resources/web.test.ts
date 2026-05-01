@@ -108,6 +108,7 @@ describe('resource web', () => {
     const response = await client.web.webCrawlMd({
       url: 'https://example.com',
       followSubdomains: true,
+      includeFrames: true,
       includeImages: true,
       includeLinks: true,
       maxAgeMs: 0,
@@ -136,6 +137,7 @@ describe('resource web', () => {
   test.skip('webScrapeHTML: required and optional params', async () => {
     const response = await client.web.webScrapeHTML({
       url: 'https://example.com',
+      includeFrames: true,
       maxAgeMs: 0,
       parsePDF: true,
     });
@@ -174,6 +176,7 @@ describe('resource web', () => {
   test.skip('webScrapeMd: required and optional params', async () => {
     const response = await client.web.webScrapeMd({
       url: 'https://example.com',
+      includeFrames: true,
       includeImages: true,
       includeLinks: true,
       maxAgeMs: 0,
