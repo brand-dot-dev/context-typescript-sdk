@@ -25,6 +25,7 @@ describe('resource brand', () => {
     const response = await client.brand.retrieve({
       domain: 'domain',
       force_language: 'afrikaans',
+      maxAgeMs: 86400000,
       maxSpeed: true,
       timeoutMS: 1000,
     });
@@ -74,6 +75,7 @@ describe('resource brand', () => {
     const response = await client.brand.retrieveByEmail({
       email: 'dev@stainless.com',
       force_language: 'afrikaans',
+      maxAgeMs: 86400000,
       maxSpeed: true,
       timeoutMS: 1000,
     });
@@ -96,6 +98,7 @@ describe('resource brand', () => {
     const response = await client.brand.retrieveByIsin({
       isin: 'SE60513A9993',
       force_language: 'afrikaans',
+      maxAgeMs: 86400000,
       maxSpeed: true,
       timeoutMS: 1000,
     });
@@ -119,6 +122,7 @@ describe('resource brand', () => {
       name: 'xxx',
       country_gl: 'ad',
       force_language: 'afrikaans',
+      maxAgeMs: 86400000,
       maxSpeed: true,
       timeoutMS: 1000,
     });
@@ -141,6 +145,7 @@ describe('resource brand', () => {
     const response = await client.brand.retrieveByTicker({
       ticker: 'ticker',
       force_language: 'afrikaans',
+      maxAgeMs: 86400000,
       maxSpeed: true,
       ticker_exchange: 'AMEX',
       timeoutMS: 1000,
@@ -161,6 +166,10 @@ describe('resource brand', () => {
 
   // Mock server tests are disabled
   test.skip('retrieveSimplified: required and optional params', async () => {
-    const response = await client.brand.retrieveSimplified({ domain: 'domain', timeoutMS: 1000 });
+    const response = await client.brand.retrieveSimplified({
+      domain: 'domain',
+      maxAgeMs: 86400000,
+      timeoutMS: 1000,
+    });
   });
 });

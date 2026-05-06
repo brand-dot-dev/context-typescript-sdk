@@ -1220,7 +1220,7 @@ export namespace WebWebScrapeImagesParams {
     hostedUrl?: boolean;
 
     /**
-     * Per-image enrichment timeout in milliseconds. Default: 6000. Maximum: 60000.
+     * Per-image enrichment timeout in milliseconds. Default: 30000. Maximum: 60000.
      */
     maxTimePerMs?: number;
 
