@@ -85,9 +85,10 @@ export class Web extends APIResource {
   }
 
   /**
-   * Scrapes all images from the given URL. Extracts images from img, svg,
-   * picture/source, link, and video elements including inline SVGs, base64 data
-   * URIs, and standard URLs.
+   * Extract image assets from a web page, including standard URLs, inline SVGs, data
+   * URIs, responsive image sources, metadata, CSS backgrounds, video posters, and
+   * embeds. The base request costs 1 credit; enrichment costs 1 credit per returned
+   * image.
    *
    * @example
    * ```ts
@@ -858,17 +859,17 @@ export interface WebWebScrapeHTMLResponse {
 
 export interface WebWebScrapeImagesResponse {
   /**
-   * Array of scraped images
+   * Images found on the page.
    */
   images: Array<WebWebScrapeImagesResponse.Image>;
 
   /**
-   * Indicates success
+   * Always true on success.
    */
   success: true;
 
   /**
-   * The URL that was scraped
+   * Page URL that was scraped.
    */
   url: string;
 }
@@ -876,24 +877,61 @@ export interface WebWebScrapeImagesResponse {
 export namespace WebWebScrapeImagesResponse {
   export interface Image {
     /**
-     * Alt text of the image, or null if not present
+     * Image alt text, or null when unavailable.
      */
     alt: string | null;
 
     /**
-     * The HTML element the image was found in
+     * Where the image was found.
      */
     element: 'img' | 'svg' | 'link' | 'source' | 'video' | 'css' | 'object' | 'meta' | 'background';
 
     /**
-     * The image source - can be a URL, inline HTML (for SVGs), or a base64 data URI
+     * Original image value: URL, inline SVG or HTML, or base64 data URI.
      */
     src: string;
 
     /**
-     * The type/format of the src value
+     * Format of src.
      */
     type: 'url' | 'html' | 'base64';
+
+    /**
+     * Requested metadata for images that could be processed.
+     */
+    enrichment?: Image.Enrichment;
+  }
+
+  export namespace Image {
+    /**
+     * Requested metadata for images that could be processed.
+     */
+    export interface Enrichment {
+      /**
+       * Image height in pixels, when measured.
+       */
+      height?: number;
+
+      /**
+       * Detected MIME type, when hosted.
+       */
+      mimetype?: string;
+
+      /**
+       * Visual asset category, when classified.
+       */
+      type?: 'photography' | 'illustration' | 'logo' | 'wordmark' | 'icon' | 'pattern' | 'graphic' | 'other';
+
+      /**
+       * Brand.dev CDN URL, when hosted.
+       */
+      url?: string;
+
+      /**
+       * Image width in pixels, when measured.
+       */
+      width?: number;
+    }
   }
 }
 
@@ -1147,9 +1185,50 @@ export interface WebWebScrapeHTMLParams {
 
 export interface WebWebScrapeImagesParams {
   /**
-   * Full URL to scrape images from (must include http:// or https:// protocol)
+   * Page URL to inspect. Must include http:// or https://.
    */
   url: string;
+
+  /**
+   * Optional per-image processing, sent as deep-object query params such as
+   * enrichment[resolution]=true.
+   */
+  enrichment?: WebWebScrapeImagesParams.Enrichment;
+
+  /**
+   * Reuse a cached result this many milliseconds old or newer. Default: 86400000 (1
+   * day). Set to 0 to bypass cache. Maximum: 2592000000 (30 days).
+   */
+  maxAgeMs?: number;
+}
+
+export namespace WebWebScrapeImagesParams {
+  /**
+   * Optional per-image processing, sent as deep-object query params such as
+   * enrichment[resolution]=true.
+   */
+  export interface Enrichment {
+    /**
+     * Classify each image by visual asset type.
+     */
+    classification?: boolean;
+
+    /**
+     * Host materializable images on the Brand.dev CDN and return their URL and MIME
+     * type.
+     */
+    hostedUrl?: boolean;
+
+    /**
+     * Per-image enrichment timeout in milliseconds. Default: 6000. Maximum: 60000.
+     */
+    maxTimePerMs?: number;
+
+    /**
+     * Measure image width and height when possible.
+     */
+    resolution?: boolean;
+  }
 }
 
 export interface WebWebScrapeMdParams {
