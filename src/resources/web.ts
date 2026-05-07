@@ -752,6 +752,11 @@ export interface WebScreenshotResponse {
   domain?: string;
 
   /**
+   * Height in pixels of the returned screenshot image
+   */
+  height?: number;
+
+  /**
    * Public URL of the uploaded screenshot image
    */
   screenshot?: string;
@@ -765,6 +770,11 @@ export interface WebScreenshotResponse {
    * Status of the response, e.g., 'ok'
    */
   status?: string;
+
+  /**
+   * Width in pixels of the returned screenshot image
+   */
+  width?: number;
 }
 
 export interface WebWebCrawlMdResponse {
@@ -1071,6 +1081,13 @@ export interface WebScreenshotParams {
   fullScreenshot?: 'true' | 'false';
 
   /**
+   * Return a cached screenshot if a prior screenshot for the same parameters exists
+   * and is younger than this many milliseconds. Defaults to 1 day (86400000 ms) when
+   * omitted. Max is 30 days (2592000000 ms). Set to 0 to always capture fresh.
+   */
+  maxAgeMs?: number;
+
+  /**
    * Optional parameter to specify which page type to screenshot. If provided, the
    * system will scrape the domain's links and use heuristics to find the most
    * appropriate URL for the specified page type (30 supported languages). If not
@@ -1085,6 +1102,28 @@ export interface WebScreenshotParams {
    * with longer wait times. Defaults to 'quality' if not provided.
    */
   prioritize?: 'speed' | 'quality';
+
+  /**
+   * Optional browser viewport dimensions for the screenshot. Defaults to 1920x1080.
+   */
+  viewport?: WebScreenshotParams.Viewport;
+}
+
+export namespace WebScreenshotParams {
+  /**
+   * Optional browser viewport dimensions for the screenshot. Defaults to 1920x1080.
+   */
+  export interface Viewport {
+    /**
+     * Viewport height in pixels.
+     */
+    height?: number;
+
+    /**
+     * Viewport width in pixels.
+     */
+    width?: number;
+  }
 }
 
 export interface WebWebCrawlMdParams {
