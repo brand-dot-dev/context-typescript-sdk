@@ -374,8 +374,9 @@ export interface AIExtractProductParams {
   maxAgeMs?: number;
 
   /**
-   * Optional timeout in milliseconds for the request. Maximum allowed value is
-   * 300000ms (5 minutes).
+   * Optional timeout in milliseconds for the request. If the request takes longer
+   * than this value, it will be aborted with a 408 status code. Maximum allowed
+   * value is 300000ms (5 minutes).
    */
   timeoutMS?: number;
 }
@@ -402,8 +403,9 @@ export declare namespace AIExtractProductsParams {
     maxProducts?: number;
 
     /**
-     * Optional timeout in milliseconds for the request. Maximum allowed value is
-     * 300000ms (5 minutes).
+     * Optional timeout in milliseconds for the request. If the request takes longer
+     * than this value, it will be aborted with a 408 status code. Maximum allowed
+     * value is 300000ms (5 minutes).
      */
     timeoutMS?: number;
   }
@@ -428,8 +430,9 @@ export declare namespace AIExtractProductsParams {
     maxProducts?: number;
 
     /**
-     * Optional timeout in milliseconds for the request. Maximum allowed value is
-     * 300000ms (5 minutes).
+     * Optional timeout in milliseconds for the request. If the request takes longer
+     * than this value, it will be aborted with a 408 status code. Maximum allowed
+     * value is 300000ms (5 minutes).
      */
     timeoutMS?: number;
   }
