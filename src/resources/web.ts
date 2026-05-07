@@ -1104,6 +1104,13 @@ export interface WebScreenshotParams {
   prioritize?: 'speed' | 'quality';
 
   /**
+   * Optional timeout in milliseconds for the request. If the request takes longer
+   * than this value, it will be aborted with a 408 status code. Maximum allowed
+   * value is 300000ms (5 minutes).
+   */
+  timeoutMS?: number;
+
+  /**
    * Optional browser viewport dimensions for the screenshot. Defaults to 1920x1080.
    */
   viewport?: WebScreenshotParams.Viewport;
@@ -1185,6 +1192,13 @@ export interface WebWebCrawlMdParams {
   shortenBase64Images?: boolean;
 
   /**
+   * Optional timeout in milliseconds for the request. If the request takes longer
+   * than this value, it will be aborted with a 408 status code. Maximum allowed
+   * value is 300000ms (5 minutes).
+   */
+  timeoutMS?: number;
+
+  /**
    * Regex pattern. Only URLs matching this pattern will be followed and scraped.
    */
   urlRegex?: string;
@@ -1220,6 +1234,13 @@ export interface WebWebScrapeHTMLParams {
    * and a 400 WEBSITE_ACCESS_ERROR is returned.
    */
   parsePDF?: boolean;
+
+  /**
+   * Optional timeout in milliseconds for the request. If the request takes longer
+   * than this value, it will be aborted with a 408 status code. Maximum allowed
+   * value is 300000ms (5 minutes).
+   */
+  timeoutMS?: number;
 }
 
 export interface WebWebScrapeImagesParams {
@@ -1239,6 +1260,13 @@ export interface WebWebScrapeImagesParams {
    * day). Set to 0 to bypass cache. Maximum: 2592000000 (30 days).
    */
   maxAgeMs?: number;
+
+  /**
+   * Optional timeout in milliseconds for the request. If the request takes longer
+   * than this value, it will be aborted with a 408 status code. Maximum allowed
+   * value is 300000ms (5 minutes).
+   */
+  timeoutMS?: number;
 }
 
 export namespace WebWebScrapeImagesParams {
@@ -1312,6 +1340,13 @@ export interface WebWebScrapeMdParams {
   shortenBase64Images?: boolean;
 
   /**
+   * Optional timeout in milliseconds for the request. If the request takes longer
+   * than this value, it will be aborted with a 408 status code. Maximum allowed
+   * value is 300000ms (5 minutes).
+   */
+  timeoutMS?: number;
+
+  /**
    * Extract only the main content of the page, excluding headers, footers, sidebars,
    * and navigation
    */
@@ -1329,6 +1364,13 @@ export interface WebWebScrapeSitemapParams {
    * Minimum is 1, maximum is 100,000.
    */
   maxLinks?: number;
+
+  /**
+   * Optional timeout in milliseconds for the request. If the request takes longer
+   * than this value, it will be aborted with a 408 status code. Maximum allowed
+   * value is 300000ms (5 minutes).
+   */
+  timeoutMS?: number;
 
   /**
    * Optional RE2-compatible regex pattern. Only URLs matching this pattern are

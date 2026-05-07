@@ -86,6 +86,7 @@ describe('resource web', () => {
           maxAgeMs: 0,
           page: 'login',
           prioritize: 'speed',
+          timeoutMS: 1000,
           viewport: { height: 240, width: 240 },
         },
         { path: '/_stainless_unknown_path' },
@@ -118,6 +119,7 @@ describe('resource web', () => {
       maxPages: 1,
       parsePDF: true,
       shortenBase64Images: true,
+      timeoutMS: 1000,
       urlRegex: '^https?://[^/]+/blog/',
       useMainContentOnly: true,
     });
@@ -142,6 +144,7 @@ describe('resource web', () => {
       includeFrames: true,
       maxAgeMs: 0,
       parsePDF: true,
+      timeoutMS: 1000,
     });
   });
 
@@ -168,6 +171,7 @@ describe('resource web', () => {
         resolution: true,
       },
       maxAgeMs: 0,
+      timeoutMS: 1000,
     });
   });
 
@@ -193,6 +197,7 @@ describe('resource web', () => {
       maxAgeMs: 0,
       parsePDF: true,
       shortenBase64Images: true,
+      timeoutMS: 1000,
       useMainContentOnly: true,
     });
   });
@@ -214,6 +219,7 @@ describe('resource web', () => {
     const response = await client.web.webScrapeSitemap({
       domain: 'domain',
       maxLinks: 1,
+      timeoutMS: 1000,
       urlRegex: '^https?://[^/]+/blog/',
     });
   });
