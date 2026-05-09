@@ -85,9 +85,9 @@ describe('resource web', () => {
           fullScreenshot: 'true',
           maxAgeMs: 0,
           page: 'login',
-          prioritize: 'speed',
           timeoutMS: 1000,
           viewport: { height: 240, width: 240 },
+          waitForMs: 0,
         },
         { path: '/_stainless_unknown_path' },
       ),
@@ -122,6 +122,7 @@ describe('resource web', () => {
       timeoutMS: 1000,
       urlRegex: '^https?://[^/]+/blog/',
       useMainContentOnly: true,
+      waitForMs: 0,
     });
   });
 
@@ -145,6 +146,7 @@ describe('resource web', () => {
       maxAgeMs: 0,
       parsePDF: true,
       timeoutMS: 1000,
+      waitForMs: 0,
     });
   });
 
@@ -172,6 +174,7 @@ describe('resource web', () => {
       },
       maxAgeMs: 0,
       timeoutMS: 1000,
+      waitForMs: 0,
     });
   });
 
@@ -199,6 +202,7 @@ describe('resource web', () => {
       shortenBase64Images: true,
       timeoutMS: 1000,
       useMainContentOnly: true,
+      waitForMs: 0,
     });
   });
 
