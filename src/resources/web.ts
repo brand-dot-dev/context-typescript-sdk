@@ -1097,13 +1097,6 @@ export interface WebScreenshotParams {
   page?: 'login' | 'signup' | 'blog' | 'careers' | 'pricing' | 'terms' | 'privacy' | 'contact';
 
   /**
-   * Optional parameter to prioritize screenshot capture. If 'speed', optimizes for
-   * faster capture with basic quality. If 'quality', optimizes for higher quality
-   * with longer wait times. Defaults to 'quality' if not provided.
-   */
-  prioritize?: 'speed' | 'quality';
-
-  /**
    * Optional timeout in milliseconds for the request. If the request takes longer
    * than this value, it will be aborted with a 408 status code. Maximum allowed
    * value is 300000ms (5 minutes).
@@ -1114,6 +1107,13 @@ export interface WebScreenshotParams {
    * Optional browser viewport dimensions for the screenshot. Defaults to 1920x1080.
    */
   viewport?: WebScreenshotParams.Viewport;
+
+  /**
+   * Optional browser wait time in milliseconds after initial page load before taking
+   * the screenshot. Min: 0. Max: 30000 (30 seconds). Defaults to 3000 ms when
+   * omitted.
+   */
+  waitForMs?: number;
 }
 
 export namespace WebScreenshotParams {
@@ -1208,6 +1208,12 @@ export interface WebWebCrawlMdParams {
    * navigation
    */
   useMainContentOnly?: boolean;
+
+  /**
+   * Optional browser wait time in milliseconds after initial page load for each
+   * crawled page. Min: 0. Max: 30000 (30 seconds).
+   */
+  waitForMs?: number;
 }
 
 export interface WebWebScrapeHTMLParams {
@@ -1241,6 +1247,12 @@ export interface WebWebScrapeHTMLParams {
    * value is 300000ms (5 minutes).
    */
   timeoutMS?: number;
+
+  /**
+   * Optional browser wait time in milliseconds after initial page load. Min: 0. Max:
+   * 30000 (30 seconds).
+   */
+  waitForMs?: number;
 }
 
 export interface WebWebScrapeImagesParams {
@@ -1267,6 +1279,12 @@ export interface WebWebScrapeImagesParams {
    * value is 300000ms (5 minutes).
    */
   timeoutMS?: number;
+
+  /**
+   * Optional browser wait time in milliseconds after initial page load before
+   * collecting images. Min: 0. Max: 30000 (30 seconds).
+   */
+  waitForMs?: number;
 }
 
 export namespace WebWebScrapeImagesParams {
@@ -1351,6 +1369,12 @@ export interface WebWebScrapeMdParams {
    * and navigation
    */
   useMainContentOnly?: boolean;
+
+  /**
+   * Optional browser wait time in milliseconds after initial page load before
+   * converting the page to Markdown. Min: 0. Max: 30000 (30 seconds).
+   */
+  waitForMs?: number;
 }
 
 export interface WebWebScrapeSitemapParams {
