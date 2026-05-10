@@ -123,6 +123,7 @@ describe('resource web', () => {
         start: 1,
       },
       shortenBase64Images: true,
+      stopAfterMs: 10000,
       timeoutMS: 1000,
       urlRegex: '^https?://[^/]+/blog/',
       useMainContentOnly: true,
