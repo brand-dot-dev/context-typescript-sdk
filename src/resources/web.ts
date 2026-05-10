@@ -796,7 +796,8 @@ export namespace WebWebCrawlMdResponse {
     numFailed: number;
 
     /**
-     * Number of URLs skipped (PDFs when parsePDF=false, or URLs not matching urlRegex)
+     * Number of URLs skipped (PDFs when pdf.shouldParse=false, or URLs not matching
+     * urlRegex)
      */
     numSkipped: number;
 
@@ -1180,16 +1181,23 @@ export interface WebWebCrawlMdParams {
   maxPages?: number;
 
   /**
-   * When true (default), PDF pages are fetched and their text layer is extracted and
-   * converted to Markdown alongside HTML pages. When false, PDF pages are skipped
-   * entirely (not included in results and not counted as failures).
+   * PDF parsing controls. Use start/end to limit text extraction and OCR to an
+   * inclusive 1-based page range.
    */
-  parsePDF?: boolean;
+  pdf?: WebWebCrawlMdParams.Pdf;
 
   /**
    * Truncate base64-encoded image data in the Markdown output
    */
   shortenBase64Images?: boolean;
+
+  /**
+   * Soft time budget for the crawl in milliseconds. After each scrape, the crawler
+   * checks the elapsed time and, if exceeded, returns the pages collected so far
+   * instead of continuing. Min: 10000 (10s). Max: 240000 (4 min). Default: 120000 (2
+   * min).
+   */
+  stopAfterMs?: number;
 
   /**
    * Optional timeout in milliseconds for the request. If the request takes longer
@@ -1216,6 +1224,31 @@ export interface WebWebCrawlMdParams {
   waitForMs?: number;
 }
 
+export namespace WebWebCrawlMdParams {
+  /**
+   * PDF parsing controls. Use start/end to limit text extraction and OCR to an
+   * inclusive 1-based page range.
+   */
+  export interface Pdf {
+    /**
+     * Last 1-based PDF page to parse. When omitted, parsing ends at the last page.
+     * Must be greater than or equal to start when both are provided.
+     */
+    end?: number;
+
+    /**
+     * When true, PDF pages are fetched and parsed. When false, PDF pages are skipped
+     * entirely (not included in results and not counted as failures).
+     */
+    shouldParse?: boolean;
+
+    /**
+     * First 1-based PDF page to parse. When omitted, parsing starts at the first page.
+     */
+    start?: number;
+  }
+}
+
 export interface WebWebScrapeHTMLParams {
   /**
    * Full URL to scrape (must include http:// or https:// protocol)
@@ -1235,11 +1268,10 @@ export interface WebWebScrapeHTMLParams {
   maxAgeMs?: number;
 
   /**
-   * When true (default), PDF URLs are fetched and their text layer is extracted and
-   * returned wrapped in <html><pdf>…</pdf></html>. When false, PDF URLs are skipped
-   * and a 400 WEBSITE_ACCESS_ERROR is returned.
+   * PDF parsing controls. Use start/end to limit text extraction and OCR to an
+   * inclusive 1-based page range.
    */
-  parsePDF?: boolean;
+  pdf?: WebWebScrapeHTMLParams.Pdf;
 
   /**
    * Optional timeout in milliseconds for the request. If the request takes longer
@@ -1253,6 +1285,31 @@ export interface WebWebScrapeHTMLParams {
    * 30000 (30 seconds).
    */
   waitForMs?: number;
+}
+
+export namespace WebWebScrapeHTMLParams {
+  /**
+   * PDF parsing controls. Use start/end to limit text extraction and OCR to an
+   * inclusive 1-based page range.
+   */
+  export interface Pdf {
+    /**
+     * Last 1-based PDF page to parse. When omitted, parsing ends at the last page.
+     * Must be greater than or equal to start when both are provided.
+     */
+    end?: number;
+
+    /**
+     * When true, PDF URLs are fetched and parsed. When false, PDF URLs are skipped and
+     * a 400 WEBSITE_ACCESS_ERROR is returned.
+     */
+    shouldParse?: boolean;
+
+    /**
+     * First 1-based PDF page to parse. When omitted, parsing starts at the first page.
+     */
+    start?: number;
+  }
 }
 
 export interface WebWebScrapeImagesParams {
@@ -1346,11 +1403,10 @@ export interface WebWebScrapeMdParams {
   maxAgeMs?: number;
 
   /**
-   * When true (default), PDF URLs are fetched and their text layer is extracted and
-   * converted to Markdown. When false, PDF URLs are skipped and a 400
-   * WEBSITE_ACCESS_ERROR is returned.
+   * PDF parsing controls. Use start/end to limit text extraction and OCR to an
+   * inclusive 1-based page range.
    */
-  parsePDF?: boolean;
+  pdf?: WebWebScrapeMdParams.Pdf;
 
   /**
    * Shorten base64-encoded image data in the Markdown output
@@ -1375,6 +1431,31 @@ export interface WebWebScrapeMdParams {
    * converting the page to Markdown. Min: 0. Max: 30000 (30 seconds).
    */
   waitForMs?: number;
+}
+
+export namespace WebWebScrapeMdParams {
+  /**
+   * PDF parsing controls. Use start/end to limit text extraction and OCR to an
+   * inclusive 1-based page range.
+   */
+  export interface Pdf {
+    /**
+     * Last 1-based PDF page to parse. When omitted, parsing ends at the last page.
+     * Must be greater than or equal to start when both are provided.
+     */
+    end?: number;
+
+    /**
+     * When true, PDF URLs are fetched and parsed. When false, PDF URLs are skipped and
+     * a 400 WEBSITE_ACCESS_ERROR is returned.
+     */
+    shouldParse?: boolean;
+
+    /**
+     * First 1-based PDF page to parse. When omitted, parsing starts at the first page.
+     */
+    start?: number;
+  }
 }
 
 export interface WebWebScrapeSitemapParams {
