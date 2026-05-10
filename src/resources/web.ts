@@ -1192,6 +1192,14 @@ export interface WebWebCrawlMdParams {
   shortenBase64Images?: boolean;
 
   /**
+   * Soft time budget for the crawl in milliseconds. After each scrape, the crawler
+   * checks the elapsed time and, if exceeded, returns the pages collected so far
+   * instead of continuing. Min: 10000 (10s). Max: 240000 (4 min). Default: 120000 (2
+   * min).
+   */
+  stopAfterMs?: number;
+
+  /**
    * Optional timeout in milliseconds for the request. If the request takes longer
    * than this value, it will be aborted with a 408 status code. Maximum allowed
    * value is 300000ms (5 minutes).
