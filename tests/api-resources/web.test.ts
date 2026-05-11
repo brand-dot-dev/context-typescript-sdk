@@ -83,6 +83,7 @@ describe('resource web', () => {
           directUrl: 'https://example.com',
           domain: 'domain',
           fullScreenshot: 'true',
+          handleCookiePopup: 'true',
           maxAgeMs: 0,
           page: 'login',
           timeoutMS: 1000,
