@@ -1082,6 +1082,13 @@ export interface WebScreenshotParams {
   fullScreenshot?: 'true' | 'false';
 
   /**
+   * Optional parameter to control cookie/consent popup handling. If 'true', we
+   * dismiss cookie banner before capture. If 'false' or not provided, captures the
+   * page without that step.
+   */
+  handleCookiePopup?: 'true' | 'false';
+
+  /**
    * Return a cached screenshot if a prior screenshot for the same parameters exists
    * and is younger than this many milliseconds. Defaults to 1 day (86400000 ms) when
    * omitted. Max is 30 days (2592000000 ms). Set to 0 to always capture fresh.
