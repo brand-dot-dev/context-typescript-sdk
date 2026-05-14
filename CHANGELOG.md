@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.21.3 (2026-05-14)
+
+Full Changelog: [v1.21.2...v1.21.3](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.21.2...v1.21.3)
+
+### Chores
+
+* configure new SDK language ([afb679e](https://github.com/context-dot-dev/context-typescript-sdk/commit/afb679ea3197bd10ba430db95c0c52a5157e8e19))
+* update SDK settings ([e315a9b](https://github.com/context-dot-dev/context-typescript-sdk/commit/e315a9b6f3ffb027ef947b35e7112192dc1fcabf))
+
 ## 1.21.2 (2026-05-14)
 
 Full Changelog: [v1.21.1...v1.21.2](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.21.1...v1.21.2)
