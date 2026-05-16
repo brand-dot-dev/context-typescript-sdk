@@ -53,6 +53,18 @@ export class Web extends APIResource {
   }
 
   /**
+   * Search the web and optionally scrape each result to Markdown in one round-trip.
+   *
+   * @example
+   * ```ts
+   * const response = await client.web.search({ query: 'x' });
+   * ```
+   */
+  search(body: WebSearchParams, options?: RequestOptions): APIPromise<WebSearchResponse> {
+    return this._client.post('/web/search', { body, ...options });
+  }
+
+  /**
    * Performs a crawl starting from a given URL, extracts page content as Markdown,
    * and returns results for all crawled pages.
    *
@@ -777,6 +789,62 @@ export interface WebScreenshotResponse {
   width?: number;
 }
 
+export interface WebSearchResponse {
+  /**
+   * Echo of the original query (useful when fanout was enabled).
+   */
+  query: string;
+
+  results: Array<WebSearchResponse.Result>;
+}
+
+export namespace WebSearchResponse {
+  export interface Result {
+    /**
+     * Snippet excerpt from the page.
+     */
+    description: string;
+
+    /**
+     * Markdown scrape status and content for this result.
+     */
+    markdown: Result.Markdown;
+
+    /**
+     * Model-judged relevance to the original query.
+     */
+    relevance: 'high' | 'medium' | 'low';
+
+    /**
+     * Page title.
+     */
+    title: string;
+
+    /**
+     * Canonical result URL.
+     */
+    url: string;
+  }
+
+  export namespace Result {
+    /**
+     * Markdown scrape status and content for this result.
+     */
+    export interface Markdown {
+      /**
+       * Per-result scrape outcome. Inspect this before reading `markdown`.
+       */
+      code: 'SUCCESS' | 'NOT_REQUESTED' | 'TIMEOUT' | 'WEBSITE_ACCESS_ERROR' | 'ERROR';
+
+      /**
+       * GFM Markdown of the page. Null unless markdownOptions.enabled is true and
+       * scraping succeeded.
+       */
+      markdown: string | null;
+    }
+  }
+}
+
 export interface WebWebCrawlMdResponse {
   metadata: WebWebCrawlMdResponse.Metadata;
 
@@ -1141,6 +1209,131 @@ export namespace WebScreenshotParams {
   }
 }
 
+export interface WebSearchParams {
+  /**
+   * Natural-language search query.
+   */
+  query: string;
+
+  /**
+   * Blocklist — drop results from these domains. Example: ["pinterest.com",
+   * "reddit.com"].
+   */
+  excludeDomains?: Array<string>;
+
+  /**
+   * Restrict results to content published within this window.
+   */
+  freshness?: 'last_24_hours' | 'last_week' | 'last_month' | 'last_year';
+
+  /**
+   * Allowlist — only return results from these domains. Example: ["arxiv.org",
+   * "github.com"].
+   */
+  includeDomains?: Array<string>;
+
+  /**
+   * Inline Markdown scraping for each result. Set `enabled: true` to activate.
+   */
+  markdownOptions?: WebSearchParams.MarkdownOptions;
+
+  /**
+   * Expand the query into multiple parallel variants for broader recall.
+   */
+  queryFanout?: boolean;
+
+  /**
+   * Optional timeout in milliseconds for the request. If the request takes longer
+   * than this value, it will be aborted with a 408 status code. Maximum allowed
+   * value is 300000ms (5 minutes).
+   */
+  timeoutMS?: number;
+}
+
+export namespace WebSearchParams {
+  /**
+   * Inline Markdown scraping for each result. Set `enabled: true` to activate.
+   */
+  export interface MarkdownOptions {
+    /**
+     * Scrape each result to Markdown. Off by default to keep search cheap and fast.
+     */
+    enabled?: boolean;
+
+    /**
+     * Render iframe contents into the Markdown.
+     */
+    includeFrames?: boolean;
+
+    /**
+     * Emit image references in the Markdown.
+     */
+    includeImages?: boolean;
+
+    /**
+     * Keep hyperlinks in the Markdown.
+     */
+    includeLinks?: boolean;
+
+    /**
+     * Cache TTL in ms for scraped Markdown keyed by URL + options. Default 1 day, max
+     * 30 days. Set to 0 to force a fresh scrape.
+     */
+    maxAgeMs?: number;
+
+    /**
+     * PDF handling. Use start/end to bound text extraction and OCR to a page range.
+     */
+    pdf?: MarkdownOptions.Pdf;
+
+    /**
+     * Truncate inline base64 image payloads to keep responses small.
+     */
+    shortenBase64Images?: boolean;
+
+    /**
+     * Optional timeout in milliseconds for the request. If the request takes longer
+     * than this value, it will be aborted with a 408 status code. Maximum allowed
+     * value is 300000ms (5 minutes).
+     */
+    timeoutMS?: number;
+
+    /**
+     * Strip nav, header, footer, and sidebar — keep only the primary article content.
+     */
+    useMainContentOnly?: boolean;
+
+    /**
+     * Extra wait after page load before rendering, in ms (0–30000). Useful for
+     * JS-heavy pages.
+     */
+    waitForMs?: number;
+  }
+
+  export namespace MarkdownOptions {
+    /**
+     * PDF handling. Use start/end to bound text extraction and OCR to a page range.
+     */
+    export interface Pdf {
+      /**
+       * Last PDF page to parse (1-based, inclusive). Defaults to the final page. Must
+       * be >= start.
+       */
+      end?: number;
+
+      /**
+       * Parse PDF URLs. When false, PDF results are skipped with WEBSITE_ACCESS_ERROR.
+       */
+      shouldParse?: boolean;
+
+      /**
+       * First PDF page to parse (1-based, inclusive). Defaults to page 1.
+       */
+      start?: number;
+    }
+  }
+}
+
 export interface WebWebCrawlMdParams {
   /**
    * The starting URL for the crawl (must include http:// or https:// protocol)
@@ -1496,6 +1689,7 @@ export declare namespace Web {
     type WebExtractFontsResponse as WebExtractFontsResponse,
     type WebExtractStyleguideResponse as WebExtractStyleguideResponse,
     type WebScreenshotResponse as WebScreenshotResponse,
+    type WebSearchResponse as WebSearchResponse,
     type WebWebCrawlMdResponse as WebWebCrawlMdResponse,
     type WebWebScrapeHTMLResponse as WebWebScrapeHTMLResponse,
     type WebWebScrapeImagesResponse as WebWebScrapeImagesResponse,
@@ -1504,6 +1698,7 @@ export declare namespace Web {
     type WebExtractFontsParams as WebExtractFontsParams,
     type WebExtractStyleguideParams as WebExtractStyleguideParams,
     type WebScreenshotParams as WebScreenshotParams,
+    type WebSearchParams as WebSearchParams,
     type WebWebCrawlMdParams as WebWebCrawlMdParams,
     type WebWebScrapeHTMLParams as WebWebScrapeHTMLParams,
     type WebWebScrapeImagesParams as WebWebScrapeImagesParams,
