@@ -96,6 +96,46 @@ describe('resource web', () => {
   });
 
   // Mock server tests are disabled
+  test.skip('search: only required params', async () => {
+    const responsePromise = client.web.search({ query: 'x' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('search: required and optional params', async () => {
+    const response = await client.web.search({
+      query: 'x',
+      excludeDomains: ['string'],
+      freshness: 'last_24_hours',
+      includeDomains: ['string'],
+      markdownOptions: {
+        enabled: true,
+        includeFrames: true,
+        includeImages: true,
+        includeLinks: true,
+        maxAgeMs: 0,
+        pdf: {
+          end: 1,
+          shouldParse: true,
+          start: 1,
+        },
+        shortenBase64Images: true,
+        timeoutMS: 1000,
+        useMainContentOnly: true,
+        waitForMs: 0,
+      },
+      queryFanout: true,
+      timeoutMS: 1000,
+    });
+  });
+
+  // Mock server tests are disabled
   test.skip('webCrawlMd: only required params', async () => {
     const responsePromise = client.web.webCrawlMd({ url: 'https://example.com' });
     const rawResponse = await responsePromise.asResponse();

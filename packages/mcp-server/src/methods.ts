@@ -29,6 +29,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/web/screenshot',
   },
   {
+    clientCallName: 'client.web.search',
+    fullyQualifiedName: 'web.search',
+    httpMethod: 'post',
+    httpPath: '/web/search',
+  },
+  {
     clientCallName: 'client.web.webCrawlMd',
     fullyQualifiedName: 'web.webCrawlMd',
     httpMethod: 'post',
