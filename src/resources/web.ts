@@ -811,7 +811,7 @@ export namespace WebSearchResponse {
     markdown: Result.Markdown;
 
     /**
-     * Model-judged relevance to the original query.
+     * Relevance to the original query.
      */
     relevance: 'high' | 'medium' | 'low';
 
