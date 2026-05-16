@@ -423,6 +423,54 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     },
   },
   {
+    name: 'search',
+    endpoint: '/web/search',
+    httpMethod: 'post',
+    summary: 'Web Search',
+    description: 'Search the web and optionally scrape each result to Markdown in one round-trip.',
+    stainlessPath: '(resource) web > (method) search',
+    qualified: 'client.web.search',
+    params: [
+      'query: string;',
+      'excludeDomains?: string[];',
+      "freshness?: 'last_24_hours' | 'last_week' | 'last_month' | 'last_year';",
+      'includeDomains?: string[];',
+      'markdownOptions?: { enabled?: boolean; includeFrames?: boolean; includeImages?: boolean; includeLinks?: boolean; maxAgeMs?: number; pdf?: { end?: number; shouldParse?: boolean; start?: number; }; shortenBase64Images?: boolean; timeoutMS?: number; useMainContentOnly?: boolean; waitForMs?: number; };',
+      'queryFanout?: boolean;',
+      'timeoutMS?: number;',
+    ],
+    response:
+      "{ query: string; results: { description: string; markdown: { code: 'SUCCESS' | 'NOT_REQUESTED' | 'TIMEOUT' | 'WEBSITE_ACCESS_ERROR' | 'ERROR'; markdown: string; }; relevance: 'high' | 'medium' | 'low'; title: string; url: string; }[]; }",
+    markdown:
+      "## search\n\n`client.web.search(query: string, excludeDomains?: string[], freshness?: 'last_24_hours' | 'last_week' | 'last_month' | 'last_year', includeDomains?: string[], markdownOptions?: { enabled?: boolean; includeFrames?: boolean; includeImages?: boolean; includeLinks?: boolean; maxAgeMs?: number; pdf?: { end?: number; shouldParse?: boolean; start?: number; }; shortenBase64Images?: boolean; timeoutMS?: number; useMainContentOnly?: boolean; waitForMs?: number; }, queryFanout?: boolean, timeoutMS?: number): { query: string; results: object[]; }`\n\n**post** `/web/search`\n\nSearch the web and optionally scrape each result to Markdown in one round-trip.\n\n### Parameters\n\n- `query: string`\n  Natural-language search query.\n\n- `excludeDomains?: string[]`\n  Blocklist — drop results from these domains. Example: [\"pinterest.com\", \"reddit.com\"].\n\n- `freshness?: 'last_24_hours' | 'last_week' | 'last_month' | 'last_year'`\n  Restrict results to content published within this window.\n\n- `includeDomains?: string[]`\n  Allowlist — only return results from these domains. Example: [\"arxiv.org\", \"github.com\"].\n\n- `markdownOptions?: { enabled?: boolean; includeFrames?: boolean; includeImages?: boolean; includeLinks?: boolean; maxAgeMs?: number; pdf?: { end?: number; shouldParse?: boolean; start?: number; }; shortenBase64Images?: boolean; timeoutMS?: number; useMainContentOnly?: boolean; waitForMs?: number; }`\n  Inline Markdown scraping for each result. Set `enabled: true` to activate.\n  - `enabled?: boolean`\n    Scrape each result to Markdown. Off by default to keep search cheap and fast.\n  - `includeFrames?: boolean`\n    Render iframe contents into the Markdown.\n  - `includeImages?: boolean`\n    Emit image references in the Markdown.\n  - `includeLinks?: boolean`\n    Keep hyperlinks in the Markdown.\n  - `maxAgeMs?: number`\n    Cache TTL in ms for scraped Markdown keyed by URL + options. Default 1 day, max 30 days. Set to 0 to force a fresh scrape.\n  - `pdf?: { end?: number; shouldParse?: boolean; start?: number; }`\n    PDF handling. Use start/end to bound text extraction and OCR to a page range.\n  - `shortenBase64Images?: boolean`\n    Truncate inline base64 image payloads to keep responses small.\n  - `timeoutMS?: number`\n    Optional timeout in milliseconds for the request. If the request takes longer than this value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5 minutes).\n  - `useMainContentOnly?: boolean`\n    Strip nav, header, footer, and sidebar — keep only the primary article content.\n  - `waitForMs?: number`\n    Extra wait after page load before rendering, in ms (0–30000). Useful for JS-heavy pages.\n\n- `queryFanout?: boolean`\n  Expand the query into multiple parallel variants for broader recall.\n\n- `timeoutMS?: number`\n  Optional timeout in milliseconds for the request. If the request takes longer than this value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5 minutes).\n\n### Returns\n\n- `{ query: string; results: { description: string; markdown: { code: 'SUCCESS' | 'NOT_REQUESTED' | 'TIMEOUT' | 'WEBSITE_ACCESS_ERROR' | 'ERROR'; markdown: string; }; relevance: 'high' | 'medium' | 'low'; title: string; url: string; }[]; }`\n\n  - `query: string`\n  - `results: { description: string; markdown: { code: 'SUCCESS' | 'NOT_REQUESTED' | 'TIMEOUT' | 'WEBSITE_ACCESS_ERROR' | 'ERROR'; markdown: string; }; relevance: 'high' | 'medium' | 'low'; title: string; url: string; }[]`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.web.search({ query: 'x' });\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.web.search',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.web.search({ query: 'x' });\n\nconsole.log(response.query);",
+      },
+      python: {
+        method: 'web.search',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.web.search(\n    query="x",\n)\nprint(response.query)',
+      },
+      go: {
+        method: 'client.Web.Search',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Web.Search(context.TODO(), contextdev.WebSearchParams{\n\t\tQuery: "x",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Query)\n}\n',
+      },
+      ruby: {
+        method: 'web.search',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.web.search(query: "x")\n\nputs(response)',
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/web/search \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "query": "x"\n        }\'',
+      },
+    },
+  },
+  {
     name: 'extract_products',
     endpoint: '/brand/ai/products',
     httpMethod: 'post',
