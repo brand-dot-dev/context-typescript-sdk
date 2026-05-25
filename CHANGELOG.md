@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.24.0 (2026-05-25)
+
+Full Changelog: [v1.23.0...v1.24.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.23.0...v1.24.0)
+
+### Features
+
+* **api:** api update ([22575e6](https://github.com/context-dot-dev/context-typescript-sdk/commit/22575e66b0e85e23e74a7138e6a6b67167e00c4f))
+* **api:** api update ([6b7df3a](https://github.com/context-dot-dev/context-typescript-sdk/commit/6b7df3a0e9ab994c1858b1daba9e70cbc56480d6))
+
+
+### Bug Fixes
+
+* **typescript:** upgrade tsc-multi so that it works with Node 26 ([4377e2c](https://github.com/context-dot-dev/context-typescript-sdk/commit/4377e2c8bcfa96535025a110c938fc0ef1da31de))
+
+
+### Chores
+
+* **tests:** remove redundant File import ([166f01e](https://github.com/context-dot-dev/context-typescript-sdk/commit/166f01e2c1b60d0058702c5f934aaa27c8efa979))
+
 ## 1.23.0 (2026-05-16)
 
 Full Changelog: [v1.22.0...v1.23.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.22.0...v1.23.0)
