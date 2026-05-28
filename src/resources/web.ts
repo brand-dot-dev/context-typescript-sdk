@@ -99,8 +99,8 @@ export class Web extends APIResource {
   /**
    * Extract image assets from a web page, including standard URLs, inline SVGs, data
    * URIs, responsive image sources, metadata, CSS backgrounds, video posters, and
-   * embeds. The base request costs 1 credit; enrichment costs 1 credit per returned
-   * image.
+   * embeds. The base request costs 1 credit. When enrichment is enabled, the entire
+   * call costs 5 credits.
    *
    * @example
    * ```ts
