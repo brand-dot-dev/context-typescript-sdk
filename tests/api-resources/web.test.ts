@@ -28,6 +28,7 @@ describe('resource web', () => {
         {
           directUrl: 'https://example.com',
           domain: 'domain',
+          maxAgeMs: 86400000,
           timeoutMS: 1000,
         },
         { path: '/_stainless_unknown_path' },
@@ -55,6 +56,7 @@ describe('resource web', () => {
         {
           directUrl: 'https://example.com',
           domain: 'domain',
+          maxAgeMs: 86400000,
           timeoutMS: 1000,
         },
         { path: '/_stainless_unknown_path' },
