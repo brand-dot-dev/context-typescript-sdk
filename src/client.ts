@@ -61,6 +61,8 @@ import {
   Web,
   WebExtractFontsParams,
   WebExtractFontsResponse,
+  WebExtractParams,
+  WebExtractResponse,
   WebExtractStyleguideParams,
   WebExtractStyleguideResponse,
   WebScreenshotParams,
@@ -805,6 +807,7 @@ export declare namespace ContextDev {
 
   export {
     Web as Web,
+    type WebExtractResponse as WebExtractResponse,
     type WebExtractFontsResponse as WebExtractFontsResponse,
     type WebExtractStyleguideResponse as WebExtractStyleguideResponse,
     type WebScreenshotResponse as WebScreenshotResponse,
@@ -814,6 +817,7 @@ export declare namespace ContextDev {
     type WebWebScrapeImagesResponse as WebWebScrapeImagesResponse,
     type WebWebScrapeMdResponse as WebWebScrapeMdResponse,
     type WebWebScrapeSitemapResponse as WebWebScrapeSitemapResponse,
+    type WebExtractParams as WebExtractParams,
     type WebExtractFontsParams as WebExtractFontsParams,
     type WebExtractStyleguideParams as WebExtractStyleguideParams,
     type WebScreenshotParams as WebScreenshotParams,

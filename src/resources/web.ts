@@ -6,6 +6,29 @@ import { RequestOptions } from '../internal/request-options';
 
 export class Web extends APIResource {
   /**
+   * Crawl a website, convert pages to Markdown using the scrape cache, and extract
+   * structured data into the provided JSON Schema. The schema must describe the
+   * response data object. This endpoint does not accept targeted page-type
+   * selection.
+   *
+   * @example
+   * ```ts
+   * const response = await client.web.extract({
+   *   schema: {
+   *     type: 'bar',
+   *     properties: 'bar',
+   *     required: 'bar',
+   *     additionalProperties: 'bar',
+   *   },
+   *   url: 'https://example.com',
+   * });
+   * ```
+   */
+  extract(body: WebExtractParams, options?: RequestOptions): APIPromise<WebExtractResponse> {
+    return this._client.post('/web/extract', { body, ...options });
+  }
+
+  /**
    * Scrape font information from a website including font families, usage
    * statistics, fallbacks, and element/word counts.
    *
@@ -145,6 +168,44 @@ export class Web extends APIResource {
     options?: RequestOptions,
   ): APIPromise<WebWebScrapeSitemapResponse> {
     return this._client.get('/web/scrape/sitemap', { query, ...options });
+  }
+}
+
+export interface WebExtractResponse {
+  /**
+   * Extracted data matching the request schema
+   */
+  data: { [key: string]: unknown };
+
+  metadata: WebExtractResponse.Metadata;
+
+  /**
+   * Status of the response, e.g., 'ok'
+   */
+  status: string;
+
+  /**
+   * The starting URL that was analyzed
+   */
+  url: string;
+
+  /**
+   * List of URLs whose Markdown was used for extraction
+   */
+  urls_analyzed: Array<string>;
+}
+
+export namespace WebExtractResponse {
+  export interface Metadata {
+    maxCrawlDepth: number;
+
+    numFailed: number;
+
+    numSkipped: number;
+
+    numSucceeded: number;
+
+    numUrls: number;
   }
 }
 
@@ -1080,6 +1141,93 @@ export namespace WebWebScrapeSitemapResponse {
   }
 }
 
+export interface WebExtractParams {
+  /**
+   * JSON Schema for the returned data object. TypeScript Zod users can pass a JSON
+   * Schema generated from a Zod object; Python users can pass the equivalent JSON
+   * Schema object.
+   */
+  schema: { [key: string]: unknown };
+
+  /**
+   * The starting website URL to crawl and extract from. Must include http:// or
+   * https://.
+   */
+  url: string;
+
+  /**
+   * When true (default), every returned value must be grounded in facts stated on
+   * the page; fields that cannot be supported by the page are returned as
+   * null/empty. When false, the model may make reasonable inferences and derivations
+   * from the page content (e.g. ideal customer, competitor analysis,
+   * recommendations) while keeping verifiable specifics (names, quotes, URLs, dates,
+   * metrics) faithful to the source.
+   */
+  factCheck?: boolean;
+
+  /**
+   * When true, follow links on subdomains of the starting URL's domain.
+   */
+  followSubdomains?: boolean;
+
+  /**
+   * When true, iframe contents are included in Markdown before extraction.
+   */
+  includeFrames?: boolean;
+
+  /**
+   * Optional extraction guidance, such as which facts to prioritize or how to
+   * interpret fields in the schema.
+   */
+  instructions?: string;
+
+  /**
+   * Return cached scrape results if a prior scrape for the same parameters is
+   * younger than this many milliseconds.
+   */
+  maxAgeMs?: number;
+
+  pdf?: WebExtractParams.Pdf;
+
+  /**
+   * Soft time budget for the crawl in milliseconds.
+   */
+  stopAfterMs?: number;
+
+  /**
+   * Optional timeout in milliseconds for the request. If the request takes longer
+   * than this value, it will be aborted with a 408 status code. Maximum allowed
+   * value is 300000ms (5 minutes).
+   */
+  timeoutMS?: number;
+
+  /**
+   * Optional browser wait time in milliseconds after initial page load for each
+   * crawled page.
+   */
+  waitForMs?: number;
+}
+
+export namespace WebExtractParams {
+  export interface Pdf {
+    /**
+     * Last 1-based PDF page to parse. Must be greater than or equal to start when both
+     * are provided.
+     */
+    end?: number;
+
+    /**
+     * When true, PDF pages are fetched and parsed. When false, PDF pages are skipped.
+     */
+    shouldParse?: boolean;
+
+    /**
+     * First 1-based PDF page to parse.
+     */
+    start?: number;
+  }
+}
+
 export interface WebExtractFontsParams {
   /**
    * A specific URL to fetch fonts from directly, bypassing domain resolution (e.g.,
@@ -1702,6 +1850,7 @@ export interface WebWebScrapeSitemapParams {
 
 export declare namespace Web {
   export {
+    type WebExtractResponse as WebExtractResponse,
     type WebExtractFontsResponse as WebExtractFontsResponse,
     type WebExtractStyleguideResponse as WebExtractStyleguideResponse,
     type WebScreenshotResponse as WebScreenshotResponse,
@@ -1711,6 +1860,7 @@ export declare namespace Web {
     type WebWebScrapeImagesResponse as WebWebScrapeImagesResponse,
     type WebWebScrapeMdResponse as WebWebScrapeMdResponse,
     type WebWebScrapeSitemapResponse as WebWebScrapeSitemapResponse,
+    type WebExtractParams as WebExtractParams,
     type WebExtractFontsParams as WebExtractFontsParams,
     type WebExtractStyleguideParams as WebExtractStyleguideParams,
     type WebScreenshotParams as WebScreenshotParams,

@@ -9,6 +9,52 @@ const client = new ContextDev({
 
 describe('resource web', () => {
   // Mock server tests are disabled
+  test.skip('extract: only required params', async () => {
+    const responsePromise = client.web.extract({
+      schema: {
+        type: 'bar',
+        properties: 'bar',
+        required: 'bar',
+        additionalProperties: 'bar',
+      },
+      url: 'https://example.com',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('extract: required and optional params', async () => {
+    const response = await client.web.extract({
+      schema: {
+        type: 'bar',
+        properties: 'bar',
+        required: 'bar',
+        additionalProperties: 'bar',
+      },
+      url: 'https://example.com',
+      factCheck: true,
+      followSubdomains: true,
+      includeFrames: true,
+      instructions: 'instructions',
+      maxAgeMs: 0,
+      pdf: {
+        end: 1,
+        shouldParse: true,
+        start: 1,
+      },
+      stopAfterMs: 10000,
+      timeoutMS: 1000,
+      waitForMs: 0,
+    });
+  });
+
+  // Mock server tests are disabled
   test.skip('extractFonts', async () => {
     const responsePromise = client.web.extractFonts();
     const rawResponse = await responsePromise.asResponse();
