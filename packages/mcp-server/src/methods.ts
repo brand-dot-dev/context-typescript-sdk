@@ -11,6 +11,12 @@ export type SdkMethod = {
 
 export const sdkMethods: SdkMethod[] = [
   {
+    clientCallName: 'client.web.extract',
+    fullyQualifiedName: 'web.extract',
+    httpMethod: 'post',
+    httpPath: '/web/extract',
+  },
+  {
     clientCallName: 'client.web.extractFonts',
     fullyQualifiedName: 'web.extractFonts',
     httpMethod: 'get',
