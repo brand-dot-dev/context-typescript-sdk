@@ -42,6 +42,7 @@ export {
 } from './utility';
 export {
   Web,
+  type WebExtractResponse,
   type WebExtractFontsResponse,
   type WebExtractStyleguideResponse,
   type WebScreenshotResponse,
@@ -51,6 +52,7 @@ export {
   type WebWebScrapeImagesResponse,
   type WebWebScrapeMdResponse,
   type WebWebScrapeSitemapResponse,
+  type WebExtractParams,
   type WebExtractFontsParams,
   type WebExtractStyleguideParams,
   type WebScreenshotParams,
