@@ -6,10 +6,7 @@ import { RequestOptions } from '../internal/request-options';
 
 export class Web extends APIResource {
   /**
-   * Crawl a website, convert pages to Markdown using the scrape cache, and extract
-   * structured data into the provided JSON Schema. The schema must describe the
-   * response data object. This endpoint does not accept targeted page-type
-   * selection.
+   * Crawl a website and extract structured data using the provided JSON Schema.
    *
    * @example
    * ```ts
