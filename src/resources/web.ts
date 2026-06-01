@@ -6,7 +6,8 @@ import { RequestOptions } from '../internal/request-options';
 
 export class Web extends APIResource {
   /**
-   * Crawl a website and extract structured data using the provided JSON Schema.
+   * Crawl a website, use the provided JSON Schema and instructions to prioritize
+   * relevant internal links, and extract structured data from the selected pages.
    *
    * @example
    * ```ts
@@ -1180,7 +1181,7 @@ export interface WebExtractParams {
 
   /**
    * Return cached scrape results if a prior scrape for the same parameters is
-   * younger than this many milliseconds.
+   * younger than this many milliseconds. Defaults to 7 days (604800000 ms).
    */
   maxAgeMs?: number;
 
