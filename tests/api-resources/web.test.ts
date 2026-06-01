@@ -55,6 +55,27 @@ describe('resource web', () => {
   });
 
   // Mock server tests are disabled
+  test.skip('extractCompetitors: only required params', async () => {
+    const responsePromise = client.web.extractCompetitors({ domain: 'xxx' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('extractCompetitors: required and optional params', async () => {
+    const response = await client.web.extractCompetitors({
+      domain: 'xxx',
+      numCompetitors: 1,
+      timeoutMS: 1000,
+    });
+  });
+
+  // Mock server tests are disabled
   test.skip('extractFonts', async () => {
     const responsePromise = client.web.extractFonts();
     const rawResponse = await responsePromise.asResponse();

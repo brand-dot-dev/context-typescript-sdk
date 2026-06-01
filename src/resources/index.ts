@@ -43,6 +43,7 @@ export {
 export {
   Web,
   type WebExtractResponse,
+  type WebExtractCompetitorsResponse,
   type WebExtractFontsResponse,
   type WebExtractStyleguideResponse,
   type WebScreenshotResponse,
@@ -53,6 +54,7 @@ export {
   type WebWebScrapeMdResponse,
   type WebWebScrapeSitemapResponse,
   type WebExtractParams,
+  type WebExtractCompetitorsParams,
   type WebExtractFontsParams,
   type WebExtractStyleguideParams,
   type WebScreenshotParams,

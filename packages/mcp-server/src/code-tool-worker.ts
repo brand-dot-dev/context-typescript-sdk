@@ -109,6 +109,7 @@ function getTSDiagnostics(code: string): string[] {
 const fuse = new Fuse(
   [
     'client.web.extract',
+    'client.web.extractCompetitors',
     'client.web.extractFonts',
     'client.web.extractStyleguide',
     'client.web.screenshot',

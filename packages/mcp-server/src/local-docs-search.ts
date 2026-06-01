@@ -524,6 +524,47 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     },
   },
   {
+    name: 'extract_competitors',
+    endpoint: '/web/competitors',
+    httpMethod: 'get',
+    summary: 'Find website competitors',
+    description:
+      "Analyze a company's landing page and web search evidence to return direct competitors for the same product or market.",
+    stainlessPath: '(resource) web > (method) extract_competitors',
+    qualified: 'client.web.extractCompetitors',
+    params: ['domain: string;', 'numCompetitors?: number;', 'timeoutMS?: number;'],
+    response:
+      "{ competitors: { confidence: 'high' | 'medium'; description: string; domain: string; name: string; sourceUrls: string[]; url: string; }[]; domain: string; status: 'ok'; target: { companyName: string; field: string; fieldDescription: string; websiteUrl: string; }; }",
+    markdown:
+      "## extract_competitors\n\n`client.web.extractCompetitors(domain: string, numCompetitors?: number, timeoutMS?: number): { competitors: object[]; domain: string; status: 'ok'; target: object; }`\n\n**get** `/web/competitors`\n\nAnalyze a company's landing page and web search evidence to return direct competitors for the same product or market.\n\n### Parameters\n\n- `domain: string`\n  Company domain to analyze, such as `stripe.com`. Full http(s) URLs are accepted and normalized to their domain.\n\n- `numCompetitors?: number`\n  Exact number of direct competitors to return. Defaults to 5.\n\n- `timeoutMS?: number`\n  Optional timeout in milliseconds for the request. If the request takes longer than this value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5 minutes).\n\n### Returns\n\n- `{ competitors: { confidence: 'high' | 'medium'; description: string; domain: string; name: string; sourceUrls: string[]; url: string; }[]; domain: string; status: 'ok'; target: { companyName: string; field: string; fieldDescription: string; websiteUrl: string; }; }`\n\n  - `competitors: { confidence: 'high' | 'medium'; description: string; domain: string; name: string; sourceUrls: string[]; url: string; }[]`\n  - `domain: string`\n  - `status: 'ok'`\n  - `target: { companyName: string; field: string; fieldDescription: string; websiteUrl: string; }`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.web.extractCompetitors({ domain: 'xxx' });\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.web.extractCompetitors',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.web.extractCompetitors({ domain: 'xxx' });\n\nconsole.log(response.competitors);",
+      },
+      python: {
+        method: 'web.extract_competitors',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.web.extract_competitors(\n    domain="xxx",\n)\nprint(response.competitors)',
+      },
+      go: {
+        method: 'client.Web.ExtractCompetitors',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Web.ExtractCompetitors(context.TODO(), contextdev.WebExtractCompetitorsParams{\n\t\tDomain: "xxx",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Competitors)\n}\n',
+      },
+      ruby: {
+        method: 'web.extract_competitors',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.web.extract_competitors(domain: "xxx")\n\nputs(response)',
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/web/competitors \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
+      },
+    },
+  },
+  {
     name: 'extract_products',
     endpoint: '/brand/ai/products',
     httpMethod: 'post',
