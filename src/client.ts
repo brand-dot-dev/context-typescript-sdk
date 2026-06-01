@@ -59,6 +59,8 @@ import {
 } from './resources/utility';
 import {
   Web,
+  WebExtractCompetitorsParams,
+  WebExtractCompetitorsResponse,
   WebExtractFontsParams,
   WebExtractFontsResponse,
   WebExtractParams,
@@ -808,6 +810,7 @@ export declare namespace ContextDev {
   export {
     Web as Web,
     type WebExtractResponse as WebExtractResponse,
+    type WebExtractCompetitorsResponse as WebExtractCompetitorsResponse,
     type WebExtractFontsResponse as WebExtractFontsResponse,
     type WebExtractStyleguideResponse as WebExtractStyleguideResponse,
     type WebScreenshotResponse as WebScreenshotResponse,
@@ -818,6 +821,7 @@ export declare namespace ContextDev {
     type WebWebScrapeMdResponse as WebWebScrapeMdResponse,
     type WebWebScrapeSitemapResponse as WebWebScrapeSitemapResponse,
     type WebExtractParams as WebExtractParams,
+    type WebExtractCompetitorsParams as WebExtractCompetitorsParams,
     type WebExtractFontsParams as WebExtractFontsParams,
     type WebExtractStyleguideParams as WebExtractStyleguideParams,
     type WebScreenshotParams as WebScreenshotParams,

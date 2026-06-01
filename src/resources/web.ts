@@ -27,6 +27,24 @@ export class Web extends APIResource {
   }
 
   /**
+   * Analyze a company's landing page and web search evidence to return direct
+   * competitors for the same product or market.
+   *
+   * @example
+   * ```ts
+   * const response = await client.web.extractCompetitors({
+   *   domain: 'xxx',
+   * });
+   * ```
+   */
+  extractCompetitors(
+    query: WebExtractCompetitorsParams,
+    options?: RequestOptions,
+  ): APIPromise<WebExtractCompetitorsResponse> {
+    return this._client.get('/web/competitors', { query, ...options });
+  }
+
+  /**
    * Scrape font information from a website including font families, usage
    * statistics, fallbacks, and element/word counts.
    *
@@ -204,6 +222,87 @@ export namespace WebExtractResponse {
     numSucceeded: number;
 
     numUrls: number;
+  }
+}
+
+export interface WebExtractCompetitorsResponse {
+  /**
+   * Direct competitors ordered by relevance and confidence.
+   */
+  competitors: Array<WebExtractCompetitorsResponse.Competitor>;
+
+  /**
+   * Normalized input domain.
+   */
+  domain: string;
+
+  /**
+   * Status of the response.
+   */
+  status: 'ok';
+
+  /**
+   * Target company profile inferred from the landing page.
+   */
+  target: WebExtractCompetitorsResponse.Target;
+}
+
+export namespace WebExtractCompetitorsResponse {
+  export interface Competitor {
+    /**
+     * Confidence that this company is a direct competitor.
+     */
+    confidence: 'high' | 'medium';
+
+    /**
+     * Short description of the competitor.
+     */
+    description: string;
+
+    /**
+     * Competitor's normalized official domain.
+     */
+    domain: string;
+
+    /**
+     * Competitor company or product name.
+     */
+    name: string;
+
+    /**
+     * Search result URLs used as evidence for this competitor.
+     */
+    sourceUrls: Array<string>;
+
+    /**
+     * Competitor website URL.
+     */
+    url: string;
+  }
+
+  /**
+   * Target company profile inferred from the landing page.
+   */
+  export interface Target {
+    /**
+     * Company or product name inferred from the landing page.
+     */
+    companyName: string;
+
+    /**
+     * Specific operating field, product category, or market.
+     */
+    field: string;
+
+    /**
+     * One-sentence description of what the target company sells and who it serves.
+     */
+    fieldDescription: string;
+
+    /**
+     * Resolved URL used for the landing page analysis.
+     */
+    websiteUrl: string;
   }
 }
 
@@ -1226,6 +1325,26 @@ export namespace WebExtractParams {
   }
 }
 
+export interface WebExtractCompetitorsParams {
+  /**
+   * Company domain to analyze, such as `stripe.com`. Full http(s) URLs are accepted
+   * and normalized to their domain.
+   */
+  domain: string;
+
+  /**
+   * Exact number of direct competitors to return. Defaults to 5.
+   */
+  numCompetitors?: number;
+
+  /**
+   * Optional timeout in milliseconds for the request. If the request takes longer
+   * than this value, it will be aborted with a 408 status code. Maximum allowed
+   * value is 300000ms (5 minutes).
+   */
+  timeoutMS?: number;
+}
+
 export interface WebExtractFontsParams {
   /**
    * A specific URL to fetch fonts from directly, bypassing domain resolution (e.g.,
@@ -1849,6 +1968,7 @@ export interface WebWebScrapeSitemapParams {
 export declare namespace Web {
   export {
     type WebExtractResponse as WebExtractResponse,
+    type WebExtractCompetitorsResponse as WebExtractCompetitorsResponse,
     type WebExtractFontsResponse as WebExtractFontsResponse,
     type WebExtractStyleguideResponse as WebExtractStyleguideResponse,
     type WebScreenshotResponse as WebScreenshotResponse,
@@ -1859,6 +1979,7 @@ export declare namespace Web {
     type WebWebScrapeMdResponse as WebWebScrapeMdResponse,
     type WebWebScrapeSitemapResponse as WebWebScrapeSitemapResponse,
     type WebExtractParams as WebExtractParams,
+    type WebExtractCompetitorsParams as WebExtractCompetitorsParams,
     type WebExtractFontsParams as WebExtractFontsParams,
     type WebExtractStyleguideParams as WebExtractStyleguideParams,
     type WebScreenshotParams as WebScreenshotParams,
