@@ -17,6 +17,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/web/extract',
   },
   {
+    clientCallName: 'client.web.extractCompetitors',
+    fullyQualifiedName: 'web.extractCompetitors',
+    httpMethod: 'get',
+    httpPath: '/web/competitors',
+  },
+  {
     clientCallName: 'client.web.extractFonts',
     fullyQualifiedName: 'web.extractFonts',
     httpMethod: 'get',
