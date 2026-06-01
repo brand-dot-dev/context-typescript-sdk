@@ -6,10 +6,8 @@ import { RequestOptions } from '../internal/request-options';
 
 export class Web extends APIResource {
   /**
-   * Crawl a website, convert pages to Markdown using the scrape cache, and extract
-   * structured data into the provided JSON Schema. The schema must describe the
-   * response data object. This endpoint does not accept targeted page-type
-   * selection.
+   * Crawl a website, use the provided JSON Schema and instructions to prioritize
+   * relevant internal links, and extract structured data from the selected pages.
    *
    * @example
    * ```ts
@@ -1156,12 +1154,12 @@ export interface WebExtractParams {
   url: string;
 
   /**
-   * When true (default), every returned value must be grounded in facts stated on
-   * the page; fields that cannot be supported by the page are returned as
-   * null/empty. When false, the model may make reasonable inferences and derivations
-   * from the page content (e.g. ideal customer, competitor analysis,
-   * recommendations) while keeping verifiable specifics (names, quotes, URLs, dates,
-   * metrics) faithful to the source.
+   * When true, every returned value must be grounded in facts stated on the page;
+   * fields that cannot be supported by the page are returned as null/empty. When
+   * false (default), the model may make reasonable inferences and derivations from
+   * the page content (e.g. ideal customer, competitor analysis, recommendations)
+   * while keeping verifiable specifics (names, quotes, URLs, dates, metrics)
+   * faithful to the source.
    */
   factCheck?: boolean;
 
@@ -1183,7 +1181,7 @@ export interface WebExtractParams {
 
   /**
    * Return cached scrape results if a prior scrape for the same parameters is
-   * younger than this many milliseconds.
+   * younger than this many milliseconds. Defaults to 7 days (604800000 ms).
    */
   maxAgeMs?: number;
 
