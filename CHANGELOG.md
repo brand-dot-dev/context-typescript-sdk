@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.30.0 (2026-06-06)
+
+Full Changelog: [v1.29.0...v1.30.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.29.0...v1.30.0)
+
+### Features
+
+* **api:** api update ([b7f12a7](https://github.com/context-dot-dev/context-typescript-sdk/commit/b7f12a7cc5826356d4e8778253c64b160be23cca))
+
 ## 1.29.0 (2026-06-01)
 
 Full Changelog: [v1.28.0...v1.29.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.28.0...v1.29.0)
