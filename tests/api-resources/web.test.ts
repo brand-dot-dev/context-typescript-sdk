@@ -220,10 +220,12 @@ describe('resource web', () => {
   test.skip('webCrawlMd: required and optional params', async () => {
     const response = await client.web.webCrawlMd({
       url: 'https://example.com',
+      excludeSelectors: ['string'],
       followSubdomains: true,
       includeFrames: true,
       includeImages: true,
       includeLinks: true,
+      includeSelectors: ['string'],
       maxAgeMs: 0,
       maxDepth: 0,
       maxPages: 1,
@@ -257,8 +259,10 @@ describe('resource web', () => {
   test.skip('webScrapeHTML: required and optional params', async () => {
     const response = await client.web.webScrapeHTML({
       url: 'https://example.com',
+      excludeSelectors: ['string'],
       headers: { foo: 'J!' },
       includeFrames: true,
+      includeSelectors: ['string'],
       maxAgeMs: 0,
       pdf: {
         end: 1,
@@ -315,10 +319,12 @@ describe('resource web', () => {
   test.skip('webScrapeMd: required and optional params', async () => {
     const response = await client.web.webScrapeMd({
       url: 'https://example.com',
+      excludeSelectors: ['string'],
       headers: { foo: 'J!' },
       includeFrames: true,
       includeImages: true,
       includeLinks: true,
+      includeSelectors: ['string'],
       maxAgeMs: 0,
       pdf: {
         end: 1,
