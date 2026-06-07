@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.32.0 (2026-06-07)
+
+Full Changelog: [v1.31.0...v1.32.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.31.0...v1.32.0)
+
+### Features
+
+* **api:** api update ([ff4cabc](https://github.com/context-dot-dev/context-typescript-sdk/commit/ff4cabcb0323ce677e117d5f4e903242cc6e4c0e))
+
 ## 1.31.0 (2026-06-07)
 
 Full Changelog: [v1.30.0...v1.31.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.30.0...v1.31.0)
