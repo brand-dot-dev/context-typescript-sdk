@@ -1630,6 +1630,13 @@ export interface WebWebCrawlMdParams {
   url: string;
 
   /**
+   * CSS selectors to remove before each crawled page is converted to Markdown.
+   * Applied after includeSelectors. Exclusion takes precedence: an element matching
+   * both is removed. Examples: "nav", "footer", ".ad-banner", "[aria-hidden=true]".
+   */
+  excludeSelectors?: Array<string>;
+
+  /**
    * When true, follow links on subdomains of the starting URL's domain (e.g.
    * docs.example.com when starting from example.com). www and apex are always
    * treated as equivalent.
@@ -1651,6 +1658,14 @@ export interface WebWebCrawlMdParams {
    * Preserve hyperlinks in the Markdown output
    */
   includeLinks?: boolean;
+
+  /**
+   * CSS selectors. When provided, only matching HTML subtrees (and their
+   * descendants) are kept before each crawled page is converted to Markdown. When
+   * omitted, the entire document is kept. Examples: "article.main", "#content",
+   * "[role=main]".
+   */
+  includeSelectors?: Array<string>;
 
   /**
    * Return a cached result if a prior scrape for the same parameters exists and is
@@ -1745,6 +1760,13 @@ export interface WebWebScrapeHTMLParams {
   url: string;
 
   /**
+   * CSS selectors to remove from the result. Applied after includeSelectors.
+   * Exclusion takes precedence: an element matching both is removed. Examples:
+   * "nav", "footer", ".ad-banner", "[aria-hidden=true]".
+   */
+  excludeSelectors?: Array<string>;
+
+  /**
    * Optional outbound HTTP headers forwarded only to the target URL, sent as
    * deep-object query params such as headers[X-Custom]=value. When provided, caching
    * is bypassed: the result is neither read from nor written to cache.
@@ -1755,6 +1777,13 @@ export interface WebWebScrapeHTMLParams {
    * When true, iframes are rendered inline into the returned HTML.
    */
   includeFrames?: boolean;
+
+  /**
+   * CSS selectors. When provided, only matching subtrees (and their descendants) are
+   * kept and everything else is dropped. When omitted, the entire document is kept.
+   * Examples: "article.main", "#content", "[role=main]".
+   */
+  includeSelectors?: Array<string>;
 
   /**
    * Return a cached result if a prior scrape for the same parameters exists and is
@@ -1884,6 +1913,13 @@ export interface WebWebScrapeMdParams {
   url: string;
 
   /**
+   * CSS selectors to remove before conversion to Markdown. Applied after
+   * includeSelectors. Exclusion takes precedence: an element matching both is
+   * removed. Examples: "nav", "footer", ".ad-banner", "[aria-hidden=true]".
+   */
+  excludeSelectors?: Array<string>;
+
+  /**
    * Optional outbound HTTP headers forwarded only to the target URL, sent as
    * deep-object query params such as headers[X-Custom]=value. When provided, caching
    * is bypassed: the result is neither read from nor written to cache.
@@ -1904,6 +1940,13 @@ export interface WebWebScrapeMdParams {
    * Preserve hyperlinks in Markdown output
    */
   includeLinks?: boolean;
+
+  /**
+   * CSS selectors. When provided, only matching HTML subtrees (and their
+   * descendants) are kept before conversion to Markdown. When omitted, the entire
+   * document is kept. Examples: "article.main", "#content", "[role=main]".
+   */
+  includeSelectors?: Array<string>;
 
   /**
    * Return a cached result if a prior scrape for the same parameters exists and is
