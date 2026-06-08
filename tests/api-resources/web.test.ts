@@ -270,6 +270,7 @@ describe('resource web', () => {
         start: 1,
       },
       timeoutMS: 1000,
+      useMainContentOnly: true,
       waitForMs: 0,
     });
   });
