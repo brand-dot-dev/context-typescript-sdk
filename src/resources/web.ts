@@ -1295,7 +1295,8 @@ export interface WebExtractParams {
   pdf?: WebExtractParams.Pdf;
 
   /**
-   * Soft time budget for the crawl in milliseconds.
+   * Soft time budget for the crawl in milliseconds. Min: 10000 (10s). Max: 110000
+   * (110s). Default: 80000 (80s).
    */
   stopAfterMs?: number;
 
@@ -1698,8 +1699,8 @@ export interface WebWebCrawlMdParams {
   /**
    * Soft time budget for the crawl in milliseconds. After each scrape, the crawler
    * checks the elapsed time and, if exceeded, returns the pages collected so far
-   * instead of continuing. Min: 10000 (10s). Max: 240000 (4 min). Default: 120000 (2
-   * min).
+   * instead of continuing. Min: 10000 (10s). Max: 110000 (110s). Default: 80000
+   * (80s).
    */
   stopAfterMs?: number;
 
