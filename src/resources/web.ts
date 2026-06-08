@@ -1292,6 +1292,17 @@ export interface WebExtractParams {
    */
   maxAgeMs?: number;
 
+  /**
+   * Optional maximum link depth from the starting URL (0 = only the starting page).
+   * If omitted, there is no crawl depth limit.
+   */
+  maxDepth?: number;
+
+  /**
+   * Maximum number of pages to analyze for extraction. Hard cap: 50. Defaults to 5.
+   */
+  maxPages?: number;
+
   pdf?: WebExtractParams.Pdf;
 
   /**
