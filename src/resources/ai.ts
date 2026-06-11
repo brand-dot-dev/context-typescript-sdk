@@ -50,6 +50,12 @@ export interface AIAIQueryResponse {
   domain?: string;
 
   /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: AIAIQueryResponse.KeyMetadata;
+
+  /**
    * Status of the response, e.g., 'ok'
    */
   status?: string;
@@ -73,6 +79,22 @@ export namespace AIAIQueryResponse {
      */
     datapoint_value?: string | number | boolean | Array<string> | Array<number> | Array<unknown>;
   }
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
 }
 
 export interface AIExtractProductResponse {
@@ -80,6 +102,12 @@ export interface AIExtractProductResponse {
    * Whether the given URL is a product detail page
    */
   is_product_page?: boolean;
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: AIExtractProductResponse.KeyMetadata;
 
   /**
    * The detected ecommerce platform, or null if not a product page
@@ -93,6 +121,22 @@ export interface AIExtractProductResponse {
 }
 
 export namespace AIExtractProductResponse {
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
+
   /**
    * The extracted product data, or null if not a product page
    */
@@ -171,12 +215,34 @@ export namespace AIExtractProductResponse {
 
 export interface AIExtractProductsResponse {
   /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: AIExtractProductsResponse.KeyMetadata;
+
+  /**
    * Array of products extracted from the website
    */
   products?: Array<AIExtractProductsResponse.Product>;
 }
 
 export namespace AIExtractProductsResponse {
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
+
   export interface Product {
     /**
      * Description of the product

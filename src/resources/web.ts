@@ -209,6 +209,12 @@ export interface WebExtractResponse {
    * List of URLs whose Markdown was used for extraction
    */
   urls_analyzed: Array<string>;
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: WebExtractResponse.KeyMetadata;
 }
 
 export namespace WebExtractResponse {
@@ -222,6 +228,22 @@ export namespace WebExtractResponse {
     numSucceeded: number;
 
     numUrls: number;
+  }
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
   }
 }
 
@@ -245,6 +267,12 @@ export interface WebExtractCompetitorsResponse {
    * Target company profile inferred from the landing page.
    */
   target: WebExtractCompetitorsResponse.Target;
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: WebExtractCompetitorsResponse.KeyMetadata;
 }
 
 export namespace WebExtractCompetitorsResponse {
@@ -304,6 +332,22 @@ export namespace WebExtractCompetitorsResponse {
      */
     websiteUrl: string;
   }
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
 }
 
 export interface WebExtractFontsResponse {
@@ -333,6 +377,12 @@ export interface WebExtractFontsResponse {
    * Omitted when no families resolve to Google or custom @font-face URLs.
    */
   fontLinks?: { [key: string]: WebExtractFontsResponse.FontLinks };
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: WebExtractFontsResponse.KeyMetadata;
 }
 
 export namespace WebExtractFontsResponse {
@@ -395,6 +445,22 @@ export namespace WebExtractFontsResponse {
      */
     displayName?: string;
   }
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
 }
 
 export interface WebExtractStyleguideResponse {
@@ -409,6 +475,12 @@ export interface WebExtractStyleguideResponse {
   domain?: string;
 
   /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: WebExtractStyleguideResponse.KeyMetadata;
+
+  /**
    * Status of the response, e.g., 'ok'
    */
   status?: string;
@@ -420,6 +492,22 @@ export interface WebExtractStyleguideResponse {
 }
 
 export namespace WebExtractStyleguideResponse {
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
+
   /**
    * Comprehensive styleguide data extracted from the website
    */
@@ -927,6 +1015,12 @@ export interface WebScreenshotResponse {
   height?: number;
 
   /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: WebScreenshotResponse.KeyMetadata;
+
+  /**
    * Public URL of the uploaded screenshot image
    */
   screenshot?: string;
@@ -947,6 +1041,24 @@ export interface WebScreenshotResponse {
   width?: number;
 }
 
+export namespace WebScreenshotResponse {
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
+}
+
 export interface WebSearchResponse {
   /**
    * Echo of the original query (useful when fanout was enabled).
@@ -954,6 +1066,12 @@ export interface WebSearchResponse {
   query: string;
 
   results: Array<WebSearchResponse.Result>;
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: WebSearchResponse.KeyMetadata;
 }
 
 export namespace WebSearchResponse {
@@ -1001,12 +1119,34 @@ export namespace WebSearchResponse {
       markdown: string | null;
     }
   }
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
 }
 
 export interface WebWebCrawlMdResponse {
   metadata: WebWebCrawlMdResponse.Metadata;
 
   results: Array<WebWebCrawlMdResponse.Result>;
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: WebWebCrawlMdResponse.KeyMetadata;
 }
 
 export namespace WebWebCrawlMdResponse {
@@ -1075,6 +1215,22 @@ export namespace WebWebCrawlMdResponse {
       url: string;
     }
   }
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
 }
 
 export interface WebWebScrapeHTMLResponse {
@@ -1100,6 +1256,30 @@ export interface WebWebScrapeHTMLResponse {
    * The URL that was scraped
    */
   url: string;
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: WebWebScrapeHTMLResponse.KeyMetadata;
+}
+
+export namespace WebWebScrapeHTMLResponse {
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
 }
 
 export interface WebWebScrapeImagesResponse {
@@ -1117,6 +1297,12 @@ export interface WebWebScrapeImagesResponse {
    * Page URL that was scraped.
    */
   url: string;
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: WebWebScrapeImagesResponse.KeyMetadata;
 }
 
 export namespace WebWebScrapeImagesResponse {
@@ -1178,6 +1364,22 @@ export namespace WebWebScrapeImagesResponse {
       width?: number;
     }
   }
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
 }
 
 export interface WebWebScrapeMdResponse {
@@ -1195,6 +1397,30 @@ export interface WebWebScrapeMdResponse {
    * The URL that was scraped
    */
   url: string;
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: WebWebScrapeMdResponse.KeyMetadata;
+}
+
+export namespace WebWebScrapeMdResponse {
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
 }
 
 export interface WebWebScrapeSitemapResponse {
@@ -1217,6 +1443,12 @@ export interface WebWebScrapeSitemapResponse {
    * Array of discovered page URLs from the sitemap (max 500)
    */
   urls: Array<string>;
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: WebWebScrapeSitemapResponse.KeyMetadata;
 }
 
 export namespace WebWebScrapeSitemapResponse {
@@ -1243,6 +1475,22 @@ export namespace WebWebScrapeSitemapResponse {
      * Number of sitemap files skipped (due to errors, timeouts, or limits)
      */
     sitemapsSkipped: number;
+  }
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
   }
 }
 
