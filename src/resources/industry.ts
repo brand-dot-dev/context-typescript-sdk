@@ -40,6 +40,12 @@ export interface IndustryRetrieveNaicsResponse {
   domain?: string;
 
   /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: IndustryRetrieveNaicsResponse.KeyMetadata;
+
+  /**
    * Status of the response, e.g., 'ok'
    */
   status?: string;
@@ -67,6 +73,22 @@ export namespace IndustryRetrieveNaicsResponse {
      */
     name: string;
   }
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
 }
 
 export interface IndustryRetrieveSicResponse {
@@ -86,6 +108,12 @@ export interface IndustryRetrieveSicResponse {
    * Domain found for the brand
    */
   domain?: string;
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: IndustryRetrieveSicResponse.KeyMetadata;
 
   /**
    * Status of the response, e.g., 'ok'
@@ -132,6 +160,22 @@ export namespace IndustryRetrieveSicResponse {
      * `classification` is `latest_sec`.
      */
     office?: string;
+  }
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
   }
 }
 

@@ -43,6 +43,8 @@ describe('resource web', () => {
       includeFrames: true,
       instructions: 'instructions',
       maxAgeMs: 0,
+      maxDepth: 0,
+      maxPages: 1,
       pdf: {
         end: 1,
         shouldParse: true,

@@ -92,6 +92,12 @@ export interface BrandRetrieveResponse {
   code?: number;
 
   /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: BrandRetrieveResponse.KeyMetadata;
+
+  /**
    * Status of the response, e.g., 'ok'
    */
   status?: string;
@@ -835,6 +841,22 @@ export namespace BrandRetrieveResponse {
       ticker?: string;
     }
   }
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
 }
 
 export interface BrandIdentifyFromTransactionResponse {
@@ -847,6 +869,12 @@ export interface BrandIdentifyFromTransactionResponse {
    * HTTP status code
    */
   code?: number;
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: BrandIdentifyFromTransactionResponse.KeyMetadata;
 
   /**
    * Status of the response, e.g., 'ok'
@@ -1592,6 +1620,22 @@ export namespace BrandIdentifyFromTransactionResponse {
       ticker?: string;
     }
   }
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
 }
 
 export interface BrandRetrieveByEmailResponse {
@@ -1604,6 +1648,12 @@ export interface BrandRetrieveByEmailResponse {
    * HTTP status code
    */
   code?: number;
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: BrandRetrieveByEmailResponse.KeyMetadata;
 
   /**
    * Status of the response, e.g., 'ok'
@@ -2349,6 +2399,22 @@ export namespace BrandRetrieveByEmailResponse {
       ticker?: string;
     }
   }
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
 }
 
 export interface BrandRetrieveByIsinResponse {
@@ -2361,6 +2427,12 @@ export interface BrandRetrieveByIsinResponse {
    * HTTP status code
    */
   code?: number;
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: BrandRetrieveByIsinResponse.KeyMetadata;
 
   /**
    * Status of the response, e.g., 'ok'
@@ -3106,6 +3178,22 @@ export namespace BrandRetrieveByIsinResponse {
       ticker?: string;
     }
   }
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
 }
 
 export interface BrandRetrieveByNameResponse {
@@ -3118,6 +3206,12 @@ export interface BrandRetrieveByNameResponse {
    * HTTP status code
    */
   code?: number;
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: BrandRetrieveByNameResponse.KeyMetadata;
 
   /**
    * Status of the response, e.g., 'ok'
@@ -3863,6 +3957,22 @@ export namespace BrandRetrieveByNameResponse {
       ticker?: string;
     }
   }
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
 }
 
 export interface BrandRetrieveByTickerResponse {
@@ -3875,6 +3985,12 @@ export interface BrandRetrieveByTickerResponse {
    * HTTP status code
    */
   code?: number;
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: BrandRetrieveByTickerResponse.KeyMetadata;
 
   /**
    * Status of the response, e.g., 'ok'
@@ -4620,6 +4736,22 @@ export namespace BrandRetrieveByTickerResponse {
       ticker?: string;
     }
   }
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
 }
 
 export interface BrandRetrieveSimplifiedResponse {
@@ -4632,6 +4764,12 @@ export interface BrandRetrieveSimplifiedResponse {
    * HTTP status code of the response
    */
   code?: number;
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: BrandRetrieveSimplifiedResponse.KeyMetadata;
 
   /**
    * Status of the response, e.g., 'ok'
@@ -4796,6 +4934,22 @@ export namespace BrandRetrieveSimplifiedResponse {
         width?: number;
       }
     }
+  }
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
   }
 }
 
