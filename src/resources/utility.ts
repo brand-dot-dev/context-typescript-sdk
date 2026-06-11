@@ -34,6 +34,12 @@ export interface UtilityPrefetchResponse {
   domain?: string;
 
   /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: UtilityPrefetchResponse.KeyMetadata;
+
+  /**
    * Success message
    */
   message?: string;
@@ -44,11 +50,35 @@ export interface UtilityPrefetchResponse {
   status?: string;
 }
 
+export namespace UtilityPrefetchResponse {
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
+}
+
 export interface UtilityPrefetchByEmailResponse {
   /**
    * The domain that was queued for prefetching
    */
   domain?: string;
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: UtilityPrefetchByEmailResponse.KeyMetadata;
 
   /**
    * Success message
@@ -59,6 +89,24 @@ export interface UtilityPrefetchByEmailResponse {
    * Status of the response, e.g., 'ok'
    */
   status?: string;
+}
+
+export namespace UtilityPrefetchByEmailResponse {
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
 }
 
 export interface UtilityPrefetchParams {
