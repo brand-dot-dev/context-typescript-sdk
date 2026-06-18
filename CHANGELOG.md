@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.35.0 (2026-06-18)
+
+Full Changelog: [v1.34.0...v1.35.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.34.0...v1.35.0)
+
+### Features
+
+* **api:** api update ([ad438f3](https://github.com/context-dot-dev/context-typescript-sdk/commit/ad438f3a2fa26316824929c8702a3eedf9796d39))
+
+
+### Bug Fixes
+
+* **client:** send content-type header for requests with an omitted optional body ([10b5e35](https://github.com/context-dot-dev/context-typescript-sdk/commit/10b5e35eb0f677c57934a02b683db32047cfd194))
+
+
+### Chores
+
+* configure new SDK language ([79977cb](https://github.com/context-dot-dev/context-typescript-sdk/commit/79977cb2283285a9b3da9b2ca87277f78e3d499a))
+* update SDK settings ([c66aa73](https://github.com/context-dot-dev/context-typescript-sdk/commit/c66aa73bb6061942b5e18565e3e418ff1fc8bded))
+
 ## 1.34.0 (2026-06-11)
 
 Full Changelog: [v1.33.0...v1.34.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v1.33.0...v1.34.0)

@@ -1195,6 +1195,17 @@ export namespace WebWebCrawlMdResponse {
       crawlDepth: number;
 
       /**
+       * Final URL scraped after redirects or scraper fallback, when known. Falls back to
+       * sourceUrl when unavailable.
+       */
+      finalUrl: string;
+
+      /**
+       * Original URL requested by the caller.
+       */
+      sourceUrl: string;
+
+      /**
        * HTTP status code of the response
        */
       statusCode: number;
@@ -1205,14 +1216,118 @@ export namespace WebWebCrawlMdResponse {
       success: boolean;
 
       /**
-       * The page's <title> content (empty string if unavailable)
+       * Best page title extracted from the page (empty string if unavailable).
        */
       title: string;
 
       /**
-       * The URL that was fetched
+       * The crawl URL fetched for this page.
        */
       url: string;
+
+      /**
+       * Additional non-social meta tags not promoted to top-level metadata fields.
+       */
+      additionalMeta?: { [key: string]: string | Array<string> };
+
+      /**
+       * Resolved alternate links from link rel=alternate tags.
+       */
+      alternates?: Array<Metadata.Alternate>;
+
+      /**
+       * Author metadata, when present.
+       */
+      author?: string;
+
+      /**
+       * Resolved canonical URL, when present.
+       */
+      canonicalUrl?: string;
+
+      /**
+       * Best description extracted from standard, Open Graph, or Twitter metadata.
+       */
+      description?: string;
+
+      /**
+       * Resolved favicon URL, when present.
+       */
+      favicon?: string;
+
+      /**
+       * Primary resolved preview image from Open Graph, Twitter, or image metadata.
+       */
+      image?: string;
+
+      /**
+       * JSON-LD structured data blocks parsed from the page.
+       */
+      jsonLd?: Array<{ [key: string]: unknown }>;
+
+      /**
+       * Keywords extracted from the page's keywords meta tag.
+       */
+      keywords?: Array<string>;
+
+      /**
+       * Language extracted from html lang or language meta tags.
+       */
+      language?: string;
+
+      /**
+       * Modified timestamp/date from page metadata, when present.
+       */
+      modifiedTime?: string;
+
+      /**
+       * Open Graph metadata with the og: prefix removed and keys camel-cased.
+       */
+      openGraph?: { [key: string]: string | Array<string> };
+
+      /**
+       * Published timestamp/date from page metadata, when present.
+       */
+      publishedTime?: string;
+
+      /**
+       * Robots meta directive, when present.
+       */
+      robots?: string;
+
+      /**
+       * Site or application name from page metadata.
+       */
+      siteName?: string;
+
+      /**
+       * Twitter card metadata with the twitter: prefix removed and keys camel-cased.
+       */
+      twitter?: { [key: string]: string | Array<string> };
+    }
+
+    export namespace Metadata {
+      export interface Alternate {
+        /**
+         * Resolved alternate URL.
+         */
+        href: string;
+
+        /**
+         * Language or locale for the alternate URL, when present.
+         */
+        hreflang?: string;
+
+        /**
+         * Alternate resource title, when present.
+         */
+        title?: string;
+
+        /**
+         * Alternate resource MIME type, when present.
+         */
+        type?: string;
+      }
     }
   }
 
@@ -1242,6 +1357,11 @@ export interface WebWebScrapeHTMLResponse {
   html: string;
 
   /**
+   * Metadata extracted from the scraped page HTML.
+   */
+  metadata: WebWebScrapeHTMLResponse.Metadata;
+
+  /**
    * Indicates success
    */
   success: true;
@@ -1265,6 +1385,131 @@ export interface WebWebScrapeHTMLResponse {
 }
 
 export namespace WebWebScrapeHTMLResponse {
+  /**
+   * Metadata extracted from the scraped page HTML.
+   */
+  export interface Metadata {
+    /**
+     * Final URL scraped after redirects or scraper fallback, when known. Falls back to
+     * sourceUrl when unavailable.
+     */
+    finalUrl: string;
+
+    /**
+     * Original URL requested by the caller.
+     */
+    sourceUrl: string;
+
+    /**
+     * Additional non-social meta tags not promoted to top-level metadata fields.
+     */
+    additionalMeta?: { [key: string]: string | Array<string> };
+
+    /**
+     * Resolved alternate links from link rel=alternate tags.
+     */
+    alternates?: Array<Metadata.Alternate>;
+
+    /**
+     * Author metadata, when present.
+     */
+    author?: string;
+
+    /**
+     * Resolved canonical URL, when present.
+     */
+    canonicalUrl?: string;
+
+    /**
+     * Best description extracted from standard, Open Graph, or Twitter metadata.
+     */
+    description?: string;
+
+    /**
+     * Resolved favicon URL, when present.
+     */
+    favicon?: string;
+
+    /**
+     * Primary resolved preview image from Open Graph, Twitter, or image metadata.
+     */
+    image?: string;
+
+    /**
+     * JSON-LD structured data blocks parsed from the page.
+     */
+    jsonLd?: Array<{ [key: string]: unknown }>;
+
+    /**
+     * Keywords extracted from the page's keywords meta tag.
+     */
+    keywords?: Array<string>;
+
+    /**
+     * Language extracted from html lang or language meta tags.
+     */
+    language?: string;
+
+    /**
+     * Modified timestamp/date from page metadata, when present.
+     */
+    modifiedTime?: string;
+
+    /**
+     * Open Graph metadata with the og: prefix removed and keys camel-cased.
+     */
+    openGraph?: { [key: string]: string | Array<string> };
+
+    /**
+     * Published timestamp/date from page metadata, when present.
+     */
+    publishedTime?: string;
+
+    /**
+     * Robots meta directive, when present.
+     */
+    robots?: string;
+
+    /**
+     * Site or application name from page metadata.
+     */
+    siteName?: string;
+
+    /**
+     * Best title extracted from the page.
+     */
+    title?: string;
+
+    /**
+     * Twitter card metadata with the twitter: prefix removed and keys camel-cased.
+     */
+    twitter?: { [key: string]: string | Array<string> };
+  }
+
+  export namespace Metadata {
+    export interface Alternate {
+      /**
+       * Resolved alternate URL.
+       */
+      href: string;
+
+      /**
+       * Language or locale for the alternate URL, when present.
+       */
+      hreflang?: string;
+
+      /**
+       * Alternate resource title, when present.
+       */
+      title?: string;
+
+      /**
+       * Alternate resource MIME type, when present.
+       */
+      type?: string;
+    }
+  }
+
   /**
    * Metadata about the API key used for the request. Included in every response
    * whenever a valid API key is provided, even when the response status is not 200.
@@ -1389,6 +1634,11 @@ export interface WebWebScrapeMdResponse {
   markdown: string;
 
   /**
+   * Metadata extracted from the scraped page HTML.
+   */
+  metadata: WebWebScrapeMdResponse.Metadata;
+
+  /**
    * Indicates success
    */
   success: true;
@@ -1406,6 +1656,131 @@ export interface WebWebScrapeMdResponse {
 }
 
 export namespace WebWebScrapeMdResponse {
+  /**
+   * Metadata extracted from the scraped page HTML.
+   */
+  export interface Metadata {
+    /**
+     * Final URL scraped after redirects or scraper fallback, when known. Falls back to
+     * sourceUrl when unavailable.
+     */
+    finalUrl: string;
+
+    /**
+     * Original URL requested by the caller.
+     */
+    sourceUrl: string;
+
+    /**
+     * Additional non-social meta tags not promoted to top-level metadata fields.
+     */
+    additionalMeta?: { [key: string]: string | Array<string> };
+
+    /**
+     * Resolved alternate links from link rel=alternate tags.
+     */
+    alternates?: Array<Metadata.Alternate>;
+
+    /**
+     * Author metadata, when present.
+     */
+    author?: string;
+
+    /**
+     * Resolved canonical URL, when present.
+     */
+    canonicalUrl?: string;
+
+    /**
+     * Best description extracted from standard, Open Graph, or Twitter metadata.
+     */
+    description?: string;
+
+    /**
+     * Resolved favicon URL, when present.
+     */
+    favicon?: string;
+
+    /**
+     * Primary resolved preview image from Open Graph, Twitter, or image metadata.
+     */
+    image?: string;
+
+    /**
+     * JSON-LD structured data blocks parsed from the page.
+     */
+    jsonLd?: Array<{ [key: string]: unknown }>;
+
+    /**
+     * Keywords extracted from the page's keywords meta tag.
+     */
+    keywords?: Array<string>;
+
+    /**
+     * Language extracted from html lang or language meta tags.
+     */
+    language?: string;
+
+    /**
+     * Modified timestamp/date from page metadata, when present.
+     */
+    modifiedTime?: string;
+
+    /**
+     * Open Graph metadata with the og: prefix removed and keys camel-cased.
+     */
+    openGraph?: { [key: string]: string | Array<string> };
+
+    /**
+     * Published timestamp/date from page metadata, when present.
+     */
+    publishedTime?: string;
+
+    /**
+     * Robots meta directive, when present.
+     */
+    robots?: string;
+
+    /**
+     * Site or application name from page metadata.
+     */
+    siteName?: string;
+
+    /**
+     * Best title extracted from the page.
+     */
+    title?: string;
+
+    /**
+     * Twitter card metadata with the twitter: prefix removed and keys camel-cased.
+     */
+    twitter?: { [key: string]: string | Array<string> };
+  }
+
+  export namespace Metadata {
+    export interface Alternate {
+      /**
+       * Resolved alternate URL.
+       */
+      href: string;
+
+      /**
+       * Language or locale for the alternate URL, when present.
+       */
+      hreflang?: string;
+
+      /**
+       * Alternate resource title, when present.
+       */
+      title?: string;
+
+      /**
+       * Alternate resource MIME type, when present.
+       */
+      type?: string;
+    }
+  }
+
   /**
    * Metadata about the API key used for the request. Included in every response
    * whenever a valid API key is provided, even when the response status is not 200.

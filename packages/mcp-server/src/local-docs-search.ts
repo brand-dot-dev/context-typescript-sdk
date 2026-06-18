@@ -71,9 +71,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'waitForMs?: number;',
     ],
     response:
-      "{ html: string; success: true; type: 'html' | 'xml' | 'json' | 'text' | 'csv' | 'markdown' | 'svg' | 'pdf'; url: string; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }",
+      "{ html: string; metadata: { finalUrl: string; sourceUrl: string; additionalMeta?: object; alternates?: { href: string; hreflang?: string; title?: string; type?: string; }[]; author?: string; canonicalUrl?: string; description?: string; favicon?: string; image?: string; jsonLd?: object[]; keywords?: string[]; language?: string; modifiedTime?: string; openGraph?: object; publishedTime?: string; robots?: string; siteName?: string; title?: string; twitter?: object; }; success: true; type: 'html' | 'xml' | 'json' | 'text' | 'csv' | 'markdown' | 'svg' | 'pdf'; url: string; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }",
     markdown:
-      "## web_scrape_html\n\n`client.web.webScrapeHTML(url: string, excludeSelectors?: string[], headers?: object, includeFrames?: boolean, includeSelectors?: string[], maxAgeMs?: number, pdf?: { end?: number; shouldParse?: boolean; start?: number; }, timeoutMS?: number, useMainContentOnly?: boolean, waitForMs?: number): { html: string; success: true; type: 'html' | 'xml' | 'json' | 'text' | 'csv' | 'markdown' | 'svg' | 'pdf'; url: string; key_metadata?: object; }`\n\n**get** `/web/scrape/html`\n\nScrapes the given URL and returns the raw HTML content of the page.\n\n### Parameters\n\n- `url: string`\n  Full URL to scrape (must include http:// or https:// protocol)\n\n- `excludeSelectors?: string[]`\n  CSS selectors to remove from the result. Applied after includeSelectors. Exclusion takes precedence: an element matching both is removed. Examples: \"nav\", \"footer\", \".ad-banner\", \"[aria-hidden=true]\".\n\n- `headers?: object`\n  Optional outbound HTTP headers forwarded only to the target URL, sent as deep-object query params such as headers[X-Custom]=value. When provided, caching is bypassed: the result is neither read from nor written to cache.\n\n- `includeFrames?: boolean`\n  When true, iframes are rendered inline into the returned HTML.\n\n- `includeSelectors?: string[]`\n  CSS selectors. When provided, only matching subtrees (and their descendants) are kept and everything else is dropped. When omitted, the entire document is kept. Examples: \"article.main\", \"#content\", \"[role=main]\".\n\n- `maxAgeMs?: number`\n  Return a cached result if a prior scrape for the same parameters exists and is younger than this many milliseconds. Defaults to 1 day (86400000 ms) when omitted. Max is 30 days (2592000000 ms). Set to 0 to always scrape fresh.\n\n- `pdf?: { end?: number; shouldParse?: boolean; start?: number; }`\n  PDF parsing controls. Use start/end to limit text extraction and OCR to an inclusive 1-based page range.\n  - `end?: number`\n    Last 1-based PDF page to parse. When omitted, parsing ends at the last page. Must be greater than or equal to start when both are provided.\n  - `shouldParse?: boolean`\n    When true, PDF URLs are fetched and parsed. When false, PDF URLs are skipped and a 400 WEBSITE_ACCESS_ERROR is returned.\n  - `start?: number`\n    First 1-based PDF page to parse. When omitted, parsing starts at the first page.\n\n- `timeoutMS?: number`\n  Optional timeout in milliseconds for the request. If the request takes longer than this value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5 minutes).\n\n- `useMainContentOnly?: boolean`\n  When true, return only the page's main content in the HTML response, excluding headers, footers, sidebars, and navigation when detectable.\n\n- `waitForMs?: number`\n  Optional browser wait time in milliseconds after initial page load. Min: 0. Max: 30000 (30 seconds). \n\n### Returns\n\n- `{ html: string; success: true; type: 'html' | 'xml' | 'json' | 'text' | 'csv' | 'markdown' | 'svg' | 'pdf'; url: string; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }`\n\n  - `html: string`\n  - `success: true`\n  - `type: 'html' | 'xml' | 'json' | 'text' | 'csv' | 'markdown' | 'svg' | 'pdf'`\n  - `url: string`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.web.webScrapeHTML({ url: 'https://example.com' });\n\nconsole.log(response);\n```",
+      "## web_scrape_html\n\n`client.web.webScrapeHTML(url: string, excludeSelectors?: string[], headers?: object, includeFrames?: boolean, includeSelectors?: string[], maxAgeMs?: number, pdf?: { end?: number; shouldParse?: boolean; start?: number; }, timeoutMS?: number, useMainContentOnly?: boolean, waitForMs?: number): { html: string; metadata: object; success: true; type: 'html' | 'xml' | 'json' | 'text' | 'csv' | 'markdown' | 'svg' | 'pdf'; url: string; key_metadata?: object; }`\n\n**get** `/web/scrape/html`\n\nScrapes the given URL and returns the raw HTML content of the page.\n\n### Parameters\n\n- `url: string`\n  Full URL to scrape (must include http:// or https:// protocol)\n\n- `excludeSelectors?: string[]`\n  CSS selectors to remove from the result. Applied after includeSelectors. Exclusion takes precedence: an element matching both is removed. Examples: \"nav\", \"footer\", \".ad-banner\", \"[aria-hidden=true]\".\n\n- `headers?: object`\n  Optional outbound HTTP headers forwarded only to the target URL, sent as deep-object query params such as headers[X-Custom]=value. When provided, caching is bypassed: the result is neither read from nor written to cache.\n\n- `includeFrames?: boolean`\n  When true, iframes are rendered inline into the returned HTML.\n\n- `includeSelectors?: string[]`\n  CSS selectors. When provided, only matching subtrees (and their descendants) are kept and everything else is dropped. When omitted, the entire document is kept. Examples: \"article.main\", \"#content\", \"[role=main]\".\n\n- `maxAgeMs?: number`\n  Return a cached result if a prior scrape for the same parameters exists and is younger than this many milliseconds. Defaults to 1 day (86400000 ms) when omitted. Max is 30 days (2592000000 ms). Set to 0 to always scrape fresh.\n\n- `pdf?: { end?: number; shouldParse?: boolean; start?: number; }`\n  PDF parsing controls. Use start/end to limit text extraction and OCR to an inclusive 1-based page range.\n  - `end?: number`\n    Last 1-based PDF page to parse. When omitted, parsing ends at the last page. Must be greater than or equal to start when both are provided.\n  - `shouldParse?: boolean`\n    When true, PDF URLs are fetched and parsed. When false, PDF URLs are skipped and a 400 WEBSITE_ACCESS_ERROR is returned.\n  - `start?: number`\n    First 1-based PDF page to parse. When omitted, parsing starts at the first page.\n\n- `timeoutMS?: number`\n  Optional timeout in milliseconds for the request. If the request takes longer than this value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5 minutes).\n\n- `useMainContentOnly?: boolean`\n  When true, return only the page's main content in the HTML response, excluding headers, footers, sidebars, and navigation when detectable.\n\n- `waitForMs?: number`\n  Optional browser wait time in milliseconds after initial page load. Min: 0. Max: 30000 (30 seconds). \n\n### Returns\n\n- `{ html: string; metadata: { finalUrl: string; sourceUrl: string; additionalMeta?: object; alternates?: { href: string; hreflang?: string; title?: string; type?: string; }[]; author?: string; canonicalUrl?: string; description?: string; favicon?: string; image?: string; jsonLd?: object[]; keywords?: string[]; language?: string; modifiedTime?: string; openGraph?: object; publishedTime?: string; robots?: string; siteName?: string; title?: string; twitter?: object; }; success: true; type: 'html' | 'xml' | 'json' | 'text' | 'csv' | 'markdown' | 'svg' | 'pdf'; url: string; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }`\n\n  - `html: string`\n  - `metadata: { finalUrl: string; sourceUrl: string; additionalMeta?: object; alternates?: { href: string; hreflang?: string; title?: string; type?: string; }[]; author?: string; canonicalUrl?: string; description?: string; favicon?: string; image?: string; jsonLd?: object[]; keywords?: string[]; language?: string; modifiedTime?: string; openGraph?: object; publishedTime?: string; robots?: string; siteName?: string; title?: string; twitter?: object; }`\n  - `success: true`\n  - `type: 'html' | 'xml' | 'json' | 'text' | 'csv' | 'markdown' | 'svg' | 'pdf'`\n  - `url: string`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.web.webScrapeHTML({ url: 'https://example.com' });\n\nconsole.log(response);\n```",
     perLanguage: {
       typescript: {
         method: 'client.web.webScrapeHTML',
@@ -94,6 +94,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'web.web_scrape_html',
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.web.web_scrape_html(url: "https://example.com")\n\nputs(response)',
+      },
+      cli: {
+        method: 'web web_scrape_html',
+        example:
+          "context-dev web web-scrape-html \\\n  --api-key 'My API Key' \\\n  --url https://example.com",
       },
       http: {
         example:
@@ -125,9 +130,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'waitForMs?: number;',
     ],
     response:
-      '{ markdown: string; success: true; url: string; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }',
+      '{ markdown: string; metadata: { finalUrl: string; sourceUrl: string; additionalMeta?: object; alternates?: { href: string; hreflang?: string; title?: string; type?: string; }[]; author?: string; canonicalUrl?: string; description?: string; favicon?: string; image?: string; jsonLd?: object[]; keywords?: string[]; language?: string; modifiedTime?: string; openGraph?: object; publishedTime?: string; robots?: string; siteName?: string; title?: string; twitter?: object; }; success: true; url: string; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }',
     markdown:
-      '## web_scrape_md\n\n`client.web.webScrapeMd(url: string, excludeSelectors?: string[], headers?: object, includeFrames?: boolean, includeImages?: boolean, includeLinks?: boolean, includeSelectors?: string[], maxAgeMs?: number, pdf?: { end?: number; shouldParse?: boolean; start?: number; }, shortenBase64Images?: boolean, timeoutMS?: number, useMainContentOnly?: boolean, waitForMs?: number): { markdown: string; success: true; url: string; key_metadata?: object; }`\n\n**get** `/web/scrape/markdown`\n\nScrapes the given URL into LLM usable Markdown.\n\n### Parameters\n\n- `url: string`\n  Full URL to scrape into LLM usable Markdown (must include http:// or https:// protocol)\n\n- `excludeSelectors?: string[]`\n  CSS selectors to remove before conversion to Markdown. Applied after includeSelectors. Exclusion takes precedence: an element matching both is removed. Examples: "nav", "footer", ".ad-banner", "[aria-hidden=true]".\n\n- `headers?: object`\n  Optional outbound HTTP headers forwarded only to the target URL, sent as deep-object query params such as headers[X-Custom]=value. When provided, caching is bypassed: the result is neither read from nor written to cache.\n\n- `includeFrames?: boolean`\n  When true, the contents of iframes are rendered to Markdown.\n\n- `includeImages?: boolean`\n  Include image references in Markdown output\n\n- `includeLinks?: boolean`\n  Preserve hyperlinks in Markdown output\n\n- `includeSelectors?: string[]`\n  CSS selectors. When provided, only matching HTML subtrees (and their descendants) are kept before conversion to Markdown. When omitted, the entire document is kept. Examples: "article.main", "#content", "[role=main]".\n\n- `maxAgeMs?: number`\n  Return a cached result if a prior scrape for the same parameters exists and is younger than this many milliseconds. Defaults to 1 day (86400000 ms) when omitted. Max is 30 days (2592000000 ms). Set to 0 to always scrape fresh.\n\n- `pdf?: { end?: number; shouldParse?: boolean; start?: number; }`\n  PDF parsing controls. Use start/end to limit text extraction and OCR to an inclusive 1-based page range.\n  - `end?: number`\n    Last 1-based PDF page to parse. When omitted, parsing ends at the last page. Must be greater than or equal to start when both are provided.\n  - `shouldParse?: boolean`\n    When true, PDF URLs are fetched and parsed. When false, PDF URLs are skipped and a 400 WEBSITE_ACCESS_ERROR is returned.\n  - `start?: number`\n    First 1-based PDF page to parse. When omitted, parsing starts at the first page.\n\n- `shortenBase64Images?: boolean`\n  Shorten base64-encoded image data in the Markdown output\n\n- `timeoutMS?: number`\n  Optional timeout in milliseconds for the request. If the request takes longer than this value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5 minutes).\n\n- `useMainContentOnly?: boolean`\n  Extract only the main content of the page, excluding headers, footers, sidebars, and navigation\n\n- `waitForMs?: number`\n  Optional browser wait time in milliseconds after initial page load before converting the page to Markdown. Min: 0. Max: 30000 (30 seconds). \n\n### Returns\n\n- `{ markdown: string; success: true; url: string; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }`\n\n  - `markdown: string`\n  - `success: true`\n  - `url: string`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n\n### Example\n\n```typescript\nimport ContextDev from \'context.dev\';\n\nconst client = new ContextDev();\n\nconst response = await client.web.webScrapeMd({ url: \'https://example.com\' });\n\nconsole.log(response);\n```',
+      '## web_scrape_md\n\n`client.web.webScrapeMd(url: string, excludeSelectors?: string[], headers?: object, includeFrames?: boolean, includeImages?: boolean, includeLinks?: boolean, includeSelectors?: string[], maxAgeMs?: number, pdf?: { end?: number; shouldParse?: boolean; start?: number; }, shortenBase64Images?: boolean, timeoutMS?: number, useMainContentOnly?: boolean, waitForMs?: number): { markdown: string; metadata: object; success: true; url: string; key_metadata?: object; }`\n\n**get** `/web/scrape/markdown`\n\nScrapes the given URL into LLM usable Markdown.\n\n### Parameters\n\n- `url: string`\n  Full URL to scrape into LLM usable Markdown (must include http:// or https:// protocol)\n\n- `excludeSelectors?: string[]`\n  CSS selectors to remove before conversion to Markdown. Applied after includeSelectors. Exclusion takes precedence: an element matching both is removed. Examples: "nav", "footer", ".ad-banner", "[aria-hidden=true]".\n\n- `headers?: object`\n  Optional outbound HTTP headers forwarded only to the target URL, sent as deep-object query params such as headers[X-Custom]=value. When provided, caching is bypassed: the result is neither read from nor written to cache.\n\n- `includeFrames?: boolean`\n  When true, the contents of iframes are rendered to Markdown.\n\n- `includeImages?: boolean`\n  Include image references in Markdown output\n\n- `includeLinks?: boolean`\n  Preserve hyperlinks in Markdown output\n\n- `includeSelectors?: string[]`\n  CSS selectors. When provided, only matching HTML subtrees (and their descendants) are kept before conversion to Markdown. When omitted, the entire document is kept. Examples: "article.main", "#content", "[role=main]".\n\n- `maxAgeMs?: number`\n  Return a cached result if a prior scrape for the same parameters exists and is younger than this many milliseconds. Defaults to 1 day (86400000 ms) when omitted. Max is 30 days (2592000000 ms). Set to 0 to always scrape fresh.\n\n- `pdf?: { end?: number; shouldParse?: boolean; start?: number; }`\n  PDF parsing controls. Use start/end to limit text extraction and OCR to an inclusive 1-based page range.\n  - `end?: number`\n    Last 1-based PDF page to parse. When omitted, parsing ends at the last page. Must be greater than or equal to start when both are provided.\n  - `shouldParse?: boolean`\n    When true, PDF URLs are fetched and parsed. When false, PDF URLs are skipped and a 400 WEBSITE_ACCESS_ERROR is returned.\n  - `start?: number`\n    First 1-based PDF page to parse. When omitted, parsing starts at the first page.\n\n- `shortenBase64Images?: boolean`\n  Shorten base64-encoded image data in the Markdown output\n\n- `timeoutMS?: number`\n  Optional timeout in milliseconds for the request. If the request takes longer than this value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5 minutes).\n\n- `useMainContentOnly?: boolean`\n  Extract only the main content of the page, excluding headers, footers, sidebars, and navigation\n\n- `waitForMs?: number`\n  Optional browser wait time in milliseconds after initial page load before converting the page to Markdown. Min: 0. Max: 30000 (30 seconds). \n\n### Returns\n\n- `{ markdown: string; metadata: { finalUrl: string; sourceUrl: string; additionalMeta?: object; alternates?: { href: string; hreflang?: string; title?: string; type?: string; }[]; author?: string; canonicalUrl?: string; description?: string; favicon?: string; image?: string; jsonLd?: object[]; keywords?: string[]; language?: string; modifiedTime?: string; openGraph?: object; publishedTime?: string; robots?: string; siteName?: string; title?: string; twitter?: object; }; success: true; url: string; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }`\n\n  - `markdown: string`\n  - `metadata: { finalUrl: string; sourceUrl: string; additionalMeta?: object; alternates?: { href: string; hreflang?: string; title?: string; type?: string; }[]; author?: string; canonicalUrl?: string; description?: string; favicon?: string; image?: string; jsonLd?: object[]; keywords?: string[]; language?: string; modifiedTime?: string; openGraph?: object; publishedTime?: string; robots?: string; siteName?: string; title?: string; twitter?: object; }`\n  - `success: true`\n  - `url: string`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n\n### Example\n\n```typescript\nimport ContextDev from \'context.dev\';\n\nconst client = new ContextDev();\n\nconst response = await client.web.webScrapeMd({ url: \'https://example.com\' });\n\nconsole.log(response);\n```',
     perLanguage: {
       typescript: {
         method: 'client.web.webScrapeMd',
@@ -148,6 +153,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'web.web_scrape_md',
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.web.web_scrape_md(url: "https://example.com")\n\nputs(response)',
+      },
+      cli: {
+        method: 'web web_scrape_md',
+        example: "context-dev web web-scrape-md \\\n  --api-key 'My API Key' \\\n  --url https://example.com",
       },
       http: {
         example:
@@ -197,6 +206,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.web.web_scrape_images(url: "https://example.com")\n\nputs(response)',
       },
+      cli: {
+        method: 'web web_scrape_images',
+        example:
+          "context-dev web web-scrape-images \\\n  --api-key 'My API Key' \\\n  --url https://example.com",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/web/scrape/images \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
@@ -242,6 +256,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'web.web_scrape_sitemap',
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.web.web_scrape_sitemap(domain: "domain")\n\nputs(response)',
+      },
+      cli: {
+        method: 'web web_scrape_sitemap',
+        example: "context-dev web web-scrape-sitemap \\\n  --api-key 'My API Key' \\\n  --domain domain",
       },
       http: {
         example:
@@ -293,6 +311,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.web.screenshot\n\nputs(response)',
       },
+      cli: {
+        method: 'web screenshot',
+        example: "context-dev web screenshot \\\n  --api-key 'My API Key'",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/web/screenshot \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
@@ -328,9 +350,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       'waitForMs?: number;',
     ],
     response:
-      '{ metadata: { maxCrawlDepth: number; numFailed: number; numSkipped: number; numSucceeded: number; numUrls: number; }; results: { markdown: string; metadata: { crawlDepth: number; statusCode: number; success: boolean; title: string; url: string; }; }[]; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }',
+      '{ metadata: { maxCrawlDepth: number; numFailed: number; numSkipped: number; numSucceeded: number; numUrls: number; }; results: { markdown: string; metadata: { crawlDepth: number; finalUrl: string; sourceUrl: string; statusCode: number; success: boolean; title: string; url: string; additionalMeta?: object; alternates?: object[]; author?: string; canonicalUrl?: string; description?: string; favicon?: string; image?: string; jsonLd?: object[]; keywords?: string[]; language?: string; modifiedTime?: string; openGraph?: object; publishedTime?: string; robots?: string; siteName?: string; twitter?: object; }; }[]; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }',
     markdown:
-      '## web_crawl_md\n\n`client.web.webCrawlMd(url: string, excludeSelectors?: string[], followSubdomains?: boolean, includeFrames?: boolean, includeImages?: boolean, includeLinks?: boolean, includeSelectors?: string[], maxAgeMs?: number, maxDepth?: number, maxPages?: number, pdf?: { end?: number; shouldParse?: boolean; start?: number; }, shortenBase64Images?: boolean, stopAfterMs?: number, timeoutMS?: number, urlRegex?: string, useMainContentOnly?: boolean, waitForMs?: number): { metadata: object; results: object[]; key_metadata?: object; }`\n\n**post** `/web/crawl`\n\nPerforms a crawl starting from a given URL, extracts page content as Markdown, and returns results for all crawled pages.\n\n### Parameters\n\n- `url: string`\n  The starting URL for the crawl (must include http:// or https:// protocol)\n\n- `excludeSelectors?: string[]`\n  CSS selectors to remove before each crawled page is converted to Markdown. Applied after includeSelectors. Exclusion takes precedence: an element matching both is removed. Examples: "nav", "footer", ".ad-banner", "[aria-hidden=true]".\n\n- `followSubdomains?: boolean`\n  When true, follow links on subdomains of the starting URL\'s domain (e.g. docs.example.com when starting from example.com). www and apex are always treated as equivalent.\n\n- `includeFrames?: boolean`\n  When true, the contents of iframes are rendered to Markdown for each crawled page.\n\n- `includeImages?: boolean`\n  Include image references in the Markdown output\n\n- `includeLinks?: boolean`\n  Preserve hyperlinks in the Markdown output\n\n- `includeSelectors?: string[]`\n  CSS selectors. When provided, only matching HTML subtrees (and their descendants) are kept before each crawled page is converted to Markdown. When omitted, the entire document is kept. Examples: "article.main", "#content", "[role=main]".\n\n- `maxAgeMs?: number`\n  Return a cached result if a prior scrape for the same parameters exists and is younger than this many milliseconds. Defaults to 1 day (86400000 ms) when omitted. Max is 30 days (2592000000 ms). Set to 0 to always scrape fresh.\n\n- `maxDepth?: number`\n  Maximum link depth from the starting URL (0 = only the starting page)\n\n- `maxPages?: number`\n  Maximum number of pages to crawl. Hard cap: 500.\n\n- `pdf?: { end?: number; shouldParse?: boolean; start?: number; }`\n  PDF parsing controls. Use start/end to limit text extraction and OCR to an inclusive 1-based page range.\n  - `end?: number`\n    Last 1-based PDF page to parse. When omitted, parsing ends at the last page. Must be greater than or equal to start when both are provided.\n  - `shouldParse?: boolean`\n    When true, PDF pages are fetched and parsed. When false, PDF pages are skipped entirely (not included in results and not counted as failures).\n  - `start?: number`\n    First 1-based PDF page to parse. When omitted, parsing starts at the first page.\n\n- `shortenBase64Images?: boolean`\n  Truncate base64-encoded image data in the Markdown output\n\n- `stopAfterMs?: number`\n  Soft time budget for the crawl in milliseconds. After each scrape, the crawler checks the elapsed time and, if exceeded, returns the pages collected so far instead of continuing. Min: 10000 (10s). Max: 110000 (110s). Default: 80000 (80s).\n\n- `timeoutMS?: number`\n  Optional timeout in milliseconds for the request. If the request takes longer than this value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5 minutes).\n\n- `urlRegex?: string`\n  Regex pattern. Only URLs matching this pattern will be followed and scraped.\n\n- `useMainContentOnly?: boolean`\n  Extract only the main content, stripping headers, footers, sidebars, and navigation\n\n- `waitForMs?: number`\n  Optional browser wait time in milliseconds after initial page load for each crawled page. Min: 0. Max: 30000 (30 seconds). \n\n### Returns\n\n- `{ metadata: { maxCrawlDepth: number; numFailed: number; numSkipped: number; numSucceeded: number; numUrls: number; }; results: { markdown: string; metadata: { crawlDepth: number; statusCode: number; success: boolean; title: string; url: string; }; }[]; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }`\n\n  - `metadata: { maxCrawlDepth: number; numFailed: number; numSkipped: number; numSucceeded: number; numUrls: number; }`\n  - `results: { markdown: string; metadata: { crawlDepth: number; statusCode: number; success: boolean; title: string; url: string; }; }[]`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n\n### Example\n\n```typescript\nimport ContextDev from \'context.dev\';\n\nconst client = new ContextDev();\n\nconst response = await client.web.webCrawlMd({ url: \'https://example.com\' });\n\nconsole.log(response);\n```',
+      '## web_crawl_md\n\n`client.web.webCrawlMd(url: string, excludeSelectors?: string[], followSubdomains?: boolean, includeFrames?: boolean, includeImages?: boolean, includeLinks?: boolean, includeSelectors?: string[], maxAgeMs?: number, maxDepth?: number, maxPages?: number, pdf?: { end?: number; shouldParse?: boolean; start?: number; }, shortenBase64Images?: boolean, stopAfterMs?: number, timeoutMS?: number, urlRegex?: string, useMainContentOnly?: boolean, waitForMs?: number): { metadata: object; results: object[]; key_metadata?: object; }`\n\n**post** `/web/crawl`\n\nPerforms a crawl starting from a given URL, extracts page content as Markdown, and returns results for all crawled pages.\n\n### Parameters\n\n- `url: string`\n  The starting URL for the crawl (must include http:// or https:// protocol)\n\n- `excludeSelectors?: string[]`\n  CSS selectors to remove before each crawled page is converted to Markdown. Applied after includeSelectors. Exclusion takes precedence: an element matching both is removed. Examples: "nav", "footer", ".ad-banner", "[aria-hidden=true]".\n\n- `followSubdomains?: boolean`\n  When true, follow links on subdomains of the starting URL\'s domain (e.g. docs.example.com when starting from example.com). www and apex are always treated as equivalent.\n\n- `includeFrames?: boolean`\n  When true, the contents of iframes are rendered to Markdown for each crawled page.\n\n- `includeImages?: boolean`\n  Include image references in the Markdown output\n\n- `includeLinks?: boolean`\n  Preserve hyperlinks in the Markdown output\n\n- `includeSelectors?: string[]`\n  CSS selectors. When provided, only matching HTML subtrees (and their descendants) are kept before each crawled page is converted to Markdown. When omitted, the entire document is kept. Examples: "article.main", "#content", "[role=main]".\n\n- `maxAgeMs?: number`\n  Return a cached result if a prior scrape for the same parameters exists and is younger than this many milliseconds. Defaults to 1 day (86400000 ms) when omitted. Max is 30 days (2592000000 ms). Set to 0 to always scrape fresh.\n\n- `maxDepth?: number`\n  Maximum link depth from the starting URL (0 = only the starting page)\n\n- `maxPages?: number`\n  Maximum number of pages to crawl. Hard cap: 500.\n\n- `pdf?: { end?: number; shouldParse?: boolean; start?: number; }`\n  PDF parsing controls. Use start/end to limit text extraction and OCR to an inclusive 1-based page range.\n  - `end?: number`\n    Last 1-based PDF page to parse. When omitted, parsing ends at the last page. Must be greater than or equal to start when both are provided.\n  - `shouldParse?: boolean`\n    When true, PDF pages are fetched and parsed. When false, PDF pages are skipped entirely (not included in results and not counted as failures).\n  - `start?: number`\n    First 1-based PDF page to parse. When omitted, parsing starts at the first page.\n\n- `shortenBase64Images?: boolean`\n  Truncate base64-encoded image data in the Markdown output\n\n- `stopAfterMs?: number`\n  Soft time budget for the crawl in milliseconds. After each scrape, the crawler checks the elapsed time and, if exceeded, returns the pages collected so far instead of continuing. Min: 10000 (10s). Max: 110000 (110s). Default: 80000 (80s).\n\n- `timeoutMS?: number`\n  Optional timeout in milliseconds for the request. If the request takes longer than this value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5 minutes).\n\n- `urlRegex?: string`\n  Regex pattern. Only URLs matching this pattern will be followed and scraped.\n\n- `useMainContentOnly?: boolean`\n  Extract only the main content, stripping headers, footers, sidebars, and navigation\n\n- `waitForMs?: number`\n  Optional browser wait time in milliseconds after initial page load for each crawled page. Min: 0. Max: 30000 (30 seconds). \n\n### Returns\n\n- `{ metadata: { maxCrawlDepth: number; numFailed: number; numSkipped: number; numSucceeded: number; numUrls: number; }; results: { markdown: string; metadata: { crawlDepth: number; finalUrl: string; sourceUrl: string; statusCode: number; success: boolean; title: string; url: string; additionalMeta?: object; alternates?: object[]; author?: string; canonicalUrl?: string; description?: string; favicon?: string; image?: string; jsonLd?: object[]; keywords?: string[]; language?: string; modifiedTime?: string; openGraph?: object; publishedTime?: string; robots?: string; siteName?: string; twitter?: object; }; }[]; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }`\n\n  - `metadata: { maxCrawlDepth: number; numFailed: number; numSkipped: number; numSucceeded: number; numUrls: number; }`\n  - `results: { markdown: string; metadata: { crawlDepth: number; finalUrl: string; sourceUrl: string; statusCode: number; success: boolean; title: string; url: string; additionalMeta?: object; alternates?: { href: string; hreflang?: string; title?: string; type?: string; }[]; author?: string; canonicalUrl?: string; description?: string; favicon?: string; image?: string; jsonLd?: object[]; keywords?: string[]; language?: string; modifiedTime?: string; openGraph?: object; publishedTime?: string; robots?: string; siteName?: string; twitter?: object; }; }[]`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n\n### Example\n\n```typescript\nimport ContextDev from \'context.dev\';\n\nconst client = new ContextDev();\n\nconst response = await client.web.webCrawlMd({ url: \'https://example.com\' });\n\nconsole.log(response);\n```',
     perLanguage: {
       typescript: {
         method: 'client.web.webCrawlMd',
@@ -351,6 +373,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'web.web_crawl_md',
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.web.web_crawl_md(url: "https://example.com")\n\nputs(response)',
+      },
+      cli: {
+        method: 'web web_crawl_md',
+        example: "context-dev web web-crawl-md \\\n  --api-key 'My API Key' \\\n  --url https://example.com",
       },
       http: {
         example:
@@ -393,6 +419,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.web.extract_fonts\n\nputs(response)',
       },
+      cli: {
+        method: 'web extract_fonts',
+        example: "context-dev web extract-fonts \\\n  --api-key 'My API Key'",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/web/fonts \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
@@ -433,6 +463,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'web.extract_styleguide',
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.web.extract_styleguide\n\nputs(response)',
+      },
+      cli: {
+        method: 'web extract_styleguide',
+        example: "context-dev web extract-styleguide \\\n  --api-key 'My API Key'",
       },
       http: {
         example:
@@ -481,6 +515,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'web.search',
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.web.search(query: "x")\n\nputs(response)',
+      },
+      cli: {
+        method: 'web search',
+        example: "context-dev web search \\\n  --api-key 'My API Key' \\\n  --query x",
       },
       http: {
         example:
@@ -537,6 +575,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.web.extract(\n  schema: {type: "bar", properties: "bar", required: "bar", additionalProperties: "bar"},\n  url: "https://example.com"\n)\n\nputs(response)',
       },
+      cli: {
+        method: 'web extract',
+        example:
+          "context-dev web extract \\\n  --api-key 'My API Key' \\\n  --schema '{type: bar, properties: bar, required: bar, additionalProperties: bar}' \\\n  --url https://example.com",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/web/extract \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "schema": {\n            "type": "bar",\n            "properties": "bar",\n            "required": "bar",\n            "additionalProperties": "bar"\n          },\n          "url": "https://example.com"\n        }\'',
@@ -577,6 +620,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'web.extract_competitors',
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.web.extract_competitors(domain: "xxx")\n\nputs(response)',
+      },
+      cli: {
+        method: 'web extract_competitors',
+        example: "context-dev web extract-competitors \\\n  --api-key 'My API Key' \\\n  --domain xxx",
       },
       http: {
         example:
@@ -619,6 +666,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.ai.extract_products(body: {domain: "domain"})\n\nputs(response)',
       },
+      cli: {
+        method: 'ai extract_products',
+        example:
+          "context-dev ai extract-products \\\n  --api-key 'My API Key' \\\n  --domain domain \\\n  --direct-url https://example.com",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/brand/ai/products \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "domain": "domain"\n        }\'',
@@ -659,6 +711,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'ai.extract_product',
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.ai.extract_product(url: "https://example.com")\n\nputs(response)',
+      },
+      cli: {
+        method: 'ai extract_product',
+        example:
+          "context-dev ai extract-product \\\n  --api-key 'My API Key' \\\n  --url https://example.com",
       },
       http: {
         example:
@@ -706,6 +763,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.ai.ai_query(\n  data_to_extract: [\n    {\n      datapoint_description: "datapoint_description",\n      datapoint_example: "datapoint_example",\n      datapoint_name: "datapoint_name",\n      datapoint_type: :text\n    }\n  ],\n  domain: "domain"\n)\n\nputs(response)',
       },
+      cli: {
+        method: 'ai ai_query',
+        example:
+          "context-dev ai ai-query \\\n  --api-key 'My API Key' \\\n  --data-to-extract '{datapoint_description: datapoint_description, datapoint_example: datapoint_example, datapoint_name: datapoint_name, datapoint_type: text}' \\\n  --domain domain",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/brand/ai/query \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "data_to_extract": [\n            {\n              "datapoint_description": "datapoint_description",\n              "datapoint_example": "datapoint_example",\n              "datapoint_name": "datapoint_name",\n              "datapoint_type": "text"\n            }\n          ],\n          "domain": "domain"\n        }\'',
@@ -751,6 +813,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'brand.retrieve',
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nbrand = context_dev.brand.retrieve(domain: "domain")\n\nputs(brand)',
+      },
+      cli: {
+        method: 'brand retrieve',
+        example: "context-dev brand retrieve \\\n  --api-key 'My API Key' \\\n  --domain domain",
       },
       http: {
         example:
@@ -799,6 +865,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.brand.retrieve_by_ticker(ticker: "ticker")\n\nputs(response)',
       },
+      cli: {
+        method: 'brand retrieve_by_ticker',
+        example: "context-dev brand retrieve-by-ticker \\\n  --api-key 'My API Key' \\\n  --ticker ticker",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/brand/retrieve-by-ticker \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
@@ -845,6 +915,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'brand.retrieve_by_isin',
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.brand.retrieve_by_isin(isin: "SE60513A9993")\n\nputs(response)',
+      },
+      cli: {
+        method: 'brand retrieve_by_isin',
+        example: "context-dev brand retrieve-by-isin \\\n  --api-key 'My API Key' \\\n  --isin SE60513A9993",
       },
       http: {
         example:
@@ -893,6 +967,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.brand.retrieve_by_name(name: "xxx")\n\nputs(response)',
       },
+      cli: {
+        method: 'brand retrieve_by_name',
+        example: "context-dev brand retrieve-by-name \\\n  --api-key 'My API Key' \\\n  --name xxx",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/brand/retrieve-by-name \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
@@ -939,6 +1017,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'brand.retrieve_by_email',
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.brand.retrieve_by_email(email: "dev@stainless.com")\n\nputs(response)',
+      },
+      cli: {
+        method: 'brand retrieve_by_email',
+        example:
+          "context-dev brand retrieve-by-email \\\n  --api-key 'My API Key' \\\n  --email dev@stainless.com",
       },
       http: {
         example:
@@ -991,6 +1074,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.brand.identify_from_transaction(transaction_info: "transaction_info")\n\nputs(response)',
       },
+      cli: {
+        method: 'brand identify_from_transaction',
+        example:
+          "context-dev brand identify-from-transaction \\\n  --api-key 'My API Key' \\\n  --transaction-info transaction_info",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/brand/transaction_identifier \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
@@ -1032,6 +1120,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.brand.retrieve_simplified(domain: "domain")\n\nputs(response)',
       },
+      cli: {
+        method: 'brand retrieve_simplified',
+        example: "context-dev brand retrieve-simplified \\\n  --api-key 'My API Key' \\\n  --domain domain",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/brand/retrieve-simplified \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
@@ -1071,6 +1163,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'industry.retrieve_naics',
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.industry.retrieve_naics(input: "input")\n\nputs(response)',
+      },
+      cli: {
+        method: 'industry retrieve_naics',
+        example: "context-dev industry retrieve-naics \\\n  --api-key 'My API Key' \\\n  --input input",
       },
       http: {
         example:
@@ -1119,6 +1215,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.industry.retrieve_sic(input: "input")\n\nputs(response)',
       },
+      cli: {
+        method: 'industry retrieve_sic',
+        example: "context-dev industry retrieve-sic \\\n  --api-key 'My API Key' \\\n  --input input",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/web/sic \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
@@ -1158,6 +1258,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'utility.prefetch',
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.utility.prefetch(domain: "domain")\n\nputs(response)',
+      },
+      cli: {
+        method: 'utility prefetch',
+        example: "context-dev utility prefetch \\\n  --api-key 'My API Key' \\\n  --domain domain",
       },
       http: {
         example:
@@ -1200,6 +1304,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.utility.prefetch_by_email(email: "dev@stainless.com")\n\nputs(response)',
       },
+      cli: {
+        method: 'utility prefetch_by_email',
+        example:
+          "context-dev utility prefetch-by-email \\\n  --api-key 'My API Key' \\\n  --email dev@stainless.com",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/brand/prefetch-by-email \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "email": "dev@stainless.com"\n        }\'',
@@ -1209,6 +1318,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
 ];
 
 const EMBEDDED_READMES: { language: string; content: string }[] = [
+  {
+    language: 'cli',
+    content:
+      "# Context Dev CLI\n\nThe official CLI for the [Context Dev REST API](https://docs.context.dev/).\n\nIt is generated with [Stainless](https://www.stainless.com/).\n\n<!-- x-release-please-start-version -->\n\n## Installation\n\n### Installing with Go\n\nTo test or install the CLI locally, you need [Go](https://go.dev/doc/install) version 1.22 or later installed.\n\n~~~sh\ngo install 'github.com/context-dot-dev/context-dev-cli/cmd/context-dev@latest'\n~~~\n\nOnce you have run `go install`, the binary is placed in your Go bin directory:\n\n- **Default location**: `$HOME/go/bin` (or `$GOPATH/bin` if GOPATH is set)\n- **Check your path**: Run `go env GOPATH` to see the base directory\n\nIf commands aren't found after installation, add the Go bin directory to your PATH:\n\n~~~sh\n# Add to your shell profile (.zshrc, .bashrc, etc.)\nexport PATH=\"$PATH:$(go env GOPATH)/bin\"\n~~~\n\n<!-- x-release-please-end -->\n\n### Running Locally\n\nAfter cloning the git repository for this project, you can use the\n`scripts/run` script to run the tool locally:\n\n~~~sh\n./scripts/run args...\n~~~\n\n## Usage\n\nThe CLI follows a resource-based command structure:\n\n~~~sh\ncontext-dev [resource] <command> [flags...]\n~~~\n\n~~~sh\ncontext-dev brand retrieve \\\n  --api-key 'My API Key' \\\n  --domain REPLACE_ME\n~~~\n\nFor details about specific commands, use the `--help` flag.\n\n### Environment variables\n\n| Environment variable  | Required |\n| --------------------- | -------- |\n| `CONTEXT_DEV_API_KEY` | yes      |\n\n### Global flags\n\n- `--api-key` (can also be set with `CONTEXT_DEV_API_KEY` env var)\n- `--help` - Show command line usage\n- `--debug` - Enable debug logging (includes HTTP request/response details)\n- `--version`, `-v` - Show the CLI version\n- `--base-url` - Use a custom API backend URL\n- `--format` - Change the output format (`auto`, `explore`, `json`, `jsonl`, `pretty`, `raw`, `yaml`)\n- `--format-error` - Change the output format for errors (`auto`, `explore`, `json`, `jsonl`, `pretty`, `raw`, `yaml`)\n- `--transform` - Transform the data output using [GJSON syntax](https://github.com/tidwall/gjson/blob/master/SYNTAX.md)\n- `--transform-error` - Transform the error output using [GJSON syntax](https://github.com/tidwall/gjson/blob/master/SYNTAX.md)\n\n### Passing files as arguments\n\nTo pass files to your API, you can use the `@myfile.ext` syntax:\n\n~~~bash\ncontext-dev <command> --arg @abe.jpg\n~~~\n\nFiles can also be passed inside JSON or YAML blobs:\n\n~~~bash\ncontext-dev <command> --arg '{image: \"@abe.jpg\"}'\n# Equivalent:\ncontext-dev <command> <<YAML\narg:\n  image: \"@abe.jpg\"\nYAML\n~~~\n\nIf you need to pass a string literal that begins with an `@` sign, you can\nescape the `@` sign to avoid accidentally passing a file.\n\n~~~bash\ncontext-dev <command> --username '\\@abe'\n~~~\n\n#### Explicit encoding\n\nFor JSON endpoints, the CLI tool does filetype sniffing to determine whether the\nfile contents should be sent as a string literal (for plain text files) or as a\nbase64-encoded string literal (for binary files). If you need to explicitly send\nthe file as either plain text or base64-encoded data, you can use\n`@file://myfile.txt` (for string encoding) or `@data://myfile.dat` (for\nbase64-encoding). Note that absolute paths will begin with `@file://` or\n`@data://`, followed by a third `/` (for example, `@file:///tmp/file.txt`).\n\n~~~bash\ncontext-dev <command> --arg @data://file.txt\n~~~\n\n## Linking different Go SDK versions\n\nYou can link the CLI against a different version of the Context Dev Go SDK\nfor development purposes using the `./scripts/link` script.\n\nTo link to a specific version from a repository (version can be a branch,\ngit tag, or commit hash):\n\n~~~bash\n./scripts/link github.com/org/repo@version\n~~~\n\nTo link to a local copy of the SDK:\n\n~~~bash\n./scripts/link ../path/to/contextdev-go\n~~~\n\nIf you run the link script without any arguments, it will default to `../contextdev-go`.\n",
+  },
   {
     language: 'go',
     content:
