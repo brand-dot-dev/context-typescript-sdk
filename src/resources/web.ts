@@ -1370,7 +1370,7 @@ export interface WebWebScrapeHTMLResponse {
    * Detected content type of the returned `html` field. Sitemaps and feeds are
    * surfaced as `xml`; ordinary pages are `html`.
    */
-  type: 'html' | 'xml' | 'json' | 'text' | 'csv' | 'markdown' | 'svg' | 'pdf';
+  type: 'html' | 'xml' | 'json' | 'text' | 'csv' | 'markdown' | 'svg' | 'pdf' | 'docx' | 'doc';
 
   /**
    * The URL that was scraped
