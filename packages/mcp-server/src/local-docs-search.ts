@@ -100,6 +100,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "context-dev web web-scrape-html \\\n  --api-key 'My API Key' \\\n  --url https://example.com",
       },
+      php: {
+        method: 'web->webScrapeHTML',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->web->webScrapeHTML(\n  url: 'https://example.com',\n  excludeSelectors: ['string'],\n  headers: ['foo' => 'J!'],\n  includeFrames: true,\n  includeSelectors: ['string'],\n  maxAgeMs: 0,\n  pdf: ['end' => 1, 'shouldParse' => true, 'start' => 1],\n  timeoutMs: 1000,\n  useMainContentOnly: true,\n  waitForMs: 0,\n);\n\nvar_dump($response);",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/web/scrape/html \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
@@ -158,6 +163,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'web web_scrape_md',
         example: "context-dev web web-scrape-md \\\n  --api-key 'My API Key' \\\n  --url https://example.com",
       },
+      php: {
+        method: 'web->webScrapeMd',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->web->webScrapeMd(\n  url: 'https://example.com',\n  excludeSelectors: ['string'],\n  headers: ['foo' => 'J!'],\n  includeFrames: true,\n  includeImages: true,\n  includeLinks: true,\n  includeSelectors: ['string'],\n  maxAgeMs: 0,\n  pdf: ['end' => 1, 'shouldParse' => true, 'start' => 1],\n  shortenBase64Images: true,\n  timeoutMs: 1000,\n  useMainContentOnly: true,\n  waitForMs: 0,\n);\n\nvar_dump($response);",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/web/scrape/markdown \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
@@ -211,6 +221,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "context-dev web web-scrape-images \\\n  --api-key 'My API Key' \\\n  --url https://example.com",
       },
+      php: {
+        method: 'web->webScrapeImages',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->web->webScrapeImages(\n  url: 'https://example.com',\n  enrichment: [\n    'classification' => true,\n    'hostedURL' => true,\n    'maxTimePerMs' => 1,\n    'resolution' => true,\n  ],\n  headers: ['foo' => 'J!'],\n  maxAgeMs: 0,\n  timeoutMs: 1000,\n  waitForMs: 0,\n);\n\nvar_dump($response);",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/web/scrape/images \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
@@ -260,6 +275,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       cli: {
         method: 'web web_scrape_sitemap',
         example: "context-dev web web-scrape-sitemap \\\n  --api-key 'My API Key' \\\n  --domain domain",
+      },
+      php: {
+        method: 'web->webScrapeSitemap',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->web->webScrapeSitemap(\n  domain: 'domain',\n  headers: ['foo' => 'J!'],\n  maxLinks: 1,\n  timeoutMs: 1000,\n  urlRegex: '^https?://[^/]+/blog/',\n);\n\nvar_dump($response);",
       },
       http: {
         example:
@@ -314,6 +334,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       cli: {
         method: 'web screenshot',
         example: "context-dev web screenshot \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'web->screenshot',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->web->screenshot(\n  directURL: 'https://example.com',\n  domain: 'domain',\n  fullScreenshot: 'true',\n  handleCookiePopup: 'true',\n  maxAgeMs: 0,\n  page: 'login',\n  timeoutMs: 1000,\n  viewport: ['height' => 240, 'width' => 240],\n  waitForMs: 0,\n);\n\nvar_dump($response);",
       },
       http: {
         example:
@@ -378,6 +403,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'web web_crawl_md',
         example: "context-dev web web-crawl-md \\\n  --api-key 'My API Key' \\\n  --url https://example.com",
       },
+      php: {
+        method: 'web->webCrawlMd',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->web->webCrawlMd(\n  url: 'https://example.com',\n  excludeSelectors: ['string'],\n  followSubdomains: true,\n  includeFrames: true,\n  includeImages: true,\n  includeLinks: true,\n  includeSelectors: ['string'],\n  maxAgeMs: 0,\n  maxDepth: 0,\n  maxPages: 1,\n  pdf: ['end' => 1, 'shouldParse' => true, 'start' => 1],\n  shortenBase64Images: true,\n  stopAfterMs: 10000,\n  timeoutMs: 1000,\n  urlRegex: '^https?://[^/]+/blog/',\n  useMainContentOnly: true,\n  waitForMs: 0,\n);\n\nvar_dump($response);",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/web/crawl \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "url": "https://example.com",\n          "urlRegex": "^https?://[^/]+/blog/"\n        }\'',
@@ -423,6 +453,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'web extract_fonts',
         example: "context-dev web extract-fonts \\\n  --api-key 'My API Key'",
       },
+      php: {
+        method: 'web->extractFonts',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->web->extractFonts(\n  directURL: 'https://example.com',\n  domain: 'domain',\n  maxAgeMs: 86400000,\n  timeoutMs: 1000,\n);\n\nvar_dump($response);",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/web/fonts \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
@@ -467,6 +502,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       cli: {
         method: 'web extract_styleguide',
         example: "context-dev web extract-styleguide \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'web->extractStyleguide',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->web->extractStyleguide(\n  directURL: 'https://example.com',\n  domain: 'domain',\n  maxAgeMs: 86400000,\n  timeoutMs: 1000,\n);\n\nvar_dump($response);",
       },
       http: {
         example:
@@ -519,6 +559,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       cli: {
         method: 'web search',
         example: "context-dev web search \\\n  --api-key 'My API Key' \\\n  --query x",
+      },
+      php: {
+        method: 'web->search',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->web->search(\n  query: 'x',\n  excludeDomains: ['string'],\n  freshness: 'last_24_hours',\n  includeDomains: ['string'],\n  markdownOptions: [\n    'enabled' => true,\n    'includeFrames' => true,\n    'includeImages' => true,\n    'includeLinks' => true,\n    'maxAgeMs' => 0,\n    'pdf' => ['end' => 1, 'shouldParse' => true, 'start' => 1],\n    'shortenBase64Images' => true,\n    'timeoutMs' => 1000,\n    'useMainContentOnly' => true,\n    'waitForMs' => 0,\n  ],\n  queryFanout: true,\n  timeoutMs: 1000,\n);\n\nvar_dump($response);",
       },
       http: {
         example:
@@ -580,6 +625,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "context-dev web extract \\\n  --api-key 'My API Key' \\\n  --schema '{type: bar, properties: bar, required: bar, additionalProperties: bar}' \\\n  --url https://example.com",
       },
+      php: {
+        method: 'web->extract',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->web->extract(\n  schema: [\n    'type' => 'bar',\n    'properties' => 'bar',\n    'required' => 'bar',\n    'additionalProperties' => 'bar',\n  ],\n  url: 'https://example.com',\n  factCheck: true,\n  followSubdomains: true,\n  includeFrames: true,\n  instructions: 'instructions',\n  maxAgeMs: 0,\n  maxDepth: 0,\n  maxPages: 1,\n  pdf: ['end' => 1, 'shouldParse' => true, 'start' => 1],\n  stopAfterMs: 10000,\n  timeoutMs: 1000,\n  waitForMs: 0,\n);\n\nvar_dump($response);",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/web/extract \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "schema": {\n            "type": "bar",\n            "properties": "bar",\n            "required": "bar",\n            "additionalProperties": "bar"\n          },\n          "url": "https://example.com"\n        }\'',
@@ -624,6 +674,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       cli: {
         method: 'web extract_competitors',
         example: "context-dev web extract-competitors \\\n  --api-key 'My API Key' \\\n  --domain xxx",
+      },
+      php: {
+        method: 'web->extractCompetitors',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->web->extractCompetitors(\n  domain: 'xxx', numCompetitors: 1, timeoutMs: 1000\n);\n\nvar_dump($response);",
       },
       http: {
         example:
@@ -671,6 +726,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "context-dev ai extract-products \\\n  --api-key 'My API Key' \\\n  --domain domain \\\n  --direct-url https://example.com",
       },
+      php: {
+        method: 'ai->extractProducts',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->ai->extractProducts(\n  domain: 'domain',\n  maxAgeMs: 0,\n  maxProducts: 1,\n  timeoutMs: 1000,\n  directURL: 'https://example.com',\n);\n\nvar_dump($response);",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/brand/ai/products \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "domain": "domain"\n        }\'',
@@ -716,6 +776,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'ai extract_product',
         example:
           "context-dev ai extract-product \\\n  --api-key 'My API Key' \\\n  --url https://example.com",
+      },
+      php: {
+        method: 'ai->extractProduct',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->ai->extractProduct(\n  url: 'https://example.com', maxAgeMs: 0, timeoutMs: 1000\n);\n\nvar_dump($response);",
       },
       http: {
         example:
@@ -768,6 +833,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "context-dev ai ai-query \\\n  --api-key 'My API Key' \\\n  --data-to-extract '{datapoint_description: datapoint_description, datapoint_example: datapoint_example, datapoint_name: datapoint_name, datapoint_type: text}' \\\n  --domain domain",
       },
+      php: {
+        method: 'ai->aiQuery',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->ai->aiQuery(\n  dataToExtract: [\n    [\n      'datapointDescription' => 'datapoint_description',\n      'datapointExample' => 'datapoint_example',\n      'datapointName' => 'datapoint_name',\n      'datapointType' => 'text',\n      'datapointListType' => 'string',\n      'datapointObjectSchema' => [\n        'testimonial_text' => 'string', 'testimonial_author' => 'string'\n      ],\n    ],\n  ],\n  domain: 'domain',\n  specificPages: [\n    'aboutUs' => true,\n    'blog' => true,\n    'careers' => true,\n    'contactUs' => true,\n    'faq' => true,\n    'homePage' => true,\n    'pricing' => true,\n    'privacyPolicy' => true,\n    'termsAndConditions' => true,\n  ],\n  timeoutMs: 1000,\n);\n\nvar_dump($response);",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/brand/ai/query \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "data_to_extract": [\n            {\n              "datapoint_description": "datapoint_description",\n              "datapoint_example": "datapoint_example",\n              "datapoint_name": "datapoint_name",\n              "datapoint_type": "text"\n            }\n          ],\n          "domain": "domain"\n        }\'',
@@ -817,6 +887,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       cli: {
         method: 'brand retrieve',
         example: "context-dev brand retrieve \\\n  --api-key 'My API Key' \\\n  --domain domain",
+      },
+      php: {
+        method: 'brand->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$brand = $client->brand->retrieve(\n  domain: 'domain',\n  forceLanguage: 'afrikaans',\n  maxAgeMs: 86400000,\n  maxSpeed: true,\n  timeoutMs: 1000,\n);\n\nvar_dump($brand);",
       },
       http: {
         example:
@@ -869,6 +944,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'brand retrieve_by_ticker',
         example: "context-dev brand retrieve-by-ticker \\\n  --api-key 'My API Key' \\\n  --ticker ticker",
       },
+      php: {
+        method: 'brand->retrieveByTicker',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->brand->retrieveByTicker(\n  ticker: 'ticker',\n  forceLanguage: 'afrikaans',\n  maxAgeMs: 86400000,\n  maxSpeed: true,\n  tickerExchange: 'AMEX',\n  timeoutMs: 1000,\n);\n\nvar_dump($response);",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/brand/retrieve-by-ticker \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
@@ -919,6 +999,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       cli: {
         method: 'brand retrieve_by_isin',
         example: "context-dev brand retrieve-by-isin \\\n  --api-key 'My API Key' \\\n  --isin SE60513A9993",
+      },
+      php: {
+        method: 'brand->retrieveByIsin',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->brand->retrieveByIsin(\n  isin: 'SE60513A9993',\n  forceLanguage: 'afrikaans',\n  maxAgeMs: 86400000,\n  maxSpeed: true,\n  timeoutMs: 1000,\n);\n\nvar_dump($response);",
       },
       http: {
         example:
@@ -971,6 +1056,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'brand retrieve_by_name',
         example: "context-dev brand retrieve-by-name \\\n  --api-key 'My API Key' \\\n  --name xxx",
       },
+      php: {
+        method: 'brand->retrieveByName',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->brand->retrieveByName(\n  name: 'xxx',\n  countryGl: 'ad',\n  forceLanguage: 'afrikaans',\n  maxAgeMs: 86400000,\n  maxSpeed: true,\n  timeoutMs: 1000,\n);\n\nvar_dump($response);",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/brand/retrieve-by-name \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
@@ -1022,6 +1112,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'brand retrieve_by_email',
         example:
           "context-dev brand retrieve-by-email \\\n  --api-key 'My API Key' \\\n  --email dev@stainless.com",
+      },
+      php: {
+        method: 'brand->retrieveByEmail',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->brand->retrieveByEmail(\n  email: 'dev@stainless.com',\n  forceLanguage: 'afrikaans',\n  maxAgeMs: 86400000,\n  maxSpeed: true,\n  timeoutMs: 1000,\n);\n\nvar_dump($response);",
       },
       http: {
         example:
@@ -1079,6 +1174,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "context-dev brand identify-from-transaction \\\n  --api-key 'My API Key' \\\n  --transaction-info transaction_info",
       },
+      php: {
+        method: 'brand->identifyFromTransaction',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->brand->identifyFromTransaction(\n  transactionInfo: 'transaction_info',\n  city: 'city',\n  countryGl: 'ad',\n  forceLanguage: 'afrikaans',\n  highConfidenceOnly: true,\n  maxSpeed: true,\n  mcc: 'mcc',\n  phone: 0,\n  timeoutMs: 1000,\n);\n\nvar_dump($response);",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/brand/transaction_identifier \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
@@ -1124,6 +1224,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'brand retrieve_simplified',
         example: "context-dev brand retrieve-simplified \\\n  --api-key 'My API Key' \\\n  --domain domain",
       },
+      php: {
+        method: 'brand->retrieveSimplified',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->brand->retrieveSimplified(\n  domain: 'domain', maxAgeMs: 86400000, timeoutMs: 1000\n);\n\nvar_dump($response);",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/brand/retrieve-simplified \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
@@ -1167,6 +1272,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       cli: {
         method: 'industry retrieve_naics',
         example: "context-dev industry retrieve-naics \\\n  --api-key 'My API Key' \\\n  --input input",
+      },
+      php: {
+        method: 'industry->retrieveNaics',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->industry->retrieveNaics(\n  input: 'input', maxResults: 1, minResults: 1, timeoutMs: 1000\n);\n\nvar_dump($response);",
       },
       http: {
         example:
@@ -1219,6 +1329,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         method: 'industry retrieve_sic',
         example: "context-dev industry retrieve-sic \\\n  --api-key 'My API Key' \\\n  --input input",
       },
+      php: {
+        method: 'industry->retrieveSic',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->industry->retrieveSic(\n  input: 'input',\n  maxResults: 1,\n  minResults: 1,\n  timeoutMs: 1000,\n  type: 'original_sic',\n);\n\nvar_dump($response);",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/web/sic \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
@@ -1262,6 +1377,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       cli: {
         method: 'utility prefetch',
         example: "context-dev utility prefetch \\\n  --api-key 'My API Key' \\\n  --domain domain",
+      },
+      php: {
+        method: 'utility->prefetch',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->utility->prefetch(domain: 'domain', timeoutMs: 1000);\n\nvar_dump($response);",
       },
       http: {
         example:
@@ -1309,6 +1429,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
         example:
           "context-dev utility prefetch-by-email \\\n  --api-key 'My API Key' \\\n  --email dev@stainless.com",
       },
+      php: {
+        method: 'utility->prefetchByEmail',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->utility->prefetchByEmail(\n  email: 'dev@stainless.com', timeoutMs: 1000\n);\n\nvar_dump($response);",
+      },
       http: {
         example:
           'curl https://api.context.dev/v1/brand/prefetch-by-email \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "email": "dev@stainless.com"\n        }\'',
@@ -1327,6 +1452,11 @@ const EMBEDDED_READMES: { language: string; content: string }[] = [
     language: 'go',
     content:
       '# Context Dev Go API Library\n\n<a href="https://pkg.go.dev/github.com/context-dot-dev/context-go-sdk"><img src="https://pkg.go.dev/badge/github.com/context-dot-dev/context-go-sdk.svg" alt="Go Reference"></a>\n\nThe Context Dev Go library provides convenient access to the [Context Dev REST API](https://docs.context.dev/)\nfrom applications written in Go.\n\nIt is generated with [Stainless](https://www.stainless.com/).\n\n## MCP Server\n\nUse the Context Dev MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.\n\n[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=context.dev-mcp&config=eyJuYW1lIjoiY29udGV4dC5kZXYtbWNwIiwidHJhbnNwb3J0IjoiaHR0cCIsInVybCI6Imh0dHBzOi8vY29udGV4dC1kZXYuc3RsbWNwLmNvbSIsImhlYWRlcnMiOnsieC1jb250ZXh0LWRldi1hcGkta2V5IjoiTXkgQVBJIEtleSJ9fQ)\n[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22context.dev-mcp%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fcontext-dev.stlmcp.com%22%2C%22headers%22%3A%7B%22x-context-dev-api-key%22%3A%22My%20API%20Key%22%7D%7D)\n\n> Note: You may need to set environment variables in your MCP client.\n\n## Installation\n\n<!-- x-release-please-start-version -->\n\n```go\nimport (\n\t"github.com/context-dot-dev/context-go-sdk" // imported as SDK_PackageName\n)\n```\n\n<!-- x-release-please-end -->\n\nOr to pin the version:\n\n<!-- x-release-please-start-version -->\n\n```sh\ngo get -u \'github.com/context-dot-dev/context-go-sdk@v0.0.1\'\n```\n\n<!-- x-release-please-end -->\n\n## Requirements\n\nThis library requires Go 1.22+.\n\n## Usage\n\nThe full API of this library can be found in [api.md](api.md).\n\n```go\npackage main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"), // defaults to os.LookupEnv("CONTEXT_DEV_API_KEY")\n\t)\n\tbrand, err := client.Brand.Get(context.TODO(), contextdev.BrandGetParams{\n\t\tDomain: "REPLACE_ME",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", brand.Brand)\n}\n\n```\n\n### Request fields\n\nAll request parameters are wrapped in a generic `Field` type,\nwhich we use to distinguish zero values from null or omitted fields.\n\nThis prevents accidentally sending a zero value if you forget a required parameter,\nand enables explicitly sending `null`, `false`, `\'\'`, or `0` on optional parameters.\nAny field not specified is not sent.\n\nTo construct fields with values, use the helpers `String()`, `Int()`, `Float()`, or most commonly, the generic `F[T]()`.\nTo send a null, use `Null[T]()`, and to send a nonconforming value, use `Raw[T](any)`. For example:\n\n```go\nparams := FooParams{\n\tName: SDK_PackageName.F("hello"),\n\n\t// Explicitly send `"description": null`\n\tDescription: SDK_PackageName.Null[string](),\n\n\tPoint: SDK_PackageName.F(SDK_PackageName.Point{\n\t\tX: SDK_PackageName.Int(0),\n\t\tY: SDK_PackageName.Int(1),\n\n\t\t// In cases where the API specifies a given type,\n\t\t// but you want to send something else, use `Raw`:\n\t\tZ: SDK_PackageName.Raw[int64](0.01), // sends a float\n\t}),\n}\n```\n\n### Response objects\n\nAll fields in response structs are value types (not pointers or wrappers).\n\nIf a given field is `null`, not present, or invalid, the corresponding field\nwill simply be its zero value.\n\nAll response structs also include a special `JSON` field, containing more detailed\ninformation about each property, which you can use like so:\n\n```go\nif res.Name == "" {\n\t// true if `"name"` is either not present or explicitly null\n\tres.JSON.Name.IsNull()\n\n\t// true if the `"name"` key was not present in the response JSON at all\n\tres.JSON.Name.IsMissing()\n\n\t// When the API returns data that cannot be coerced to the expected type:\n\tif res.JSON.Name.IsInvalid() {\n\t\traw := res.JSON.Name.Raw()\n\n\t\tlegacyName := struct{\n\t\t\tFirst string `json:"first"`\n\t\t\tLast  string `json:"last"`\n\t\t}{}\n\t\tjson.Unmarshal([]byte(raw), &legacyName)\n\t\tname = legacyName.First + " " + legacyName.Last\n\t}\n}\n```\n\nThese `.JSON` structs also include an `Extras` map containing\nany properties in the json response that were not specified\nin the struct. This can be useful for API features not yet\npresent in the SDK.\n\n```go\nbody := res.JSON.ExtraFields["my_unexpected_field"].Raw()\n```\n\n### RequestOptions\n\nThis library uses the functional options pattern. Functions defined in the\n`SDK_PackageOptionName` package return a `RequestOption`, which is a closure that mutates a\n`RequestConfig`. These options can be supplied to the client or at individual\nrequests. For example:\n\n```go\nclient := SDK_PackageName.SDK_ClientInitializerName(\n\t// Adds a header to every request made by the client\n\tSDK_PackageOptionName.WithHeader("X-Some-Header", "custom_header_info"),\n)\n\nclient.Brand.Get(context.TODO(), ...,\n\t// Override the header\n\tSDK_PackageOptionName.WithHeader("X-Some-Header", "some_other_custom_header_info"),\n\t// Add an undocumented field to the request body, using sjson syntax\n\tSDK_PackageOptionName.WithJSONSet("some.json.path", map[string]string{"my": "object"}),\n)\n```\n\nSee the [full list of request options](https://pkg.go.dev/github.com/context-dot-dev/context-go-sdk/SDK_PackageOptionName).\n\n### Pagination\n\nThis library provides some conveniences for working with paginated list endpoints.\n\nYou can use `.ListAutoPaging()` methods to iterate through items across all pages:\n\n\n\nOr you can use simple `.List()` methods to fetch a single page and receive a standard response object\nwith additional helper methods like `.GetNextPage()`, e.g.:\n\n\n\n### Errors\n\nWhen the API returns a non-success status code, we return an error with type\n`*SDK_PackageName.Error`. This contains the `StatusCode`, `*http.Request`, and\n`*http.Response` values of the request, as well as the JSON of the error body\n(much like other response objects in the SDK).\n\nTo handle errors, we recommend that you use the `errors.As` pattern:\n\n```go\n_, err := client.Brand.Get(context.TODO(), contextdev.BrandGetParams{\n\tDomain: "REPLACE_ME",\n})\nif err != nil {\n\tvar apierr *contextdev.Error\n\tif errors.As(err, &apierr) {\n\t\tprintln(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request\n\t\tprintln(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response\n\t}\n\tpanic(err.Error()) // GET "/brand/retrieve": 400 Bad Request { ... }\n}\n```\n\nWhen other errors occur, they are returned unwrapped; for example,\nif HTTP transport fails, you might receive `*url.Error` wrapping `*net.OpError`.\n\n### Timeouts\n\nRequests do not time out by default; use context to configure a timeout for a request lifecycle.\n\nNote that if a request is [retried](#retries), the context timeout does not start over.\nTo set a per-retry timeout, use `SDK_PackageOptionName.WithRequestTimeout()`.\n\n```go\n// This sets the timeout for the request, including all the retries.\nctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)\ndefer cancel()\nclient.Brand.Get(\n\tctx,\n\tcontextdev.BrandGetParams{\n\t\tDomain: "REPLACE_ME",\n\t},\n\t// This sets the per-retry timeout\n\toption.WithRequestTimeout(20*time.Second),\n)\n```\n\n### File uploads\n\nRequest parameters that correspond to file uploads in multipart requests are typed as\n`param.Field[io.Reader]`. The contents of the `io.Reader` will by default be sent as a multipart form\npart with the file name of "anonymous_file" and content-type of "application/octet-stream".\n\nThe file name and content-type can be customized by implementing `Name() string` or `ContentType()\nstring` on the run-time type of `io.Reader`. Note that `os.File` implements `Name() string`, so a\nfile returned by `os.Open` will be sent with the file name on disk.\n\nWe also provide a helper `SDK_PackageName.FileParam(reader io.Reader, filename string, contentType string)`\nwhich can be used to wrap any `io.Reader` with the appropriate file name and content type.\n\n\n\n### Retries\n\nCertain errors will be automatically retried 2 times by default, with a short exponential backoff.\nWe retry by default all connection errors, 408 Request Timeout, 409 Conflict, 429 Rate Limit,\nand >=500 Internal errors.\n\nYou can use the `WithMaxRetries` option to configure or disable this:\n\n```go\n// Configure the default for all requests:\nclient := contextdev.NewClient(\n\toption.WithMaxRetries(0), // default is 2\n)\n\n// Override per-request:\nclient.Brand.Get(\n\tcontext.TODO(),\n\tcontextdev.BrandGetParams{\n\t\tDomain: "REPLACE_ME",\n\t},\n\toption.WithMaxRetries(5),\n)\n```\n\n\n### Accessing raw response data (e.g. response headers)\n\nYou can access the raw HTTP response data by using the `option.WithResponseInto()` request option. This is useful when\nyou need to examine response headers, status codes, or other details.\n\n```go\n// Create a variable to store the HTTP response\nvar response *http.Response\nbrand, err := client.Brand.Get(\n\tcontext.TODO(),\n\tcontextdev.BrandGetParams{\n\t\tDomain: "REPLACE_ME",\n\t},\n\toption.WithResponseInto(&response),\n)\nif err != nil {\n\t// handle error\n}\nfmt.Printf("%+v\\n", brand)\n\nfmt.Printf("Status Code: %d\\n", response.StatusCode)\nfmt.Printf("Headers: %+#v\\n", response.Header)\n```\n\n### Making custom/undocumented requests\n\nThis library is typed for convenient access to the documented API. If you need to access undocumented\nendpoints, params, or response properties, the library can still be used.\n\n#### Undocumented endpoints\n\nTo make requests to undocumented endpoints, you can use `client.Get`, `client.Post`, and other HTTP verbs.\n`RequestOptions` on the client, such as retries, will be respected when making these requests.\n\n```go\nvar (\n    // params can be an io.Reader, a []byte, an encoding/json serializable object,\n    // or a "…Params" struct defined in this library.\n    params map[string]interface{}\n\n    // result can be an []byte, *http.Response, a encoding/json deserializable object,\n    // or a model defined in this library.\n    result *http.Response\n)\nerr := client.Post(context.Background(), "/unspecified", params, &result)\nif err != nil {\n    …\n}\n```\n\n#### Undocumented request params\n\nTo make requests using undocumented parameters, you may use either the `SDK_PackageOptionName.WithQuerySet()`\nor the `SDK_PackageOptionName.WithJSONSet()` methods.\n\n```go\nparams := FooNewParams{\n    ID:   SDK_PackageName.F("id_xxxx"),\n    Data: SDK_PackageName.F(FooNewParamsData{\n        FirstName: SDK_PackageName.F("John"),\n    }),\n}\nclient.Foo.New(context.Background(), params, SDK_PackageOptionName.WithJSONSet("data.last_name", "Doe"))\n```\n\n#### Undocumented response properties\n\nTo access undocumented response properties, you may either access the raw JSON of the response as a string\nwith `result.JSON.RawJSON()`, or get the raw JSON of a particular field on the result with\n`result.JSON.Foo.Raw()`.\n\nAny fields that are not present on the response struct will be saved and can be accessed by `result.JSON.ExtraFields()` which returns the extra fields as a `map[string]Field`.\n\n### Middleware\n\nWe provide `SDK_PackageOptionName.WithMiddleware` which applies the given\nmiddleware to requests.\n\n```go\nfunc Logger(req *http.Request, next SDK_PackageOptionName.MiddlewareNext) (res *http.Response, err error) {\n\t// Before the request\n\tstart := time.Now()\n\tLogReq(req)\n\n\t// Forward the request to the next handler\n\tres, err = next(req)\n\n\t// Handle stuff after the request\n\tend := time.Now()\n\tLogRes(res, err, start - end)\n\n    return res, err\n}\n\nclient := SDK_PackageName.SDK_ClientInitializerName(\n\tSDK_PackageOptionName.WithMiddleware(Logger),\n)\n```\n\nWhen multiple middlewares are provided as variadic arguments, the middlewares\nare applied left to right. If `SDK_PackageOptionName.WithMiddleware` is given\nmultiple times, for example first in the client then the method, the\nmiddleware in the client will run first and the middleware given in the method\nwill run next.\n\nYou may also replace the default `http.Client` with\n`SDK_PackageOptionName.WithHTTPClient(client)`. Only one http client is\naccepted (this overwrites any previous client) and receives requests after any\nmiddleware has been applied.\n\n## Semantic versioning\n\nThis package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) conventions, though certain backwards-incompatible changes may be released as minor versions:\n\n1. Changes to library internals which are technically public but not intended or documented for external use. _(Please open a GitHub issue to let us know if you are relying on such internals.)_\n2. Changes that we do not expect to impact the vast majority of users in practice.\n\nWe take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.\n\nWe are keen for your feedback; please open an [issue](https://www.github.com/context-dot-dev/context-go-sdk/issues) with questions, bugs, or suggestions.\n\n## Contributing\n\nSee [the contributing documentation](./CONTRIBUTING.md).\n',
+  },
+  {
+    language: 'php',
+    content:
+      '# Context Dev PHP API Library\n\nThe Context Dev PHP library provides convenient access to the Context Dev REST API from any PHP 8.1.0+ application.\n\n## Installation\n\nTo use this package, install via Composer by adding the following to your application\'s `composer.json`:\n\n```json\n{\n  "repositories": [\n    {\n      "type": "vcs",\n      "url": "git@github.com:stainless-sdks/context.dev-php.git"\n    }\n  ],\n  "require": {\n    "org-placeholder/context-dev": "dev-main"\n  }\n}\n```\n\n## Usage\n\n```php\n<?php\n\n$client = new Client(apiKey: getenv(\'CONTEXT_DEV_API_KEY\') ?: \'My API Key\');\n\n$brand = $client->brand->retrieve(domain: \'REPLACE_ME\');\n\nvar_dump($brand->brand);\n```',
   },
   {
     language: 'python',
