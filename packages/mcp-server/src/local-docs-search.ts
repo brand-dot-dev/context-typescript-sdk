@@ -1456,7 +1456,7 @@ const EMBEDDED_READMES: { language: string; content: string }[] = [
   {
     language: 'php',
     content:
-      "# Context Dev PHP API Library\n\nThe Context Dev PHP library provides convenient access to the Context Dev REST API from any PHP 8.1.0+ application.\n\n## Installation\n\n<!-- x-release-please-start-version -->\n```\ncomposer require \"org-placeholder/context-dev 0.0.1\"\n```\n<!-- x-release-please-end -->\n\n## Usage\n\n```php\n<?php\n\n$client = new Client(apiKey: getenv('CONTEXT_DEV_API_KEY') ?: 'My API Key');\n\n$brand = $client->brand->retrieve(domain: 'REPLACE_ME');\n\nvar_dump($brand->brand);\n```",
+      "# Context Dev PHP API Library\n\nThe Context Dev PHP library provides convenient access to the Context Dev REST API from any PHP 8.1.0+ application.\n\n## Installation\n\n<!-- x-release-please-start-version -->\n```\ncomposer require \"context-dev/context-dev-php 0.0.1\"\n```\n<!-- x-release-please-end -->\n\n## Usage\n\n```php\n<?php\n\n$client = new Client(apiKey: getenv('CONTEXT_DEV_API_KEY') ?: 'My API Key');\n\n$brand = $client->brand->retrieve(domain: 'REPLACE_ME');\n\nvar_dump($brand->brand);\n```",
   },
   {
     language: 'python',
