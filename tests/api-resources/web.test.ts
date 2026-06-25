@@ -157,6 +157,7 @@ describe('resource web', () => {
           handleCookiePopup: 'true',
           maxAgeMs: 0,
           page: 'login',
+          scrollOffset: 0,
           timeoutMS: 1000,
           viewport: { height: 240, width: 240 },
           waitForMs: 0,
