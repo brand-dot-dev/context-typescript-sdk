@@ -151,6 +151,7 @@ describe('resource web', () => {
     await expect(
       client.web.screenshot(
         {
+          country: 'de',
           directUrl: 'https://example.com',
           domain: 'domain',
           fullScreenshot: 'true',
@@ -223,6 +224,7 @@ describe('resource web', () => {
   test.skip('webCrawlMd: required and optional params', async () => {
     const response = await client.web.webCrawlMd({
       url: 'https://example.com',
+      country: 'de',
       excludeSelectors: ['string'],
       followSubdomains: true,
       includeFrames: true,
@@ -262,6 +264,7 @@ describe('resource web', () => {
   test.skip('webScrapeHTML: required and optional params', async () => {
     const response = await client.web.webScrapeHTML({
       url: 'https://example.com',
+      country: 'de',
       excludeSelectors: ['string'],
       headers: { foo: 'J!' },
       includeFrames: true,
@@ -323,6 +326,7 @@ describe('resource web', () => {
   test.skip('webScrapeMd: required and optional params', async () => {
     const response = await client.web.webScrapeMd({
       url: 'https://example.com',
+      country: 'de',
       excludeSelectors: ['string'],
       headers: { foo: 'J!' },
       includeFrames: true,
