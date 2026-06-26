@@ -184,6 +184,7 @@ describe('resource web', () => {
   test.skip('search: required and optional params', async () => {
     const response = await client.web.search({
       query: 'x',
+      country: 'af',
       excludeDomains: ['string'],
       freshness: 'last_24_hours',
       includeDomains: ['string'],
@@ -203,6 +204,7 @@ describe('resource web', () => {
         useMainContentOnly: true,
         waitForMs: 0,
       },
+      numResults: 10,
       queryFanout: true,
       timeoutMS: 1000,
     });
