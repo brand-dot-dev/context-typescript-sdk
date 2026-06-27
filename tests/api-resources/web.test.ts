@@ -151,6 +151,7 @@ describe('resource web', () => {
     await expect(
       client.web.screenshot(
         {
+          colorScheme: 'light',
           country: 'de',
           directUrl: 'https://example.com',
           domain: 'domain',
