@@ -123,6 +123,7 @@ describe('resource web', () => {
     await expect(
       client.web.extractStyleguide(
         {
+          colorScheme: 'light',
           directUrl: 'https://example.com',
           domain: 'domain',
           maxAgeMs: 86400000,

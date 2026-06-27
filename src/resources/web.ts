@@ -2021,6 +2021,12 @@ export interface WebExtractFontsParams {
 
 export interface WebExtractStyleguideParams {
   /**
+   * Optional browser color scheme to emulate for websites that respond to
+   * prefers-color-scheme. This value is part of the styleguide cache key.
+   */
+  colorScheme?: 'light' | 'dark';
+
+  /**
    * A specific URL to fetch the styleguide from directly, bypassing domain
    * resolution (e.g., 'https://example.com/design-system'). When provided, the
    * styleguide is extracted from this exact URL. You must provide either 'domain' or
