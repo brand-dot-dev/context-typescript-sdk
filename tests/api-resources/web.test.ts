@@ -123,6 +123,7 @@ describe('resource web', () => {
     await expect(
       client.web.extractStyleguide(
         {
+          colorScheme: 'light',
           directUrl: 'https://example.com',
           domain: 'domain',
           maxAgeMs: 86400000,
@@ -151,6 +152,8 @@ describe('resource web', () => {
     await expect(
       client.web.screenshot(
         {
+          colorScheme: 'light',
+          country: 'de',
           directUrl: 'https://example.com',
           domain: 'domain',
           fullScreenshot: 'true',
@@ -183,6 +186,7 @@ describe('resource web', () => {
   test.skip('search: required and optional params', async () => {
     const response = await client.web.search({
       query: 'x',
+      country: 'af',
       excludeDomains: ['string'],
       freshness: 'last_24_hours',
       includeDomains: ['string'],
@@ -202,6 +206,7 @@ describe('resource web', () => {
         useMainContentOnly: true,
         waitForMs: 0,
       },
+      numResults: 10,
       queryFanout: true,
       timeoutMS: 1000,
     });
@@ -223,6 +228,7 @@ describe('resource web', () => {
   test.skip('webCrawlMd: required and optional params', async () => {
     const response = await client.web.webCrawlMd({
       url: 'https://example.com',
+      country: 'de',
       excludeSelectors: ['string'],
       followSubdomains: true,
       includeFrames: true,
@@ -262,6 +268,7 @@ describe('resource web', () => {
   test.skip('webScrapeHTML: required and optional params', async () => {
     const response = await client.web.webScrapeHTML({
       url: 'https://example.com',
+      country: 'de',
       excludeSelectors: ['string'],
       headers: { foo: 'J!' },
       includeFrames: true,
@@ -323,6 +330,7 @@ describe('resource web', () => {
   test.skip('webScrapeMd: required and optional params', async () => {
     const response = await client.web.webScrapeMd({
       url: 'https://example.com',
+      country: 'de',
       excludeSelectors: ['string'],
       headers: { foo: 'J!' },
       includeFrames: true,
