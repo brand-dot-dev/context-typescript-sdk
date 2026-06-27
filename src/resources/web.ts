@@ -2053,6 +2053,12 @@ export interface WebExtractStyleguideParams {
 
 export interface WebScreenshotParams {
   /**
+   * Optional parameter to choose the site's visual theme in the screenshot. Use
+   * 'light' or 'dark' when the site offers both appearances.
+   */
+  colorScheme?: 'light' | 'dark';
+
+  /**
    * Two-letter ISO 3166-1 alpha-2 country code for the website request location.
    * When provided, Context.dev fetches the target page from that country.
    */
