@@ -1454,6 +1454,589 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
     },
   },
+  {
+    name: 'create',
+    endpoint: '/monitors',
+    httpMethod: 'post',
+    summary: 'Create a monitor',
+    description:
+      'Creates a monitor. The request body is a union of the supported target/change detection combinations. The monitor runs immediately after creation to create its initial baseline.',
+    stainlessPath: '(resource) monitors > (method) create',
+    qualified: 'client.monitors.create',
+    params: [
+      "{ change_detection: { type: 'exact'; }; name: string; schedule: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }; target: { type: 'page'; url: string; normalize_whitespace?: boolean; }; tags?: string[]; webhook?: { url: string; secret?: string; }; } | { change_detection: { type: 'exact'; }; name: string; schedule: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }; target: { type: 'sitemap'; url: string; exclude?: string[]; include?: string[]; max_urls?: number; }; tags?: string[]; webhook?: { url: string; secret?: string; }; } | { change_detection: { query: string; type: 'semantic'; confidence_threshold?: number; }; name: string; schedule: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }; target: { type: 'page'; url: string; normalize_whitespace?: boolean; }; tags?: string[]; webhook?: { url: string; secret?: string; }; } | { change_detection: { query: string; type: 'semantic'; confidence_threshold?: number; }; name: string; schedule: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }; target: { type: 'extract'; url: string; follow_subdomains?: boolean; instructions?: string; max_depth?: number; max_pages?: number; schema?: object; }; tags?: string[]; webhook?: { url: string; secret?: string; }; };",
+    ],
+    response:
+      "{ id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; } | { id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; } | { id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; } | { id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; }",
+    perLanguage: {
+      typescript: {
+        method: 'client.monitors.create',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst monitor = await client.monitors.create({\n  change_detection: { type: 'exact' },\n  name: 'Acme pricing page',\n  schedule: {\n    type: 'interval',\n    frequency: 6,\n    unit: 'hours',\n  },\n  target: { type: 'page', url: 'https://acme.com/pricing' },\n  webhook: { url: 'https://example.com/webhook' },\n});\n\nconsole.log(monitor);",
+      },
+      python: {
+        method: 'monitors.create',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nmonitor = client.monitors.create(\n    change_detection={\n        "type": "exact"\n    },\n    name="Acme pricing page",\n    schedule={\n        "type": "interval",\n        "frequency": 6,\n        "unit": "hours",\n    },\n    target={\n        "type": "page",\n        "url": "https://acme.com/pricing",\n    },\n    webhook={\n        "url": "https://example.com/webhook"\n    },\n)\nprint(monitor)',
+      },
+      go: {
+        method: 'client.Monitors.New',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmonitor, err := client.Monitors.New(context.TODO(), contextdev.MonitorNewParams{\n\t\tOfMonitorsCreatePageExactMonitorRequest: &contextdev.MonitorNewParamsBodyMonitorsCreatePageExactMonitorRequest{\n\t\t\tChangeDetection: contextdev.MonitorNewParamsBodyMonitorsCreatePageExactMonitorRequestChangeDetection{\n\t\t\t\tType: "exact",\n\t\t\t},\n\t\t\tName: "Acme pricing page",\n\t\t\tSchedule: contextdev.MonitorNewParamsBodyMonitorsCreatePageExactMonitorRequestSchedule{\n\t\t\t\tFrequency: 6,\n\t\t\t\tType:      "interval",\n\t\t\t\tUnit:      "hours",\n\t\t\t},\n\t\t\tTarget: contextdev.MonitorNewParamsBodyMonitorsCreatePageExactMonitorRequestTarget{\n\t\t\t\tType: "page",\n\t\t\t\tURL:  "https://acme.com/pricing",\n\t\t\t},\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", monitor)\n}\n',
+      },
+      ruby: {
+        method: 'monitors.create',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nmonitor = context_dev.monitors.create(\n  body: {\n    change_detection: {type: :exact},\n    name: "Acme pricing page",\n    schedule: {frequency: 6, type: :interval, unit: :hours},\n    target: {type: :page, url: "https://acme.com/pricing"}\n  }\n)\n\nputs(monitor)',
+      },
+      cli: {
+        method: 'monitors create',
+        example:
+          "context-dev monitors create \\\n  --api-key 'My API Key' \\\n  --change-detection '{type: exact}' \\\n  --name 'Acme pricing monitor' \\\n  --schedule '{frequency: 6, type: interval, unit: hours}' \\\n  --target '{type: page, url: https://acme.com/pricing}'",
+      },
+      php: {
+        method: 'monitors->create',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$monitor = $client->monitors->create(\n  changeDetection: [\n    'query' => 'Tell me when pricing, packaging, plan limits, or discounts change.',\n    'type' => 'semantic',\n    'confidenceThreshold' => 0,\n  ],\n  name: 'Acme pricing monitor',\n  schedule: ['frequency' => 6, 'type' => 'interval', 'unit' => 'hours'],\n  target: [\n    'type' => 'extract',\n    'url' => 'https://acme.com',\n    'followSubdomains' => true,\n    'instructions' => 'Extract every pricing plan with its monthly price and included limits.',\n    'maxDepth' => 0,\n    'maxPages' => 1,\n    'schema' => ['type' => 'bar', 'properties' => 'bar'],\n  ],\n  tags: ['pricing', 'competitor'],\n  webhook: ['url' => 'https://example.com/webhook'],\n);\n\nvar_dump($monitor);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/monitors \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "change_detection": {\n            "type": "exact"\n          },\n          "name": "Acme pricing monitor",\n          "schedule": {\n            "frequency": 6,\n            "type": "interval",\n            "unit": "hours"\n          },\n          "target": {\n            "type": "page",\n            "url": "https://acme.com/pricing"\n          },\n          "tags": [\n            "pricing",\n            "competitor"\n          ]\n        }\'',
+      },
+    },
+  },
+  {
+    name: 'list',
+    endpoint: '/monitors',
+    httpMethod: 'get',
+    summary: 'List monitors',
+    description: 'List monitors',
+    stainlessPath: '(resource) monitors > (method) list',
+    qualified: 'client.monitors.list',
+    params: [
+      "change_detection_type?: 'exact' | 'semantic';",
+      'cursor?: string;',
+      'limit?: number;',
+      "status?: 'active' | 'paused' | 'failed';",
+      'tag?: string;',
+      "target_type?: 'page' | 'sitemap' | 'extract';",
+    ],
+    response:
+      "{ data: { id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; } | { id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; } | { id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; } | { id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; }[]; has_more: boolean; next_cursor: string; }",
+    markdown:
+      "## list\n\n`client.monitors.list(change_detection_type?: 'exact' | 'semantic', cursor?: string, limit?: number, status?: 'active' | 'paused' | 'failed', tag?: string, target_type?: 'page' | 'sitemap' | 'extract'): { data: object | object | object | object[]; has_more: boolean; next_cursor: string; }`\n\n**get** `/monitors`\n\nList monitors\n\n### Parameters\n\n- `change_detection_type?: 'exact' | 'semantic'`\n\n- `cursor?: string`\n\n- `limit?: number`\n\n- `status?: 'active' | 'paused' | 'failed'`\n\n- `tag?: string`\n  Filter to items that have this tag.\n\n- `target_type?: 'page' | 'sitemap' | 'extract'`\n\n### Returns\n\n- `{ data: { id: string; change_detection: { type: 'exact'; }; created_at: string; name: string; schedule: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }; status: 'active' | 'paused' | 'failed'; target: { type: 'page'; url: string; normalize_whitespace?: boolean; }; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: { url: string; secret?: string; }; } | { id: string; change_detection: { type: 'exact'; }; created_at: string; name: string; schedule: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }; status: 'active' | 'paused' | 'failed'; target: { type: 'sitemap'; url: string; exclude?: string[]; include?: string[]; max_urls?: number; }; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: { url: string; secret?: string; }; } | { id: string; change_detection: { query: string; type: 'semantic'; confidence_threshold?: number; }; created_at: string; name: string; schedule: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }; status: 'active' | 'paused' | 'failed'; target: { type: 'page'; url: string; normalize_whitespace?: boolean; }; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: { url: string; secret?: string; }; } | { id: string; change_detection: { query: string; type: 'semantic'; confidence_threshold?: number; }; created_at: string; name: string; schedule: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }; status: 'active' | 'paused' | 'failed'; target: { type: 'extract'; url: string; follow_subdomains?: boolean; instructions?: string; max_depth?: number; max_pages?: number; schema?: object; }; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: { url: string; secret?: string; }; }[]; has_more: boolean; next_cursor: string; }`\n\n  - `data: { id: string; change_detection: { type: 'exact'; }; created_at: string; name: string; schedule: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }; status: 'active' | 'paused' | 'failed'; target: { type: 'page'; url: string; normalize_whitespace?: boolean; }; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: { url: string; secret?: string; }; } | { id: string; change_detection: { type: 'exact'; }; created_at: string; name: string; schedule: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }; status: 'active' | 'paused' | 'failed'; target: { type: 'sitemap'; url: string; exclude?: string[]; include?: string[]; max_urls?: number; }; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: { url: string; secret?: string; }; } | { id: string; change_detection: { query: string; type: 'semantic'; confidence_threshold?: number; }; created_at: string; name: string; schedule: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }; status: 'active' | 'paused' | 'failed'; target: { type: 'page'; url: string; normalize_whitespace?: boolean; }; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: { url: string; secret?: string; }; } | { id: string; change_detection: { query: string; type: 'semantic'; confidence_threshold?: number; }; created_at: string; name: string; schedule: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }; status: 'active' | 'paused' | 'failed'; target: { type: 'extract'; url: string; follow_subdomains?: boolean; instructions?: string; max_depth?: number; max_pages?: number; schema?: object; }; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: { url: string; secret?: string; }; }[]`\n  - `has_more: boolean`\n  - `next_cursor: string`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst monitors = await client.monitors.list();\n\nconsole.log(monitors);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.monitors.list',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst monitors = await client.monitors.list();\n\nconsole.log(monitors.data);",
+      },
+      python: {
+        method: 'monitors.list',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nmonitors = client.monitors.list()\nprint(monitors.data)',
+      },
+      go: {
+        method: 'client.Monitors.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmonitors, err := client.Monitors.List(context.TODO(), contextdev.MonitorListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", monitors.Data)\n}\n',
+      },
+      ruby: {
+        method: 'monitors.list',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nmonitors = context_dev.monitors.list\n\nputs(monitors)',
+      },
+      cli: {
+        method: 'monitors list',
+        example: "context-dev monitors list \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'monitors->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$monitors = $client->monitors->list(\n  changeDetectionType: 'exact',\n  cursor: 'cursor',\n  limit: 1,\n  status: 'active',\n  tag: 'tag',\n  targetType: 'page',\n);\n\nvar_dump($monitors);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/monitors \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'retrieve',
+    endpoint: '/monitors/{monitor_id}',
+    httpMethod: 'get',
+    summary: 'Get a monitor',
+    description: 'Get a monitor',
+    stainlessPath: '(resource) monitors > (method) retrieve',
+    qualified: 'client.monitors.retrieve',
+    params: ['monitor_id: string;'],
+    response:
+      "{ id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; } | { id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; } | { id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; } | { id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; }",
+    markdown:
+      "## retrieve\n\n`client.monitors.retrieve(monitor_id: string): { id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; } | { id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; } | { id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; } | { id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; }`\n\n**get** `/monitors/{monitor_id}`\n\nGet a monitor\n\n### Parameters\n\n- `monitor_id: string`\n\n### Returns\n\n- `{ id: string; change_detection: { type: 'exact'; }; created_at: string; name: string; schedule: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }; status: 'active' | 'paused' | 'failed'; target: { type: 'page'; url: string; normalize_whitespace?: boolean; }; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: { url: string; secret?: string; }; } | { id: string; change_detection: { type: 'exact'; }; created_at: string; name: string; schedule: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }; status: 'active' | 'paused' | 'failed'; target: { type: 'sitemap'; url: string; exclude?: string[]; include?: string[]; max_urls?: number; }; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: { url: string; secret?: string; }; } | { id: string; change_detection: { query: string; type: 'semantic'; confidence_threshold?: number; }; created_at: string; name: string; schedule: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }; status: 'active' | 'paused' | 'failed'; target: { type: 'page'; url: string; normalize_whitespace?: boolean; }; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: { url: string; secret?: string; }; } | { id: string; change_detection: { query: string; type: 'semantic'; confidence_threshold?: number; }; created_at: string; name: string; schedule: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }; status: 'active' | 'paused' | 'failed'; target: { type: 'extract'; url: string; follow_subdomains?: boolean; instructions?: string; max_depth?: number; max_pages?: number; schema?: object; }; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: { url: string; secret?: string; }; }`\n  Union of monitor response shapes.\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst monitor = await client.monitors.retrieve('mon_123');\n\nconsole.log(monitor);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.monitors.retrieve',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst monitor = await client.monitors.retrieve('mon_123');\n\nconsole.log(monitor);",
+      },
+      python: {
+        method: 'monitors.retrieve',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nmonitor = client.monitors.retrieve(\n    "mon_123",\n)\nprint(monitor)',
+      },
+      go: {
+        method: 'client.Monitors.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmonitor, err := client.Monitors.Get(context.TODO(), "mon_123")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", monitor)\n}\n',
+      },
+      ruby: {
+        method: 'monitors.retrieve',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nmonitor = context_dev.monitors.retrieve("mon_123")\n\nputs(monitor)',
+      },
+      cli: {
+        method: 'monitors retrieve',
+        example: "context-dev monitors retrieve \\\n  --api-key 'My API Key' \\\n  --monitor-id mon_123",
+      },
+      php: {
+        method: 'monitors->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$monitor = $client->monitors->retrieve('mon_123');\n\nvar_dump($monitor);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/monitors/$MONITOR_ID \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'update',
+    endpoint: '/monitors/{monitor_id}',
+    httpMethod: 'patch',
+    summary: 'Update a monitor',
+    description:
+      'Updates a monitor. If `target` or `change_detection` changes, the monitor creates a new baseline. Unsupported target/change detection combinations are rejected.',
+    stainlessPath: '(resource) monitors > (method) update',
+    qualified: 'client.monitors.update',
+    params: [
+      'monitor_id: string;',
+      "change_detection?: { type: 'exact'; } | { query: string; type: 'semantic'; confidence_threshold?: number; };",
+      'name?: string;',
+      "schedule?: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; };",
+      "status?: 'active' | 'paused';",
+      'tags?: string[];',
+      "target?: { type: 'page'; url: string; normalize_whitespace?: boolean; } | { type: 'sitemap'; url: string; exclude?: string[]; include?: string[]; max_urls?: number; } | { type: 'extract'; url: string; follow_subdomains?: boolean; instructions?: string; max_depth?: number; max_pages?: number; schema?: object; };",
+      'webhook?: { url: string; secret?: string; };',
+    ],
+    response:
+      "{ id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; } | { id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; } | { id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; } | { id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; }",
+    markdown:
+      "## update\n\n`client.monitors.update(monitor_id: string, change_detection?: { type: 'exact'; } | { query: string; type: 'semantic'; confidence_threshold?: number; }, name?: string, schedule?: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }, status?: 'active' | 'paused', tags?: string[], target?: { type: 'page'; url: string; normalize_whitespace?: boolean; } | { type: 'sitemap'; url: string; exclude?: string[]; include?: string[]; max_urls?: number; } | { type: 'extract'; url: string; follow_subdomains?: boolean; instructions?: string; max_depth?: number; max_pages?: number; schema?: object; }, webhook?: { url: string; secret?: string; }): { id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; } | { id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; } | { id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; } | { id: string; change_detection: object; created_at: string; name: string; schedule: object; status: 'active' | 'paused' | 'failed'; target: object; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: object; }`\n\n**patch** `/monitors/{monitor_id}`\n\nUpdates a monitor. If `target` or `change_detection` changes, the monitor creates a new baseline. Unsupported target/change detection combinations are rejected.\n\n### Parameters\n\n- `monitor_id: string`\n\n- `change_detection?: { type: 'exact'; } | { query: string; type: 'semantic'; confidence_threshold?: number; }`\n  Discriminated union describing how changes are detected.\n\n- `name?: string`\n\n- `schedule?: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }`\n  Run the monitor on a fixed interval defined by a frequency and a unit, e.g. every 6 hours or every 2 days. The total interval (frequency × unit) must be between 10 minutes and 1 year.\n  - `frequency: number`\n    Number of units between runs. The resulting interval (frequency × unit) must be at least 10 minutes and at most 1 year (e.g. minimum 10 when unit is minutes; maximum 365 when unit is days).\n  - `type: 'interval'`\n  - `unit: 'minutes' | 'hours' | 'days'`\n\n- `status?: 'active' | 'paused'`\n\n- `tags?: string[]`\n  User-defined tags for grouping and filtering monitors and their changes.\n\n- `target?: { type: 'page'; url: string; normalize_whitespace?: boolean; } | { type: 'sitemap'; url: string; exclude?: string[]; include?: string[]; max_urls?: number; } | { type: 'extract'; url: string; follow_subdomains?: boolean; instructions?: string; max_depth?: number; max_pages?: number; schema?: object; }`\n  Discriminated union describing what the monitor watches.\n\n- `webhook?: { url: string; secret?: string; }`\n  Set to null to remove the webhook.\n  - `url: string`\n    Webhook URL called when a change is detected.\n  - `secret?: string`\n    Signing secret used to verify webhook authenticity. Each delivery includes an `X-Context-Signature: t=<unix>,v1=<hmac>` header, where the HMAC is SHA-256 over `\"{t}.{rawRequestBody}\"` keyed by this secret. Recompute it with a constant-time compare and reject stale timestamps to prevent replay. Generated by the API; cannot be set by clients.\n\n### Returns\n\n- `{ id: string; change_detection: { type: 'exact'; }; created_at: string; name: string; schedule: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }; status: 'active' | 'paused' | 'failed'; target: { type: 'page'; url: string; normalize_whitespace?: boolean; }; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: { url: string; secret?: string; }; } | { id: string; change_detection: { type: 'exact'; }; created_at: string; name: string; schedule: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }; status: 'active' | 'paused' | 'failed'; target: { type: 'sitemap'; url: string; exclude?: string[]; include?: string[]; max_urls?: number; }; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: { url: string; secret?: string; }; } | { id: string; change_detection: { query: string; type: 'semantic'; confidence_threshold?: number; }; created_at: string; name: string; schedule: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }; status: 'active' | 'paused' | 'failed'; target: { type: 'page'; url: string; normalize_whitespace?: boolean; }; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: { url: string; secret?: string; }; } | { id: string; change_detection: { query: string; type: 'semantic'; confidence_threshold?: number; }; created_at: string; name: string; schedule: { frequency: number; type: 'interval'; unit: 'minutes' | 'hours' | 'days'; }; status: 'active' | 'paused' | 'failed'; target: { type: 'extract'; url: string; follow_subdomains?: boolean; instructions?: string; max_depth?: number; max_pages?: number; schema?: object; }; updated_at: string; last_change_at?: string; last_run_at?: string; tags?: string[]; webhook?: { url: string; secret?: string; }; }`\n  Union of monitor response shapes.\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst monitor = await client.monitors.update('mon_123');\n\nconsole.log(monitor);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.monitors.update',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst monitor = await client.monitors.update('mon_123', {\n  name: 'Acme pricing monitor',\n  schedule: {\n    type: 'interval',\n    frequency: 1,\n    unit: 'hours',\n  },\n  status: 'active',\n  webhook: { url: 'https://example.com/webhook' },\n});\n\nconsole.log(monitor);",
+      },
+      python: {
+        method: 'monitors.update',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nmonitor = client.monitors.update(\n    monitor_id="mon_123",\n    name="Acme pricing monitor",\n    schedule={\n        "type": "interval",\n        "frequency": 1,\n        "unit": "hours",\n    },\n    status="active",\n    webhook={\n        "url": "https://example.com/webhook"\n    },\n)\nprint(monitor)',
+      },
+      go: {
+        method: 'client.Monitors.Update',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmonitor, err := client.Monitors.Update(\n\t\tcontext.TODO(),\n\t\t"mon_123",\n\t\tcontextdev.MonitorUpdateParams{\n\t\t\tName: contextdev.String("Acme pricing monitor"),\n\t\t\tSchedule: contextdev.MonitorUpdateParamsSchedule{\n\t\t\t\tType:      "interval",\n\t\t\t\tFrequency: 1,\n\t\t\t\tUnit:      "hours",\n\t\t\t},\n\t\t\tStatus: contextdev.MonitorUpdateParamsStatusActive,\n\t\t\tWebhook: contextdev.MonitorUpdateParamsWebhook{\n\t\t\t\tURL: "https://example.com/webhook",\n\t\t\t},\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", monitor)\n}\n',
+      },
+      ruby: {
+        method: 'monitors.update',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nmonitor = context_dev.monitors.update("mon_123")\n\nputs(monitor)',
+      },
+      cli: {
+        method: 'monitors update',
+        example: "context-dev monitors update \\\n  --api-key 'My API Key' \\\n  --monitor-id mon_123",
+      },
+      php: {
+        method: 'monitors->update',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$monitor = $client->monitors->update(\n  'mon_123',\n  changeDetection: ['type' => 'exact'],\n  name: 'Acme pricing monitor',\n  schedule: ['frequency' => 1, 'type' => 'interval', 'unit' => 'hours'],\n  status: 'active',\n  tags: ['pricing', 'competitor'],\n  target: [\n    'type' => 'page',\n    'url' => 'https://acme.com/pricing',\n    'normalizeWhitespace' => true,\n  ],\n  webhook: ['url' => 'https://example.com/webhook'],\n);\n\nvar_dump($monitor);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/monitors/$MONITOR_ID \\\n    -X PATCH \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "name": "Acme pricing monitor",\n          "schedule": {\n            "frequency": 1,\n            "type": "interval",\n            "unit": "hours"\n          },\n          "status": "active",\n          "tags": [\n            "pricing",\n            "competitor"\n          ],\n          "webhook": {\n            "url": "https://example.com/webhook"\n          }\n        }\'',
+      },
+    },
+  },
+  {
+    name: 'delete',
+    endpoint: '/monitors/{monitor_id}',
+    httpMethod: 'delete',
+    summary: 'Delete a monitor',
+    description: 'Delete a monitor',
+    stainlessPath: '(resource) monitors > (method) delete',
+    qualified: 'client.monitors.delete',
+    params: ['monitor_id: string;'],
+    response: '{ id: string; deleted: boolean; }',
+    markdown:
+      "## delete\n\n`client.monitors.delete(monitor_id: string): { id: string; deleted: boolean; }`\n\n**delete** `/monitors/{monitor_id}`\n\nDelete a monitor\n\n### Parameters\n\n- `monitor_id: string`\n\n### Returns\n\n- `{ id: string; deleted: boolean; }`\n\n  - `id: string`\n  - `deleted: boolean`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst monitor = await client.monitors.delete('mon_123');\n\nconsole.log(monitor);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.monitors.delete',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst monitor = await client.monitors.delete('mon_123');\n\nconsole.log(monitor.id);",
+      },
+      python: {
+        method: 'monitors.delete',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nmonitor = client.monitors.delete(\n    "mon_123",\n)\nprint(monitor.id)',
+      },
+      go: {
+        method: 'client.Monitors.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmonitor, err := client.Monitors.Delete(context.TODO(), "mon_123")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", monitor.ID)\n}\n',
+      },
+      ruby: {
+        method: 'monitors.delete',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nmonitor = context_dev.monitors.delete("mon_123")\n\nputs(monitor)',
+      },
+      cli: {
+        method: 'monitors delete',
+        example: "context-dev monitors delete \\\n  --api-key 'My API Key' \\\n  --monitor-id mon_123",
+      },
+      php: {
+        method: 'monitors->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$monitor = $client->monitors->delete('mon_123');\n\nvar_dump($monitor);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/monitors/$MONITOR_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'run',
+    endpoint: '/monitors/{monitor_id}/run',
+    httpMethod: 'post',
+    summary: 'Run a monitor now',
+    description:
+      'Triggers an immediate run of the monitor outside its normal schedule. The run is queued and processed asynchronously.',
+    stainlessPath: '(resource) monitors > (method) run',
+    qualified: 'client.monitors.run',
+    params: ['monitor_id: string;'],
+    response: '{ monitor_id: string; queued: boolean; }',
+    markdown:
+      "## run\n\n`client.monitors.run(monitor_id: string): { monitor_id: string; queued: boolean; }`\n\n**post** `/monitors/{monitor_id}/run`\n\nTriggers an immediate run of the monitor outside its normal schedule. The run is queued and processed asynchronously.\n\n### Parameters\n\n- `monitor_id: string`\n\n### Returns\n\n- `{ monitor_id: string; queued: boolean; }`\n\n  - `monitor_id: string`\n  - `queued: boolean`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.monitors.run('mon_123');\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.monitors.run',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.monitors.run('mon_123');\n\nconsole.log(response.monitor_id);",
+      },
+      python: {
+        method: 'monitors.run',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.monitors.run(\n    "mon_123",\n)\nprint(response.monitor_id)',
+      },
+      go: {
+        method: 'client.Monitors.Run',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Monitors.Run(context.TODO(), "mon_123")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.MonitorID)\n}\n',
+      },
+      ruby: {
+        method: 'monitors.run',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.monitors.run("mon_123")\n\nputs(response)',
+      },
+      cli: {
+        method: 'monitors run',
+        example: "context-dev monitors run \\\n  --api-key 'My API Key' \\\n  --monitor-id mon_123",
+      },
+      php: {
+        method: 'monitors->run',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->monitors->run('mon_123');\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/monitors/$MONITOR_ID/run \\\n    -X POST \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'list_runs',
+    endpoint: '/monitors/{monitor_id}/runs',
+    httpMethod: 'get',
+    summary: 'List monitor runs',
+    description: 'List monitor runs',
+    stainlessPath: '(resource) monitors > (method) list_runs',
+    qualified: 'client.monitors.listRuns',
+    params: [
+      'monitor_id: string;',
+      'cursor?: string;',
+      'limit?: number;',
+      "status?: 'queued' | 'running' | 'completed' | 'failed';",
+    ],
+    response:
+      "{ data: { id: string; baseline_created: boolean; change_detected: boolean; change_detection_type: 'exact' | 'semantic'; monitor_id: string; run_type: 'baseline' | 'scheduled'; status: 'queued' | 'running' | 'completed' | 'failed'; target_type: 'page' | 'sitemap' | 'extract'; change_id?: string; completed_at?: string; error?: { code: string; message: string; }; started_at?: string; }[]; has_more: boolean; next_cursor: string; }",
+    markdown:
+      "## list_runs\n\n`client.monitors.listRuns(monitor_id: string, cursor?: string, limit?: number, status?: 'queued' | 'running' | 'completed' | 'failed'): { data: object[]; has_more: boolean; next_cursor: string; }`\n\n**get** `/monitors/{monitor_id}/runs`\n\nList monitor runs\n\n### Parameters\n\n- `monitor_id: string`\n\n- `cursor?: string`\n\n- `limit?: number`\n\n- `status?: 'queued' | 'running' | 'completed' | 'failed'`\n\n### Returns\n\n- `{ data: { id: string; baseline_created: boolean; change_detected: boolean; change_detection_type: 'exact' | 'semantic'; monitor_id: string; run_type: 'baseline' | 'scheduled'; status: 'queued' | 'running' | 'completed' | 'failed'; target_type: 'page' | 'sitemap' | 'extract'; change_id?: string; completed_at?: string; error?: { code: string; message: string; }; started_at?: string; }[]; has_more: boolean; next_cursor: string; }`\n\n  - `data: { id: string; baseline_created: boolean; change_detected: boolean; change_detection_type: 'exact' | 'semantic'; monitor_id: string; run_type: 'baseline' | 'scheduled'; status: 'queued' | 'running' | 'completed' | 'failed'; target_type: 'page' | 'sitemap' | 'extract'; change_id?: string; completed_at?: string; error?: { code: string; message: string; }; started_at?: string; }[]`\n  - `has_more: boolean`\n  - `next_cursor: string`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.monitors.listRuns('mon_123');\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.monitors.listRuns',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.monitors.listRuns('mon_123');\n\nconsole.log(response.data);",
+      },
+      python: {
+        method: 'monitors.list_runs',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.monitors.list_runs(\n    monitor_id="mon_123",\n)\nprint(response.data)',
+      },
+      go: {
+        method: 'client.Monitors.ListRuns',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Monitors.ListRuns(\n\t\tcontext.TODO(),\n\t\t"mon_123",\n\t\tcontextdev.MonitorListRunsParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Data)\n}\n',
+      },
+      ruby: {
+        method: 'monitors.list_runs',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.monitors.list_runs("mon_123")\n\nputs(response)',
+      },
+      cli: {
+        method: 'monitors list_runs',
+        example: "context-dev monitors list-runs \\\n  --api-key 'My API Key' \\\n  --monitor-id mon_123",
+      },
+      php: {
+        method: 'monitors->listRuns',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->monitors->listRuns(\n  'mon_123', cursor: 'cursor', limit: 1, status: 'queued'\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/monitors/$MONITOR_ID/runs \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'list_changes',
+    endpoint: '/monitors/{monitor_id}/changes',
+    httpMethod: 'get',
+    summary: 'List changes for a monitor',
+    description: 'List changes for a monitor',
+    stainlessPath: '(resource) monitors > (method) list_changes',
+    qualified: 'client.monitors.listChanges',
+    params: [
+      'monitor_id: string;',
+      'cursor?: string;',
+      'limit?: number;',
+      'since?: string;',
+      'tag?: string;',
+      'until?: string;',
+    ],
+    response:
+      "{ data: { id: string; change_detection_type: 'exact'; detected_at: string; monitor_id: string; summary: string; target_type: 'page'; title: string; url: string; tags?: string[]; } | { id: string; added_url_count: number; change_detection_type: 'exact'; detected_at: string; monitor_id: string; removed_url_count: number; summary: string; target_type: 'sitemap'; title: string; url: string; tags?: string[]; } | { id: string; change_detection_type: 'semantic'; confidence: number; detected_at: string; importance: 'low' | 'medium' | 'high'; monitor_id: string; summary: string; target_type: 'page'; title: string; url: string; tags?: string[]; } | { id: string; change_detection_type: 'semantic'; confidence: number; detected_at: string; importance: 'low' | 'medium' | 'high'; matched_url_count: number; monitor_id: string; summary: string; target_type: 'extract'; title: string; url: string; tags?: string[]; }[]; has_more: boolean; next_cursor: string; }",
+    markdown:
+      "## list_changes\n\n`client.monitors.listChanges(monitor_id: string, cursor?: string, limit?: number, since?: string, tag?: string, until?: string): { data: object | object | object | object[]; has_more: boolean; next_cursor: string; }`\n\n**get** `/monitors/{monitor_id}/changes`\n\nList changes for a monitor\n\n### Parameters\n\n- `monitor_id: string`\n\n- `cursor?: string`\n\n- `limit?: number`\n\n- `since?: string`\n\n- `tag?: string`\n  Filter to items that have this tag.\n\n- `until?: string`\n\n### Returns\n\n- `{ data: { id: string; change_detection_type: 'exact'; detected_at: string; monitor_id: string; summary: string; target_type: 'page'; title: string; url: string; tags?: string[]; } | { id: string; added_url_count: number; change_detection_type: 'exact'; detected_at: string; monitor_id: string; removed_url_count: number; summary: string; target_type: 'sitemap'; title: string; url: string; tags?: string[]; } | { id: string; change_detection_type: 'semantic'; confidence: number; detected_at: string; importance: 'low' | 'medium' | 'high'; monitor_id: string; summary: string; target_type: 'page'; title: string; url: string; tags?: string[]; } | { id: string; change_detection_type: 'semantic'; confidence: number; detected_at: string; importance: 'low' | 'medium' | 'high'; matched_url_count: number; monitor_id: string; summary: string; target_type: 'extract'; title: string; url: string; tags?: string[]; }[]; has_more: boolean; next_cursor: string; }`\n\n  - `data: { id: string; change_detection_type: 'exact'; detected_at: string; monitor_id: string; summary: string; target_type: 'page'; title: string; url: string; tags?: string[]; } | { id: string; added_url_count: number; change_detection_type: 'exact'; detected_at: string; monitor_id: string; removed_url_count: number; summary: string; target_type: 'sitemap'; title: string; url: string; tags?: string[]; } | { id: string; change_detection_type: 'semantic'; confidence: number; detected_at: string; importance: 'low' | 'medium' | 'high'; monitor_id: string; summary: string; target_type: 'page'; title: string; url: string; tags?: string[]; } | { id: string; change_detection_type: 'semantic'; confidence: number; detected_at: string; importance: 'low' | 'medium' | 'high'; matched_url_count: number; monitor_id: string; summary: string; target_type: 'extract'; title: string; url: string; tags?: string[]; }[]`\n  - `has_more: boolean`\n  - `next_cursor: string`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.monitors.listChanges('mon_123');\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.monitors.listChanges',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.monitors.listChanges('mon_123');\n\nconsole.log(response.data);",
+      },
+      python: {
+        method: 'monitors.list_changes',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.monitors.list_changes(\n    monitor_id="mon_123",\n)\nprint(response.data)',
+      },
+      go: {
+        method: 'client.Monitors.ListChanges',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Monitors.ListChanges(\n\t\tcontext.TODO(),\n\t\t"mon_123",\n\t\tcontextdev.MonitorListChangesParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Data)\n}\n',
+      },
+      ruby: {
+        method: 'monitors.list_changes',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.monitors.list_changes("mon_123")\n\nputs(response)',
+      },
+      cli: {
+        method: 'monitors list_changes',
+        example: "context-dev monitors list-changes \\\n  --api-key 'My API Key' \\\n  --monitor-id mon_123",
+      },
+      php: {
+        method: 'monitors->listChanges',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->monitors->listChanges(\n  'mon_123',\n  cursor: 'cursor',\n  limit: 1,\n  since: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  tag: 'tag',\n  until: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/monitors/$MONITOR_ID/changes \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'list_account_runs',
+    endpoint: '/monitors/runs',
+    httpMethod: 'get',
+    summary: 'List runs',
+    description: 'Returns an account-wide feed of monitor runs across all monitors.',
+    stainlessPath: '(resource) monitors > (method) list_account_runs',
+    qualified: 'client.monitors.listAccountRuns',
+    params: [
+      'cursor?: string;',
+      'limit?: number;',
+      "status?: 'queued' | 'running' | 'completed' | 'failed';",
+    ],
+    response:
+      "{ data: { id: string; baseline_created: boolean; change_detected: boolean; change_detection_type: 'exact' | 'semantic'; monitor_id: string; run_type: 'baseline' | 'scheduled'; status: 'queued' | 'running' | 'completed' | 'failed'; target_type: 'page' | 'sitemap' | 'extract'; change_id?: string; completed_at?: string; error?: { code: string; message: string; }; started_at?: string; }[]; has_more: boolean; next_cursor: string; }",
+    markdown:
+      "## list_account_runs\n\n`client.monitors.listAccountRuns(cursor?: string, limit?: number, status?: 'queued' | 'running' | 'completed' | 'failed'): { data: object[]; has_more: boolean; next_cursor: string; }`\n\n**get** `/monitors/runs`\n\nReturns an account-wide feed of monitor runs across all monitors.\n\n### Parameters\n\n- `cursor?: string`\n\n- `limit?: number`\n\n- `status?: 'queued' | 'running' | 'completed' | 'failed'`\n\n### Returns\n\n- `{ data: { id: string; baseline_created: boolean; change_detected: boolean; change_detection_type: 'exact' | 'semantic'; monitor_id: string; run_type: 'baseline' | 'scheduled'; status: 'queued' | 'running' | 'completed' | 'failed'; target_type: 'page' | 'sitemap' | 'extract'; change_id?: string; completed_at?: string; error?: { code: string; message: string; }; started_at?: string; }[]; has_more: boolean; next_cursor: string; }`\n\n  - `data: { id: string; baseline_created: boolean; change_detected: boolean; change_detection_type: 'exact' | 'semantic'; monitor_id: string; run_type: 'baseline' | 'scheduled'; status: 'queued' | 'running' | 'completed' | 'failed'; target_type: 'page' | 'sitemap' | 'extract'; change_id?: string; completed_at?: string; error?: { code: string; message: string; }; started_at?: string; }[]`\n  - `has_more: boolean`\n  - `next_cursor: string`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.monitors.listAccountRuns();\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.monitors.listAccountRuns',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.monitors.listAccountRuns();\n\nconsole.log(response.data);",
+      },
+      python: {
+        method: 'monitors.list_account_runs',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.monitors.list_account_runs()\nprint(response.data)',
+      },
+      go: {
+        method: 'client.Monitors.ListAccountRuns',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Monitors.ListAccountRuns(context.TODO(), contextdev.MonitorListAccountRunsParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Data)\n}\n',
+      },
+      ruby: {
+        method: 'monitors.list_account_runs',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.monitors.list_account_runs\n\nputs(response)',
+      },
+      cli: {
+        method: 'monitors list_account_runs',
+        example: "context-dev monitors list-account-runs \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'monitors->listAccountRuns',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->monitors->listAccountRuns(\n  cursor: 'cursor', limit: 1, status: 'queued'\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/monitors/runs \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'list_account_changes',
+    endpoint: '/monitors/changes',
+    httpMethod: 'get',
+    summary: 'List changes',
+    description: 'Returns an account-wide feed of detected changes across monitors.',
+    stainlessPath: '(resource) monitors > (method) list_account_changes',
+    qualified: 'client.monitors.listAccountChanges',
+    params: [
+      "change_detection_type?: 'exact' | 'semantic';",
+      'cursor?: string;',
+      'limit?: number;',
+      'monitor_id?: string;',
+      'since?: string;',
+      'tag?: string;',
+      "target_type?: 'page' | 'sitemap' | 'extract';",
+      'until?: string;',
+    ],
+    response:
+      "{ data: { id: string; change_detection_type: 'exact'; detected_at: string; monitor_id: string; summary: string; target_type: 'page'; title: string; url: string; tags?: string[]; } | { id: string; added_url_count: number; change_detection_type: 'exact'; detected_at: string; monitor_id: string; removed_url_count: number; summary: string; target_type: 'sitemap'; title: string; url: string; tags?: string[]; } | { id: string; change_detection_type: 'semantic'; confidence: number; detected_at: string; importance: 'low' | 'medium' | 'high'; monitor_id: string; summary: string; target_type: 'page'; title: string; url: string; tags?: string[]; } | { id: string; change_detection_type: 'semantic'; confidence: number; detected_at: string; importance: 'low' | 'medium' | 'high'; matched_url_count: number; monitor_id: string; summary: string; target_type: 'extract'; title: string; url: string; tags?: string[]; }[]; has_more: boolean; next_cursor: string; }",
+    markdown:
+      "## list_account_changes\n\n`client.monitors.listAccountChanges(change_detection_type?: 'exact' | 'semantic', cursor?: string, limit?: number, monitor_id?: string, since?: string, tag?: string, target_type?: 'page' | 'sitemap' | 'extract', until?: string): { data: object | object | object | object[]; has_more: boolean; next_cursor: string; }`\n\n**get** `/monitors/changes`\n\nReturns an account-wide feed of detected changes across monitors.\n\n### Parameters\n\n- `change_detection_type?: 'exact' | 'semantic'`\n\n- `cursor?: string`\n\n- `limit?: number`\n\n- `monitor_id?: string`\n\n- `since?: string`\n\n- `tag?: string`\n  Filter to items that have this tag.\n\n- `target_type?: 'page' | 'sitemap' | 'extract'`\n\n- `until?: string`\n\n### Returns\n\n- `{ data: { id: string; change_detection_type: 'exact'; detected_at: string; monitor_id: string; summary: string; target_type: 'page'; title: string; url: string; tags?: string[]; } | { id: string; added_url_count: number; change_detection_type: 'exact'; detected_at: string; monitor_id: string; removed_url_count: number; summary: string; target_type: 'sitemap'; title: string; url: string; tags?: string[]; } | { id: string; change_detection_type: 'semantic'; confidence: number; detected_at: string; importance: 'low' | 'medium' | 'high'; monitor_id: string; summary: string; target_type: 'page'; title: string; url: string; tags?: string[]; } | { id: string; change_detection_type: 'semantic'; confidence: number; detected_at: string; importance: 'low' | 'medium' | 'high'; matched_url_count: number; monitor_id: string; summary: string; target_type: 'extract'; title: string; url: string; tags?: string[]; }[]; has_more: boolean; next_cursor: string; }`\n\n  - `data: { id: string; change_detection_type: 'exact'; detected_at: string; monitor_id: string; summary: string; target_type: 'page'; title: string; url: string; tags?: string[]; } | { id: string; added_url_count: number; change_detection_type: 'exact'; detected_at: string; monitor_id: string; removed_url_count: number; summary: string; target_type: 'sitemap'; title: string; url: string; tags?: string[]; } | { id: string; change_detection_type: 'semantic'; confidence: number; detected_at: string; importance: 'low' | 'medium' | 'high'; monitor_id: string; summary: string; target_type: 'page'; title: string; url: string; tags?: string[]; } | { id: string; change_detection_type: 'semantic'; confidence: number; detected_at: string; importance: 'low' | 'medium' | 'high'; matched_url_count: number; monitor_id: string; summary: string; target_type: 'extract'; title: string; url: string; tags?: string[]; }[]`\n  - `has_more: boolean`\n  - `next_cursor: string`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.monitors.listAccountChanges();\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.monitors.listAccountChanges',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.monitors.listAccountChanges();\n\nconsole.log(response.data);",
+      },
+      python: {
+        method: 'monitors.list_account_changes',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.monitors.list_account_changes()\nprint(response.data)',
+      },
+      go: {
+        method: 'client.Monitors.ListAccountChanges',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Monitors.ListAccountChanges(context.TODO(), contextdev.MonitorListAccountChangesParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Data)\n}\n',
+      },
+      ruby: {
+        method: 'monitors.list_account_changes',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.monitors.list_account_changes\n\nputs(response)',
+      },
+      cli: {
+        method: 'monitors list_account_changes',
+        example: "context-dev monitors list-account-changes \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'monitors->listAccountChanges',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->monitors->listAccountChanges(\n  changeDetectionType: 'exact',\n  cursor: 'cursor',\n  limit: 1,\n  monitorID: 'monitor_id',\n  since: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n  tag: 'tag',\n  targetType: 'page',\n  until: new \\DateTimeImmutable('2019-12-27T18:11:19.117Z'),\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/monitors/changes \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'retrieve_change',
+    endpoint: '/monitors/changes/{change_id}',
+    httpMethod: 'get',
+    summary: 'Get a change',
+    description: 'Get a change',
+    stainlessPath: '(resource) monitors > (method) retrieve_change',
+    qualified: 'client.monitors.retrieveChange',
+    params: ['change_id: string;'],
+    response:
+      "{ id: string; change_detection_type: 'exact'; detected_at: string; diff: string; monitor_id: string; summary: string; target_type: 'page'; title: string; url: string; after_text_excerpt?: string; before_text_excerpt?: string; tags?: string[]; } | { id: string; added_url_count: number; added_urls: string[]; change_detection_type: 'exact'; detected_at: string; monitor_id: string; removed_url_count: number; removed_urls: string[]; summary: string; target_type: 'sitemap'; title: string; url: string; tags?: string[]; } | { id: string; change_detection_type: 'semantic'; confidence: number; detected_at: string; evidence: { after: string; before: string; }[]; importance: 'low' | 'medium' | 'high'; monitor_id: string; query: string; summary: string; target_type: 'page'; title: string; url: string; tags?: string[]; } | { id: string; change_detection_type: 'semantic'; confidence: number; detected_at: string; evidence: { after: string; before: string; url?: string; }[]; importance: 'low' | 'medium' | 'high'; matched_url_count: number; matched_urls: string[]; monitor_id: string; query: string; summary: string; target_type: 'extract'; title: string; url: string; tags?: string[]; }",
+    markdown:
+      "## retrieve_change\n\n`client.monitors.retrieveChange(change_id: string): { id: string; change_detection_type: 'exact'; detected_at: string; diff: string; monitor_id: string; summary: string; target_type: 'page'; title: string; url: string; after_text_excerpt?: string; before_text_excerpt?: string; tags?: string[]; } | { id: string; added_url_count: number; added_urls: string[]; change_detection_type: 'exact'; detected_at: string; monitor_id: string; removed_url_count: number; removed_urls: string[]; summary: string; target_type: 'sitemap'; title: string; url: string; tags?: string[]; } | { id: string; change_detection_type: 'semantic'; confidence: number; detected_at: string; evidence: object[]; importance: 'low' | 'medium' | 'high'; monitor_id: string; query: string; summary: string; target_type: 'page'; title: string; url: string; tags?: string[]; } | { id: string; change_detection_type: 'semantic'; confidence: number; detected_at: string; evidence: object[]; importance: 'low' | 'medium' | 'high'; matched_url_count: number; matched_urls: string[]; monitor_id: string; query: string; summary: string; target_type: 'extract'; title: string; url: string; tags?: string[]; }`\n\n**get** `/monitors/changes/{change_id}`\n\nGet a change\n\n### Parameters\n\n- `change_id: string`\n\n### Returns\n\n- `{ id: string; change_detection_type: 'exact'; detected_at: string; diff: string; monitor_id: string; summary: string; target_type: 'page'; title: string; url: string; after_text_excerpt?: string; before_text_excerpt?: string; tags?: string[]; } | { id: string; added_url_count: number; added_urls: string[]; change_detection_type: 'exact'; detected_at: string; monitor_id: string; removed_url_count: number; removed_urls: string[]; summary: string; target_type: 'sitemap'; title: string; url: string; tags?: string[]; } | { id: string; change_detection_type: 'semantic'; confidence: number; detected_at: string; evidence: { after: string; before: string; }[]; importance: 'low' | 'medium' | 'high'; monitor_id: string; query: string; summary: string; target_type: 'page'; title: string; url: string; tags?: string[]; } | { id: string; change_detection_type: 'semantic'; confidence: number; detected_at: string; evidence: { after: string; before: string; url?: string; }[]; importance: 'low' | 'medium' | 'high'; matched_url_count: number; matched_urls: string[]; monitor_id: string; query: string; summary: string; target_type: 'extract'; title: string; url: string; tags?: string[]; }`\n  Union of full change detail objects.\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.monitors.retrieveChange('chg_123');\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.monitors.retrieveChange',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.monitors.retrieveChange('chg_123');\n\nconsole.log(response);",
+      },
+      python: {
+        method: 'monitors.retrieve_change',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.monitors.retrieve_change(\n    "chg_123",\n)\nprint(response)',
+      },
+      go: {
+        method: 'client.Monitors.GetChange',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Monitors.GetChange(context.TODO(), "chg_123")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response)\n}\n',
+      },
+      ruby: {
+        method: 'monitors.retrieve_change',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.monitors.retrieve_change("chg_123")\n\nputs(response)',
+      },
+      cli: {
+        method: 'monitors retrieve_change',
+        example:
+          "context-dev monitors retrieve-change \\\n  --api-key 'My API Key' \\\n  --change-id chg_123",
+      },
+      php: {
+        method: 'monitors->retrieveChange',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->monitors->retrieveChange('chg_123');\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/monitors/changes/$CHANGE_ID \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
+      },
+    },
+  },
 ];
 
 const EMBEDDED_READMES: { language: string; content: string }[] = [
