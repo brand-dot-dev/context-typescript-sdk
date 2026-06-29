@@ -160,6 +160,72 @@ export const sdkMethods: SdkMethod[] = [
     httpMethod: 'post',
     httpPath: '/brand/prefetch-by-email',
   },
+  {
+    clientCallName: 'client.monitors.create',
+    fullyQualifiedName: 'monitors.create',
+    httpMethod: 'post',
+    httpPath: '/monitors',
+  },
+  {
+    clientCallName: 'client.monitors.retrieve',
+    fullyQualifiedName: 'monitors.retrieve',
+    httpMethod: 'get',
+    httpPath: '/monitors/{monitor_id}',
+  },
+  {
+    clientCallName: 'client.monitors.update',
+    fullyQualifiedName: 'monitors.update',
+    httpMethod: 'patch',
+    httpPath: '/monitors/{monitor_id}',
+  },
+  {
+    clientCallName: 'client.monitors.list',
+    fullyQualifiedName: 'monitors.list',
+    httpMethod: 'get',
+    httpPath: '/monitors',
+  },
+  {
+    clientCallName: 'client.monitors.delete',
+    fullyQualifiedName: 'monitors.delete',
+    httpMethod: 'delete',
+    httpPath: '/monitors/{monitor_id}',
+  },
+  {
+    clientCallName: 'client.monitors.listAccountChanges',
+    fullyQualifiedName: 'monitors.listAccountChanges',
+    httpMethod: 'get',
+    httpPath: '/monitors/changes',
+  },
+  {
+    clientCallName: 'client.monitors.listAccountRuns',
+    fullyQualifiedName: 'monitors.listAccountRuns',
+    httpMethod: 'get',
+    httpPath: '/monitors/runs',
+  },
+  {
+    clientCallName: 'client.monitors.listChanges',
+    fullyQualifiedName: 'monitors.listChanges',
+    httpMethod: 'get',
+    httpPath: '/monitors/{monitor_id}/changes',
+  },
+  {
+    clientCallName: 'client.monitors.listRuns',
+    fullyQualifiedName: 'monitors.listRuns',
+    httpMethod: 'get',
+    httpPath: '/monitors/{monitor_id}/runs',
+  },
+  {
+    clientCallName: 'client.monitors.retrieveChange',
+    fullyQualifiedName: 'monitors.retrieveChange',
+    httpMethod: 'get',
+    httpPath: '/monitors/changes/{change_id}',
+  },
+  {
+    clientCallName: 'client.monitors.run',
+    fullyQualifiedName: 'monitors.run',
+    httpMethod: 'post',
+    httpPath: '/monitors/{monitor_id}/run',
+  },
 ];
 
 function allowedMethodsForCodeTool(options: McpOptions | undefined): SdkMethod[] | undefined {

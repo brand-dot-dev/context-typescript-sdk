@@ -34,6 +34,27 @@ export {
   type IndustryRetrieveSicParams,
 } from './industry';
 export {
+  Monitors,
+  type MonitorCreateResponse,
+  type MonitorRetrieveResponse,
+  type MonitorUpdateResponse,
+  type MonitorListResponse,
+  type MonitorDeleteResponse,
+  type MonitorListAccountChangesResponse,
+  type MonitorListAccountRunsResponse,
+  type MonitorListChangesResponse,
+  type MonitorListRunsResponse,
+  type MonitorRetrieveChangeResponse,
+  type MonitorRunResponse,
+  type MonitorCreateParams,
+  type MonitorUpdateParams,
+  type MonitorListParams,
+  type MonitorListAccountChangesParams,
+  type MonitorListAccountRunsParams,
+  type MonitorListChangesParams,
+  type MonitorListRunsParams,
+} from './monitors';
+export {
   Utility,
   type UtilityPrefetchResponse,
   type UtilityPrefetchByEmailResponse,
