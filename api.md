@@ -87,3 +87,33 @@ Methods:
 
 - <code title="post /brand/prefetch">client.utility.<a href="./src/resources/utility.ts">prefetch</a>({ ...params }) -> UtilityPrefetchResponse</code>
 - <code title="post /brand/prefetch-by-email">client.utility.<a href="./src/resources/utility.ts">prefetchByEmail</a>({ ...params }) -> UtilityPrefetchByEmailResponse</code>
+
+# Monitors
+
+Types:
+
+- <code><a href="./src/resources/monitors.ts">MonitorCreateResponse</a></code>
+- <code><a href="./src/resources/monitors.ts">MonitorRetrieveResponse</a></code>
+- <code><a href="./src/resources/monitors.ts">MonitorUpdateResponse</a></code>
+- <code><a href="./src/resources/monitors.ts">MonitorListResponse</a></code>
+- <code><a href="./src/resources/monitors.ts">MonitorDeleteResponse</a></code>
+- <code><a href="./src/resources/monitors.ts">MonitorListAccountChangesResponse</a></code>
+- <code><a href="./src/resources/monitors.ts">MonitorListAccountRunsResponse</a></code>
+- <code><a href="./src/resources/monitors.ts">MonitorListChangesResponse</a></code>
+- <code><a href="./src/resources/monitors.ts">MonitorListRunsResponse</a></code>
+- <code><a href="./src/resources/monitors.ts">MonitorRetrieveChangeResponse</a></code>
+- <code><a href="./src/resources/monitors.ts">MonitorRunResponse</a></code>
+
+Methods:
+
+- <code title="post /monitors">client.monitors.<a href="./src/resources/monitors.ts">create</a>({ ...params }) -> MonitorCreateResponse</code>
+- <code title="get /monitors/{monitor_id}">client.monitors.<a href="./src/resources/monitors.ts">retrieve</a>(monitorID) -> MonitorRetrieveResponse</code>
+- <code title="patch /monitors/{monitor_id}">client.monitors.<a href="./src/resources/monitors.ts">update</a>(monitorID, { ...params }) -> MonitorUpdateResponse</code>
+- <code title="get /monitors">client.monitors.<a href="./src/resources/monitors.ts">list</a>({ ...params }) -> MonitorListResponse</code>
+- <code title="delete /monitors/{monitor_id}">client.monitors.<a href="./src/resources/monitors.ts">delete</a>(monitorID) -> MonitorDeleteResponse</code>
+- <code title="get /monitors/changes">client.monitors.<a href="./src/resources/monitors.ts">listAccountChanges</a>({ ...params }) -> MonitorListAccountChangesResponse</code>
+- <code title="get /monitors/runs">client.monitors.<a href="./src/resources/monitors.ts">listAccountRuns</a>({ ...params }) -> MonitorListAccountRunsResponse</code>
+- <code title="get /monitors/{monitor_id}/changes">client.monitors.<a href="./src/resources/monitors.ts">listChanges</a>(monitorID, { ...params }) -> MonitorListChangesResponse</code>
+- <code title="get /monitors/{monitor_id}/runs">client.monitors.<a href="./src/resources/monitors.ts">listRuns</a>(monitorID, { ...params }) -> MonitorListRunsResponse</code>
+- <code title="get /monitors/changes/{change_id}">client.monitors.<a href="./src/resources/monitors.ts">retrieveChange</a>(changeID) -> MonitorRetrieveChangeResponse</code>
+- <code title="post /monitors/{monitor_id}/run">client.monitors.<a href="./src/resources/monitors.ts">run</a>(monitorID) -> MonitorRunResponse</code>

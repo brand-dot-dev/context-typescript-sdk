@@ -51,6 +51,27 @@ import {
   IndustryRetrieveSicResponse,
 } from './resources/industry';
 import {
+  MonitorCreateParams,
+  MonitorCreateResponse,
+  MonitorDeleteResponse,
+  MonitorListAccountChangesParams,
+  MonitorListAccountChangesResponse,
+  MonitorListAccountRunsParams,
+  MonitorListAccountRunsResponse,
+  MonitorListChangesParams,
+  MonitorListChangesResponse,
+  MonitorListParams,
+  MonitorListResponse,
+  MonitorListRunsParams,
+  MonitorListRunsResponse,
+  MonitorRetrieveChangeResponse,
+  MonitorRetrieveResponse,
+  MonitorRunResponse,
+  MonitorUpdateParams,
+  MonitorUpdateResponse,
+  Monitors,
+} from './resources/monitors';
+import {
   Utility,
   UtilityPrefetchByEmailParams,
   UtilityPrefetchByEmailResponse,
@@ -804,6 +825,10 @@ export class ContextDev {
   brand: API.Brand = new API.Brand(this);
   industry: API.Industry = new API.Industry(this);
   utility: API.Utility = new API.Utility(this);
+  /**
+   * Monitor pages, sitemaps, and extracted website data for exact or semantic changes. The change.detected webhook payload is documented by the MonitorsChangeDetectedWebhookPayload schema.
+   */
+  monitors: API.Monitors = new API.Monitors(this);
 }
 
 ContextDev.Web = Web;
@@ -811,6 +836,7 @@ ContextDev.AI = AI;
 ContextDev.Brand = Brand;
 ContextDev.Industry = Industry;
 ContextDev.Utility = Utility;
+ContextDev.Monitors = Monitors;
 
 export declare namespace ContextDev {
   export type RequestOptions = Opts.RequestOptions;
@@ -883,5 +909,27 @@ export declare namespace ContextDev {
     type UtilityPrefetchByEmailResponse as UtilityPrefetchByEmailResponse,
     type UtilityPrefetchParams as UtilityPrefetchParams,
     type UtilityPrefetchByEmailParams as UtilityPrefetchByEmailParams,
+  };
+
+  export {
+    Monitors as Monitors,
+    type MonitorCreateResponse as MonitorCreateResponse,
+    type MonitorRetrieveResponse as MonitorRetrieveResponse,
+    type MonitorUpdateResponse as MonitorUpdateResponse,
+    type MonitorListResponse as MonitorListResponse,
+    type MonitorDeleteResponse as MonitorDeleteResponse,
+    type MonitorListAccountChangesResponse as MonitorListAccountChangesResponse,
+    type MonitorListAccountRunsResponse as MonitorListAccountRunsResponse,
+    type MonitorListChangesResponse as MonitorListChangesResponse,
+    type MonitorListRunsResponse as MonitorListRunsResponse,
+    type MonitorRetrieveChangeResponse as MonitorRetrieveChangeResponse,
+    type MonitorRunResponse as MonitorRunResponse,
+    type MonitorCreateParams as MonitorCreateParams,
+    type MonitorUpdateParams as MonitorUpdateParams,
+    type MonitorListParams as MonitorListParams,
+    type MonitorListAccountChangesParams as MonitorListAccountChangesParams,
+    type MonitorListAccountRunsParams as MonitorListAccountRunsParams,
+    type MonitorListChangesParams as MonitorListChangesParams,
+    type MonitorListRunsParams as MonitorListRunsParams,
   };
 }
