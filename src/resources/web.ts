@@ -3020,6 +3020,13 @@ export interface WebWebCrawlMdParams {
   pdf?: WebWebCrawlMdParams.Pdf;
 
   /**
+   * When true, waits briefly for CSS and transition animations to settle before
+   * extracting each crawled page. Defaults to false. This adds a bit of latency in
+   * exchange for more stable output on animated pages.
+   */
+  settleAnimations?: boolean;
+
+  /**
    * Truncate base64-encoded image data in the Markdown output
    */
   shortenBase64Images?: boolean;
@@ -3336,6 +3343,13 @@ export interface WebWebScrapeHTMLParams {
    * inclusive 1-based page range.
    */
   pdf?: WebWebScrapeHTMLParams.Pdf;
+
+  /**
+   * When true, waits briefly for CSS and transition animations to settle before
+   * extracting HTML. Defaults to false. This adds a bit of latency in exchange for
+   * more stable output on animated pages.
+   */
+  settleAnimations?: boolean;
 
   /**
    * Optional timeout in milliseconds for the request. If the request takes longer
@@ -3715,6 +3729,13 @@ export interface WebWebScrapeMdParams {
    * inclusive 1-based page range.
    */
   pdf?: WebWebScrapeMdParams.Pdf;
+
+  /**
+   * When true, waits briefly for CSS and transition animations to settle before
+   * converting to Markdown. Defaults to false. This adds a bit of latency in
+   * exchange for more stable output on animated pages.
+   */
+  settleAnimations?: boolean;
 
   /**
    * Shorten base64-encoded image data in the Markdown output
