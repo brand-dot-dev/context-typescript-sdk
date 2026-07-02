@@ -221,6 +221,12 @@ export namespace WebExtractResponse {
   export interface Metadata {
     maxCrawlDepth: number;
 
+    /**
+     * Number of crawled pages excluded because they were anti-bot challenges, error
+     * pages, or parked-domain placeholders.
+     */
+    numBlocked: number;
+
     numFailed: number;
 
     numSkipped: number;
