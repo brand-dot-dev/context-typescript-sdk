@@ -225,6 +225,13 @@ export interface MonitorCreateResponse {
    */
   schedule: MonitorCreateResponse.Schedule;
 
+  /**
+   * Monitor lifecycle status. `failed` means the most recent run failed (see the
+   * monitor's `last_error`); failed monitors keep running on schedule and flip back
+   * to `active` on the next successful run. Monitors are auto-`paused` after
+   * repeated consecutive failures or insufficient-credit skips; resume by PATCHing
+   * status to `active`.
+   */
   status: 'active' | 'paused' | 'failed';
 
   /**
@@ -239,7 +246,17 @@ export interface MonitorCreateResponse {
 
   last_change_at?: string | null;
 
+  /**
+   * Error from the most recent failed run; null when the last run succeeded.
+   */
+  last_error?: MonitorCreateResponse.LastError | null;
+
   last_run_at?: string | null;
+
+  /**
+   * When the next scheduled run is due.
+   */
+  next_run_at?: string | null;
 
   /**
    * User-defined tags for grouping and filtering monitors and their changes.
@@ -302,7 +319,10 @@ export namespace MonitorCreateResponse {
   }
 
   /**
-   * Watch a sitemap for URL additions and removals.
+   * Watch a sitemap for URL additions and removals. Crawled URLs are normalized
+   * (lowercased host, no trailing slash/fragment) and scoped to the monitored site
+   * and its subdomains before comparison. A new URL set must be observed on two
+   * consecutive runs before a change is reported, suppressing one-run crawl flaps.
    */
   export interface MonitorsSitemapTarget {
     type: 'sitemap';
@@ -322,6 +342,9 @@ export namespace MonitorCreateResponse {
      */
     include?: Array<string>;
 
+    /**
+     * Maximum number of sitemap URLs to track (capped at 10,000).
+     */
     max_urls?: number;
   }
 
@@ -358,6 +381,15 @@ export namespace MonitorCreateResponse {
      * omitted, a default summary + key-points schema is used.
      */
     schema?: { [key: string]: unknown };
+  }
+
+  /**
+   * Error from the most recent failed run; null when the last run succeeded.
+   */
+  export interface LastError {
+    code: string;
+
+    message: string;
   }
 
   export interface Webhook {
@@ -408,6 +440,13 @@ export interface MonitorRetrieveResponse {
    */
   schedule: MonitorRetrieveResponse.Schedule;
 
+  /**
+   * Monitor lifecycle status. `failed` means the most recent run failed (see the
+   * monitor's `last_error`); failed monitors keep running on schedule and flip back
+   * to `active` on the next successful run. Monitors are auto-`paused` after
+   * repeated consecutive failures or insufficient-credit skips; resume by PATCHing
+   * status to `active`.
+   */
   status: 'active' | 'paused' | 'failed';
 
   /**
@@ -422,7 +461,17 @@ export interface MonitorRetrieveResponse {
 
   last_change_at?: string | null;
 
+  /**
+   * Error from the most recent failed run; null when the last run succeeded.
+   */
+  last_error?: MonitorRetrieveResponse.LastError | null;
+
   last_run_at?: string | null;
+
+  /**
+   * When the next scheduled run is due.
+   */
+  next_run_at?: string | null;
 
   /**
    * User-defined tags for grouping and filtering monitors and their changes.
@@ -485,7 +534,10 @@ export namespace MonitorRetrieveResponse {
   }
 
   /**
-   * Watch a sitemap for URL additions and removals.
+   * Watch a sitemap for URL additions and removals. Crawled URLs are normalized
+   * (lowercased host, no trailing slash/fragment) and scoped to the monitored site
+   * and its subdomains before comparison. A new URL set must be observed on two
+   * consecutive runs before a change is reported, suppressing one-run crawl flaps.
    */
   export interface MonitorsSitemapTarget {
     type: 'sitemap';
@@ -505,6 +557,9 @@ export namespace MonitorRetrieveResponse {
      */
     include?: Array<string>;
 
+    /**
+     * Maximum number of sitemap URLs to track (capped at 10,000).
+     */
     max_urls?: number;
   }
 
@@ -541,6 +596,15 @@ export namespace MonitorRetrieveResponse {
      * omitted, a default summary + key-points schema is used.
      */
     schema?: { [key: string]: unknown };
+  }
+
+  /**
+   * Error from the most recent failed run; null when the last run succeeded.
+   */
+  export interface LastError {
+    code: string;
+
+    message: string;
   }
 
   export interface Webhook {
@@ -591,6 +655,13 @@ export interface MonitorUpdateResponse {
    */
   schedule: MonitorUpdateResponse.Schedule;
 
+  /**
+   * Monitor lifecycle status. `failed` means the most recent run failed (see the
+   * monitor's `last_error`); failed monitors keep running on schedule and flip back
+   * to `active` on the next successful run. Monitors are auto-`paused` after
+   * repeated consecutive failures or insufficient-credit skips; resume by PATCHing
+   * status to `active`.
+   */
   status: 'active' | 'paused' | 'failed';
 
   /**
@@ -605,7 +676,17 @@ export interface MonitorUpdateResponse {
 
   last_change_at?: string | null;
 
+  /**
+   * Error from the most recent failed run; null when the last run succeeded.
+   */
+  last_error?: MonitorUpdateResponse.LastError | null;
+
   last_run_at?: string | null;
+
+  /**
+   * When the next scheduled run is due.
+   */
+  next_run_at?: string | null;
 
   /**
    * User-defined tags for grouping and filtering monitors and their changes.
@@ -668,7 +749,10 @@ export namespace MonitorUpdateResponse {
   }
 
   /**
-   * Watch a sitemap for URL additions and removals.
+   * Watch a sitemap for URL additions and removals. Crawled URLs are normalized
+   * (lowercased host, no trailing slash/fragment) and scoped to the monitored site
+   * and its subdomains before comparison. A new URL set must be observed on two
+   * consecutive runs before a change is reported, suppressing one-run crawl flaps.
    */
   export interface MonitorsSitemapTarget {
     type: 'sitemap';
@@ -688,6 +772,9 @@ export namespace MonitorUpdateResponse {
      */
     include?: Array<string>;
 
+    /**
+     * Maximum number of sitemap URLs to track (capped at 10,000).
+     */
     max_urls?: number;
   }
 
@@ -724,6 +811,15 @@ export namespace MonitorUpdateResponse {
      * omitted, a default summary + key-points schema is used.
      */
     schema?: { [key: string]: unknown };
+  }
+
+  /**
+   * Error from the most recent failed run; null when the last run succeeded.
+   */
+  export interface LastError {
+    code: string;
+
+    message: string;
   }
 
   export interface Webhook {
@@ -781,6 +877,13 @@ export namespace MonitorListResponse {
      */
     schedule: Data.Schedule;
 
+    /**
+     * Monitor lifecycle status. `failed` means the most recent run failed (see the
+     * monitor's `last_error`); failed monitors keep running on schedule and flip back
+     * to `active` on the next successful run. Monitors are auto-`paused` after
+     * repeated consecutive failures or insufficient-credit skips; resume by PATCHing
+     * status to `active`.
+     */
     status: 'active' | 'paused' | 'failed';
 
     /**
@@ -792,7 +895,17 @@ export namespace MonitorListResponse {
 
     last_change_at?: string | null;
 
+    /**
+     * Error from the most recent failed run; null when the last run succeeded.
+     */
+    last_error?: Data.LastError | null;
+
     last_run_at?: string | null;
+
+    /**
+     * When the next scheduled run is due.
+     */
+    next_run_at?: string | null;
 
     /**
      * User-defined tags for grouping and filtering monitors and their changes.
@@ -855,7 +968,10 @@ export namespace MonitorListResponse {
     }
 
     /**
-     * Watch a sitemap for URL additions and removals.
+     * Watch a sitemap for URL additions and removals. Crawled URLs are normalized
+     * (lowercased host, no trailing slash/fragment) and scoped to the monitored site
+     * and its subdomains before comparison. A new URL set must be observed on two
+     * consecutive runs before a change is reported, suppressing one-run crawl flaps.
      */
     export interface MonitorsSitemapTarget {
       type: 'sitemap';
@@ -875,6 +991,9 @@ export namespace MonitorListResponse {
        */
       include?: Array<string>;
 
+      /**
+       * Maximum number of sitemap URLs to track (capped at 10,000).
+       */
       max_urls?: number;
     }
 
@@ -911,6 +1030,15 @@ export namespace MonitorListResponse {
        * omitted, a default summary + key-points schema is used.
        */
       schema?: { [key: string]: unknown };
+    }
+
+    /**
+     * Error from the most recent failed run; null when the last run succeeded.
+     */
+    export interface LastError {
+      code: string;
+
+      message: string;
     }
 
     export interface Webhook {
@@ -1015,6 +1143,11 @@ export namespace MonitorListAccountRunsResponse {
 
     change_detection_type: 'exact' | 'semantic';
 
+    /**
+     * Credits charged for this run (0 for skipped/failed runs).
+     */
+    credits_charged: number;
+
     monitor_id: string;
 
     /**
@@ -1022,7 +1155,11 @@ export namespace MonitorListAccountRunsResponse {
      */
     run_type: 'baseline' | 'scheduled';
 
-    status: 'queued' | 'running' | 'completed' | 'failed';
+    /**
+     * Lifecycle status of a run. `skipped` runs never executed — see `skip_reason`
+     * (insufficient credits, monitor paused, or superseded by a concurrent run).
+     */
+    status: 'queued' | 'running' | 'completed' | 'failed' | 'skipped';
 
     target_type: 'page' | 'sitemap' | 'extract';
 
@@ -1031,6 +1168,11 @@ export namespace MonitorListAccountRunsResponse {
     completed_at?: string | null;
 
     error?: Data.Error | null;
+
+    /**
+     * Why a skipped run never executed; null unless status is `skipped`.
+     */
+    skip_reason?: 'insufficient_credits' | 'monitor_paused' | 'superseded' | null;
 
     started_at?: string | null;
   }
@@ -1122,6 +1264,11 @@ export namespace MonitorListRunsResponse {
 
     change_detection_type: 'exact' | 'semantic';
 
+    /**
+     * Credits charged for this run (0 for skipped/failed runs).
+     */
+    credits_charged: number;
+
     monitor_id: string;
 
     /**
@@ -1129,7 +1276,11 @@ export namespace MonitorListRunsResponse {
      */
     run_type: 'baseline' | 'scheduled';
 
-    status: 'queued' | 'running' | 'completed' | 'failed';
+    /**
+     * Lifecycle status of a run. `skipped` runs never executed — see `skip_reason`
+     * (insufficient credits, monitor paused, or superseded by a concurrent run).
+     */
+    status: 'queued' | 'running' | 'completed' | 'failed' | 'skipped';
 
     target_type: 'page' | 'sitemap' | 'extract';
 
@@ -1138,6 +1289,11 @@ export namespace MonitorListRunsResponse {
     completed_at?: string | null;
 
     error?: Data.Error | null;
+
+    /**
+     * Why a skipped run never executed; null unless status is `skipped`.
+     */
+    skip_reason?: 'insufficient_credits' | 'monitor_paused' | 'superseded' | null;
 
     started_at?: string | null;
   }
@@ -1173,6 +1329,11 @@ export interface MonitorRetrieveChangeResponse {
 
   monitor_id: string;
 
+  /**
+   * The run that detected this change.
+   */
+  run_id: string;
+
   summary: string;
 
   target_type: 'page' | 'sitemap' | 'extract';
@@ -1183,6 +1344,9 @@ export interface MonitorRetrieveChangeResponse {
 
   added_url_count?: number;
 
+  /**
+   * At most 500 URLs are included; the corresponding count field is always exact.
+   */
   added_urls?: Array<string>;
 
   after_text_excerpt?: string;
@@ -1202,12 +1366,18 @@ export interface MonitorRetrieveChangeResponse {
 
   matched_url_count?: number;
 
+  /**
+   * At most 500 URLs are included; the corresponding count field is always exact.
+   */
   matched_urls?: Array<string>;
 
   query?: string;
 
   removed_url_count?: number;
 
+  /**
+   * At most 500 URLs are included; the corresponding count field is always exact.
+   */
   removed_urls?: Array<string>;
 
   /**
@@ -1239,6 +1409,12 @@ export interface MonitorRunResponse {
   monitor_id: string;
 
   queued: boolean;
+
+  /**
+   * The queued run. Poll GET /monitors/{monitor_id}/runs or use it to correlate
+   * results.
+   */
+  run_id: string;
 }
 
 export interface MonitorCreateParams {
@@ -1333,7 +1509,10 @@ export namespace MonitorCreateParams {
   }
 
   /**
-   * Watch a sitemap for URL additions and removals.
+   * Watch a sitemap for URL additions and removals. Crawled URLs are normalized
+   * (lowercased host, no trailing slash/fragment) and scoped to the monitored site
+   * and its subdomains before comparison. A new URL set must be observed on two
+   * consecutive runs before a change is reported, suppressing one-run crawl flaps.
    */
   export interface MonitorsSitemapTarget {
     type: 'sitemap';
@@ -1353,6 +1532,9 @@ export namespace MonitorCreateParams {
      */
     include?: Array<string>;
 
+    /**
+     * Maximum number of sitemap URLs to track (capped at 10,000).
+     */
     max_urls?: number;
   }
 
@@ -1490,7 +1672,10 @@ export namespace MonitorUpdateParams {
   }
 
   /**
-   * Watch a sitemap for URL additions and removals.
+   * Watch a sitemap for URL additions and removals. Crawled URLs are normalized
+   * (lowercased host, no trailing slash/fragment) and scoped to the monitored site
+   * and its subdomains before comparison. A new URL set must be observed on two
+   * consecutive runs before a change is reported, suppressing one-run crawl flaps.
    */
   export interface MonitorsSitemapTarget {
     type: 'sitemap';
@@ -1510,6 +1695,9 @@ export namespace MonitorUpdateParams {
      */
     include?: Array<string>;
 
+    /**
+     * Maximum number of sitemap URLs to track (capped at 10,000).
+     */
     max_urls?: number;
   }
 
@@ -1583,6 +1771,13 @@ export interface MonitorListParams {
    */
   search_type?: 'exact' | 'prefix';
 
+  /**
+   * Monitor lifecycle status. `failed` means the most recent run failed (see the
+   * monitor's `last_error`); failed monitors keep running on schedule and flip back
+   * to `active` on the next successful run. Monitors are auto-`paused` after
+   * repeated consecutive failures or insufficient-credit skips; resume by PATCHing
+   * status to `active`.
+   */
   status?: 'active' | 'paused' | 'failed';
 
   /**
@@ -1624,7 +1819,11 @@ export interface MonitorListAccountRunsParams {
 
   limit?: number;
 
-  status?: 'queued' | 'running' | 'completed' | 'failed';
+  /**
+   * Lifecycle status of a run. `skipped` runs never executed — see `skip_reason`
+   * (insufficient credits, monitor paused, or superseded by a concurrent run).
+   */
+  status?: 'queued' | 'running' | 'completed' | 'failed' | 'skipped';
 }
 
 export interface MonitorListChangesParams {
@@ -1647,7 +1846,11 @@ export interface MonitorListRunsParams {
 
   limit?: number;
 
-  status?: 'queued' | 'running' | 'completed' | 'failed';
+  /**
+   * Lifecycle status of a run. `skipped` runs never executed — see `skip_reason`
+   * (insufficient credits, monitor paused, or superseded by a concurrent run).
+   */
+  status?: 'queued' | 'running' | 'completed' | 'failed' | 'skipped';
 }
 
 export declare namespace Monitors {
