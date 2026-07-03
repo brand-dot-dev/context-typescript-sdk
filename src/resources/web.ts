@@ -1374,9 +1374,22 @@ export interface WebWebScrapeHTMLResponse {
 
   /**
    * Detected content type of the returned `html` field. Sitemaps and feeds are
-   * surfaced as `xml`; ordinary pages are `html`.
+   * surfaced as `xml`; ordinary pages are `html`. Excel workbooks are surfaced as
+   * `xlsx`/`xls` with the extracted sheets as HTML tables.
    */
-  type: 'html' | 'xml' | 'json' | 'text' | 'csv' | 'markdown' | 'svg' | 'pdf' | 'docx' | 'doc';
+  type:
+    | 'html'
+    | 'xml'
+    | 'json'
+    | 'text'
+    | 'csv'
+    | 'markdown'
+    | 'svg'
+    | 'pdf'
+    | 'docx'
+    | 'doc'
+    | 'xlsx'
+    | 'xls';
 
   /**
    * The URL that was scraped
