@@ -1375,7 +1375,8 @@ export interface WebWebScrapeHTMLResponse {
   /**
    * Detected content type of the returned `html` field. Sitemaps and feeds are
    * surfaced as `xml`; ordinary pages are `html`. Excel workbooks are surfaced as
-   * `xlsx`/`xls` with the extracted sheets as HTML tables.
+   * `xlsx`/`xls` with the extracted sheets as HTML tables; PowerPoint presentations
+   * are surfaced as `pptx`/`ppt` with the extracted slides as HTML.
    */
   type:
     | 'html'
@@ -1389,7 +1390,9 @@ export interface WebWebScrapeHTMLResponse {
     | 'docx'
     | 'doc'
     | 'xlsx'
-    | 'xls';
+    | 'xls'
+    | 'pptx'
+    | 'ppt';
 
   /**
    * The URL that was scraped
