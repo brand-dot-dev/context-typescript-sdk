@@ -3425,6 +3425,14 @@ export interface WebWebScrapeImagesParams {
   url: string;
 
   /**
+   * When true, visually duplicate images are removed: every image is loaded and
+   * perceptually hashed, and only the highest-resolution copy of each duplicate
+   * group is kept. Images that cannot be downloaded or hashed are kept. Default:
+   * false.
+   */
+  dedupe?: boolean;
+
+  /**
    * Optional per-image processing, sent as deep-object query params such as
    * enrichment[resolution]=true.
    */
