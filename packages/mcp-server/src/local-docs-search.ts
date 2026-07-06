@@ -1021,45 +1021,49 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       "Signal that you may fetch brand data soon to improve latency. The type field selects what to prefetch (currently only 'brand') and identifier carries exactly one lookup key: a domain, or an email whose domain is extracted and validated (free email providers and disposable email addresses are not allowed).",
     stainlessPath: '(resource) utility > (method) prefetch',
     qualified: 'client.utility.prefetch',
-    params: ['identifier: { domain?: string; email?: string; };', "type: 'brand';", 'timeoutMS?: number;'],
+    params: [
+      'identifier: { domain: string; } | { email: string; };',
+      "type: 'brand';",
+      'timeoutMS?: number;',
+    ],
     response:
       "{ domain?: string; key_metadata?: { credits_consumed: number; credits_remaining: number; }; message?: string; status?: string; type?: 'brand'; }",
     markdown:
-      "## prefetch\n\n`client.utility.prefetch(identifier: { domain?: string; email?: string; }, type: 'brand', timeoutMS?: number): { domain?: string; key_metadata?: object; message?: string; status?: string; type?: 'brand'; }`\n\n**post** `/utility/prefetch`\n\nSignal that you may fetch brand data soon to improve latency. The type field selects what to prefetch (currently only 'brand') and identifier carries exactly one lookup key: a domain, or an email whose domain is extracted and validated (free email providers and disposable email addresses are not allowed).\n\n### Parameters\n\n- `identifier: { domain?: string; email?: string; }`\n  Identifier of the brand to prefetch. Provide exactly one of domain or email.\n  - `domain?: string`\n    Domain name to prefetch brand data for\n  - `email?: string`\n    Email address to prefetch brand data for. The domain will be extracted from the email. Free email providers (gmail.com, yahoo.com, etc.) and disposable email addresses are not allowed.\n\n- `type: 'brand'`\n  What to prefetch. Currently only 'brand' is supported.\n\n- `timeoutMS?: number`\n  Optional timeout in milliseconds for the request. If the request takes longer than this value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5 minutes).\n\n### Returns\n\n- `{ domain?: string; key_metadata?: { credits_consumed: number; credits_remaining: number; }; message?: string; status?: string; type?: 'brand'; }`\n\n  - `domain?: string`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n  - `message?: string`\n  - `status?: string`\n  - `type?: 'brand'`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.utility.prefetch({\n  identifier: {},\n  type: 'brand',\n});\n\nconsole.log(response);\n```",
+      "## prefetch\n\n`client.utility.prefetch(identifier: { domain: string; } | { email: string; }, type: 'brand', timeoutMS?: number): { domain?: string; key_metadata?: object; message?: string; status?: string; type?: 'brand'; }`\n\n**post** `/utility/prefetch`\n\nSignal that you may fetch brand data soon to improve latency. The type field selects what to prefetch (currently only 'brand') and identifier carries exactly one lookup key: a domain, or an email whose domain is extracted and validated (free email providers and disposable email addresses are not allowed).\n\n### Parameters\n\n- `identifier: { domain: string; } | { email: string; }`\n  Identifier of the brand to prefetch. Provide exactly one of domain or email.\n\n- `type: 'brand'`\n  What to prefetch. Currently only 'brand' is supported.\n\n- `timeoutMS?: number`\n  Optional timeout in milliseconds for the request. If the request takes longer than this value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5 minutes).\n\n### Returns\n\n- `{ domain?: string; key_metadata?: { credits_consumed: number; credits_remaining: number; }; message?: string; status?: string; type?: 'brand'; }`\n\n  - `domain?: string`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n  - `message?: string`\n  - `status?: string`\n  - `type?: 'brand'`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.utility.prefetch({\n  identifier: { domain: 'domain' },\n  type: 'brand',\n});\n\nconsole.log(response);\n```",
     perLanguage: {
       typescript: {
         method: 'client.utility.prefetch',
         example:
-          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.utility.prefetch({\n  identifier: {},\n  type: 'brand',\n});\n\nconsole.log(response.domain);",
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.utility.prefetch({\n  identifier: { domain: 'domain' },\n  type: 'brand',\n});\n\nconsole.log(response.domain);",
       },
       python: {
         method: 'utility.prefetch',
         example:
-          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.utility.prefetch(\n    identifier={},\n    type="brand",\n)\nprint(response.domain)',
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.utility.prefetch(\n    identifier={\n        "domain": "domain"\n    },\n    type="brand",\n)\nprint(response.domain)',
       },
       go: {
         method: 'client.Utility.Prefetch',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Utility.Prefetch(context.TODO(), contextdev.UtilityPrefetchParams{\n\t\tIdentifier: contextdev.UtilityPrefetchParamsIdentifier{},\n\t\tType:       contextdev.UtilityPrefetchParamsTypeBrand,\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Domain)\n}\n',
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Utility.Prefetch(context.TODO(), contextdev.UtilityPrefetchParams{\n\t\tIdentifier: contextdev.UtilityPrefetchParamsIdentifierUnion{\n\t\t\tOfByDomain: &contextdev.UtilityPrefetchParamsIdentifierByDomain{\n\t\t\t\tDomain: "domain",\n\t\t\t},\n\t\t},\n\t\tType: contextdev.UtilityPrefetchParamsTypeBrand,\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Domain)\n}\n',
       },
       ruby: {
         method: 'utility.prefetch',
         example:
-          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.utility.prefetch(identifier: {}, type: :brand)\n\nputs(response)',
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.utility.prefetch(identifier: {domain: "domain"}, type: :brand)\n\nputs(response)',
       },
       cli: {
         method: 'utility prefetch',
         example:
-          "context-dev utility prefetch \\\n  --api-key 'My API Key' \\\n  --identifier '{}' \\\n  --type brand",
+          "context-dev utility prefetch \\\n  --api-key 'My API Key' \\\n  --identifier '{domain: domain}' \\\n  --type brand",
       },
       php: {
         method: 'utility->prefetch',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->utility->prefetch(\n  identifier: ['domain' => 'domain', 'email' => 'dev@stainless.com'],\n  type: 'brand',\n  timeoutMs: 1000,\n);\n\nvar_dump($response);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->utility->prefetch(\n  identifier: ['domain' => 'domain'], type: 'brand', timeoutMs: 1000\n);\n\nvar_dump($response);",
       },
       http: {
         example:
-          'curl https://api.context.dev/v1/utility/prefetch \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "identifier": {},\n          "type": "brand"\n        }\'',
+          'curl https://api.context.dev/v1/utility/prefetch \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "identifier": {\n            "domain": "domain"\n          },\n          "type": "brand"\n        }\'',
       },
     },
   },
