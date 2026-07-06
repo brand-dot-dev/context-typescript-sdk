@@ -67,7 +67,9 @@ export interface UtilityPrefetchParams {
   /**
    * Identifier of the brand to prefetch. Provide exactly one of domain or email.
    */
-  identifier: UtilityPrefetchParams.Identifier;
+  identifier:
+    | UtilityPrefetchParams.UtilityPrefetchDomainIdentifier
+    | UtilityPrefetchParams.UtilityPrefetchEmailIdentifier;
 
   /**
    * What to prefetch. Currently only 'brand' is supported.
@@ -84,20 +86,25 @@ export interface UtilityPrefetchParams {
 
 export namespace UtilityPrefetchParams {
   /**
-   * Identifier of the brand to prefetch. Provide exactly one of domain or email.
+   * Prefetch brand data by domain.
    */
-  export interface Identifier {
+  export interface UtilityPrefetchDomainIdentifier {
     /**
      * Domain name to prefetch brand data for
      */
-    domain?: string;
+    domain: string;
+  }
 
+  /**
+   * Prefetch brand data by email. The domain will be extracted and validated.
+   */
+  export interface UtilityPrefetchEmailIdentifier {
     /**
      * Email address to prefetch brand data for. The domain will be extracted from the
      * email. Free email providers (gmail.com, yahoo.com, etc.) and disposable email
      * addresses are not allowed.
      */
-    email?: string;
+    email: string;
   }
 }
 
