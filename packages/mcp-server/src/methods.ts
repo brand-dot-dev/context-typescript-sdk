@@ -77,12 +77,6 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/web/scrape/sitemap',
   },
   {
-    clientCallName: 'client.ai.aiQuery',
-    fullyQualifiedName: 'ai.aiQuery',
-    httpMethod: 'post',
-    httpPath: '/brand/ai/query',
-  },
-  {
     clientCallName: 'client.ai.extractProduct',
     fullyQualifiedName: 'ai.extractProduct',
     httpMethod: 'post',
@@ -97,38 +91,8 @@ export const sdkMethods: SdkMethod[] = [
   {
     clientCallName: 'client.brand.retrieve',
     fullyQualifiedName: 'brand.retrieve',
-    httpMethod: 'get',
+    httpMethod: 'post',
     httpPath: '/brand/retrieve',
-  },
-  {
-    clientCallName: 'client.brand.identifyFromTransaction',
-    fullyQualifiedName: 'brand.identifyFromTransaction',
-    httpMethod: 'get',
-    httpPath: '/brand/transaction_identifier',
-  },
-  {
-    clientCallName: 'client.brand.retrieveByEmail',
-    fullyQualifiedName: 'brand.retrieveByEmail',
-    httpMethod: 'get',
-    httpPath: '/brand/retrieve-by-email',
-  },
-  {
-    clientCallName: 'client.brand.retrieveByIsin',
-    fullyQualifiedName: 'brand.retrieveByIsin',
-    httpMethod: 'get',
-    httpPath: '/brand/retrieve-by-isin',
-  },
-  {
-    clientCallName: 'client.brand.retrieveByName',
-    fullyQualifiedName: 'brand.retrieveByName',
-    httpMethod: 'get',
-    httpPath: '/brand/retrieve-by-name',
-  },
-  {
-    clientCallName: 'client.brand.retrieveByTicker',
-    fullyQualifiedName: 'brand.retrieveByTicker',
-    httpMethod: 'get',
-    httpPath: '/brand/retrieve-by-ticker',
   },
   {
     clientCallName: 'client.brand.retrieveSimplified',
@@ -152,13 +116,7 @@ export const sdkMethods: SdkMethod[] = [
     clientCallName: 'client.utility.prefetch',
     fullyQualifiedName: 'utility.prefetch',
     httpMethod: 'post',
-    httpPath: '/brand/prefetch',
-  },
-  {
-    clientCallName: 'client.utility.prefetchByEmail',
-    fullyQualifiedName: 'utility.prefetchByEmail',
-    httpMethod: 'post',
-    httpPath: '/brand/prefetch-by-email',
+    httpPath: '/utility/prefetch',
   },
   {
     clientCallName: 'client.monitors.create',

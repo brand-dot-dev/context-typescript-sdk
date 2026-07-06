@@ -19,8 +19,6 @@ import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
   AI,
-  AIAIQueryParams,
-  AIAIQueryResponse,
   AIExtractProductParams,
   AIExtractProductResponse,
   AIExtractProductsParams,
@@ -28,16 +26,6 @@ import {
 } from './resources/ai';
 import {
   Brand,
-  BrandIdentifyFromTransactionParams,
-  BrandIdentifyFromTransactionResponse,
-  BrandRetrieveByEmailParams,
-  BrandRetrieveByEmailResponse,
-  BrandRetrieveByIsinParams,
-  BrandRetrieveByIsinResponse,
-  BrandRetrieveByNameParams,
-  BrandRetrieveByNameResponse,
-  BrandRetrieveByTickerParams,
-  BrandRetrieveByTickerResponse,
   BrandRetrieveParams,
   BrandRetrieveResponse,
   BrandRetrieveSimplifiedParams,
@@ -71,13 +59,7 @@ import {
   MonitorUpdateResponse,
   Monitors,
 } from './resources/monitors';
-import {
-  Utility,
-  UtilityPrefetchByEmailParams,
-  UtilityPrefetchByEmailResponse,
-  UtilityPrefetchParams,
-  UtilityPrefetchResponse,
-} from './resources/utility';
+import { Utility, UtilityPrefetchParams, UtilityPrefetchResponse } from './resources/utility';
 import {
   Web,
   WebExtractCompetitorsParams,
@@ -869,10 +851,8 @@ export declare namespace ContextDev {
 
   export {
     AI as AI,
-    type AIAIQueryResponse as AIAIQueryResponse,
     type AIExtractProductResponse as AIExtractProductResponse,
     type AIExtractProductsResponse as AIExtractProductsResponse,
-    type AIAIQueryParams as AIAIQueryParams,
     type AIExtractProductParams as AIExtractProductParams,
     type AIExtractProductsParams as AIExtractProductsParams,
   };
@@ -880,18 +860,8 @@ export declare namespace ContextDev {
   export {
     Brand as Brand,
     type BrandRetrieveResponse as BrandRetrieveResponse,
-    type BrandIdentifyFromTransactionResponse as BrandIdentifyFromTransactionResponse,
-    type BrandRetrieveByEmailResponse as BrandRetrieveByEmailResponse,
-    type BrandRetrieveByIsinResponse as BrandRetrieveByIsinResponse,
-    type BrandRetrieveByNameResponse as BrandRetrieveByNameResponse,
-    type BrandRetrieveByTickerResponse as BrandRetrieveByTickerResponse,
     type BrandRetrieveSimplifiedResponse as BrandRetrieveSimplifiedResponse,
     type BrandRetrieveParams as BrandRetrieveParams,
-    type BrandIdentifyFromTransactionParams as BrandIdentifyFromTransactionParams,
-    type BrandRetrieveByEmailParams as BrandRetrieveByEmailParams,
-    type BrandRetrieveByIsinParams as BrandRetrieveByIsinParams,
-    type BrandRetrieveByNameParams as BrandRetrieveByNameParams,
-    type BrandRetrieveByTickerParams as BrandRetrieveByTickerParams,
     type BrandRetrieveSimplifiedParams as BrandRetrieveSimplifiedParams,
   };
 
@@ -906,9 +876,7 @@ export declare namespace ContextDev {
   export {
     Utility as Utility,
     type UtilityPrefetchResponse as UtilityPrefetchResponse,
-    type UtilityPrefetchByEmailResponse as UtilityPrefetchByEmailResponse,
     type UtilityPrefetchParams as UtilityPrefetchParams,
-    type UtilityPrefetchByEmailParams as UtilityPrefetchByEmailParams,
   };
 
   export {

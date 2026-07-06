@@ -2,28 +2,16 @@
 
 export {
   AI,
-  type AIAIQueryResponse,
   type AIExtractProductResponse,
   type AIExtractProductsResponse,
-  type AIAIQueryParams,
   type AIExtractProductParams,
   type AIExtractProductsParams,
 } from './ai';
 export {
   Brand,
   type BrandRetrieveResponse,
-  type BrandIdentifyFromTransactionResponse,
-  type BrandRetrieveByEmailResponse,
-  type BrandRetrieveByIsinResponse,
-  type BrandRetrieveByNameResponse,
-  type BrandRetrieveByTickerResponse,
   type BrandRetrieveSimplifiedResponse,
   type BrandRetrieveParams,
-  type BrandIdentifyFromTransactionParams,
-  type BrandRetrieveByEmailParams,
-  type BrandRetrieveByIsinParams,
-  type BrandRetrieveByNameParams,
-  type BrandRetrieveByTickerParams,
   type BrandRetrieveSimplifiedParams,
 } from './brand';
 export {
@@ -54,13 +42,7 @@ export {
   type MonitorListChangesParams,
   type MonitorListRunsParams,
 } from './monitors';
-export {
-  Utility,
-  type UtilityPrefetchResponse,
-  type UtilityPrefetchByEmailResponse,
-  type UtilityPrefetchParams,
-  type UtilityPrefetchByEmailParams,
-} from './utility';
+export { Utility, type UtilityPrefetchResponse, type UtilityPrefetchParams } from './utility';
 export {
   Web,
   type WebExtractResponse,
