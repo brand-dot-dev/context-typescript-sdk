@@ -25,17 +25,9 @@ For example:
 
 \`\`\`
 async function run(client) {
-  const response = await client.web.extract({
-    schema: {
-    type: 'bar',
-    properties: 'bar',
-    required: 'bar',
-    additionalProperties: 'bar',
-  },
-    url: 'https://example.com',
-  });
+  const brand = await client.brand.retrieve({ domain: 'REPLACE_ME' });
 
-  console.log(response.data);
+  console.log(brand.brand);
 }
 \`\`\`
 

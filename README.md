@@ -35,17 +35,9 @@ const client = new ContextDev({
   apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted
 });
 
-const response = await client.web.extract({
-  schema: {
-    type: 'bar',
-    properties: 'bar',
-    required: 'bar',
-    additionalProperties: 'bar',
-  },
-  url: 'https://example.com',
-});
+const brand = await client.brand.retrieve({ domain: 'REPLACE_ME' });
 
-console.log(response.data);
+console.log(brand.brand);
 ```
 
 ### Request & Response types
@@ -60,16 +52,8 @@ const client = new ContextDev({
   apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted
 });
 
-const params: ContextDev.WebExtractParams = {
-  schema: {
-    type: 'bar',
-    properties: 'bar',
-    required: 'bar',
-    additionalProperties: 'bar',
-  },
-  url: 'https://example.com',
-};
-const response: ContextDev.WebExtractResponse = await client.web.extract(params);
+const params: ContextDev.BrandRetrieveParams = { domain: 'REPLACE_ME' };
+const brand: ContextDev.BrandRetrieveResponse = await client.brand.retrieve(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -82,25 +66,15 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const response = await client.web
-  .extract({
-    schema: {
-      type: 'bar',
-      properties: 'bar',
-      required: 'bar',
-      additionalProperties: 'bar',
-    },
-    url: 'https://example.com',
-  })
-  .catch(async (err) => {
-    if (err instanceof ContextDev.APIError) {
-      console.log(err.status); // 400
-      console.log(err.name); // BadRequestError
-      console.log(err.headers); // {server: 'nginx', ...}
-    } else {
-      throw err;
-    }
-  });
+const brand = await client.brand.retrieve({ domain: 'REPLACE_ME' }).catch(async (err) => {
+  if (err instanceof ContextDev.APIError) {
+    console.log(err.status); // 400
+    console.log(err.name); // BadRequestError
+    console.log(err.headers); // {server: 'nginx', ...}
+  } else {
+    throw err;
+  }
+});
 ```
 
 Error codes are as follows:
@@ -132,15 +106,7 @@ const client = new ContextDev({
 });
 
 // Or, configure per-request:
-await client.web.extract({
-  schema: {
-  type: 'bar',
-  properties: 'bar',
-  required: 'bar',
-  additionalProperties: 'bar',
-},
-  url: 'https://example.com',
-}, {
+await client.brand.retrieve({ domain: 'REPLACE_ME' }, {
   maxRetries: 5,
 });
 ```
@@ -157,15 +123,7 @@ const client = new ContextDev({
 });
 
 // Override per-request:
-await client.web.extract({
-  schema: {
-  type: 'bar',
-  properties: 'bar',
-  required: 'bar',
-  additionalProperties: 'bar',
-},
-  url: 'https://example.com',
-}, {
+await client.brand.retrieve({ domain: 'REPLACE_ME' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -188,33 +146,15 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new ContextDev();
 
-const response = await client.web
-  .extract({
-    schema: {
-      type: 'bar',
-      properties: 'bar',
-      required: 'bar',
-      additionalProperties: 'bar',
-    },
-    url: 'https://example.com',
-  })
-  .asResponse();
+const response = await client.brand.retrieve({ domain: 'REPLACE_ME' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: response, response: raw } = await client.web
-  .extract({
-    schema: {
-      type: 'bar',
-      properties: 'bar',
-      required: 'bar',
-      additionalProperties: 'bar',
-    },
-    url: 'https://example.com',
-  })
+const { data: brand, response: raw } = await client.brand
+  .retrieve({ domain: 'REPLACE_ME' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(response.data);
+console.log(brand.brand);
 ```
 
 ### Logging
@@ -294,7 +234,7 @@ parameter. This library doesn't validate at runtime that the request matches the
 send will be sent as-is.
 
 ```ts
-client.web.extract({
+client.brand.retrieve({
   // ...
   // @ts-expect-error baz is not yet public
   baz: 'undocumented option',
