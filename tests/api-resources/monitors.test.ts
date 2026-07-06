@@ -12,7 +12,7 @@ describe('resource monitors', () => {
   test.skip('create: only required params', async () => {
     const responsePromise = client.monitors.create({
       change_detection: { type: 'exact' },
-      name: 'Acme pricing monitor',
+      name: 'Acme pricing page',
       schedule: {
         frequency: 6,
         type: 'interval',
@@ -33,7 +33,7 @@ describe('resource monitors', () => {
   test.skip('create: required and optional params', async () => {
     const response = await client.monitors.create({
       change_detection: { type: 'exact' },
-      name: 'Acme pricing monitor',
+      name: 'Acme pricing page',
       schedule: {
         frequency: 6,
         type: 'interval',
@@ -44,6 +44,7 @@ describe('resource monitors', () => {
         url: 'https://acme.com/pricing',
         normalize_whitespace: true,
       },
+      mode: 'web',
       tags: ['pricing', 'competitor'],
       webhook: { url: 'https://example.com/webhook' },
     });
@@ -94,8 +95,12 @@ describe('resource monitors', () => {
           change_detection_type: 'exact',
           cursor: 'cursor',
           limit: 1,
+          q: 'q',
+          search_by: ['name'],
+          search_type: 'exact',
           status: 'active',
           tag: 'tag',
+          tags: ['string'],
           target_type: 'page',
         },
         { path: '/_stainless_unknown_path' },

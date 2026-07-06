@@ -221,6 +221,12 @@ export namespace WebExtractResponse {
   export interface Metadata {
     maxCrawlDepth: number;
 
+    /**
+     * Number of crawled pages excluded because they were anti-bot challenges, error
+     * pages, or parked-domain placeholders.
+     */
+    numBlocked: number;
+
     numFailed: number;
 
     numSkipped: number;
@@ -1368,9 +1374,25 @@ export interface WebWebScrapeHTMLResponse {
 
   /**
    * Detected content type of the returned `html` field. Sitemaps and feeds are
-   * surfaced as `xml`; ordinary pages are `html`.
+   * surfaced as `xml`; ordinary pages are `html`. Excel workbooks are surfaced as
+   * `xlsx`/`xls` with the extracted sheets as HTML tables; PowerPoint presentations
+   * are surfaced as `pptx`/`ppt` with the extracted slides as HTML.
    */
-  type: 'html' | 'xml' | 'json' | 'text' | 'csv' | 'markdown' | 'svg' | 'pdf' | 'docx' | 'doc';
+  type:
+    | 'html'
+    | 'xml'
+    | 'json'
+    | 'text'
+    | 'csv'
+    | 'markdown'
+    | 'svg'
+    | 'pdf'
+    | 'docx'
+    | 'doc'
+    | 'xlsx'
+    | 'xls'
+    | 'pptx'
+    | 'ppt';
 
   /**
    * The URL that was scraped
@@ -3020,6 +3042,13 @@ export interface WebWebCrawlMdParams {
   pdf?: WebWebCrawlMdParams.Pdf;
 
   /**
+   * When true, waits briefly for CSS and transition animations to settle before
+   * extracting each crawled page. Defaults to false. This adds a bit of latency in
+   * exchange for more stable output on animated pages.
+   */
+  settleAnimations?: boolean;
+
+  /**
    * Truncate base64-encoded image data in the Markdown output
    */
   shortenBase64Images?: boolean;
@@ -3338,6 +3367,13 @@ export interface WebWebScrapeHTMLParams {
   pdf?: WebWebScrapeHTMLParams.Pdf;
 
   /**
+   * When true, waits briefly for CSS and transition animations to settle before
+   * extracting HTML. Defaults to false. This adds a bit of latency in exchange for
+   * more stable output on animated pages.
+   */
+  settleAnimations?: boolean;
+
+  /**
    * Optional timeout in milliseconds for the request. If the request takes longer
    * than this value, it will be aborted with a 408 status code. Maximum allowed
    * value is 300000ms (5 minutes).
@@ -3387,6 +3423,14 @@ export interface WebWebScrapeImagesParams {
    * Page URL to inspect. Must include http:// or https://.
    */
   url: string;
+
+  /**
+   * When true, visually duplicate images are removed: every image is loaded and
+   * perceptually hashed, and only the highest-resolution copy of each duplicate
+   * group is kept. Images that cannot be downloaded or hashed are kept. Default:
+   * false.
+   */
+  dedupe?: boolean;
 
   /**
    * Optional per-image processing, sent as deep-object query params such as
@@ -3715,6 +3759,13 @@ export interface WebWebScrapeMdParams {
    * inclusive 1-based page range.
    */
   pdf?: WebWebScrapeMdParams.Pdf;
+
+  /**
+   * When true, waits briefly for CSS and transition animations to settle before
+   * converting to Markdown. Defaults to false. This adds a bit of latency in
+   * exchange for more stable output on animated pages.
+   */
+  settleAnimations?: boolean;
 
   /**
    * Shorten base64-encoded image data in the Markdown output

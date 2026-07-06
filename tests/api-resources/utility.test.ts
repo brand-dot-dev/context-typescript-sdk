@@ -10,7 +10,10 @@ const client = new ContextDev({
 describe('resource utility', () => {
   // Mock server tests are disabled
   test.skip('prefetch: only required params', async () => {
-    const responsePromise = client.utility.prefetch({ domain: 'domain' });
+    const responsePromise = client.utility.prefetch({
+      identifier: { domain: 'domain' },
+      type: 'brand',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,23 +25,10 @@ describe('resource utility', () => {
 
   // Mock server tests are disabled
   test.skip('prefetch: required and optional params', async () => {
-    const response = await client.utility.prefetch({ domain: 'domain', timeoutMS: 1000 });
-  });
-
-  // Mock server tests are disabled
-  test.skip('prefetchByEmail: only required params', async () => {
-    const responsePromise = client.utility.prefetchByEmail({ email: 'dev@stainless.com' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Mock server tests are disabled
-  test.skip('prefetchByEmail: required and optional params', async () => {
-    const response = await client.utility.prefetchByEmail({ email: 'dev@stainless.com', timeoutMS: 1000 });
+    const response = await client.utility.prefetch({
+      identifier: { domain: 'domain' },
+      type: 'brand',
+      timeoutMS: 1000,
+    });
   });
 });

@@ -6,15 +6,6 @@ import { RequestOptions } from '../internal/request-options';
 
 export class AI extends APIResource {
   /**
-   * Use AI to extract specific data points from a brand's website. The AI will crawl
-   * the website and extract the requested information based on the provided data
-   * points.
-   */
-  aiQuery(body: AIAIQueryParams, options?: RequestOptions): APIPromise<AIAIQueryResponse> {
-    return this._client.post('/brand/ai/query', { body, ...options });
-  }
-
-  /**
    * Given a single URL, determines if it is a product page and extracts the product
    * information.
    */
@@ -35,65 +26,6 @@ export class AI extends APIResource {
     options?: RequestOptions,
   ): APIPromise<AIExtractProductsResponse> {
     return this._client.post('/brand/ai/products', { body, ...options });
-  }
-}
-
-export interface AIAIQueryResponse {
-  /**
-   * Array of extracted data points
-   */
-  data_extracted?: Array<AIAIQueryResponse.DataExtracted>;
-
-  /**
-   * The domain that was analyzed
-   */
-  domain?: string;
-
-  /**
-   * Metadata about the API key used for the request. Included in every response
-   * whenever a valid API key is provided, even when the response status is not 200.
-   */
-  key_metadata?: AIAIQueryResponse.KeyMetadata;
-
-  /**
-   * Status of the response, e.g., 'ok'
-   */
-  status?: string;
-
-  /**
-   * List of URLs that were analyzed
-   */
-  urls_analyzed?: Array<string>;
-}
-
-export namespace AIAIQueryResponse {
-  export interface DataExtracted {
-    /**
-     * Name of the extracted data point
-     */
-    datapoint_name?: string;
-
-    /**
-     * Value of the extracted data point. Can be a primitive type, an array of
-     * primitives, or an array of objects when datapoint_list_type is 'object'.
-     */
-    datapoint_value?: string | number | boolean | Array<string> | Array<number> | Array<unknown>;
-  }
-
-  /**
-   * Metadata about the API key used for the request. Included in every response
-   * whenever a valid API key is provided, even when the response status is not 200.
-   */
-  export interface KeyMetadata {
-    /**
-     * The number of credits consumed by this request.
-     */
-    credits_consumed: number;
-
-    /**
-     * The number of credits remaining for your organization after this request.
-     */
-    credits_remaining: number;
   }
 }
 
@@ -316,116 +248,6 @@ export namespace AIExtractProductsResponse {
   }
 }
 
-export interface AIAIQueryParams {
-  /**
-   * Array of data points to extract from the website
-   */
-  data_to_extract: Array<AIAIQueryParams.DataToExtract>;
-
-  /**
-   * The domain name to analyze
-   */
-  domain: string;
-
-  /**
-   * Optional object specifying which pages to analyze
-   */
-  specific_pages?: AIAIQueryParams.SpecificPages;
-
-  /**
-   * Optional timeout in milliseconds for the request. If the request takes longer
-   * than this value, it will be aborted with a 408 status code. Maximum allowed
-   * value is 300000ms (5 minutes).
-   */
-  timeoutMS?: number;
-}
-
-export namespace AIAIQueryParams {
-  export interface DataToExtract {
-    /**
-     * Description of what to extract
-     */
-    datapoint_description: string;
-
-    /**
-     * Example of the expected value
-     */
-    datapoint_example: string;
-
-    /**
-     * Name of the data point to extract
-     */
-    datapoint_name: string;
-
-    /**
-     * Type of the data point
-     */
-    datapoint_type: 'text' | 'number' | 'date' | 'boolean' | 'list' | 'url';
-
-    /**
-     * Type of items in the list when datapoint_type is 'list'. Defaults to 'string'.
-     * Use 'object' to extract an array of objects matching a schema.
-     */
-    datapoint_list_type?: 'string' | 'text' | 'number' | 'date' | 'boolean' | 'list' | 'url' | 'object';
-
-    /**
-     * Schema definition for objects when datapoint_list_type is 'object'. Provide a
-     * map of field names to their scalar types.
-     */
-    datapoint_object_schema?: { [key: string]: 'string' | 'number' | 'date' | 'boolean' };
-  }
-
-  /**
-   * Optional object specifying which pages to analyze
-   */
-  export interface SpecificPages {
-    /**
-     * Whether to analyze the about us page
-     */
-    about_us?: boolean;
-
-    /**
-     * Whether to analyze the blog
-     */
-    blog?: boolean;
-
-    /**
-     * Whether to analyze the careers page
-     */
-    careers?: boolean;
-
-    /**
-     * Whether to analyze the contact us page
-     */
-    contact_us?: boolean;
-
-    /**
-     * Whether to analyze the FAQ page
-     */
-    faq?: boolean;
-
-    /**
-     * Whether to analyze the home page
-     */
-    home_page?: boolean;
-
-    /**
-     * Whether to analyze the pricing page
-     */
-    pricing?: boolean;
-
-    /**
-     * Whether to analyze the privacy policy page
-     */
-    privacy_policy?: boolean;
-
-    /**
-     * Whether to analyze the terms and conditions page
-     */
-    terms_and_conditions?: boolean;
-  }
-}
-
 export interface AIExtractProductParams {
   /**
    * The product page URL to extract product data from.
@@ -506,10 +328,8 @@ export declare namespace AIExtractProductsParams {
 
 export declare namespace AI {
   export {
-    type AIAIQueryResponse as AIAIQueryResponse,
     type AIExtractProductResponse as AIExtractProductResponse,
     type AIExtractProductsResponse as AIExtractProductsResponse,
-    type AIAIQueryParams as AIAIQueryParams,
     type AIExtractProductParams as AIExtractProductParams,
     type AIExtractProductsParams as AIExtractProductsParams,
   };
