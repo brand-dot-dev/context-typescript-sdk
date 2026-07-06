@@ -10,7 +10,7 @@ const client = new ContextDev({
 describe('resource brand', () => {
   // Mock server tests are disabled
   test.skip('retrieve: only required params', async () => {
-    const responsePromise = client.brand.retrieve({ domain: 'domain' });
+    const responsePromise = client.brand.retrieve({ domain: 'domain', type: 'by_domain' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -24,6 +24,7 @@ describe('resource brand', () => {
   test.skip('retrieve: required and optional params', async () => {
     const response = await client.brand.retrieve({
       domain: 'domain',
+      type: 'by_domain',
       force_language: 'afrikaans',
       maxAgeMs: 0,
       maxSpeed: true,
