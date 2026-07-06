@@ -35,7 +35,7 @@ const client = new ContextDev({
   apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted
 });
 
-const brand = await client.brand.retrieve({ domain: 'REPLACE_ME' });
+const brand = await client.brand.retrieve({ domain: 'REPLACE_ME', type: 'by_domain' });
 
 console.log(brand.brand);
 ```
@@ -52,7 +52,7 @@ const client = new ContextDev({
   apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted
 });
 
-const params: ContextDev.BrandRetrieveParams = { domain: 'REPLACE_ME' };
+const params: ContextDev.BrandRetrieveParams = { domain: 'REPLACE_ME', type: 'by_domain' };
 const brand: ContextDev.BrandRetrieveResponse = await client.brand.retrieve(params);
 ```
 
@@ -66,15 +66,17 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const brand = await client.brand.retrieve({ domain: 'REPLACE_ME' }).catch(async (err) => {
-  if (err instanceof ContextDev.APIError) {
-    console.log(err.status); // 400
-    console.log(err.name); // BadRequestError
-    console.log(err.headers); // {server: 'nginx', ...}
-  } else {
-    throw err;
-  }
-});
+const brand = await client.brand
+  .retrieve({ domain: 'REPLACE_ME', type: 'by_domain' })
+  .catch(async (err) => {
+    if (err instanceof ContextDev.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 ```
 
 Error codes are as follows:
@@ -106,7 +108,7 @@ const client = new ContextDev({
 });
 
 // Or, configure per-request:
-await client.brand.retrieve({ domain: 'REPLACE_ME' }, {
+await client.brand.retrieve({ domain: 'REPLACE_ME', type: 'by_domain' }, {
   maxRetries: 5,
 });
 ```
@@ -123,7 +125,7 @@ const client = new ContextDev({
 });
 
 // Override per-request:
-await client.brand.retrieve({ domain: 'REPLACE_ME' }, {
+await client.brand.retrieve({ domain: 'REPLACE_ME', type: 'by_domain' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -146,12 +148,14 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new ContextDev();
 
-const response = await client.brand.retrieve({ domain: 'REPLACE_ME' }).asResponse();
+const response = await client.brand
+  .retrieve({ domain: 'REPLACE_ME', type: 'by_domain' })
+  .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
 const { data: brand, response: raw } = await client.brand
-  .retrieve({ domain: 'REPLACE_ME' })
+  .retrieve({ domain: 'REPLACE_ME', type: 'by_domain' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(brand.brand);

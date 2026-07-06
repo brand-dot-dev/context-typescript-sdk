@@ -14,6 +14,7 @@ export class Brand extends APIResource {
    * ```ts
    * const brand = await client.brand.retrieve({
    *   domain: 'stripe.com',
+   *   type: 'by_domain',
    * });
    * ```
    */
@@ -1033,6 +1034,11 @@ export declare namespace BrandRetrieveParams {
      */
     domain: string;
 
+    /**
+     * Discriminator for domain-based brand retrieval.
+     */
+    type: 'by_domain';
+
     force_language?:
       | 'afrikaans'
       | 'albanian'
@@ -1183,6 +1189,11 @@ export declare namespace BrandRetrieveParams {
      * Company name to retrieve brand data for (e.g., 'Apple Inc').
      */
     name: string;
+
+    /**
+     * Discriminator for name-based brand retrieval.
+     */
+    type: 'by_name';
 
     /**
      * Optional country code hint (GL parameter) to specify the country when looking up
@@ -1341,6 +1352,11 @@ export declare namespace BrandRetrieveParams {
      */
     email: string;
 
+    /**
+     * Discriminator for email-based brand retrieval.
+     */
+    type: 'by_email';
+
     force_language?:
       | 'afrikaans'
       | 'albanian'
@@ -1491,6 +1507,11 @@ export declare namespace BrandRetrieveParams {
      * Stock ticker symbol to retrieve brand data for (e.g., 'AAPL').
      */
     ticker: string;
+
+    /**
+     * Discriminator for ticker-based brand retrieval.
+     */
+    type: 'by_ticker';
 
     force_language?:
       | 'afrikaans'
@@ -1647,6 +1668,11 @@ export declare namespace BrandRetrieveParams {
      * Transaction information to identify the brand.
      */
     transaction_info: string;
+
+    /**
+     * Discriminator for transaction-based brand retrieval.
+     */
+    type: 'by_transaction';
 
     /**
      * Optional city name to prioritize when searching for the brand.
