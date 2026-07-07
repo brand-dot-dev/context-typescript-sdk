@@ -244,6 +244,18 @@ export interface MonitorCreateResponse {
 
   updated_at: string;
 
+  /**
+   * Current baseline: the last observed value the monitor compares new snapshots
+   * against. Its shape follows `target.type` (page/sitemap/extract). Only populated
+   * on GET /monitors/{monitor_id}; null until the first baseline run completes (and
+   * after a target or change_detection update, which resets the baseline).
+   */
+  baseline?:
+    | MonitorCreateResponse.MonitorsPageBaseline
+    | MonitorCreateResponse.MonitorsSitemapBaseline
+    | MonitorCreateResponse.MonitorsExtractBaseline
+    | null;
+
   last_change_at?: string | null;
 
   /**
@@ -384,6 +396,63 @@ export namespace MonitorCreateResponse {
   }
 
   /**
+   * Current baseline of a `page` monitor: the visible page text as last observed.
+   */
+  export interface MonitorsPageBaseline {
+    /**
+     * When this baseline was last captured or replaced.
+     */
+    captured_at: string;
+
+    /**
+     * The page's visible text as last observed.
+     */
+    text: string;
+  }
+
+  /**
+   * Current baseline of a `sitemap` monitor: the normalized URL set as last
+   * observed.
+   */
+  export interface MonitorsSitemapBaseline {
+    /**
+     * When this baseline was last captured or replaced.
+     */
+    captured_at: string;
+
+    /**
+     * Number of URLs in the baseline.
+     */
+    url_count: number;
+
+    /**
+     * The sitemap URLs as last observed (sorted, normalized).
+     */
+    urls: Array<string>;
+  }
+
+  /**
+   * Current baseline of an `extract` monitor: the structured data as last extracted.
+   */
+  export interface MonitorsExtractBaseline {
+    /**
+     * When this baseline was last captured or replaced.
+     */
+    captured_at: string;
+
+    /**
+     * The extracted structured data, matching the monitor's extraction schema (same
+     * shape as the /web/extract endpoint's `data`).
+     */
+    data: unknown;
+
+    /**
+     * URLs that were analyzed to produce the extracted data.
+     */
+    urls_analyzed: Array<string>;
+  }
+
+  /**
    * Error from the most recent failed run; null when the last run succeeded.
    */
   export interface LastError {
@@ -458,6 +527,18 @@ export interface MonitorRetrieveResponse {
     | MonitorRetrieveResponse.MonitorsExtractTarget;
 
   updated_at: string;
+
+  /**
+   * Current baseline: the last observed value the monitor compares new snapshots
+   * against. Its shape follows `target.type` (page/sitemap/extract). Only populated
+   * on GET /monitors/{monitor_id}; null until the first baseline run completes (and
+   * after a target or change_detection update, which resets the baseline).
+   */
+  baseline?:
+    | MonitorRetrieveResponse.MonitorsPageBaseline
+    | MonitorRetrieveResponse.MonitorsSitemapBaseline
+    | MonitorRetrieveResponse.MonitorsExtractBaseline
+    | null;
 
   last_change_at?: string | null;
 
@@ -599,6 +680,63 @@ export namespace MonitorRetrieveResponse {
   }
 
   /**
+   * Current baseline of a `page` monitor: the visible page text as last observed.
+   */
+  export interface MonitorsPageBaseline {
+    /**
+     * When this baseline was last captured or replaced.
+     */
+    captured_at: string;
+
+    /**
+     * The page's visible text as last observed.
+     */
+    text: string;
+  }
+
+  /**
+   * Current baseline of a `sitemap` monitor: the normalized URL set as last
+   * observed.
+   */
+  export interface MonitorsSitemapBaseline {
+    /**
+     * When this baseline was last captured or replaced.
+     */
+    captured_at: string;
+
+    /**
+     * Number of URLs in the baseline.
+     */
+    url_count: number;
+
+    /**
+     * The sitemap URLs as last observed (sorted, normalized).
+     */
+    urls: Array<string>;
+  }
+
+  /**
+   * Current baseline of an `extract` monitor: the structured data as last extracted.
+   */
+  export interface MonitorsExtractBaseline {
+    /**
+     * When this baseline was last captured or replaced.
+     */
+    captured_at: string;
+
+    /**
+     * The extracted structured data, matching the monitor's extraction schema (same
+     * shape as the /web/extract endpoint's `data`).
+     */
+    data: unknown;
+
+    /**
+     * URLs that were analyzed to produce the extracted data.
+     */
+    urls_analyzed: Array<string>;
+  }
+
+  /**
    * Error from the most recent failed run; null when the last run succeeded.
    */
   export interface LastError {
@@ -673,6 +811,18 @@ export interface MonitorUpdateResponse {
     | MonitorUpdateResponse.MonitorsExtractTarget;
 
   updated_at: string;
+
+  /**
+   * Current baseline: the last observed value the monitor compares new snapshots
+   * against. Its shape follows `target.type` (page/sitemap/extract). Only populated
+   * on GET /monitors/{monitor_id}; null until the first baseline run completes (and
+   * after a target or change_detection update, which resets the baseline).
+   */
+  baseline?:
+    | MonitorUpdateResponse.MonitorsPageBaseline
+    | MonitorUpdateResponse.MonitorsSitemapBaseline
+    | MonitorUpdateResponse.MonitorsExtractBaseline
+    | null;
 
   last_change_at?: string | null;
 
@@ -814,6 +964,63 @@ export namespace MonitorUpdateResponse {
   }
 
   /**
+   * Current baseline of a `page` monitor: the visible page text as last observed.
+   */
+  export interface MonitorsPageBaseline {
+    /**
+     * When this baseline was last captured or replaced.
+     */
+    captured_at: string;
+
+    /**
+     * The page's visible text as last observed.
+     */
+    text: string;
+  }
+
+  /**
+   * Current baseline of a `sitemap` monitor: the normalized URL set as last
+   * observed.
+   */
+  export interface MonitorsSitemapBaseline {
+    /**
+     * When this baseline was last captured or replaced.
+     */
+    captured_at: string;
+
+    /**
+     * Number of URLs in the baseline.
+     */
+    url_count: number;
+
+    /**
+     * The sitemap URLs as last observed (sorted, normalized).
+     */
+    urls: Array<string>;
+  }
+
+  /**
+   * Current baseline of an `extract` monitor: the structured data as last extracted.
+   */
+  export interface MonitorsExtractBaseline {
+    /**
+     * When this baseline was last captured or replaced.
+     */
+    captured_at: string;
+
+    /**
+     * The extracted structured data, matching the monitor's extraction schema (same
+     * shape as the /web/extract endpoint's `data`).
+     */
+    data: unknown;
+
+    /**
+     * URLs that were analyzed to produce the extracted data.
+     */
+    urls_analyzed: Array<string>;
+  }
+
+  /**
    * Error from the most recent failed run; null when the last run succeeded.
    */
   export interface LastError {
@@ -892,6 +1099,14 @@ export namespace MonitorListResponse {
     target: Data.MonitorsPageTarget | Data.MonitorsSitemapTarget | Data.MonitorsExtractTarget;
 
     updated_at: string;
+
+    /**
+     * Current baseline: the last observed value the monitor compares new snapshots
+     * against. Its shape follows `target.type` (page/sitemap/extract). Only populated
+     * on GET /monitors/{monitor_id}; null until the first baseline run completes (and
+     * after a target or change_detection update, which resets the baseline).
+     */
+    baseline?: Data.MonitorsPageBaseline | Data.MonitorsSitemapBaseline | Data.MonitorsExtractBaseline | null;
 
     last_change_at?: string | null;
 
@@ -1030,6 +1245,63 @@ export namespace MonitorListResponse {
        * omitted, a default summary + key-points schema is used.
        */
       schema?: { [key: string]: unknown };
+    }
+
+    /**
+     * Current baseline of a `page` monitor: the visible page text as last observed.
+     */
+    export interface MonitorsPageBaseline {
+      /**
+       * When this baseline was last captured or replaced.
+       */
+      captured_at: string;
+
+      /**
+       * The page's visible text as last observed.
+       */
+      text: string;
+    }
+
+    /**
+     * Current baseline of a `sitemap` monitor: the normalized URL set as last
+     * observed.
+     */
+    export interface MonitorsSitemapBaseline {
+      /**
+       * When this baseline was last captured or replaced.
+       */
+      captured_at: string;
+
+      /**
+       * Number of URLs in the baseline.
+       */
+      url_count: number;
+
+      /**
+       * The sitemap URLs as last observed (sorted, normalized).
+       */
+      urls: Array<string>;
+    }
+
+    /**
+     * Current baseline of an `extract` monitor: the structured data as last extracted.
+     */
+    export interface MonitorsExtractBaseline {
+      /**
+       * When this baseline was last captured or replaced.
+       */
+      captured_at: string;
+
+      /**
+       * The extracted structured data, matching the monitor's extraction schema (same
+       * shape as the /web/extract endpoint's `data`).
+       */
+      data: unknown;
+
+      /**
+       * URLs that were analyzed to produce the extracted data.
+       */
+      urls_analyzed: Array<string>;
     }
 
     /**
