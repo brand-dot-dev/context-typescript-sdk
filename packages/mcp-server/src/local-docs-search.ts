@@ -812,11 +812,11 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     httpMethod: 'post',
     summary: 'Retrieve brand data',
     description:
-      'Retrieve logos, backdrops, colors, industry, description, and more. Provide exactly one lookup identifier in the request body: a domain, company name, email address, stock ticker, or transaction descriptor.',
+      'Retrieve logos, backdrops, colors, industry, description, and more. Provide exactly one lookup identifier in the request body: a domain, company name, email address, stock ticker, transaction descriptor, or direct URL. Note: `by_direct_url` fetches brand data only from the provided URL — not from the entire internet.',
     stainlessPath: '(resource) brand > (method) retrieve',
     qualified: 'client.brand.retrieve',
     params: [
-      "{ domain: string; type: 'by_domain'; force_language?: string; maxAgeMs?: number; maxSpeed?: boolean; timeoutMS?: number; } | { name: string; type: 'by_name'; country_gl?: string; force_language?: string; maxAgeMs?: number; maxSpeed?: boolean; timeoutMS?: number; } | { email: string; type: 'by_email'; force_language?: string; maxAgeMs?: number; maxSpeed?: boolean; timeoutMS?: number; } | { ticker: string; type: 'by_ticker'; force_language?: string; maxAgeMs?: number; maxSpeed?: boolean; ticker_exchange?: string; timeoutMS?: number; } | { transaction_info: string; type: 'by_transaction'; city?: string; country_gl?: string; force_language?: string; high_confidence_only?: boolean; maxSpeed?: boolean; mcc?: number; phone?: number; timeoutMS?: number; };",
+      "{ domain: string; type: 'by_domain'; force_language?: string; maxAgeMs?: number; maxSpeed?: boolean; timeoutMS?: number; } | { name: string; type: 'by_name'; country_gl?: string; force_language?: string; maxAgeMs?: number; maxSpeed?: boolean; timeoutMS?: number; } | { email: string; type: 'by_email'; force_language?: string; maxAgeMs?: number; maxSpeed?: boolean; timeoutMS?: number; } | { ticker: string; type: 'by_ticker'; force_language?: string; maxAgeMs?: number; maxSpeed?: boolean; ticker_exchange?: string; timeoutMS?: number; } | { direct_url: string; type: 'by_direct_url'; timeoutMS?: number; } | { transaction_info: string; type: 'by_transaction'; city?: string; country_gl?: string; force_language?: string; high_confidence_only?: boolean; maxSpeed?: boolean; mcc?: number; phone?: number; timeoutMS?: number; };",
     ],
     response:
       "{ brand?: { address?: { city?: string; country?: string; country_code?: string; postal_code?: string; state_code?: string; state_province?: string; street?: string; }; backdrops?: { colors?: object[]; resolution?: object; url?: string; }[]; colors?: { hex?: string; name?: string; }[]; description?: string; domain?: string; email?: string; industries?: { eic?: object[]; }; is_nsfw?: boolean; links?: { blog?: string; careers?: string; contact?: string; pricing?: string; privacy?: string; terms?: string; }; logos?: { colors?: object[]; mode?: 'light' | 'dark' | 'has_opaque_background'; resolution?: object; type?: 'icon' | 'logo'; url?: string; }[]; phone?: string; primary_language?: string; slogan?: string; socials?: { type?: string; url?: string; }[]; stock?: { exchange?: string; ticker?: string; }; title?: string; }; code?: number; key_metadata?: { credits_consumed: number; credits_remaining: number; }; status?: string; }",
@@ -844,12 +844,12 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       cli: {
         method: 'brand retrieve',
         example:
-          "context-dev brand retrieve \\\n  --api-key 'My API Key' \\\n  --domain domain \\\n  --type by_domain \\\n  --name xxx \\\n  --email dev@stainless.com \\\n  --ticker ticker \\\n  --transaction-info xxx",
+          "context-dev brand retrieve \\\n  --api-key 'My API Key' \\\n  --domain domain \\\n  --type by_domain \\\n  --name xxx \\\n  --email dev@stainless.com \\\n  --ticker ticker \\\n  --direct-url https://example.com \\\n  --transaction-info xxx",
       },
       php: {
         method: 'brand->retrieve',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$brand = $client->brand->retrieve(\n  domain: 'domain',\n  type: 'by_transaction',\n  forceLanguage: 'afrikaans',\n  maxAgeMs: 0,\n  maxSpeed: true,\n  timeoutMs: 1000,\n  name: 'xxx',\n  countryGl: 'country_gl',\n  email: 'dev@stainless.com',\n  ticker: 'ticker',\n  tickerExchange: 'ticker_exchange',\n  transactionInfo: 'xxx',\n  city: 'city',\n  highConfidenceOnly: true,\n  mcc: 0,\n  phone: 0,\n);\n\nvar_dump($brand);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$brand = $client->brand->retrieve(\n  domain: 'domain',\n  type: 'by_transaction',\n  forceLanguage: 'afrikaans',\n  maxAgeMs: 0,\n  maxSpeed: true,\n  timeoutMs: 1000,\n  name: 'xxx',\n  countryGl: 'country_gl',\n  email: 'dev@stainless.com',\n  ticker: 'ticker',\n  tickerExchange: 'ticker_exchange',\n  directURL: 'https://example.com',\n  transactionInfo: 'xxx',\n  city: 'city',\n  highConfidenceOnly: true,\n  mcc: 0,\n  phone: 0,\n);\n\nvar_dump($brand);",
       },
       http: {
         example:
