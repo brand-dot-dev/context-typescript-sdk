@@ -288,11 +288,11 @@ export namespace MonitorCreateResponse {
   }
 
   /**
-   * Detect meaning-level changes that match a natural language query.
+   * Detect meaning-level changes to the extracted data, ignoring cosmetic or
+   * paraphrase-only differences. What is watched is determined by the extract
+   * target's `schema` and `instructions`.
    */
   export interface MonitorsSemanticChangeDetection {
-    query: string;
-
     type: 'semantic';
 
     confidence_threshold?: number;
@@ -364,6 +364,13 @@ export namespace MonitorCreateResponse {
    * Watch a site's extracted structured data.
    */
   export interface MonitorsExtractTarget {
+    /**
+     * Natural-language instructions describing what to extract and watch. This single
+     * prompt scopes both the extraction and what changes get reported: only data
+     * captured by the schema and these instructions is compared between runs.
+     */
+    instructions: string;
+
     type: 'extract';
 
     /**
@@ -372,11 +379,6 @@ export namespace MonitorCreateResponse {
     url: string;
 
     follow_subdomains?: boolean;
-
-    /**
-     * Optional natural-language instructions guiding what to extract.
-     */
-    instructions?: string;
 
     /**
      * Optional maximum link depth from the starting URL (0 = only the starting page).
@@ -572,11 +574,11 @@ export namespace MonitorRetrieveResponse {
   }
 
   /**
-   * Detect meaning-level changes that match a natural language query.
+   * Detect meaning-level changes to the extracted data, ignoring cosmetic or
+   * paraphrase-only differences. What is watched is determined by the extract
+   * target's `schema` and `instructions`.
    */
   export interface MonitorsSemanticChangeDetection {
-    query: string;
-
     type: 'semantic';
 
     confidence_threshold?: number;
@@ -648,6 +650,13 @@ export namespace MonitorRetrieveResponse {
    * Watch a site's extracted structured data.
    */
   export interface MonitorsExtractTarget {
+    /**
+     * Natural-language instructions describing what to extract and watch. This single
+     * prompt scopes both the extraction and what changes get reported: only data
+     * captured by the schema and these instructions is compared between runs.
+     */
+    instructions: string;
+
     type: 'extract';
 
     /**
@@ -656,11 +665,6 @@ export namespace MonitorRetrieveResponse {
     url: string;
 
     follow_subdomains?: boolean;
-
-    /**
-     * Optional natural-language instructions guiding what to extract.
-     */
-    instructions?: string;
 
     /**
      * Optional maximum link depth from the starting URL (0 = only the starting page).
@@ -856,11 +860,11 @@ export namespace MonitorUpdateResponse {
   }
 
   /**
-   * Detect meaning-level changes that match a natural language query.
+   * Detect meaning-level changes to the extracted data, ignoring cosmetic or
+   * paraphrase-only differences. What is watched is determined by the extract
+   * target's `schema` and `instructions`.
    */
   export interface MonitorsSemanticChangeDetection {
-    query: string;
-
     type: 'semantic';
 
     confidence_threshold?: number;
@@ -932,6 +936,13 @@ export namespace MonitorUpdateResponse {
    * Watch a site's extracted structured data.
    */
   export interface MonitorsExtractTarget {
+    /**
+     * Natural-language instructions describing what to extract and watch. This single
+     * prompt scopes both the extraction and what changes get reported: only data
+     * captured by the schema and these instructions is compared between runs.
+     */
+    instructions: string;
+
     type: 'extract';
 
     /**
@@ -940,11 +951,6 @@ export namespace MonitorUpdateResponse {
     url: string;
 
     follow_subdomains?: boolean;
-
-    /**
-     * Optional natural-language instructions guiding what to extract.
-     */
-    instructions?: string;
 
     /**
      * Optional maximum link depth from the starting URL (0 = only the starting page).
@@ -1140,11 +1146,11 @@ export namespace MonitorListResponse {
     }
 
     /**
-     * Detect meaning-level changes that match a natural language query.
+     * Detect meaning-level changes to the extracted data, ignoring cosmetic or
+     * paraphrase-only differences. What is watched is determined by the extract
+     * target's `schema` and `instructions`.
      */
     export interface MonitorsSemanticChangeDetection {
-      query: string;
-
       type: 'semantic';
 
       confidence_threshold?: number;
@@ -1216,6 +1222,13 @@ export namespace MonitorListResponse {
      * Watch a site's extracted structured data.
      */
     export interface MonitorsExtractTarget {
+      /**
+       * Natural-language instructions describing what to extract and watch. This single
+       * prompt scopes both the extraction and what changes get reported: only data
+       * captured by the schema and these instructions is compared between runs.
+       */
+      instructions: string;
+
       type: 'extract';
 
       /**
@@ -1224,11 +1237,6 @@ export namespace MonitorListResponse {
       url: string;
 
       follow_subdomains?: boolean;
-
-      /**
-       * Optional natural-language instructions guiding what to extract.
-       */
-      instructions?: string;
 
       /**
        * Optional maximum link depth from the starting URL (0 = only the starting page).
@@ -1643,8 +1651,6 @@ export interface MonitorRetrieveChangeResponse {
    */
   matched_urls?: Array<string>;
 
-  query?: string;
-
   removed_url_count?: number;
 
   /**
@@ -1738,11 +1744,11 @@ export namespace MonitorCreateParams {
   }
 
   /**
-   * Detect meaning-level changes that match a natural language query.
+   * Detect meaning-level changes to the extracted data, ignoring cosmetic or
+   * paraphrase-only differences. What is watched is determined by the extract
+   * target's `schema` and `instructions`.
    */
   export interface MonitorsSemanticChangeDetection {
-    query: string;
-
     type: 'semantic';
 
     confidence_threshold?: number;
@@ -1814,6 +1820,13 @@ export namespace MonitorCreateParams {
    * Watch a site's extracted structured data.
    */
   export interface MonitorsExtractTarget {
+    /**
+     * Natural-language instructions describing what to extract and watch. This single
+     * prompt scopes both the extraction and what changes get reported: only data
+     * captured by the schema and these instructions is compared between runs.
+     */
+    instructions: string;
+
     type: 'extract';
 
     /**
@@ -1822,11 +1835,6 @@ export namespace MonitorCreateParams {
     url: string;
 
     follow_subdomains?: boolean;
-
-    /**
-     * Optional natural-language instructions guiding what to extract.
-     */
-    instructions?: string;
 
     /**
      * Optional maximum link depth from the starting URL (0 = only the starting page).
@@ -1901,11 +1909,11 @@ export namespace MonitorUpdateParams {
   }
 
   /**
-   * Detect meaning-level changes that match a natural language query.
+   * Detect meaning-level changes to the extracted data, ignoring cosmetic or
+   * paraphrase-only differences. What is watched is determined by the extract
+   * target's `schema` and `instructions`.
    */
   export interface MonitorsSemanticChangeDetection {
-    query: string;
-
     type: 'semantic';
 
     confidence_threshold?: number;
@@ -1977,6 +1985,13 @@ export namespace MonitorUpdateParams {
    * Watch a site's extracted structured data.
    */
   export interface MonitorsExtractTarget {
+    /**
+     * Natural-language instructions describing what to extract and watch. This single
+     * prompt scopes both the extraction and what changes get reported: only data
+     * captured by the schema and these instructions is compared between runs.
+     */
+    instructions: string;
+
     type: 'extract';
 
     /**
@@ -1985,11 +2000,6 @@ export namespace MonitorUpdateParams {
     url: string;
 
     follow_subdomains?: boolean;
-
-    /**
-     * Optional natural-language instructions guiding what to extract.
-     */
-    instructions?: string;
 
     /**
      * Optional maximum link depth from the starting URL (0 = only the starting page).
@@ -2032,10 +2042,10 @@ export interface MonitorListParams {
   q?: string;
 
   /**
-   * Comma-separated fields to search with `q`. Defaults to all of them. Note `query`
-   * only exists on semantic monitors.
+   * Comma-separated fields to search with `q`. Defaults to all of them. Note
+   * `instructions` only exists on extract monitors.
    */
-  search_by?: Array<'name' | 'url' | 'query' | 'tags'>;
+  search_by?: Array<'name' | 'url' | 'instructions' | 'tags'>;
 
   /**
    * `prefix` for as-you-type prefix matching (default), `exact` for full-token
