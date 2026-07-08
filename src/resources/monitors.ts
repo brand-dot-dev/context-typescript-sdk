@@ -333,8 +333,9 @@ export namespace MonitorCreateResponse {
   /**
    * Watch a sitemap for URL additions and removals. Crawled URLs are normalized
    * (lowercased host, no trailing slash/fragment) and scoped to the monitored site
-   * and its subdomains before comparison. A new URL set must be observed on two
-   * consecutive runs before a change is reported, suppressing one-run crawl flaps.
+   * and its subdomains before comparison. On a detected difference the sitemap is
+   * re-fetched within the same run and only URLs both observations agree on are
+   * reported, suppressing transient crawl flaps.
    */
   export interface MonitorsSitemapTarget {
     type: 'sitemap';
@@ -361,13 +362,16 @@ export namespace MonitorCreateResponse {
   }
 
   /**
-   * Watch a site's extracted structured data.
+   * Watch the monitor-relevant pages of a site for meaningful changes. A crawl
+   * guided by `schema`/`instructions` selects up to `max_pages` relevant pages to
+   * track; each run re-checks exactly those pages, and confirmed content changes are
+   * judged against the monitor's instructions. The tracked page set is refreshed by
+   * a periodic re-discovery crawl.
    */
   export interface MonitorsExtractTarget {
     /**
-     * Natural-language instructions describing what to extract and watch. This single
-     * prompt scopes both the extraction and what changes get reported: only data
-     * captured by the schema and these instructions is compared between runs.
+     * Natural-language instructions guiding which pages and facts to track and which
+     * changes to report.
      */
     instructions: string;
 
@@ -386,12 +390,13 @@ export namespace MonitorCreateResponse {
     max_depth?: number;
 
     /**
-     * Maximum number of pages to analyze during extraction.
+     * Maximum number of pages to track.
      */
     max_pages?: number;
 
     /**
-     * JSON Schema describing the structured data to extract and watch for changes. If
+     * JSON Schema describing the data you care about. It guides which pages are
+     * selected for tracking and gives the change judge context on what matters. If
      * omitted, a default summary + key-points schema is used.
      */
     schema?: { [key: string]: unknown };
@@ -434,7 +439,8 @@ export namespace MonitorCreateResponse {
   }
 
   /**
-   * Current baseline of an `extract` monitor: the structured data as last extracted.
+   * Current baseline of an `extract` monitor: the pages it tracks and the structured
+   * data as last extracted.
    */
   export interface MonitorsExtractBaseline {
     /**
@@ -444,12 +450,14 @@ export namespace MonitorCreateResponse {
 
     /**
      * The extracted structured data, matching the monitor's extraction schema (same
-     * shape as the /web/extract endpoint's `data`).
+     * shape as the /web/extract endpoint's `data`). Refreshed when the monitor
+     * re-discovers its page set (at most about once a day); `null` when no extraction
+     * has been captured yet.
      */
     data: unknown;
 
     /**
-     * URLs that were analyzed to produce the extracted data.
+     * The page URLs the monitor tracks and analyzes for changes.
      */
     urls_analyzed: Array<string>;
   }
@@ -619,8 +627,9 @@ export namespace MonitorRetrieveResponse {
   /**
    * Watch a sitemap for URL additions and removals. Crawled URLs are normalized
    * (lowercased host, no trailing slash/fragment) and scoped to the monitored site
-   * and its subdomains before comparison. A new URL set must be observed on two
-   * consecutive runs before a change is reported, suppressing one-run crawl flaps.
+   * and its subdomains before comparison. On a detected difference the sitemap is
+   * re-fetched within the same run and only URLs both observations agree on are
+   * reported, suppressing transient crawl flaps.
    */
   export interface MonitorsSitemapTarget {
     type: 'sitemap';
@@ -647,13 +656,16 @@ export namespace MonitorRetrieveResponse {
   }
 
   /**
-   * Watch a site's extracted structured data.
+   * Watch the monitor-relevant pages of a site for meaningful changes. A crawl
+   * guided by `schema`/`instructions` selects up to `max_pages` relevant pages to
+   * track; each run re-checks exactly those pages, and confirmed content changes are
+   * judged against the monitor's instructions. The tracked page set is refreshed by
+   * a periodic re-discovery crawl.
    */
   export interface MonitorsExtractTarget {
     /**
-     * Natural-language instructions describing what to extract and watch. This single
-     * prompt scopes both the extraction and what changes get reported: only data
-     * captured by the schema and these instructions is compared between runs.
+     * Natural-language instructions guiding which pages and facts to track and which
+     * changes to report.
      */
     instructions: string;
 
@@ -672,12 +684,13 @@ export namespace MonitorRetrieveResponse {
     max_depth?: number;
 
     /**
-     * Maximum number of pages to analyze during extraction.
+     * Maximum number of pages to track.
      */
     max_pages?: number;
 
     /**
-     * JSON Schema describing the structured data to extract and watch for changes. If
+     * JSON Schema describing the data you care about. It guides which pages are
+     * selected for tracking and gives the change judge context on what matters. If
      * omitted, a default summary + key-points schema is used.
      */
     schema?: { [key: string]: unknown };
@@ -720,7 +733,8 @@ export namespace MonitorRetrieveResponse {
   }
 
   /**
-   * Current baseline of an `extract` monitor: the structured data as last extracted.
+   * Current baseline of an `extract` monitor: the pages it tracks and the structured
+   * data as last extracted.
    */
   export interface MonitorsExtractBaseline {
     /**
@@ -730,12 +744,14 @@ export namespace MonitorRetrieveResponse {
 
     /**
      * The extracted structured data, matching the monitor's extraction schema (same
-     * shape as the /web/extract endpoint's `data`).
+     * shape as the /web/extract endpoint's `data`). Refreshed when the monitor
+     * re-discovers its page set (at most about once a day); `null` when no extraction
+     * has been captured yet.
      */
     data: unknown;
 
     /**
-     * URLs that were analyzed to produce the extracted data.
+     * The page URLs the monitor tracks and analyzes for changes.
      */
     urls_analyzed: Array<string>;
   }
@@ -905,8 +921,9 @@ export namespace MonitorUpdateResponse {
   /**
    * Watch a sitemap for URL additions and removals. Crawled URLs are normalized
    * (lowercased host, no trailing slash/fragment) and scoped to the monitored site
-   * and its subdomains before comparison. A new URL set must be observed on two
-   * consecutive runs before a change is reported, suppressing one-run crawl flaps.
+   * and its subdomains before comparison. On a detected difference the sitemap is
+   * re-fetched within the same run and only URLs both observations agree on are
+   * reported, suppressing transient crawl flaps.
    */
   export interface MonitorsSitemapTarget {
     type: 'sitemap';
@@ -933,13 +950,16 @@ export namespace MonitorUpdateResponse {
   }
 
   /**
-   * Watch a site's extracted structured data.
+   * Watch the monitor-relevant pages of a site for meaningful changes. A crawl
+   * guided by `schema`/`instructions` selects up to `max_pages` relevant pages to
+   * track; each run re-checks exactly those pages, and confirmed content changes are
+   * judged against the monitor's instructions. The tracked page set is refreshed by
+   * a periodic re-discovery crawl.
    */
   export interface MonitorsExtractTarget {
     /**
-     * Natural-language instructions describing what to extract and watch. This single
-     * prompt scopes both the extraction and what changes get reported: only data
-     * captured by the schema and these instructions is compared between runs.
+     * Natural-language instructions guiding which pages and facts to track and which
+     * changes to report.
      */
     instructions: string;
 
@@ -958,12 +978,13 @@ export namespace MonitorUpdateResponse {
     max_depth?: number;
 
     /**
-     * Maximum number of pages to analyze during extraction.
+     * Maximum number of pages to track.
      */
     max_pages?: number;
 
     /**
-     * JSON Schema describing the structured data to extract and watch for changes. If
+     * JSON Schema describing the data you care about. It guides which pages are
+     * selected for tracking and gives the change judge context on what matters. If
      * omitted, a default summary + key-points schema is used.
      */
     schema?: { [key: string]: unknown };
@@ -1006,7 +1027,8 @@ export namespace MonitorUpdateResponse {
   }
 
   /**
-   * Current baseline of an `extract` monitor: the structured data as last extracted.
+   * Current baseline of an `extract` monitor: the pages it tracks and the structured
+   * data as last extracted.
    */
   export interface MonitorsExtractBaseline {
     /**
@@ -1016,12 +1038,14 @@ export namespace MonitorUpdateResponse {
 
     /**
      * The extracted structured data, matching the monitor's extraction schema (same
-     * shape as the /web/extract endpoint's `data`).
+     * shape as the /web/extract endpoint's `data`). Refreshed when the monitor
+     * re-discovers its page set (at most about once a day); `null` when no extraction
+     * has been captured yet.
      */
     data: unknown;
 
     /**
-     * URLs that were analyzed to produce the extracted data.
+     * The page URLs the monitor tracks and analyzes for changes.
      */
     urls_analyzed: Array<string>;
   }
@@ -1191,8 +1215,9 @@ export namespace MonitorListResponse {
     /**
      * Watch a sitemap for URL additions and removals. Crawled URLs are normalized
      * (lowercased host, no trailing slash/fragment) and scoped to the monitored site
-     * and its subdomains before comparison. A new URL set must be observed on two
-     * consecutive runs before a change is reported, suppressing one-run crawl flaps.
+     * and its subdomains before comparison. On a detected difference the sitemap is
+     * re-fetched within the same run and only URLs both observations agree on are
+     * reported, suppressing transient crawl flaps.
      */
     export interface MonitorsSitemapTarget {
       type: 'sitemap';
@@ -1219,13 +1244,16 @@ export namespace MonitorListResponse {
     }
 
     /**
-     * Watch a site's extracted structured data.
+     * Watch the monitor-relevant pages of a site for meaningful changes. A crawl
+     * guided by `schema`/`instructions` selects up to `max_pages` relevant pages to
+     * track; each run re-checks exactly those pages, and confirmed content changes are
+     * judged against the monitor's instructions. The tracked page set is refreshed by
+     * a periodic re-discovery crawl.
      */
     export interface MonitorsExtractTarget {
       /**
-       * Natural-language instructions describing what to extract and watch. This single
-       * prompt scopes both the extraction and what changes get reported: only data
-       * captured by the schema and these instructions is compared between runs.
+       * Natural-language instructions guiding which pages and facts to track and which
+       * changes to report.
        */
       instructions: string;
 
@@ -1244,12 +1272,13 @@ export namespace MonitorListResponse {
       max_depth?: number;
 
       /**
-       * Maximum number of pages to analyze during extraction.
+       * Maximum number of pages to track.
        */
       max_pages?: number;
 
       /**
-       * JSON Schema describing the structured data to extract and watch for changes. If
+       * JSON Schema describing the data you care about. It guides which pages are
+       * selected for tracking and gives the change judge context on what matters. If
        * omitted, a default summary + key-points schema is used.
        */
       schema?: { [key: string]: unknown };
@@ -1292,7 +1321,8 @@ export namespace MonitorListResponse {
     }
 
     /**
-     * Current baseline of an `extract` monitor: the structured data as last extracted.
+     * Current baseline of an `extract` monitor: the pages it tracks and the structured
+     * data as last extracted.
      */
     export interface MonitorsExtractBaseline {
       /**
@@ -1302,12 +1332,14 @@ export namespace MonitorListResponse {
 
       /**
        * The extracted structured data, matching the monitor's extraction schema (same
-       * shape as the /web/extract endpoint's `data`).
+       * shape as the /web/extract endpoint's `data`). Refreshed when the monitor
+       * re-discovers its page set (at most about once a day); `null` when no extraction
+       * has been captured yet.
        */
       data: unknown;
 
       /**
-       * URLs that were analyzed to produce the extracted data.
+       * The page URLs the monitor tracks and analyzes for changes.
        */
       urls_analyzed: Array<string>;
     }
@@ -1789,8 +1821,9 @@ export namespace MonitorCreateParams {
   /**
    * Watch a sitemap for URL additions and removals. Crawled URLs are normalized
    * (lowercased host, no trailing slash/fragment) and scoped to the monitored site
-   * and its subdomains before comparison. A new URL set must be observed on two
-   * consecutive runs before a change is reported, suppressing one-run crawl flaps.
+   * and its subdomains before comparison. On a detected difference the sitemap is
+   * re-fetched within the same run and only URLs both observations agree on are
+   * reported, suppressing transient crawl flaps.
    */
   export interface MonitorsSitemapTarget {
     type: 'sitemap';
@@ -1817,13 +1850,16 @@ export namespace MonitorCreateParams {
   }
 
   /**
-   * Watch a site's extracted structured data.
+   * Watch the monitor-relevant pages of a site for meaningful changes. A crawl
+   * guided by `schema`/`instructions` selects up to `max_pages` relevant pages to
+   * track; each run re-checks exactly those pages, and confirmed content changes are
+   * judged against the monitor's instructions. The tracked page set is refreshed by
+   * a periodic re-discovery crawl.
    */
   export interface MonitorsExtractTarget {
     /**
-     * Natural-language instructions describing what to extract and watch. This single
-     * prompt scopes both the extraction and what changes get reported: only data
-     * captured by the schema and these instructions is compared between runs.
+     * Natural-language instructions guiding which pages and facts to track and which
+     * changes to report.
      */
     instructions: string;
 
@@ -1842,12 +1878,13 @@ export namespace MonitorCreateParams {
     max_depth?: number;
 
     /**
-     * Maximum number of pages to analyze during extraction.
+     * Maximum number of pages to track.
      */
     max_pages?: number;
 
     /**
-     * JSON Schema describing the structured data to extract and watch for changes. If
+     * JSON Schema describing the data you care about. It guides which pages are
+     * selected for tracking and gives the change judge context on what matters. If
      * omitted, a default summary + key-points schema is used.
      */
     schema?: { [key: string]: unknown };
@@ -1954,8 +1991,9 @@ export namespace MonitorUpdateParams {
   /**
    * Watch a sitemap for URL additions and removals. Crawled URLs are normalized
    * (lowercased host, no trailing slash/fragment) and scoped to the monitored site
-   * and its subdomains before comparison. A new URL set must be observed on two
-   * consecutive runs before a change is reported, suppressing one-run crawl flaps.
+   * and its subdomains before comparison. On a detected difference the sitemap is
+   * re-fetched within the same run and only URLs both observations agree on are
+   * reported, suppressing transient crawl flaps.
    */
   export interface MonitorsSitemapTarget {
     type: 'sitemap';
@@ -1982,13 +2020,16 @@ export namespace MonitorUpdateParams {
   }
 
   /**
-   * Watch a site's extracted structured data.
+   * Watch the monitor-relevant pages of a site for meaningful changes. A crawl
+   * guided by `schema`/`instructions` selects up to `max_pages` relevant pages to
+   * track; each run re-checks exactly those pages, and confirmed content changes are
+   * judged against the monitor's instructions. The tracked page set is refreshed by
+   * a periodic re-discovery crawl.
    */
   export interface MonitorsExtractTarget {
     /**
-     * Natural-language instructions describing what to extract and watch. This single
-     * prompt scopes both the extraction and what changes get reported: only data
-     * captured by the schema and these instructions is compared between runs.
+     * Natural-language instructions guiding which pages and facts to track and which
+     * changes to report.
      */
     instructions: string;
 
@@ -2007,12 +2048,13 @@ export namespace MonitorUpdateParams {
     max_depth?: number;
 
     /**
-     * Maximum number of pages to analyze during extraction.
+     * Maximum number of pages to track.
      */
     max_pages?: number;
 
     /**
-     * JSON Schema describing the structured data to extract and watch for changes. If
+     * JSON Schema describing the data you care about. It guides which pages are
+     * selected for tracking and gives the change judge context on what matters. If
      * omitted, a default summary + key-points schema is used.
      */
     schema?: { [key: string]: unknown };
