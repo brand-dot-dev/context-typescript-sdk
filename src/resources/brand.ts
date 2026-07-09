@@ -8,7 +8,9 @@ export class Brand extends APIResource {
   /**
    * Retrieve logos, backdrops, colors, industry, description, and more. Provide
    * exactly one lookup identifier in the request body: a domain, company name, email
-   * address, stock ticker, or transaction descriptor.
+   * address, stock ticker, transaction descriptor, or direct URL. Note:
+   * `by_direct_url` fetches brand data only from the provided URL — not from the
+   * entire internet.
    *
    * @example
    * ```ts
@@ -1025,6 +1027,7 @@ export type BrandRetrieveParams =
   | BrandRetrieveParams.BrandRetrieveByNameRequest
   | BrandRetrieveParams.BrandRetrieveByEmailRequest
   | BrandRetrieveParams.BrandRetrieveByTickerRequest
+  | BrandRetrieveParams.BrandRetrieveByDirectURLRequest
   | BrandRetrieveParams.BrandRetrieveFromTransactionRequest;
 
 export declare namespace BrandRetrieveParams {
@@ -1654,6 +1657,27 @@ export declare namespace BrandRetrieveParams {
      * Optional stock exchange for the ticker. Defaults to NASDAQ if not specified.
      */
     ticker_exchange?: string;
+
+    /**
+     * Optional timeout in milliseconds for the request. If the request takes longer
+     * than this value, it will be aborted with a 408 status code. Maximum allowed
+     * value is 300000ms (5 minutes).
+     */
+    timeoutMS?: number;
+  }
+
+  export interface BrandRetrieveByDirectURLRequest {
+    /**
+     * Full http(s) URL to fetch brand data from (e.g.,
+     * 'https://stripe.com/enterprise'). Only this URL is fetched — not the entire
+     * internet.
+     */
+    direct_url: string;
+
+    /**
+     * Discriminator for direct-URL-based brand retrieval.
+     */
+    type: 'by_direct_url';
 
     /**
      * Optional timeout in milliseconds for the request. If the request takes longer
