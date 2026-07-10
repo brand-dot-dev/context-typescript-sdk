@@ -1507,6 +1507,13 @@ export namespace MonitorListAccountRunsResponse {
     skip_reason?: 'insufficient_credits' | 'monitor_paused' | 'superseded' | null;
 
     started_at?: string | null;
+
+    /**
+     * The webhook delivery attempted for a change detected by this run. Omitted when
+     * no webhook was attempted, including historical runs created before delivery
+     * tracking was added.
+     */
+    webhook_delivery?: Data.WebhookDelivery;
   }
 
   export namespace Data {
@@ -1514,6 +1521,43 @@ export namespace MonitorListAccountRunsResponse {
       code: string;
 
       message: string;
+    }
+
+    /**
+     * The webhook delivery attempted for a change detected by this run. Omitted when
+     * no webhook was attempted, including historical runs created before delivery
+     * tracking was added.
+     */
+    export interface WebhookDelivery {
+      attempted_at: string;
+
+      error: WebhookDelivery.Error | null;
+
+      /**
+       * Identifier sent in the X-Context-Id header.
+       */
+      event_id: string;
+
+      /**
+       * The endpoint's final HTTP response status, or null when no response was
+       * received.
+       */
+      http_status: number | null;
+
+      /**
+       * Delivery outcome. delivered means any 2xx response; rejected means a non-2xx
+       * response; failed means no HTTP response was received; skipped_unsafe_url means
+       * the URL failed the public-endpoint safety check.
+       */
+      status: 'delivered' | 'rejected' | 'failed' | 'skipped_unsafe_url';
+    }
+
+    export namespace WebhookDelivery {
+      export interface Error {
+        code: string;
+
+        message: string;
+      }
     }
   }
 }
@@ -1628,6 +1672,13 @@ export namespace MonitorListRunsResponse {
     skip_reason?: 'insufficient_credits' | 'monitor_paused' | 'superseded' | null;
 
     started_at?: string | null;
+
+    /**
+     * The webhook delivery attempted for a change detected by this run. Omitted when
+     * no webhook was attempted, including historical runs created before delivery
+     * tracking was added.
+     */
+    webhook_delivery?: Data.WebhookDelivery;
   }
 
   export namespace Data {
@@ -1635,6 +1686,43 @@ export namespace MonitorListRunsResponse {
       code: string;
 
       message: string;
+    }
+
+    /**
+     * The webhook delivery attempted for a change detected by this run. Omitted when
+     * no webhook was attempted, including historical runs created before delivery
+     * tracking was added.
+     */
+    export interface WebhookDelivery {
+      attempted_at: string;
+
+      error: WebhookDelivery.Error | null;
+
+      /**
+       * Identifier sent in the X-Context-Id header.
+       */
+      event_id: string;
+
+      /**
+       * The endpoint's final HTTP response status, or null when no response was
+       * received.
+       */
+      http_status: number | null;
+
+      /**
+       * Delivery outcome. delivered means any 2xx response; rejected means a non-2xx
+       * response; failed means no HTTP response was received; skipped_unsafe_url means
+       * the URL failed the public-endpoint safety check.
+       */
+      status: 'delivered' | 'rejected' | 'failed' | 'skipped_unsafe_url';
+    }
+
+    export namespace WebhookDelivery {
+      export interface Error {
+        code: string;
+
+        message: string;
+      }
     }
   }
 }
