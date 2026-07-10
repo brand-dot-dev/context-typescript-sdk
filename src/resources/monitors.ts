@@ -288,9 +288,9 @@ export namespace MonitorCreateResponse {
   }
 
   /**
-   * Detect meaning-level changes to the extracted data, ignoring cosmetic or
-   * paraphrase-only differences. What is watched is determined by the extract
-   * target's `schema` and `instructions`.
+   * Detect meaning-level changes to tracked page content, ignoring cosmetic or
+   * paraphrase-only differences. Which changes are meaningful is judged against the
+   * extract target's `instructions` (and `schema`, when provided).
    */
   export interface MonitorsSemanticChangeDetection {
     type: 'semantic';
@@ -365,8 +365,8 @@ export namespace MonitorCreateResponse {
    * Watch the monitor-relevant pages of a site for meaningful changes. A crawl
    * guided by `schema`/`instructions` selects up to `max_pages` relevant pages to
    * track; each run re-checks exactly those pages, and confirmed content changes are
-   * judged against the monitor's instructions. The tracked page set is refreshed by
-   * a periodic re-discovery crawl.
+   * judged for relevance against the monitor's `instructions` (and `schema`, when
+   * provided). The tracked page set is refreshed by a periodic re-discovery crawl.
    */
   export interface MonitorsExtractTarget {
     /**
@@ -395,9 +395,14 @@ export namespace MonitorCreateResponse {
     max_pages?: number;
 
     /**
-     * JSON Schema describing the data you care about. It guides which pages are
-     * selected for tracking and gives the change judge context on what matters. If
-     * omitted, a default summary + key-points schema is used.
+     * JSON Schema describing the data you care about. It is used three ways: it guides
+     * which pages are selected for tracking, it gives the change judge extra context
+     * on which changes matter (alongside `instructions`), and it defines the shape of
+     * the baseline `data` snapshot on GET /monitors/{monitor_id} (refreshed at most
+     * about once a day). It is not a response format for changes: change events and
+     * webhook payloads always contain diffs, summaries, and evidence excerpts — never
+     * data in this schema's shape. If omitted, a default summary + key-points schema
+     * is used.
      */
     schema?: { [key: string]: unknown };
   }
@@ -582,9 +587,9 @@ export namespace MonitorRetrieveResponse {
   }
 
   /**
-   * Detect meaning-level changes to the extracted data, ignoring cosmetic or
-   * paraphrase-only differences. What is watched is determined by the extract
-   * target's `schema` and `instructions`.
+   * Detect meaning-level changes to tracked page content, ignoring cosmetic or
+   * paraphrase-only differences. Which changes are meaningful is judged against the
+   * extract target's `instructions` (and `schema`, when provided).
    */
   export interface MonitorsSemanticChangeDetection {
     type: 'semantic';
@@ -659,8 +664,8 @@ export namespace MonitorRetrieveResponse {
    * Watch the monitor-relevant pages of a site for meaningful changes. A crawl
    * guided by `schema`/`instructions` selects up to `max_pages` relevant pages to
    * track; each run re-checks exactly those pages, and confirmed content changes are
-   * judged against the monitor's instructions. The tracked page set is refreshed by
-   * a periodic re-discovery crawl.
+   * judged for relevance against the monitor's `instructions` (and `schema`, when
+   * provided). The tracked page set is refreshed by a periodic re-discovery crawl.
    */
   export interface MonitorsExtractTarget {
     /**
@@ -689,9 +694,14 @@ export namespace MonitorRetrieveResponse {
     max_pages?: number;
 
     /**
-     * JSON Schema describing the data you care about. It guides which pages are
-     * selected for tracking and gives the change judge context on what matters. If
-     * omitted, a default summary + key-points schema is used.
+     * JSON Schema describing the data you care about. It is used three ways: it guides
+     * which pages are selected for tracking, it gives the change judge extra context
+     * on which changes matter (alongside `instructions`), and it defines the shape of
+     * the baseline `data` snapshot on GET /monitors/{monitor_id} (refreshed at most
+     * about once a day). It is not a response format for changes: change events and
+     * webhook payloads always contain diffs, summaries, and evidence excerpts — never
+     * data in this schema's shape. If omitted, a default summary + key-points schema
+     * is used.
      */
     schema?: { [key: string]: unknown };
   }
@@ -876,9 +886,9 @@ export namespace MonitorUpdateResponse {
   }
 
   /**
-   * Detect meaning-level changes to the extracted data, ignoring cosmetic or
-   * paraphrase-only differences. What is watched is determined by the extract
-   * target's `schema` and `instructions`.
+   * Detect meaning-level changes to tracked page content, ignoring cosmetic or
+   * paraphrase-only differences. Which changes are meaningful is judged against the
+   * extract target's `instructions` (and `schema`, when provided).
    */
   export interface MonitorsSemanticChangeDetection {
     type: 'semantic';
@@ -953,8 +963,8 @@ export namespace MonitorUpdateResponse {
    * Watch the monitor-relevant pages of a site for meaningful changes. A crawl
    * guided by `schema`/`instructions` selects up to `max_pages` relevant pages to
    * track; each run re-checks exactly those pages, and confirmed content changes are
-   * judged against the monitor's instructions. The tracked page set is refreshed by
-   * a periodic re-discovery crawl.
+   * judged for relevance against the monitor's `instructions` (and `schema`, when
+   * provided). The tracked page set is refreshed by a periodic re-discovery crawl.
    */
   export interface MonitorsExtractTarget {
     /**
@@ -983,9 +993,14 @@ export namespace MonitorUpdateResponse {
     max_pages?: number;
 
     /**
-     * JSON Schema describing the data you care about. It guides which pages are
-     * selected for tracking and gives the change judge context on what matters. If
-     * omitted, a default summary + key-points schema is used.
+     * JSON Schema describing the data you care about. It is used three ways: it guides
+     * which pages are selected for tracking, it gives the change judge extra context
+     * on which changes matter (alongside `instructions`), and it defines the shape of
+     * the baseline `data` snapshot on GET /monitors/{monitor_id} (refreshed at most
+     * about once a day). It is not a response format for changes: change events and
+     * webhook payloads always contain diffs, summaries, and evidence excerpts — never
+     * data in this schema's shape. If omitted, a default summary + key-points schema
+     * is used.
      */
     schema?: { [key: string]: unknown };
   }
@@ -1170,9 +1185,9 @@ export namespace MonitorListResponse {
     }
 
     /**
-     * Detect meaning-level changes to the extracted data, ignoring cosmetic or
-     * paraphrase-only differences. What is watched is determined by the extract
-     * target's `schema` and `instructions`.
+     * Detect meaning-level changes to tracked page content, ignoring cosmetic or
+     * paraphrase-only differences. Which changes are meaningful is judged against the
+     * extract target's `instructions` (and `schema`, when provided).
      */
     export interface MonitorsSemanticChangeDetection {
       type: 'semantic';
@@ -1247,8 +1262,8 @@ export namespace MonitorListResponse {
      * Watch the monitor-relevant pages of a site for meaningful changes. A crawl
      * guided by `schema`/`instructions` selects up to `max_pages` relevant pages to
      * track; each run re-checks exactly those pages, and confirmed content changes are
-     * judged against the monitor's instructions. The tracked page set is refreshed by
-     * a periodic re-discovery crawl.
+     * judged for relevance against the monitor's `instructions` (and `schema`, when
+     * provided). The tracked page set is refreshed by a periodic re-discovery crawl.
      */
     export interface MonitorsExtractTarget {
       /**
@@ -1277,9 +1292,14 @@ export namespace MonitorListResponse {
       max_pages?: number;
 
       /**
-       * JSON Schema describing the data you care about. It guides which pages are
-       * selected for tracking and gives the change judge context on what matters. If
-       * omitted, a default summary + key-points schema is used.
+       * JSON Schema describing the data you care about. It is used three ways: it guides
+       * which pages are selected for tracking, it gives the change judge extra context
+       * on which changes matter (alongside `instructions`), and it defines the shape of
+       * the baseline `data` snapshot on GET /monitors/{monitor_id} (refreshed at most
+       * about once a day). It is not a response format for changes: change events and
+       * webhook payloads always contain diffs, summaries, and evidence excerpts — never
+       * data in this schema's shape. If omitted, a default summary + key-points schema
+       * is used.
        */
       schema?: { [key: string]: unknown };
     }
@@ -1487,6 +1507,13 @@ export namespace MonitorListAccountRunsResponse {
     skip_reason?: 'insufficient_credits' | 'monitor_paused' | 'superseded' | null;
 
     started_at?: string | null;
+
+    /**
+     * The webhook delivery attempted for a change detected by this run. Omitted when
+     * no webhook was attempted, including historical runs created before delivery
+     * tracking was added.
+     */
+    webhook_delivery?: Data.WebhookDelivery;
   }
 
   export namespace Data {
@@ -1494,6 +1521,43 @@ export namespace MonitorListAccountRunsResponse {
       code: string;
 
       message: string;
+    }
+
+    /**
+     * The webhook delivery attempted for a change detected by this run. Omitted when
+     * no webhook was attempted, including historical runs created before delivery
+     * tracking was added.
+     */
+    export interface WebhookDelivery {
+      attempted_at: string;
+
+      error: WebhookDelivery.Error | null;
+
+      /**
+       * Identifier sent in the X-Context-Id header.
+       */
+      event_id: string;
+
+      /**
+       * The endpoint's final HTTP response status, or null when no response was
+       * received.
+       */
+      http_status: number | null;
+
+      /**
+       * Delivery outcome. delivered means any 2xx response; rejected means a non-2xx
+       * response; failed means no HTTP response was received; skipped_unsafe_url means
+       * the URL failed the public-endpoint safety check.
+       */
+      status: 'delivered' | 'rejected' | 'failed' | 'skipped_unsafe_url';
+    }
+
+    export namespace WebhookDelivery {
+      export interface Error {
+        code: string;
+
+        message: string;
+      }
     }
   }
 }
@@ -1608,6 +1672,13 @@ export namespace MonitorListRunsResponse {
     skip_reason?: 'insufficient_credits' | 'monitor_paused' | 'superseded' | null;
 
     started_at?: string | null;
+
+    /**
+     * The webhook delivery attempted for a change detected by this run. Omitted when
+     * no webhook was attempted, including historical runs created before delivery
+     * tracking was added.
+     */
+    webhook_delivery?: Data.WebhookDelivery;
   }
 
   export namespace Data {
@@ -1615,6 +1686,43 @@ export namespace MonitorListRunsResponse {
       code: string;
 
       message: string;
+    }
+
+    /**
+     * The webhook delivery attempted for a change detected by this run. Omitted when
+     * no webhook was attempted, including historical runs created before delivery
+     * tracking was added.
+     */
+    export interface WebhookDelivery {
+      attempted_at: string;
+
+      error: WebhookDelivery.Error | null;
+
+      /**
+       * Identifier sent in the X-Context-Id header.
+       */
+      event_id: string;
+
+      /**
+       * The endpoint's final HTTP response status, or null when no response was
+       * received.
+       */
+      http_status: number | null;
+
+      /**
+       * Delivery outcome. delivered means any 2xx response; rejected means a non-2xx
+       * response; failed means no HTTP response was received; skipped_unsafe_url means
+       * the URL failed the public-endpoint safety check.
+       */
+      status: 'delivered' | 'rejected' | 'failed' | 'skipped_unsafe_url';
+    }
+
+    export namespace WebhookDelivery {
+      export interface Error {
+        code: string;
+
+        message: string;
+      }
     }
   }
 }
@@ -1776,9 +1884,9 @@ export namespace MonitorCreateParams {
   }
 
   /**
-   * Detect meaning-level changes to the extracted data, ignoring cosmetic or
-   * paraphrase-only differences. What is watched is determined by the extract
-   * target's `schema` and `instructions`.
+   * Detect meaning-level changes to tracked page content, ignoring cosmetic or
+   * paraphrase-only differences. Which changes are meaningful is judged against the
+   * extract target's `instructions` (and `schema`, when provided).
    */
   export interface MonitorsSemanticChangeDetection {
     type: 'semantic';
@@ -1853,8 +1961,8 @@ export namespace MonitorCreateParams {
    * Watch the monitor-relevant pages of a site for meaningful changes. A crawl
    * guided by `schema`/`instructions` selects up to `max_pages` relevant pages to
    * track; each run re-checks exactly those pages, and confirmed content changes are
-   * judged against the monitor's instructions. The tracked page set is refreshed by
-   * a periodic re-discovery crawl.
+   * judged for relevance against the monitor's `instructions` (and `schema`, when
+   * provided). The tracked page set is refreshed by a periodic re-discovery crawl.
    */
   export interface MonitorsExtractTarget {
     /**
@@ -1883,9 +1991,14 @@ export namespace MonitorCreateParams {
     max_pages?: number;
 
     /**
-     * JSON Schema describing the data you care about. It guides which pages are
-     * selected for tracking and gives the change judge context on what matters. If
-     * omitted, a default summary + key-points schema is used.
+     * JSON Schema describing the data you care about. It is used three ways: it guides
+     * which pages are selected for tracking, it gives the change judge extra context
+     * on which changes matter (alongside `instructions`), and it defines the shape of
+     * the baseline `data` snapshot on GET /monitors/{monitor_id} (refreshed at most
+     * about once a day). It is not a response format for changes: change events and
+     * webhook payloads always contain diffs, summaries, and evidence excerpts — never
+     * data in this schema's shape. If omitted, a default summary + key-points schema
+     * is used.
      */
     schema?: { [key: string]: unknown };
   }
@@ -1946,9 +2059,9 @@ export namespace MonitorUpdateParams {
   }
 
   /**
-   * Detect meaning-level changes to the extracted data, ignoring cosmetic or
-   * paraphrase-only differences. What is watched is determined by the extract
-   * target's `schema` and `instructions`.
+   * Detect meaning-level changes to tracked page content, ignoring cosmetic or
+   * paraphrase-only differences. Which changes are meaningful is judged against the
+   * extract target's `instructions` (and `schema`, when provided).
    */
   export interface MonitorsSemanticChangeDetection {
     type: 'semantic';
@@ -2023,8 +2136,8 @@ export namespace MonitorUpdateParams {
    * Watch the monitor-relevant pages of a site for meaningful changes. A crawl
    * guided by `schema`/`instructions` selects up to `max_pages` relevant pages to
    * track; each run re-checks exactly those pages, and confirmed content changes are
-   * judged against the monitor's instructions. The tracked page set is refreshed by
-   * a periodic re-discovery crawl.
+   * judged for relevance against the monitor's `instructions` (and `schema`, when
+   * provided). The tracked page set is refreshed by a periodic re-discovery crawl.
    */
   export interface MonitorsExtractTarget {
     /**
@@ -2053,9 +2166,14 @@ export namespace MonitorUpdateParams {
     max_pages?: number;
 
     /**
-     * JSON Schema describing the data you care about. It guides which pages are
-     * selected for tracking and gives the change judge context on what matters. If
-     * omitted, a default summary + key-points schema is used.
+     * JSON Schema describing the data you care about. It is used three ways: it guides
+     * which pages are selected for tracking, it gives the change judge extra context
+     * on which changes matter (alongside `instructions`), and it defines the shape of
+     * the baseline `data` snapshot on GET /monitors/{monitor_id} (refreshed at most
+     * about once a day). It is not a response format for changes: change events and
+     * webhook payloads always contain diffs, summaries, and evidence excerpts — never
+     * data in this schema's shape. If omitted, a default summary + key-points schema
+     * is used.
      */
     schema?: { [key: string]: unknown };
   }
