@@ -1732,7 +1732,7 @@ export namespace MonitorListRunsResponse {
  * `change_detection_type` describe the change, and which optional fields are
  * present depends on them (page: `diff` + excerpts; sitemap:
  * `added_urls`/`removed_urls`; semantic:
- * `query`/`confidence`/`importance`/`evidence`/`matched_urls`).
+ * `confidence`/`importance`/`evidence`/`matched_urls`).
  */
 export interface MonitorRetrieveChangeResponse {
   id: string;
@@ -1755,6 +1755,11 @@ export interface MonitorRetrieveChangeResponse {
   run_id: string;
 
   summary: string;
+
+  /**
+   * User-defined tags for grouping and filtering monitors and their changes.
+   */
+  tags: Array<string>;
 
   target_type: 'page' | 'sitemap' | 'extract';
 
@@ -1797,11 +1802,6 @@ export interface MonitorRetrieveChangeResponse {
    * At most 500 URLs are included; the corresponding count field is always exact.
    */
   removed_urls?: Array<string>;
-
-  /**
-   * User-defined tags for grouping and filtering monitors and their changes.
-   */
-  tags?: Array<string>;
 }
 
 export namespace MonitorRetrieveChangeResponse {
