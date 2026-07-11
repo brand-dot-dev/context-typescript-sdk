@@ -156,7 +156,22 @@ export class Web extends APIResource {
   }
 
   /**
-   * Scrapes the given URL into LLM usable Markdown.
+   * Scrapes the given URL into LLM usable Markdown. Inspect key_metadata on JSON
+   * responses from a recognized API key; use error_code to distinguish stable
+   * failure categories.
+   *
+   * ### Billing & errors
+   *
+   * | HTTP status | Billed?        | Meaning                                                                                  |
+   * | ----------- | -------------- | ---------------------------------------------------------------------------------------- |
+   * | 200         | Yes — 1 credit | Successful scrape, including a zero-length result when includeSelectors matched nothing  |
+   * | 400         | No             | Invalid input, skipped PDF, or the page could not be scraped                             |
+   * | 401 / 403   | No             | Invalid/disabled key, insufficient permissions, or credits exhausted; inspect error_code |
+   * | 404         | No             | Target page returned or fingerprinted as not found                                       |
+   * | 408         | No             | Request timed out                                                                        |
+   * | 415         | No             | Unsupported content type                                                                 |
+   * | 429         | No             | Per-minute rate limit exceeded; honor Retry-After                                        |
+   * | 500         | No             | Internal error                                                                           |
    *
    * @example
    * ```ts
@@ -1650,6 +1665,13 @@ export namespace WebWebScrapeImagesResponse {
 }
 
 export interface WebWebScrapeMdResponse {
+  /**
+   * UTF-8 byte length of the returned Markdown. Use 0 to identify an empty result
+   * and compare small values against your workload's minimum useful-content
+   * threshold.
+   */
+  contentLength: number;
+
   /**
    * Page content converted to GitHub Flavored Markdown
    */
