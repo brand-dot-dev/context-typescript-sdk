@@ -808,7 +808,7 @@ export class ContextDev {
   industry: API.Industry = new API.Industry(this);
   utility: API.Utility = new API.Utility(this);
   /**
-   * Monitor pages, sitemaps, and extracted website data for exact or semantic changes. The change.detected webhook payload is documented by the MonitorsChangeDetectedWebhookPayload schema.
+   * Monitor pages, sitemaps, and extracted website data for exact or semantic changes. Webhook payloads are documented by the MonitorsChangeDetectedWebhookPayload and MonitorsRunCompletedWebhookPayload schemas.
    */
   monitors: API.Monitors = new API.Monitors(this);
 }

@@ -6,7 +6,7 @@ import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
 /**
- * Monitor pages, sitemaps, and extracted website data for exact or semantic changes. The change.detected webhook payload is documented by the MonitorsChangeDetectedWebhookPayload schema.
+ * Monitor pages, sitemaps, and extracted website data for exact or semantic changes. Webhook payloads are documented by the MonitorsChangeDetectedWebhookPayload and MonitorsRunCompletedWebhookPayload schemas.
  */
 export class Monitors extends APIResource {
   /**
@@ -485,9 +485,17 @@ export namespace MonitorCreateResponse {
 
   export interface Webhook {
     /**
-     * Webhook URL called when a change is detected.
+     * Webhook URL events are delivered to.
      */
     url: string;
+
+    /**
+     * Events delivered to this endpoint. `change.detected` fires only when a run
+     * detects a change; `run.completed` fires on every completed run — including runs
+     * that detected no change — and embeds the change when one was detected. Defaults
+     * to `["change.detected"]` when omitted.
+     */
+    events?: Array<'change.detected' | 'run.completed'>;
 
     /**
      * Signing secret used to verify webhook authenticity. Each delivery includes an
@@ -817,9 +825,17 @@ export namespace MonitorRetrieveResponse {
 
   export interface Webhook {
     /**
-     * Webhook URL called when a change is detected.
+     * Webhook URL events are delivered to.
      */
     url: string;
+
+    /**
+     * Events delivered to this endpoint. `change.detected` fires only when a run
+     * detects a change; `run.completed` fires on every completed run — including runs
+     * that detected no change — and embeds the change when one was detected. Defaults
+     * to `["change.detected"]` when omitted.
+     */
+    events?: Array<'change.detected' | 'run.completed'>;
 
     /**
      * Signing secret used to verify webhook authenticity. Each delivery includes an
@@ -1149,9 +1165,17 @@ export namespace MonitorUpdateResponse {
 
   export interface Webhook {
     /**
-     * Webhook URL called when a change is detected.
+     * Webhook URL events are delivered to.
      */
     url: string;
+
+    /**
+     * Events delivered to this endpoint. `change.detected` fires only when a run
+     * detects a change; `run.completed` fires on every completed run — including runs
+     * that detected no change — and embeds the change when one was detected. Defaults
+     * to `["change.detected"]` when omitted.
+     */
+    events?: Array<'change.detected' | 'run.completed'>;
 
     /**
      * Signing secret used to verify webhook authenticity. Each delivery includes an
@@ -1481,9 +1505,17 @@ export namespace MonitorListResponse {
 
     export interface Webhook {
       /**
-       * Webhook URL called when a change is detected.
+       * Webhook URL events are delivered to.
        */
       url: string;
+
+      /**
+       * Events delivered to this endpoint. `change.detected` fires only when a run
+       * detects a change; `run.completed` fires on every completed run — including runs
+       * that detected no change — and embeds the change when one was detected. Defaults
+       * to `["change.detected"]` when omitted.
+       */
+      events?: Array<'change.detected' | 'run.completed'>;
 
       /**
        * Signing secret used to verify webhook authenticity. Each delivery includes an
@@ -1641,9 +1673,16 @@ export namespace MonitorListAccountRunsResponse {
     started_at?: string | null;
 
     /**
-     * The webhook delivery attempted for a change detected by this run. Omitted when
-     * no webhook was attempted, including historical runs created before delivery
-     * tracking was added.
+     * All webhook deliveries attempted by this run — one per subscribed event that
+     * fired. Omitted when no webhook was attempted, including runs created before
+     * event selection was added.
+     */
+    webhook_deliveries?: Array<Data.WebhookDelivery>;
+
+    /**
+     * @deprecated Deprecated: use `webhook_deliveries`, which records every attempt
+     * now that a run can deliver multiple events. Omitted when no webhook was
+     * attempted, including historical runs created before delivery tracking was added.
      */
     webhook_delivery?: Data.WebhookDelivery;
   }
@@ -1655,15 +1694,59 @@ export namespace MonitorListAccountRunsResponse {
       message: string;
     }
 
+    export interface WebhookDelivery {
+      attempted_at: string;
+
+      error: WebhookDelivery.Error | null;
+
+      /**
+       * The event this delivery carried. Deliveries recorded before event selection
+       * existed report change.detected.
+       */
+      event: 'change.detected' | 'run.completed';
+
+      /**
+       * Identifier sent in the X-Context-Id header.
+       */
+      event_id: string;
+
+      /**
+       * The endpoint's final HTTP response status, or null when no response was
+       * received.
+       */
+      http_status: number | null;
+
+      /**
+       * Delivery outcome. delivered means any 2xx response; rejected means a non-2xx
+       * response; failed means no HTTP response was received; skipped_unsafe_url means
+       * the URL failed the public-endpoint safety check.
+       */
+      status: 'delivered' | 'rejected' | 'failed' | 'skipped_unsafe_url';
+    }
+
+    export namespace WebhookDelivery {
+      export interface Error {
+        code: string;
+
+        message: string;
+      }
+    }
+
     /**
-     * The webhook delivery attempted for a change detected by this run. Omitted when
-     * no webhook was attempted, including historical runs created before delivery
-     * tracking was added.
+     * @deprecated Deprecated: use `webhook_deliveries`, which records every attempt
+     * now that a run can deliver multiple events. Omitted when no webhook was
+     * attempted, including historical runs created before delivery tracking was added.
      */
     export interface WebhookDelivery {
       attempted_at: string;
 
       error: WebhookDelivery.Error | null;
+
+      /**
+       * The event this delivery carried. Deliveries recorded before event selection
+       * existed report change.detected.
+       */
+      event: 'change.detected' | 'run.completed';
 
       /**
        * Identifier sent in the X-Context-Id header.
@@ -1806,9 +1889,16 @@ export namespace MonitorListRunsResponse {
     started_at?: string | null;
 
     /**
-     * The webhook delivery attempted for a change detected by this run. Omitted when
-     * no webhook was attempted, including historical runs created before delivery
-     * tracking was added.
+     * All webhook deliveries attempted by this run — one per subscribed event that
+     * fired. Omitted when no webhook was attempted, including runs created before
+     * event selection was added.
+     */
+    webhook_deliveries?: Array<Data.WebhookDelivery>;
+
+    /**
+     * @deprecated Deprecated: use `webhook_deliveries`, which records every attempt
+     * now that a run can deliver multiple events. Omitted when no webhook was
+     * attempted, including historical runs created before delivery tracking was added.
      */
     webhook_delivery?: Data.WebhookDelivery;
   }
@@ -1820,15 +1910,59 @@ export namespace MonitorListRunsResponse {
       message: string;
     }
 
+    export interface WebhookDelivery {
+      attempted_at: string;
+
+      error: WebhookDelivery.Error | null;
+
+      /**
+       * The event this delivery carried. Deliveries recorded before event selection
+       * existed report change.detected.
+       */
+      event: 'change.detected' | 'run.completed';
+
+      /**
+       * Identifier sent in the X-Context-Id header.
+       */
+      event_id: string;
+
+      /**
+       * The endpoint's final HTTP response status, or null when no response was
+       * received.
+       */
+      http_status: number | null;
+
+      /**
+       * Delivery outcome. delivered means any 2xx response; rejected means a non-2xx
+       * response; failed means no HTTP response was received; skipped_unsafe_url means
+       * the URL failed the public-endpoint safety check.
+       */
+      status: 'delivered' | 'rejected' | 'failed' | 'skipped_unsafe_url';
+    }
+
+    export namespace WebhookDelivery {
+      export interface Error {
+        code: string;
+
+        message: string;
+      }
+    }
+
     /**
-     * The webhook delivery attempted for a change detected by this run. Omitted when
-     * no webhook was attempted, including historical runs created before delivery
-     * tracking was added.
+     * @deprecated Deprecated: use `webhook_deliveries`, which records every attempt
+     * now that a run can deliver multiple events. Omitted when no webhook was
+     * attempted, including historical runs created before delivery tracking was added.
      */
     export interface WebhookDelivery {
       attempted_at: string;
 
       error: WebhookDelivery.Error | null;
+
+      /**
+       * The event this delivery carried. Deliveries recorded before event selection
+       * existed report change.detected.
+       */
+      event: 'change.detected' | 'run.completed';
 
       /**
        * Identifier sent in the X-Context-Id header.
@@ -2137,9 +2271,17 @@ export namespace MonitorCreateParams {
 
   export interface Webhook {
     /**
-     * Webhook URL called when a change is detected.
+     * Webhook URL events are delivered to.
      */
     url: string;
+
+    /**
+     * Events delivered to this endpoint. `change.detected` fires only when a run
+     * detects a change; `run.completed` fires on every completed run — including runs
+     * that detected no change — and embeds the change when one was detected. Defaults
+     * to `["change.detected"]` when omitted.
+     */
+    events?: Array<'change.detected' | 'run.completed'>;
   }
 }
 
@@ -2315,9 +2457,17 @@ export namespace MonitorUpdateParams {
    */
   export interface Webhook {
     /**
-     * Webhook URL called when a change is detected.
+     * Webhook URL events are delivered to.
      */
     url: string;
+
+    /**
+     * Events delivered to this endpoint. `change.detected` fires only when a run
+     * detects a change; `run.completed` fires on every completed run — including runs
+     * that detected no change — and embeds the change when one was detected. Defaults
+     * to `["change.detected"]` when omitted.
+     */
+    events?: Array<'change.detected' | 'run.completed'>;
   }
 }
 

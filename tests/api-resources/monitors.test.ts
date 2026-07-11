@@ -46,7 +46,7 @@ describe('resource monitors', () => {
       },
       mode: 'web',
       tags: ['pricing', 'competitor'],
-      webhook: { url: 'https://example.com/webhook' },
+      webhook: { url: 'https://example.com/webhook', events: ['change.detected', 'run.completed'] },
     });
   });
 
