@@ -276,6 +276,13 @@ export interface MonitorCreateResponse {
   tags?: Array<string>;
 
   webhook?: MonitorCreateResponse.Webhook | null;
+
+  /**
+   * Present while webhook deliveries are failing consecutively; null when deliveries
+   * are healthy or no webhook is configured. Cleared on the next successful delivery
+   * and when the webhook URL changes.
+   */
+  webhook_failure?: MonitorCreateResponse.WebhookFailure | null;
 }
 
 export namespace MonitorCreateResponse {
@@ -491,6 +498,32 @@ export namespace MonitorCreateResponse {
      */
     secret?: string;
   }
+
+  /**
+   * Present while webhook deliveries are failing consecutively; null when deliveries
+   * are healthy or no webhook is configured. Cleared on the next successful delivery
+   * and when the webhook URL changes.
+   */
+  export interface WebhookFailure {
+    /**
+     * Number of consecutive delivery attempts that did not succeed.
+     */
+    consecutive_failures: number;
+
+    last_failed_at: string;
+
+    /**
+     * Human-readable description of the most recent failure.
+     */
+    last_message: string;
+
+    /**
+     * Outcome of the most recent failed delivery. rejected means a non-2xx response;
+     * failed means no HTTP response was received; skipped_unsafe_url means the URL
+     * failed the public-endpoint safety check.
+     */
+    last_status: 'rejected' | 'failed' | 'skipped_unsafe_url';
+  }
 }
 
 /**
@@ -575,6 +608,13 @@ export interface MonitorRetrieveResponse {
   tags?: Array<string>;
 
   webhook?: MonitorRetrieveResponse.Webhook | null;
+
+  /**
+   * Present while webhook deliveries are failing consecutively; null when deliveries
+   * are healthy or no webhook is configured. Cleared on the next successful delivery
+   * and when the webhook URL changes.
+   */
+  webhook_failure?: MonitorRetrieveResponse.WebhookFailure | null;
 }
 
 export namespace MonitorRetrieveResponse {
@@ -790,6 +830,32 @@ export namespace MonitorRetrieveResponse {
      */
     secret?: string;
   }
+
+  /**
+   * Present while webhook deliveries are failing consecutively; null when deliveries
+   * are healthy or no webhook is configured. Cleared on the next successful delivery
+   * and when the webhook URL changes.
+   */
+  export interface WebhookFailure {
+    /**
+     * Number of consecutive delivery attempts that did not succeed.
+     */
+    consecutive_failures: number;
+
+    last_failed_at: string;
+
+    /**
+     * Human-readable description of the most recent failure.
+     */
+    last_message: string;
+
+    /**
+     * Outcome of the most recent failed delivery. rejected means a non-2xx response;
+     * failed means no HTTP response was received; skipped_unsafe_url means the URL
+     * failed the public-endpoint safety check.
+     */
+    last_status: 'rejected' | 'failed' | 'skipped_unsafe_url';
+  }
 }
 
 /**
@@ -874,6 +940,13 @@ export interface MonitorUpdateResponse {
   tags?: Array<string>;
 
   webhook?: MonitorUpdateResponse.Webhook | null;
+
+  /**
+   * Present while webhook deliveries are failing consecutively; null when deliveries
+   * are healthy or no webhook is configured. Cleared on the next successful delivery
+   * and when the webhook URL changes.
+   */
+  webhook_failure?: MonitorUpdateResponse.WebhookFailure | null;
 }
 
 export namespace MonitorUpdateResponse {
@@ -1089,6 +1162,32 @@ export namespace MonitorUpdateResponse {
      */
     secret?: string;
   }
+
+  /**
+   * Present while webhook deliveries are failing consecutively; null when deliveries
+   * are healthy or no webhook is configured. Cleared on the next successful delivery
+   * and when the webhook URL changes.
+   */
+  export interface WebhookFailure {
+    /**
+     * Number of consecutive delivery attempts that did not succeed.
+     */
+    consecutive_failures: number;
+
+    last_failed_at: string;
+
+    /**
+     * Human-readable description of the most recent failure.
+     */
+    last_message: string;
+
+    /**
+     * Outcome of the most recent failed delivery. rejected means a non-2xx response;
+     * failed means no HTTP response was received; skipped_unsafe_url means the URL
+     * failed the public-endpoint safety check.
+     */
+    last_status: 'rejected' | 'failed' | 'skipped_unsafe_url';
+  }
 }
 
 export interface MonitorListResponse {
@@ -1173,6 +1272,13 @@ export namespace MonitorListResponse {
     tags?: Array<string>;
 
     webhook?: Data.Webhook | null;
+
+    /**
+     * Present while webhook deliveries are failing consecutively; null when deliveries
+     * are healthy or no webhook is configured. Cleared on the next successful delivery
+     * and when the webhook URL changes.
+     */
+    webhook_failure?: Data.WebhookFailure | null;
   }
 
   export namespace Data {
@@ -1387,6 +1493,32 @@ export namespace MonitorListResponse {
        * cannot be set by clients.
        */
       secret?: string;
+    }
+
+    /**
+     * Present while webhook deliveries are failing consecutively; null when deliveries
+     * are healthy or no webhook is configured. Cleared on the next successful delivery
+     * and when the webhook URL changes.
+     */
+    export interface WebhookFailure {
+      /**
+       * Number of consecutive delivery attempts that did not succeed.
+       */
+      consecutive_failures: number;
+
+      last_failed_at: string;
+
+      /**
+       * Human-readable description of the most recent failure.
+       */
+      last_message: string;
+
+      /**
+       * Outcome of the most recent failed delivery. rejected means a non-2xx response;
+       * failed means no HTTP response was received; skipped_unsafe_url means the URL
+       * failed the public-endpoint safety check.
+       */
+      last_status: 'rejected' | 'failed' | 'skipped_unsafe_url';
     }
   }
 }
