@@ -58,6 +58,7 @@ import {
   MonitorUpdateParams,
   MonitorUpdateResponse,
   Monitors,
+  WebhookDelivery,
 } from './resources/monitors';
 import { Utility, UtilityPrefetchParams, UtilityPrefetchResponse } from './resources/utility';
 import {
@@ -881,6 +882,7 @@ export declare namespace ContextDev {
 
   export {
     Monitors as Monitors,
+    type WebhookDelivery as WebhookDelivery,
     type MonitorCreateResponse as MonitorCreateResponse,
     type MonitorRetrieveResponse as MonitorRetrieveResponse,
     type MonitorUpdateResponse as MonitorUpdateResponse,
