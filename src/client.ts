@@ -60,6 +60,7 @@ import {
   Monitors,
   WebhookDelivery,
 } from './resources/monitors';
+import { Parse, ParseHandleParams, ParseHandleResponse } from './resources/parse';
 import { Utility, UtilityPrefetchParams, UtilityPrefetchResponse } from './resources/utility';
 import {
   Web,
@@ -803,6 +804,7 @@ export class ContextDev {
 
   static toFile = Uploads.toFile;
 
+  parse: API.Parse = new API.Parse(this);
   web: API.Web = new API.Web(this);
   ai: API.AI = new API.AI(this);
   brand: API.Brand = new API.Brand(this);
@@ -814,6 +816,7 @@ export class ContextDev {
   monitors: API.Monitors = new API.Monitors(this);
 }
 
+ContextDev.Parse = Parse;
 ContextDev.Web = Web;
 ContextDev.AI = AI;
 ContextDev.Brand = Brand;
@@ -823,6 +826,12 @@ ContextDev.Monitors = Monitors;
 
 export declare namespace ContextDev {
   export type RequestOptions = Opts.RequestOptions;
+
+  export {
+    Parse as Parse,
+    type ParseHandleResponse as ParseHandleResponse,
+    type ParseHandleParams as ParseHandleParams,
+  };
 
   export {
     Web as Web,
