@@ -1,12 +1,13 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
+import * as MonitorsAPI from './monitors';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
 /**
- * Monitor pages, sitemaps, and extracted website data for exact or semantic changes. The change.detected webhook payload is documented by the MonitorsChangeDetectedWebhookPayload schema.
+ * Monitor pages, sitemaps, and extracted website data for exact or semantic changes. Webhook payloads are documented by the MonitorsChangeDetectedWebhookPayload and MonitorsRunCompletedWebhookPayload schemas.
  */
 export class Monitors extends APIResource {
   /**
@@ -194,6 +195,44 @@ export class Monitors extends APIResource {
   }
 }
 
+export interface WebhookDelivery {
+  attempted_at: string;
+
+  error: WebhookDelivery.Error | null;
+
+  /**
+   * The event this delivery carried. Deliveries recorded before event selection
+   * existed report change.detected.
+   */
+  event: 'change.detected' | 'run.completed';
+
+  /**
+   * Identifier sent in the X-Context-Id header.
+   */
+  event_id: string;
+
+  /**
+   * The endpoint's final HTTP response status, or null when no response was
+   * received.
+   */
+  http_status: number | null;
+
+  /**
+   * Delivery outcome. delivered means any 2xx response; rejected means a non-2xx
+   * response; failed means no HTTP response was received; skipped_unsafe_url means
+   * the URL failed the public-endpoint safety check.
+   */
+  status: 'delivered' | 'rejected' | 'failed' | 'skipped_unsafe_url';
+}
+
+export namespace WebhookDelivery {
+  export interface Error {
+    code: string;
+
+    message: string;
+  }
+}
+
 /**
  * A web monitor. `mode` is the constant `web`; behavior is described by `target`
  * (page/sitemap/extract) and `change_detection` (exact/semantic).
@@ -276,6 +315,13 @@ export interface MonitorCreateResponse {
   tags?: Array<string>;
 
   webhook?: MonitorCreateResponse.Webhook | null;
+
+  /**
+   * Present while webhook deliveries are failing consecutively; null when deliveries
+   * are healthy or no webhook is configured. Cleared on the next successful delivery
+   * and when the webhook URL changes.
+   */
+  webhook_failure?: MonitorCreateResponse.WebhookFailure | null;
 }
 
 export namespace MonitorCreateResponse {
@@ -478,9 +524,17 @@ export namespace MonitorCreateResponse {
 
   export interface Webhook {
     /**
-     * Webhook URL called when a change is detected.
+     * Webhook URL events are delivered to.
      */
     url: string;
+
+    /**
+     * Events delivered to this endpoint. `change.detected` fires only when a run
+     * detects a change; `run.completed` fires on every completed run — including runs
+     * that detected no change — and embeds the change when one was detected. Defaults
+     * to `["change.detected"]` when omitted.
+     */
+    events?: Array<'change.detected' | 'run.completed'>;
 
     /**
      * Signing secret used to verify webhook authenticity. Each delivery includes an
@@ -490,6 +544,32 @@ export namespace MonitorCreateResponse {
      * cannot be set by clients.
      */
     secret?: string;
+  }
+
+  /**
+   * Present while webhook deliveries are failing consecutively; null when deliveries
+   * are healthy or no webhook is configured. Cleared on the next successful delivery
+   * and when the webhook URL changes.
+   */
+  export interface WebhookFailure {
+    /**
+     * Number of consecutive delivery attempts that did not succeed.
+     */
+    consecutive_failures: number;
+
+    last_failed_at: string;
+
+    /**
+     * Human-readable description of the most recent failure.
+     */
+    last_message: string;
+
+    /**
+     * Outcome of the most recent failed delivery. rejected means a non-2xx response;
+     * failed means no HTTP response was received; skipped_unsafe_url means the URL
+     * failed the public-endpoint safety check.
+     */
+    last_status: 'rejected' | 'failed' | 'skipped_unsafe_url';
   }
 }
 
@@ -575,6 +655,13 @@ export interface MonitorRetrieveResponse {
   tags?: Array<string>;
 
   webhook?: MonitorRetrieveResponse.Webhook | null;
+
+  /**
+   * Present while webhook deliveries are failing consecutively; null when deliveries
+   * are healthy or no webhook is configured. Cleared on the next successful delivery
+   * and when the webhook URL changes.
+   */
+  webhook_failure?: MonitorRetrieveResponse.WebhookFailure | null;
 }
 
 export namespace MonitorRetrieveResponse {
@@ -777,9 +864,17 @@ export namespace MonitorRetrieveResponse {
 
   export interface Webhook {
     /**
-     * Webhook URL called when a change is detected.
+     * Webhook URL events are delivered to.
      */
     url: string;
+
+    /**
+     * Events delivered to this endpoint. `change.detected` fires only when a run
+     * detects a change; `run.completed` fires on every completed run — including runs
+     * that detected no change — and embeds the change when one was detected. Defaults
+     * to `["change.detected"]` when omitted.
+     */
+    events?: Array<'change.detected' | 'run.completed'>;
 
     /**
      * Signing secret used to verify webhook authenticity. Each delivery includes an
@@ -789,6 +884,32 @@ export namespace MonitorRetrieveResponse {
      * cannot be set by clients.
      */
     secret?: string;
+  }
+
+  /**
+   * Present while webhook deliveries are failing consecutively; null when deliveries
+   * are healthy or no webhook is configured. Cleared on the next successful delivery
+   * and when the webhook URL changes.
+   */
+  export interface WebhookFailure {
+    /**
+     * Number of consecutive delivery attempts that did not succeed.
+     */
+    consecutive_failures: number;
+
+    last_failed_at: string;
+
+    /**
+     * Human-readable description of the most recent failure.
+     */
+    last_message: string;
+
+    /**
+     * Outcome of the most recent failed delivery. rejected means a non-2xx response;
+     * failed means no HTTP response was received; skipped_unsafe_url means the URL
+     * failed the public-endpoint safety check.
+     */
+    last_status: 'rejected' | 'failed' | 'skipped_unsafe_url';
   }
 }
 
@@ -874,6 +995,13 @@ export interface MonitorUpdateResponse {
   tags?: Array<string>;
 
   webhook?: MonitorUpdateResponse.Webhook | null;
+
+  /**
+   * Present while webhook deliveries are failing consecutively; null when deliveries
+   * are healthy or no webhook is configured. Cleared on the next successful delivery
+   * and when the webhook URL changes.
+   */
+  webhook_failure?: MonitorUpdateResponse.WebhookFailure | null;
 }
 
 export namespace MonitorUpdateResponse {
@@ -1076,9 +1204,17 @@ export namespace MonitorUpdateResponse {
 
   export interface Webhook {
     /**
-     * Webhook URL called when a change is detected.
+     * Webhook URL events are delivered to.
      */
     url: string;
+
+    /**
+     * Events delivered to this endpoint. `change.detected` fires only when a run
+     * detects a change; `run.completed` fires on every completed run — including runs
+     * that detected no change — and embeds the change when one was detected. Defaults
+     * to `["change.detected"]` when omitted.
+     */
+    events?: Array<'change.detected' | 'run.completed'>;
 
     /**
      * Signing secret used to verify webhook authenticity. Each delivery includes an
@@ -1088,6 +1224,32 @@ export namespace MonitorUpdateResponse {
      * cannot be set by clients.
      */
     secret?: string;
+  }
+
+  /**
+   * Present while webhook deliveries are failing consecutively; null when deliveries
+   * are healthy or no webhook is configured. Cleared on the next successful delivery
+   * and when the webhook URL changes.
+   */
+  export interface WebhookFailure {
+    /**
+     * Number of consecutive delivery attempts that did not succeed.
+     */
+    consecutive_failures: number;
+
+    last_failed_at: string;
+
+    /**
+     * Human-readable description of the most recent failure.
+     */
+    last_message: string;
+
+    /**
+     * Outcome of the most recent failed delivery. rejected means a non-2xx response;
+     * failed means no HTTP response was received; skipped_unsafe_url means the URL
+     * failed the public-endpoint safety check.
+     */
+    last_status: 'rejected' | 'failed' | 'skipped_unsafe_url';
   }
 }
 
@@ -1173,6 +1335,13 @@ export namespace MonitorListResponse {
     tags?: Array<string>;
 
     webhook?: Data.Webhook | null;
+
+    /**
+     * Present while webhook deliveries are failing consecutively; null when deliveries
+     * are healthy or no webhook is configured. Cleared on the next successful delivery
+     * and when the webhook URL changes.
+     */
+    webhook_failure?: Data.WebhookFailure | null;
   }
 
   export namespace Data {
@@ -1375,9 +1544,17 @@ export namespace MonitorListResponse {
 
     export interface Webhook {
       /**
-       * Webhook URL called when a change is detected.
+       * Webhook URL events are delivered to.
        */
       url: string;
+
+      /**
+       * Events delivered to this endpoint. `change.detected` fires only when a run
+       * detects a change; `run.completed` fires on every completed run — including runs
+       * that detected no change — and embeds the change when one was detected. Defaults
+       * to `["change.detected"]` when omitted.
+       */
+      events?: Array<'change.detected' | 'run.completed'>;
 
       /**
        * Signing secret used to verify webhook authenticity. Each delivery includes an
@@ -1387,6 +1564,32 @@ export namespace MonitorListResponse {
        * cannot be set by clients.
        */
       secret?: string;
+    }
+
+    /**
+     * Present while webhook deliveries are failing consecutively; null when deliveries
+     * are healthy or no webhook is configured. Cleared on the next successful delivery
+     * and when the webhook URL changes.
+     */
+    export interface WebhookFailure {
+      /**
+       * Number of consecutive delivery attempts that did not succeed.
+       */
+      consecutive_failures: number;
+
+      last_failed_at: string;
+
+      /**
+       * Human-readable description of the most recent failure.
+       */
+      last_message: string;
+
+      /**
+       * Outcome of the most recent failed delivery. rejected means a non-2xx response;
+       * failed means no HTTP response was received; skipped_unsafe_url means the URL
+       * failed the public-endpoint safety check.
+       */
+      last_status: 'rejected' | 'failed' | 'skipped_unsafe_url';
     }
   }
 }
@@ -1509,11 +1712,18 @@ export namespace MonitorListAccountRunsResponse {
     started_at?: string | null;
 
     /**
-     * The webhook delivery attempted for a change detected by this run. Omitted when
-     * no webhook was attempted, including historical runs created before delivery
-     * tracking was added.
+     * All webhook deliveries attempted by this run — one per subscribed event that
+     * fired. Omitted when no webhook was attempted, including runs created before
+     * event selection was added.
      */
-    webhook_delivery?: Data.WebhookDelivery;
+    webhook_deliveries?: Array<MonitorsAPI.WebhookDelivery>;
+
+    /**
+     * @deprecated Deprecated: use `webhook_deliveries`, which records every attempt
+     * now that a run can deliver multiple events. Omitted when no webhook was
+     * attempted, including historical runs created before delivery tracking was added.
+     */
+    webhook_delivery?: MonitorsAPI.WebhookDelivery;
   }
 
   export namespace Data {
@@ -1521,43 +1731,6 @@ export namespace MonitorListAccountRunsResponse {
       code: string;
 
       message: string;
-    }
-
-    /**
-     * The webhook delivery attempted for a change detected by this run. Omitted when
-     * no webhook was attempted, including historical runs created before delivery
-     * tracking was added.
-     */
-    export interface WebhookDelivery {
-      attempted_at: string;
-
-      error: WebhookDelivery.Error | null;
-
-      /**
-       * Identifier sent in the X-Context-Id header.
-       */
-      event_id: string;
-
-      /**
-       * The endpoint's final HTTP response status, or null when no response was
-       * received.
-       */
-      http_status: number | null;
-
-      /**
-       * Delivery outcome. delivered means any 2xx response; rejected means a non-2xx
-       * response; failed means no HTTP response was received; skipped_unsafe_url means
-       * the URL failed the public-endpoint safety check.
-       */
-      status: 'delivered' | 'rejected' | 'failed' | 'skipped_unsafe_url';
-    }
-
-    export namespace WebhookDelivery {
-      export interface Error {
-        code: string;
-
-        message: string;
-      }
     }
   }
 }
@@ -1674,11 +1847,18 @@ export namespace MonitorListRunsResponse {
     started_at?: string | null;
 
     /**
-     * The webhook delivery attempted for a change detected by this run. Omitted when
-     * no webhook was attempted, including historical runs created before delivery
-     * tracking was added.
+     * All webhook deliveries attempted by this run — one per subscribed event that
+     * fired. Omitted when no webhook was attempted, including runs created before
+     * event selection was added.
      */
-    webhook_delivery?: Data.WebhookDelivery;
+    webhook_deliveries?: Array<MonitorsAPI.WebhookDelivery>;
+
+    /**
+     * @deprecated Deprecated: use `webhook_deliveries`, which records every attempt
+     * now that a run can deliver multiple events. Omitted when no webhook was
+     * attempted, including historical runs created before delivery tracking was added.
+     */
+    webhook_delivery?: MonitorsAPI.WebhookDelivery;
   }
 
   export namespace Data {
@@ -1686,43 +1866,6 @@ export namespace MonitorListRunsResponse {
       code: string;
 
       message: string;
-    }
-
-    /**
-     * The webhook delivery attempted for a change detected by this run. Omitted when
-     * no webhook was attempted, including historical runs created before delivery
-     * tracking was added.
-     */
-    export interface WebhookDelivery {
-      attempted_at: string;
-
-      error: WebhookDelivery.Error | null;
-
-      /**
-       * Identifier sent in the X-Context-Id header.
-       */
-      event_id: string;
-
-      /**
-       * The endpoint's final HTTP response status, or null when no response was
-       * received.
-       */
-      http_status: number | null;
-
-      /**
-       * Delivery outcome. delivered means any 2xx response; rejected means a non-2xx
-       * response; failed means no HTTP response was received; skipped_unsafe_url means
-       * the URL failed the public-endpoint safety check.
-       */
-      status: 'delivered' | 'rejected' | 'failed' | 'skipped_unsafe_url';
-    }
-
-    export namespace WebhookDelivery {
-      export interface Error {
-        code: string;
-
-        message: string;
-      }
     }
   }
 }
@@ -1732,7 +1875,7 @@ export namespace MonitorListRunsResponse {
  * `change_detection_type` describe the change, and which optional fields are
  * present depends on them (page: `diff` + excerpts; sitemap:
  * `added_urls`/`removed_urls`; semantic:
- * `query`/`confidence`/`importance`/`evidence`/`matched_urls`).
+ * `confidence`/`importance`/`evidence`/`matched_urls`).
  */
 export interface MonitorRetrieveChangeResponse {
   id: string;
@@ -1755,6 +1898,11 @@ export interface MonitorRetrieveChangeResponse {
   run_id: string;
 
   summary: string;
+
+  /**
+   * User-defined tags for grouping and filtering monitors and their changes.
+   */
+  tags: Array<string>;
 
   target_type: 'page' | 'sitemap' | 'extract';
 
@@ -1797,11 +1945,6 @@ export interface MonitorRetrieveChangeResponse {
    * At most 500 URLs are included; the corresponding count field is always exact.
    */
   removed_urls?: Array<string>;
-
-  /**
-   * User-defined tags for grouping and filtering monitors and their changes.
-   */
-  tags?: Array<string>;
 }
 
 export namespace MonitorRetrieveChangeResponse {
@@ -2005,9 +2148,17 @@ export namespace MonitorCreateParams {
 
   export interface Webhook {
     /**
-     * Webhook URL called when a change is detected.
+     * Webhook URL events are delivered to.
      */
     url: string;
+
+    /**
+     * Events delivered to this endpoint. `change.detected` fires only when a run
+     * detects a change; `run.completed` fires on every completed run — including runs
+     * that detected no change — and embeds the change when one was detected. Defaults
+     * to `["change.detected"]` when omitted.
+     */
+    events?: Array<'change.detected' | 'run.completed'>;
   }
 }
 
@@ -2183,9 +2334,17 @@ export namespace MonitorUpdateParams {
    */
   export interface Webhook {
     /**
-     * Webhook URL called when a change is detected.
+     * Webhook URL events are delivered to.
      */
     url: string;
+
+    /**
+     * Events delivered to this endpoint. `change.detected` fires only when a run
+     * detects a change; `run.completed` fires on every completed run — including runs
+     * that detected no change — and embeds the change when one was detected. Defaults
+     * to `["change.detected"]` when omitted.
+     */
+    events?: Array<'change.detected' | 'run.completed'>;
   }
 }
 
@@ -2297,6 +2456,7 @@ export interface MonitorListRunsParams {
 
 export declare namespace Monitors {
   export {
+    type WebhookDelivery as WebhookDelivery,
     type MonitorCreateResponse as MonitorCreateResponse,
     type MonitorRetrieveResponse as MonitorRetrieveResponse,
     type MonitorUpdateResponse as MonitorUpdateResponse,

@@ -11,6 +11,12 @@ export type SdkMethod = {
 
 export const sdkMethods: SdkMethod[] = [
   {
+    clientCallName: 'client.parse.handle',
+    fullyQualifiedName: 'parse.handle',
+    httpMethod: 'post',
+    httpPath: '/parse',
+  },
+  {
     clientCallName: 'client.web.extract',
     fullyQualifiedName: 'web.extract',
     httpMethod: 'post',

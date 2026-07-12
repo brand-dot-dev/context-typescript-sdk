@@ -1,3 +1,13 @@
+# Parse
+
+Types:
+
+- <code><a href="./src/resources/parse.ts">ParseHandleResponse</a></code>
+
+Methods:
+
+- <code title="post /parse">client.parse.<a href="./src/resources/parse.ts">handle</a>(body, { ...params }) -> ParseHandleResponse</code>
+
 # Web
 
 Types:
@@ -78,6 +88,7 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/monitors.ts">WebhookDelivery</a></code>
 - <code><a href="./src/resources/monitors.ts">MonitorCreateResponse</a></code>
 - <code><a href="./src/resources/monitors.ts">MonitorRetrieveResponse</a></code>
 - <code><a href="./src/resources/monitors.ts">MonitorUpdateResponse</a></code>

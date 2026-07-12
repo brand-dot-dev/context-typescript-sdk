@@ -23,6 +23,7 @@ export {
 } from './industry';
 export {
   Monitors,
+  type WebhookDelivery,
   type MonitorCreateResponse,
   type MonitorRetrieveResponse,
   type MonitorUpdateResponse,
@@ -42,6 +43,7 @@ export {
   type MonitorListChangesParams,
   type MonitorListRunsParams,
 } from './monitors';
+export { Parse, type ParseHandleResponse, type ParseHandleParams } from './parse';
 export { Utility, type UtilityPrefetchResponse, type UtilityPrefetchParams } from './utility';
 export {
   Web,

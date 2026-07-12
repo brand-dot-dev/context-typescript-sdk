@@ -58,7 +58,9 @@ import {
   MonitorUpdateParams,
   MonitorUpdateResponse,
   Monitors,
+  WebhookDelivery,
 } from './resources/monitors';
+import { Parse, ParseHandleParams, ParseHandleResponse } from './resources/parse';
 import { Utility, UtilityPrefetchParams, UtilityPrefetchResponse } from './resources/utility';
 import {
   Web,
@@ -802,17 +804,19 @@ export class ContextDev {
 
   static toFile = Uploads.toFile;
 
+  parse: API.Parse = new API.Parse(this);
   web: API.Web = new API.Web(this);
   ai: API.AI = new API.AI(this);
   brand: API.Brand = new API.Brand(this);
   industry: API.Industry = new API.Industry(this);
   utility: API.Utility = new API.Utility(this);
   /**
-   * Monitor pages, sitemaps, and extracted website data for exact or semantic changes. The change.detected webhook payload is documented by the MonitorsChangeDetectedWebhookPayload schema.
+   * Monitor pages, sitemaps, and extracted website data for exact or semantic changes. Webhook payloads are documented by the MonitorsChangeDetectedWebhookPayload and MonitorsRunCompletedWebhookPayload schemas.
    */
   monitors: API.Monitors = new API.Monitors(this);
 }
 
+ContextDev.Parse = Parse;
 ContextDev.Web = Web;
 ContextDev.AI = AI;
 ContextDev.Brand = Brand;
@@ -822,6 +826,12 @@ ContextDev.Monitors = Monitors;
 
 export declare namespace ContextDev {
   export type RequestOptions = Opts.RequestOptions;
+
+  export {
+    Parse as Parse,
+    type ParseHandleResponse as ParseHandleResponse,
+    type ParseHandleParams as ParseHandleParams,
+  };
 
   export {
     Web as Web,
@@ -881,6 +891,7 @@ export declare namespace ContextDev {
 
   export {
     Monitors as Monitors,
+    type WebhookDelivery as WebhookDelivery,
     type MonitorCreateResponse as MonitorCreateResponse,
     type MonitorRetrieveResponse as MonitorRetrieveResponse,
     type MonitorUpdateResponse as MonitorUpdateResponse,
