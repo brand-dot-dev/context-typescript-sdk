@@ -9,39 +9,20 @@ import { RequestOptions } from '../internal/request-options';
 export class Parse extends APIResource {
   /**
    * Converts raw text, source code, web/data, PDF, Microsoft Office, and image bytes
-   * into LLM-usable Markdown.
+   * into LLM-usable Markdown. The base request costs 1 credit. When OCR runs
+   * (requires ocr=true), the entire call costs 5 credits; ocr=true requests where no
+   * OCR ends up running still cost 1 credit.
    */
   handle(
     body: Uploadable,
     params: ParseHandleParams,
     options?: RequestOptions,
   ): APIPromise<ParseHandleResponse> {
-    const {
-      baseUrl,
-      extension,
-      filename,
-      includeImages,
-      includeLinks,
-      ocr,
-      pdfEnd,
-      pdfStart,
-      shortenBase64Images,
-      useMainContentOnly,
-    } = params;
+    const { extension, includeImages, includeLinks, ocr, pdf, shortenBase64Images, useMainContentOnly } =
+      params;
     return this._client.post('/parse', {
       body: body,
-      query: {
-        baseUrl,
-        extension,
-        filename,
-        includeImages,
-        includeLinks,
-        ocr,
-        pdfEnd,
-        pdfStart,
-        shortenBase64Images,
-        useMainContentOnly,
-      },
+      query: { extension, includeImages, includeLinks, ocr, pdf, shortenBase64Images, useMainContentOnly },
       ...options,
       headers: buildHeaders([{ 'Content-Type': 'application/octet-stream' }, options?.headers]),
     });
@@ -132,22 +113,80 @@ export namespace ParseHandleResponse {
 
 export interface ParseHandleParams {
   /**
-   * Query param: Optional HTTP(S) source document URL used to resolve relative links
-   * and image references. Relative references remain relative when omitted.
+   * Query param: Optional file extension hint. Case-insensitive; a leading dot is
+   * accepted (e.g. ".pdf").
    */
-  baseUrl?: string;
-
-  /**
-   * Query param: Optional file extension hint, such as pdf, docx, xlsx, pptx, html,
-   * json, csv, md, py, rtf, jpg, png, or txt.
-   */
-  extension?: string;
-
-  /**
-   * Query param: Optional filename hint used to infer the extension when extension
-   * is omitted.
-   */
-  filename?: string;
+  extension?:
+    | 'txt'
+    | 'text'
+    | 'md'
+    | 'markdown'
+    | 'html'
+    | 'htm'
+    | 'xhtml'
+    | 'xml'
+    | 'rss'
+    | 'atom'
+    | 'csv'
+    | 'tsv'
+    | 'yaml'
+    | 'yml'
+    | 'py'
+    | 'java'
+    | 'js'
+    | 'jsx'
+    | 'mjs'
+    | 'cjs'
+    | 'json'
+    | 'jsonl'
+    | 'ndjson'
+    | 'php'
+    | 'sh'
+    | 'bash'
+    | 'zsh'
+    | 'fish'
+    | 'rb'
+    | 'ts'
+    | 'tsx'
+    | 'rtf'
+    | 'srt'
+    | 'css'
+    | 'scss'
+    | 'less'
+    | 'styl'
+    | 'sass'
+    | 'svg'
+    | 'pdf'
+    | 'docx'
+    | 'doc'
+    | 'xlsx'
+    | 'xlsm'
+    | 'xlsb'
+    | 'xltx'
+    | 'xltm'
+    | 'xls'
+    | 'pptx'
+    | 'pptm'
+    | 'ppsx'
+    | 'ppsm'
+    | 'potx'
+    | 'potm'
+    | 'ppt'
+    | 'pps'
+    | 'pot'
+    | 'jpg'
+    | 'jpeg'
+    | 'jpe'
+    | 'png'
+    | 'gif'
+    | 'bmp'
+    | 'tiff'
+    | 'tif'
+    | 'webp'
+    | 'ppm'
+    | 'pbm'
+    | 'pgm'
+    | 'pnm';
 
   /**
    * Query param: Include image references in Markdown output
@@ -160,24 +199,21 @@ export interface ParseHandleParams {
   includeLinks?: boolean;
 
   /**
-   * Query param: When true for PDF inputs, detect and OCR images embedded in the
-   * selected pages, inserting recognized text at each image's position in page
-   * reading order while preserving the PDF text layer. pdfStart/pdfEnd limit the
-   * inclusive page range. This is separate from automatic scanned-PDF OCR fallback.
+   * Query param: Gates all OCR. When true, PDFs get embedded-image OCR (recognized
+   * text inserted at each image's position in page reading order, preserving the
+   * text layer; pdf.start/pdf.end limit the page range), scanned PDFs with no text
+   * layer get full-document OCR, and raster images get their visible text
+   * transcribed. When false, no OCR runs: scanned PDFs may yield no content and
+   * images return only format/dimension metadata. Calls where OCR actually runs cost
+   * 5 credits instead of 1.
    */
   ocr?: boolean;
 
   /**
-   * Query param: Last 1-based PDF page to parse. When omitted, parsing ends at the
-   * last page. Must be greater than or equal to pdfStart when both are provided.
+   * Query param: PDF page-range controls. Use start/end to limit parsing (and OCR
+   * when ocr=true) to an inclusive 1-based page range.
    */
-  pdfEnd?: number;
-
-  /**
-   * Query param: First 1-based PDF page to parse. When omitted, parsing starts at
-   * the first page.
-   */
-  pdfStart?: number;
+  pdf?: ParseHandleParams.Pdf;
 
   /**
    * Query param: Shorten base64-encoded image data in the Markdown output
@@ -188,6 +224,25 @@ export interface ParseHandleParams {
    * Query param: Extract only the main content from HTML-like inputs
    */
   useMainContentOnly?: boolean;
+}
+
+export namespace ParseHandleParams {
+  /**
+   * PDF page-range controls. Use start/end to limit parsing (and OCR when ocr=true)
+   * to an inclusive 1-based page range.
+   */
+  export interface Pdf {
+    /**
+     * Last 1-based PDF page to parse. When omitted, parsing ends at the last page.
+     * Must be greater than or equal to start when both are provided.
+     */
+    end?: number;
+
+    /**
+     * First 1-based PDF page to parse. When omitted, parsing starts at the first page.
+     */
+    start?: number;
+  }
 }
 
 export declare namespace Parse {
