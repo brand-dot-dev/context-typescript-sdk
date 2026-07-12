@@ -78,6 +78,7 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/monitors.ts">WebhookDelivery</a></code>
 - <code><a href="./src/resources/monitors.ts">MonitorCreateResponse</a></code>
 - <code><a href="./src/resources/monitors.ts">MonitorRetrieveResponse</a></code>
 - <code><a href="./src/resources/monitors.ts">MonitorUpdateResponse</a></code>

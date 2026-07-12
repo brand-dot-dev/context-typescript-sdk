@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
+import * as MonitorsAPI from './monitors';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
@@ -191,6 +192,44 @@ export class Monitors extends APIResource {
    */
   run(monitorID: string, options?: RequestOptions): APIPromise<MonitorRunResponse> {
     return this._client.post(path`/monitors/${monitorID}/run`, options);
+  }
+}
+
+export interface WebhookDelivery {
+  attempted_at: string;
+
+  error: WebhookDelivery.Error | null;
+
+  /**
+   * The event this delivery carried. Deliveries recorded before event selection
+   * existed report change.detected.
+   */
+  event: 'change.detected' | 'run.completed';
+
+  /**
+   * Identifier sent in the X-Context-Id header.
+   */
+  event_id: string;
+
+  /**
+   * The endpoint's final HTTP response status, or null when no response was
+   * received.
+   */
+  http_status: number | null;
+
+  /**
+   * Delivery outcome. delivered means any 2xx response; rejected means a non-2xx
+   * response; failed means no HTTP response was received; skipped_unsafe_url means
+   * the URL failed the public-endpoint safety check.
+   */
+  status: 'delivered' | 'rejected' | 'failed' | 'skipped_unsafe_url';
+}
+
+export namespace WebhookDelivery {
+  export interface Error {
+    code: string;
+
+    message: string;
   }
 }
 
@@ -1677,14 +1716,14 @@ export namespace MonitorListAccountRunsResponse {
      * fired. Omitted when no webhook was attempted, including runs created before
      * event selection was added.
      */
-    webhook_deliveries?: Array<Data.WebhookDelivery>;
+    webhook_deliveries?: Array<MonitorsAPI.WebhookDelivery>;
 
     /**
      * @deprecated Deprecated: use `webhook_deliveries`, which records every attempt
      * now that a run can deliver multiple events. Omitted when no webhook was
      * attempted, including historical runs created before delivery tracking was added.
      */
-    webhook_delivery?: Data.WebhookDelivery;
+    webhook_delivery?: MonitorsAPI.WebhookDelivery;
   }
 
   export namespace Data {
@@ -1692,87 +1731,6 @@ export namespace MonitorListAccountRunsResponse {
       code: string;
 
       message: string;
-    }
-
-    export interface WebhookDelivery {
-      attempted_at: string;
-
-      error: WebhookDelivery.Error | null;
-
-      /**
-       * The event this delivery carried. Deliveries recorded before event selection
-       * existed report change.detected.
-       */
-      event: 'change.detected' | 'run.completed';
-
-      /**
-       * Identifier sent in the X-Context-Id header.
-       */
-      event_id: string;
-
-      /**
-       * The endpoint's final HTTP response status, or null when no response was
-       * received.
-       */
-      http_status: number | null;
-
-      /**
-       * Delivery outcome. delivered means any 2xx response; rejected means a non-2xx
-       * response; failed means no HTTP response was received; skipped_unsafe_url means
-       * the URL failed the public-endpoint safety check.
-       */
-      status: 'delivered' | 'rejected' | 'failed' | 'skipped_unsafe_url';
-    }
-
-    export namespace WebhookDelivery {
-      export interface Error {
-        code: string;
-
-        message: string;
-      }
-    }
-
-    /**
-     * @deprecated Deprecated: use `webhook_deliveries`, which records every attempt
-     * now that a run can deliver multiple events. Omitted when no webhook was
-     * attempted, including historical runs created before delivery tracking was added.
-     */
-    export interface WebhookDelivery {
-      attempted_at: string;
-
-      error: WebhookDelivery.Error | null;
-
-      /**
-       * The event this delivery carried. Deliveries recorded before event selection
-       * existed report change.detected.
-       */
-      event: 'change.detected' | 'run.completed';
-
-      /**
-       * Identifier sent in the X-Context-Id header.
-       */
-      event_id: string;
-
-      /**
-       * The endpoint's final HTTP response status, or null when no response was
-       * received.
-       */
-      http_status: number | null;
-
-      /**
-       * Delivery outcome. delivered means any 2xx response; rejected means a non-2xx
-       * response; failed means no HTTP response was received; skipped_unsafe_url means
-       * the URL failed the public-endpoint safety check.
-       */
-      status: 'delivered' | 'rejected' | 'failed' | 'skipped_unsafe_url';
-    }
-
-    export namespace WebhookDelivery {
-      export interface Error {
-        code: string;
-
-        message: string;
-      }
     }
   }
 }
@@ -1893,14 +1851,14 @@ export namespace MonitorListRunsResponse {
      * fired. Omitted when no webhook was attempted, including runs created before
      * event selection was added.
      */
-    webhook_deliveries?: Array<Data.WebhookDelivery>;
+    webhook_deliveries?: Array<MonitorsAPI.WebhookDelivery>;
 
     /**
      * @deprecated Deprecated: use `webhook_deliveries`, which records every attempt
      * now that a run can deliver multiple events. Omitted when no webhook was
      * attempted, including historical runs created before delivery tracking was added.
      */
-    webhook_delivery?: Data.WebhookDelivery;
+    webhook_delivery?: MonitorsAPI.WebhookDelivery;
   }
 
   export namespace Data {
@@ -1908,87 +1866,6 @@ export namespace MonitorListRunsResponse {
       code: string;
 
       message: string;
-    }
-
-    export interface WebhookDelivery {
-      attempted_at: string;
-
-      error: WebhookDelivery.Error | null;
-
-      /**
-       * The event this delivery carried. Deliveries recorded before event selection
-       * existed report change.detected.
-       */
-      event: 'change.detected' | 'run.completed';
-
-      /**
-       * Identifier sent in the X-Context-Id header.
-       */
-      event_id: string;
-
-      /**
-       * The endpoint's final HTTP response status, or null when no response was
-       * received.
-       */
-      http_status: number | null;
-
-      /**
-       * Delivery outcome. delivered means any 2xx response; rejected means a non-2xx
-       * response; failed means no HTTP response was received; skipped_unsafe_url means
-       * the URL failed the public-endpoint safety check.
-       */
-      status: 'delivered' | 'rejected' | 'failed' | 'skipped_unsafe_url';
-    }
-
-    export namespace WebhookDelivery {
-      export interface Error {
-        code: string;
-
-        message: string;
-      }
-    }
-
-    /**
-     * @deprecated Deprecated: use `webhook_deliveries`, which records every attempt
-     * now that a run can deliver multiple events. Omitted when no webhook was
-     * attempted, including historical runs created before delivery tracking was added.
-     */
-    export interface WebhookDelivery {
-      attempted_at: string;
-
-      error: WebhookDelivery.Error | null;
-
-      /**
-       * The event this delivery carried. Deliveries recorded before event selection
-       * existed report change.detected.
-       */
-      event: 'change.detected' | 'run.completed';
-
-      /**
-       * Identifier sent in the X-Context-Id header.
-       */
-      event_id: string;
-
-      /**
-       * The endpoint's final HTTP response status, or null when no response was
-       * received.
-       */
-      http_status: number | null;
-
-      /**
-       * Delivery outcome. delivered means any 2xx response; rejected means a non-2xx
-       * response; failed means no HTTP response was received; skipped_unsafe_url means
-       * the URL failed the public-endpoint safety check.
-       */
-      status: 'delivered' | 'rejected' | 'failed' | 'skipped_unsafe_url';
-    }
-
-    export namespace WebhookDelivery {
-      export interface Error {
-        code: string;
-
-        message: string;
-      }
     }
   }
 }
@@ -2579,6 +2456,7 @@ export interface MonitorListRunsParams {
 
 export declare namespace Monitors {
   export {
+    type WebhookDelivery as WebhookDelivery,
     type MonitorCreateResponse as MonitorCreateResponse,
     type MonitorRetrieveResponse as MonitorRetrieveResponse,
     type MonitorUpdateResponse as MonitorUpdateResponse,
