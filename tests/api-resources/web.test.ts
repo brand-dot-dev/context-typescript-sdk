@@ -240,6 +240,7 @@ describe('resource web', () => {
       maxPages: 1,
       pdf: {
         end: 1,
+        ocr: true,
         shouldParse: true,
         start: 1,
       },
@@ -277,6 +278,7 @@ describe('resource web', () => {
       maxAgeMs: 0,
       pdf: {
         end: 1,
+        ocr: true,
         shouldParse: true,
         start: 1,
       },
@@ -343,6 +345,7 @@ describe('resource web', () => {
       maxAgeMs: 0,
       pdf: {
         end: 1,
+        ocr: true,
         shouldParse: true,
         start: 1,
       },
