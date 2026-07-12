@@ -1,5 +1,24 @@
 # Changelog
 
+## 2.4.0 (2026-07-12)
+
+Full Changelog: [v2.3.0...v2.4.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v2.3.0...v2.4.0)
+
+### Features
+
+* **api:** api update ([0071a81](https://github.com/context-dot-dev/context-typescript-sdk/commit/0071a81343629542119340fb7642d3036ad9cccb))
+* **api:** api update ([0933b38](https://github.com/context-dot-dev/context-typescript-sdk/commit/0933b38ae0f4f4563a39a968c8c5263aad5441dd))
+* **api:** api update ([30f64e8](https://github.com/context-dot-dev/context-typescript-sdk/commit/30f64e84cf235030df4aa1940cdb03a50ce348fc))
+* **api:** api update ([5993dbd](https://github.com/context-dot-dev/context-typescript-sdk/commit/5993dbd38e23670f8d4ae34728c9048f447cfe4c))
+* **api:** api update ([14c9c07](https://github.com/context-dot-dev/context-typescript-sdk/commit/14c9c07e4d612b932ed0052aafc6ea5cdf184d47))
+* **api:** api update ([4b1235d](https://github.com/context-dot-dev/context-typescript-sdk/commit/4b1235dcf71cd0098f7c70269fef2adecc04e592))
+* **api:** manual updates ([c42bbd4](https://github.com/context-dot-dev/context-typescript-sdk/commit/c42bbd4912c99c6147af00ba581cef93671f070c))
+
+
+### Bug Fixes
+
+* **ci:** bump @arethetypeswrong/cli to ^0.18.0 and run CI workflows on Node 24 ([c9ede3d](https://github.com/context-dot-dev/context-typescript-sdk/commit/c9ede3d0b82b88788045e1b2d87e2b412ddeb394))
+
 ## 2.3.0 (2026-07-10)
 
 Full Changelog: [v2.2.0...v2.3.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v2.2.0...v2.3.0)
