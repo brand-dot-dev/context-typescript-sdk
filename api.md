@@ -1,3 +1,13 @@
+# Parse
+
+Types:
+
+- <code><a href="./src/resources/parse.ts">ParseHandleResponse</a></code>
+
+Methods:
+
+- <code title="post /parse">client.parse.<a href="./src/resources/parse.ts">handle</a>(body, { ...params }) -> ParseHandleResponse</code>
+
 # Web
 
 Types:

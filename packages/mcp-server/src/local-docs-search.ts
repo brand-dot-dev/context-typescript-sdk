@@ -51,6 +51,68 @@ type SearchResult = {
 
 const EMBEDDED_METHODS: MethodEntry[] = [
   {
+    name: 'handle',
+    endpoint: '/parse',
+    httpMethod: 'post',
+    summary: 'Parse Bytes',
+    description:
+      'Converts raw text, source code, web/data, PDF, Microsoft Office, and image bytes into LLM-usable Markdown.',
+    stainlessPath: '(resource) parse > (method) handle',
+    qualified: 'client.parse.handle',
+    params: [
+      'body: string;',
+      'baseUrl?: string;',
+      'extension?: string;',
+      'filename?: string;',
+      'includeImages?: boolean;',
+      'includeLinks?: boolean;',
+      'ocr?: boolean;',
+      'pdfEnd?: number;',
+      'pdfStart?: number;',
+      'shortenBase64Images?: boolean;',
+      'useMainContentOnly?: boolean;',
+    ],
+    response:
+      '{ markdown: string; success: true; type: string; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }',
+    markdown:
+      "## handle\n\n`client.parse.handle(body: string, baseUrl?: string, extension?: string, filename?: string, includeImages?: boolean, includeLinks?: boolean, ocr?: boolean, pdfEnd?: number, pdfStart?: number, shortenBase64Images?: boolean, useMainContentOnly?: boolean): { markdown: string; success: true; type: string; key_metadata?: object; }`\n\n**post** `/parse`\n\nConverts raw text, source code, web/data, PDF, Microsoft Office, and image bytes into LLM-usable Markdown.\n\n### Parameters\n\n- `body: string`\n\n- `baseUrl?: string`\n  Optional HTTP(S) source document URL used to resolve relative links and image references. Relative references remain relative when omitted.\n\n- `extension?: string`\n  Optional file extension hint, such as pdf, docx, xlsx, pptx, html, json, csv, md, py, rtf, jpg, png, or txt.\n\n- `filename?: string`\n  Optional filename hint used to infer the extension when extension is omitted.\n\n- `includeImages?: boolean`\n  Include image references in Markdown output\n\n- `includeLinks?: boolean`\n  Preserve hyperlinks in Markdown output\n\n- `ocr?: boolean`\n  When true for PDF inputs, detect and OCR images embedded in the selected pages, inserting recognized text at each image's position in page reading order while preserving the PDF text layer. pdfStart/pdfEnd limit the inclusive page range. This is separate from automatic scanned-PDF OCR fallback.\n\n- `pdfEnd?: number`\n  Last 1-based PDF page to parse. When omitted, parsing ends at the last page. Must be greater than or equal to pdfStart when both are provided.\n\n- `pdfStart?: number`\n  First 1-based PDF page to parse. When omitted, parsing starts at the first page.\n\n- `shortenBase64Images?: boolean`\n  Shorten base64-encoded image data in the Markdown output\n\n- `useMainContentOnly?: boolean`\n  Extract only the main content from HTML-like inputs\n\n### Returns\n\n- `{ markdown: string; success: true; type: string; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }`\n\n  - `markdown: string`\n  - `success: true`\n  - `type: string`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.parse.handle(fs.createReadStream('path/to/file'));\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.parse.handle',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.parse.handle(fs.createReadStream('path/to/file'));\n\nconsole.log(response.markdown);",
+      },
+      python: {
+        method: 'parse.handle',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.parse.handle(\n    body=b"Example data",\n)\nprint(response.markdown)',
+      },
+      go: {
+        method: 'client.Parse.Handle',
+        example:
+          'package main\n\nimport (\n\t"bytes"\n\t"context"\n\t"fmt"\n\t"io"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Parse.Handle(\n\t\tcontext.TODO(),\n\t\tio.Reader(bytes.NewBuffer([]byte("Example data"))),\n\t\tcontextdev.ParseHandleParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Markdown)\n}\n',
+      },
+      ruby: {
+        method: 'parse.handle',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.parse.handle(body: StringIO.new("Example data"))\n\nputs(response)',
+      },
+      cli: {
+        method: 'parse handle',
+        example: "context-dev parse handle \\\n  --api-key 'My API Key' \\\n  --body 'Example data'",
+      },
+      php: {
+        method: 'parse->handle',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->parse->handle(\n  FileParam::fromString('Example data', filename: uniqid('file-upload-', true))\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          "curl https://api.context.dev/v1/parse \\\n    -H 'Content-Type: application/octet-stream' \\\n    -H \"Authorization: Bearer $CONTEXT_DEV_API_KEY\" \\\n    -F 'body=@/path/to/body'",
+      },
+    },
+  },
+  {
     name: 'web_scrape_html',
     endpoint: '/web/scrape/html',
     httpMethod: 'get',
