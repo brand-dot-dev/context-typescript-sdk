@@ -18,11 +18,28 @@ export class Parse extends APIResource {
     params: ParseHandleParams,
     options?: RequestOptions,
   ): APIPromise<ParseHandleResponse> {
-    const { extension, includeImages, includeLinks, ocr, pdf, shortenBase64Images, useMainContentOnly } =
-      params;
+    const {
+      extension,
+      includeImages,
+      includeLinks,
+      ocr,
+      pdf,
+      shortenBase64Images,
+      tags,
+      useMainContentOnly,
+    } = params;
     return this._client.post('/parse', {
       body: body,
-      query: { extension, includeImages, includeLinks, ocr, pdf, shortenBase64Images, useMainContentOnly },
+      query: {
+        extension,
+        includeImages,
+        includeLinks,
+        ocr,
+        pdf,
+        shortenBase64Images,
+        tags,
+        useMainContentOnly,
+      },
       ...options,
       headers: buildHeaders([{ 'Content-Type': 'application/octet-stream' }, options?.headers]),
     });
@@ -219,6 +236,13 @@ export interface ParseHandleParams {
    * Query param: Shorten base64-encoded image data in the Markdown output
    */
   shortenBase64Images?: boolean;
+
+  /**
+   * Query param: Optional comma-separated caller-defined tags for tracking this
+   * request. Tags are recorded on the request's usage log and can be used to filter
+   * usage on the dashboard usage page. Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
 
   /**
    * Query param: Extract only the main content from HTML-like inputs

@@ -1979,6 +1979,13 @@ export interface WebExtractParams {
   stopAfterMs?: number;
 
   /**
+   * Optional caller-defined tags for tracking this request. Tags are recorded on the
+   * request's usage log and can be used to filter usage on the dashboard usage page.
+   * Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
+
+  /**
    * Optional timeout in milliseconds for the request. If the request takes longer
    * than this value, it will be aborted with a 408 status code. Maximum allowed
    * value is 300000ms (5 minutes).
@@ -2025,6 +2032,13 @@ export interface WebExtractCompetitorsParams {
   numCompetitors?: number;
 
   /**
+   * Optional comma-separated caller-defined tags for tracking this request. Tags are
+   * recorded on the request's usage log and can be used to filter usage on the
+   * dashboard usage page. Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
+
+  /**
    * Optional timeout in milliseconds for the request. If the request takes longer
    * than this value, it will be aborted with a 408 status code. Maximum allowed
    * value is 300000ms (5 minutes).
@@ -2054,6 +2068,13 @@ export interface WebExtractFontsParams {
    * year.
    */
   maxAgeMs?: number;
+
+  /**
+   * Optional comma-separated caller-defined tags for tracking this request. Tags are
+   * recorded on the request's usage log and can be used to filter usage on the
+   * dashboard usage page. Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
 
   /**
    * Optional timeout in milliseconds for the request. If the request takes longer
@@ -2092,6 +2113,13 @@ export interface WebExtractStyleguideParams {
    * year.
    */
   maxAgeMs?: number;
+
+  /**
+   * Optional comma-separated caller-defined tags for tracking this request. Tags are
+   * recorded on the request's usage log and can be used to filter usage on the
+   * dashboard usage page. Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
 
   /**
    * Optional timeout in milliseconds for the request. If the request takes longer
@@ -2371,6 +2399,13 @@ export interface WebScreenshotParams {
    * precedence over fullScreenshot. Max: 100000.
    */
   scrollOffset?: number;
+
+  /**
+   * Optional comma-separated caller-defined tags for tracking this request. Tags are
+   * recorded on the request's usage log and can be used to filter usage on the
+   * dashboard usage page. Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
 
   /**
    * Optional timeout in milliseconds for the request. If the request takes longer
@@ -2692,6 +2727,13 @@ export interface WebSearchParams {
    * Expand the query into multiple parallel variants for broader recall.
    */
   queryFanout?: boolean;
+
+  /**
+   * Optional caller-defined tags for tracking this request. Tags are recorded on the
+   * request's usage log and can be used to filter usage on the dashboard usage page.
+   * Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
 
   /**
    * Optional timeout in milliseconds for the request. If the request takes longer
@@ -3084,6 +3126,13 @@ export interface WebWebCrawlMdParams {
   stopAfterMs?: number;
 
   /**
+   * Optional caller-defined tags for tracking this request. Tags are recorded on the
+   * request's usage log and can be used to filter usage on the dashboard usage page.
+   * Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
+
+  /**
    * Optional timeout in milliseconds for the request. If the request takes longer
    * than this value, it will be aborted with a 408 status code. Maximum allowed
    * value is 300000ms (5 minutes).
@@ -3403,6 +3452,13 @@ export interface WebWebScrapeHTMLParams {
   settleAnimations?: boolean;
 
   /**
+   * Optional comma-separated caller-defined tags for tracking this request. Tags are
+   * recorded on the request's usage log and can be used to filter usage on the
+   * dashboard usage page. Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
+
+  /**
    * Optional timeout in milliseconds for the request. If the request takes longer
    * than this value, it will be aborted with a 408 status code. Maximum allowed
    * value is 300000ms (5 minutes).
@@ -3486,6 +3542,13 @@ export interface WebWebScrapeImagesParams {
    * day). Set to 0 to bypass cache. Maximum: 2592000000 (30 days).
    */
   maxAgeMs?: number;
+
+  /**
+   * Optional comma-separated caller-defined tags for tracking this request. Tags are
+   * recorded on the request's usage log and can be used to filter usage on the
+   * dashboard usage page. Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
 
   /**
    * Optional timeout in milliseconds for the request. If the request takes longer
@@ -3809,6 +3872,13 @@ export interface WebWebScrapeMdParams {
   shortenBase64Images?: boolean;
 
   /**
+   * Optional comma-separated caller-defined tags for tracking this request. Tags are
+   * recorded on the request's usage log and can be used to filter usage on the
+   * dashboard usage page. Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
+
+  /**
    * Optional timeout in milliseconds for the request. If the request takes longer
    * than this value, it will be aborted with a 408 status code. Maximum allowed
    * value is 300000ms (5 minutes).
@@ -3878,6 +3948,13 @@ export interface WebWebScrapeSitemapParams {
    * Minimum is 1, maximum is 100,000.
    */
   maxLinks?: number;
+
+  /**
+   * Optional comma-separated caller-defined tags for tracking this request. Tags are
+   * recorded on the request's usage log and can be used to filter usage on the
+   * dashboard usage page. Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
 
   /**
    * Optional timeout in milliseconds for the request. If the request takes longer

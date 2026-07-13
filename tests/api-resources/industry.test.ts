@@ -26,6 +26,7 @@ describe('resource industry', () => {
       input: 'input',
       maxResults: 1,
       minResults: 1,
+      tags: ['production', 'team-alpha'],
       timeoutMS: 1000,
     });
   });
@@ -48,6 +49,7 @@ describe('resource industry', () => {
       input: 'input',
       maxResults: 1,
       minResults: 1,
+      tags: ['production', 'team-alpha'],
       timeoutMS: 1000,
       type: 'original_sic',
     });

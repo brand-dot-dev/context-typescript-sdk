@@ -28,6 +28,7 @@ describe('resource brand', () => {
       force_language: 'afrikaans',
       maxAgeMs: 0,
       maxSpeed: true,
+      tags: ['production', 'team-alpha'],
       timeoutMS: 1000,
     });
   });
@@ -49,6 +50,7 @@ describe('resource brand', () => {
     const response = await client.brand.retrieveSimplified({
       domain: 'domain',
       maxAgeMs: 86400000,
+      tags: ['production', 'team-alpha'],
       timeoutMS: 1000,
     });
   });

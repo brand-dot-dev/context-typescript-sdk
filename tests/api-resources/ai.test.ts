@@ -25,6 +25,7 @@ describe('resource ai', () => {
     const response = await client.ai.extractProduct({
       url: 'https://example.com',
       maxAgeMs: 0,
+      tags: ['production', 'team-alpha'],
       timeoutMS: 1000,
     });
   });
@@ -47,6 +48,7 @@ describe('resource ai', () => {
       domain: 'domain',
       maxAgeMs: 0,
       maxProducts: 1,
+      tags: ['production', 'team-alpha'],
       timeoutMS: 1000,
     });
   });
