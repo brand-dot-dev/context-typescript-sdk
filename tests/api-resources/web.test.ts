@@ -51,6 +51,7 @@ describe('resource web', () => {
         start: 1,
       },
       stopAfterMs: 10000,
+      tags: ['production', 'team-alpha'],
       timeoutMS: 1000,
       waitForMs: 0,
     });
@@ -73,6 +74,7 @@ describe('resource web', () => {
     const response = await client.web.extractCompetitors({
       domain: 'xxx',
       numCompetitors: 1,
+      tags: ['production', 'team-alpha'],
       timeoutMS: 1000,
     });
   });
@@ -98,6 +100,7 @@ describe('resource web', () => {
           directUrl: 'https://example.com',
           domain: 'domain',
           maxAgeMs: 86400000,
+          tags: ['production', 'team-alpha'],
           timeoutMS: 1000,
         },
         { path: '/_stainless_unknown_path' },
@@ -127,6 +130,7 @@ describe('resource web', () => {
           directUrl: 'https://example.com',
           domain: 'domain',
           maxAgeMs: 86400000,
+          tags: ['production', 'team-alpha'],
           timeoutMS: 1000,
         },
         { path: '/_stainless_unknown_path' },
@@ -161,6 +165,7 @@ describe('resource web', () => {
           maxAgeMs: 0,
           page: 'login',
           scrollOffset: 0,
+          tags: ['production', 'team-alpha'],
           timeoutMS: 1000,
           viewport: { height: 240, width: 240 },
           waitForMs: 0,
@@ -208,6 +213,7 @@ describe('resource web', () => {
       },
       numResults: 10,
       queryFanout: true,
+      tags: ['production', 'team-alpha'],
       timeoutMS: 1000,
     });
   });
@@ -247,6 +253,7 @@ describe('resource web', () => {
       settleAnimations: true,
       shortenBase64Images: true,
       stopAfterMs: 10000,
+      tags: ['production', 'team-alpha'],
       timeoutMS: 1000,
       urlRegex: '^https?://[^/]+/blog/',
       useMainContentOnly: true,
@@ -283,6 +290,7 @@ describe('resource web', () => {
         start: 1,
       },
       settleAnimations: true,
+      tags: ['production', 'team-alpha'],
       timeoutMS: 1000,
       useMainContentOnly: true,
       waitForMs: 0,
@@ -314,6 +322,7 @@ describe('resource web', () => {
       },
       headers: { foo: 'J!' },
       maxAgeMs: 0,
+      tags: ['production', 'team-alpha'],
       timeoutMS: 1000,
       waitForMs: 0,
     });
@@ -351,6 +360,7 @@ describe('resource web', () => {
       },
       settleAnimations: true,
       shortenBase64Images: true,
+      tags: ['production', 'team-alpha'],
       timeoutMS: 1000,
       useMainContentOnly: true,
       waitForMs: 0,
@@ -375,6 +385,7 @@ describe('resource web', () => {
       domain: 'domain',
       headers: { foo: 'J!' },
       maxLinks: 1,
+      tags: ['production', 'team-alpha'],
       timeoutMS: 1000,
       urlRegex: '^https?://[^/]+/blog/',
     });

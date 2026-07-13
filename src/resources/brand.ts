@@ -1180,6 +1180,13 @@ export declare namespace BrandRetrieveParams {
     maxSpeed?: boolean;
 
     /**
+     * Optional caller-defined tags for tracking this request. Tags are recorded on the
+     * request's usage log and can be used to filter usage on the dashboard usage page.
+     * Up to 20 tags, each 1-50 characters.
+     */
+    tags?: Array<string>;
+
+    /**
      * Optional timeout in milliseconds for the request. If the request takes longer
      * than this value, it will be aborted with a 408 status code. Maximum allowed
      * value is 300000ms (5 minutes).
@@ -1342,6 +1349,13 @@ export declare namespace BrandRetrieveParams {
     maxSpeed?: boolean;
 
     /**
+     * Optional caller-defined tags for tracking this request. Tags are recorded on the
+     * request's usage log and can be used to filter usage on the dashboard usage page.
+     * Up to 20 tags, each 1-50 characters.
+     */
+    tags?: Array<string>;
+
+    /**
      * Optional timeout in milliseconds for the request. If the request takes longer
      * than this value, it will be aborted with a 408 status code. Maximum allowed
      * value is 300000ms (5 minutes).
@@ -1496,6 +1510,13 @@ export declare namespace BrandRetrieveParams {
      * less comprehensive data.
      */
     maxSpeed?: boolean;
+
+    /**
+     * Optional caller-defined tags for tracking this request. Tags are recorded on the
+     * request's usage log and can be used to filter usage on the dashboard usage page.
+     * Up to 20 tags, each 1-50 characters.
+     */
+    tags?: Array<string>;
 
     /**
      * Optional timeout in milliseconds for the request. If the request takes longer
@@ -1654,6 +1675,13 @@ export declare namespace BrandRetrieveParams {
     maxSpeed?: boolean;
 
     /**
+     * Optional caller-defined tags for tracking this request. Tags are recorded on the
+     * request's usage log and can be used to filter usage on the dashboard usage page.
+     * Up to 20 tags, each 1-50 characters.
+     */
+    tags?: Array<string>;
+
+    /**
      * Optional stock exchange for the ticker. Defaults to NASDAQ if not specified.
      */
     ticker_exchange?: string;
@@ -1678,6 +1706,13 @@ export declare namespace BrandRetrieveParams {
      * Discriminator for direct-URL-based brand retrieval.
      */
     type: 'by_direct_url';
+
+    /**
+     * Optional caller-defined tags for tracking this request. Tags are recorded on the
+     * request's usage log and can be used to filter usage on the dashboard usage page.
+     * Up to 20 tags, each 1-50 characters.
+     */
+    tags?: Array<string>;
 
     /**
      * Optional timeout in milliseconds for the request. If the request takes longer
@@ -1856,6 +1891,13 @@ export declare namespace BrandRetrieveParams {
     phone?: number;
 
     /**
+     * Optional caller-defined tags for tracking this request. Tags are recorded on the
+     * request's usage log and can be used to filter usage on the dashboard usage page.
+     * Up to 20 tags, each 1-50 characters.
+     */
+    tags?: Array<string>;
+
+    /**
      * Optional timeout in milliseconds for the request. If the request takes longer
      * than this value, it will be aborted with a 408 status code. Maximum allowed
      * value is 300000ms (5 minutes).
@@ -1877,6 +1919,13 @@ export interface BrandRetrieveSimplifiedParams {
    * year.
    */
   maxAgeMs?: number;
+
+  /**
+   * Optional comma-separated caller-defined tags for tracking this request. Tags are
+   * recorded on the request's usage log and can be used to filter usage on the
+   * dashboard usage page. Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
 
   /**
    * Optional timeout in milliseconds for the request. If the request takes longer

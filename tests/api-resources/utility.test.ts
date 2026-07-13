@@ -28,6 +28,7 @@ describe('resource utility', () => {
     const response = await client.utility.prefetch({
       identifier: { domain: 'domain' },
       type: 'brand',
+      tags: ['production', 'team-alpha'],
       timeoutMS: 1000,
     });
   });
