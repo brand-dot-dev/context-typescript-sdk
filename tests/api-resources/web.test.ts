@@ -98,8 +98,8 @@ describe('resource web', () => {
       client.web.extractFonts(
         {
           directUrl: 'https://example.com',
-          domain: 'domain',
-          maxAgeMs: 86400000,
+          domain: 'xxx',
+          maxAgeMs: 0,
           tags: ['production', 'team-alpha'],
           timeoutMS: 1000,
         },
@@ -128,8 +128,8 @@ describe('resource web', () => {
         {
           colorScheme: 'light',
           directUrl: 'https://example.com',
-          domain: 'domain',
-          maxAgeMs: 86400000,
+          domain: 'xxx',
+          maxAgeMs: 0,
           tags: ['production', 'team-alpha'],
           timeoutMS: 1000,
         },
@@ -159,14 +159,14 @@ describe('resource web', () => {
           colorScheme: 'light',
           country: 'de',
           directUrl: 'https://example.com',
-          domain: 'domain',
+          domain: 'xxx',
           fullScreenshot: 'true',
           handleCookiePopup: 'true',
           maxAgeMs: 0,
           page: 'login',
           scrollOffset: 0,
           tags: ['production', 'team-alpha'],
-          timeoutMS: 1000,
+          timeoutMS: 1,
           viewport: { height: 240, width: 240 },
           waitForMs: 0,
         },
@@ -278,21 +278,21 @@ describe('resource web', () => {
     const response = await client.web.webScrapeHTML({
       url: 'https://example.com',
       country: 'de',
-      excludeSelectors: ['string'],
+      excludeSelectors: ['x'],
       headers: { foo: 'J!' },
-      includeFrames: true,
-      includeSelectors: ['string'],
+      includeFrames: 'true',
+      includeSelectors: ['x'],
       maxAgeMs: 0,
       pdf: {
         end: 1,
-        ocr: true,
-        shouldParse: true,
+        ocr: 'true',
+        shouldParse: 'true',
         start: 1,
       },
-      settleAnimations: true,
+      settleAnimations: 'true',
       tags: ['production', 'team-alpha'],
-      timeoutMS: 1000,
-      useMainContentOnly: true,
+      timeoutMS: 1,
+      useMainContentOnly: 'true',
       waitForMs: 0,
     });
   });
@@ -313,17 +313,17 @@ describe('resource web', () => {
   test.skip('webScrapeImages: required and optional params', async () => {
     const response = await client.web.webScrapeImages({
       url: 'https://example.com',
-      dedupe: true,
+      dedupe: 'true',
       enrichment: {
-        classification: true,
-        hostedUrl: true,
+        classification: 'true',
+        hostedUrl: 'true',
         maxTimePerMs: 1,
-        resolution: true,
+        resolution: 'true',
       },
       headers: { foo: 'J!' },
       maxAgeMs: 0,
       tags: ['production', 'team-alpha'],
-      timeoutMS: 1000,
+      timeoutMS: 1,
       waitForMs: 0,
     });
   });
@@ -345,31 +345,31 @@ describe('resource web', () => {
     const response = await client.web.webScrapeMd({
       url: 'https://example.com',
       country: 'de',
-      excludeSelectors: ['string'],
+      excludeSelectors: ['x'],
       headers: { foo: 'J!' },
-      includeFrames: true,
-      includeImages: true,
-      includeLinks: true,
-      includeSelectors: ['string'],
+      includeFrames: 'true',
+      includeImages: 'true',
+      includeLinks: 'true',
+      includeSelectors: ['x'],
       maxAgeMs: 0,
       pdf: {
         end: 1,
-        ocr: true,
-        shouldParse: true,
+        ocr: 'true',
+        shouldParse: 'true',
         start: 1,
       },
-      settleAnimations: true,
-      shortenBase64Images: true,
+      settleAnimations: 'true',
+      shortenBase64Images: 'true',
       tags: ['production', 'team-alpha'],
-      timeoutMS: 1000,
-      useMainContentOnly: true,
+      timeoutMS: 1,
+      useMainContentOnly: 'true',
       waitForMs: 0,
     });
   });
 
   // Mock server tests are disabled
   test.skip('webScrapeSitemap: only required params', async () => {
-    const responsePromise = client.web.webScrapeSitemap({ domain: 'domain' });
+    const responsePromise = client.web.webScrapeSitemap({ domain: 'xxx' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -382,11 +382,12 @@ describe('resource web', () => {
   // Mock server tests are disabled
   test.skip('webScrapeSitemap: required and optional params', async () => {
     const response = await client.web.webScrapeSitemap({
-      domain: 'domain',
+      domain: 'xxx',
       headers: { foo: 'J!' },
       maxLinks: 1,
+      sitemapUrl: 'https://example.com',
       tags: ['production', 'team-alpha'],
-      timeoutMS: 1000,
+      timeoutMS: 1,
       urlRegex: '^https?://[^/]+/blog/',
     });
   });

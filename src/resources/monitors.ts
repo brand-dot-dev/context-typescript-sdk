@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
-import * as MonitorsAPI from './monitors';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
@@ -192,44 +191,6 @@ export class Monitors extends APIResource {
    */
   run(monitorID: string, options?: RequestOptions): APIPromise<MonitorRunResponse> {
     return this._client.post(path`/monitors/${monitorID}/run`, options);
-  }
-}
-
-export interface WebhookDelivery {
-  attempted_at: string;
-
-  error: WebhookDelivery.Error | null;
-
-  /**
-   * The event this delivery carried. Deliveries recorded before event selection
-   * existed report change.detected.
-   */
-  event: 'change.detected' | 'run.completed';
-
-  /**
-   * Identifier sent in the X-Context-Id header.
-   */
-  event_id: string;
-
-  /**
-   * The endpoint's final HTTP response status, or null when no response was
-   * received.
-   */
-  http_status: number | null;
-
-  /**
-   * Delivery outcome. delivered means any 2xx response; rejected means a non-2xx
-   * response; failed means no HTTP response was received; skipped_unsafe_url means
-   * the URL failed the public-endpoint safety check.
-   */
-  status: 'delivered' | 'rejected' | 'failed' | 'skipped_unsafe_url';
-}
-
-export namespace WebhookDelivery {
-  export interface Error {
-    code: string;
-
-    message: string;
   }
 }
 
@@ -1716,14 +1677,14 @@ export namespace MonitorListAccountRunsResponse {
      * fired. Omitted when no webhook was attempted, including runs created before
      * event selection was added.
      */
-    webhook_deliveries?: Array<MonitorsAPI.WebhookDelivery>;
+    webhook_deliveries?: Array<Data.WebhookDelivery>;
 
     /**
      * @deprecated Deprecated: use `webhook_deliveries`, which records every attempt
      * now that a run can deliver multiple events. Omitted when no webhook was
      * attempted, including historical runs created before delivery tracking was added.
      */
-    webhook_delivery?: MonitorsAPI.WebhookDelivery;
+    webhook_delivery?: Data.WebhookDelivery;
   }
 
   export namespace Data {
@@ -1731,6 +1692,87 @@ export namespace MonitorListAccountRunsResponse {
       code: string;
 
       message: string;
+    }
+
+    export interface WebhookDelivery {
+      attempted_at: string;
+
+      error: WebhookDelivery.Error | null;
+
+      /**
+       * The event this delivery carried. Deliveries recorded before event selection
+       * existed report change.detected.
+       */
+      event: 'change.detected' | 'run.completed';
+
+      /**
+       * Identifier sent in the X-Context-Id header.
+       */
+      event_id: string;
+
+      /**
+       * The endpoint's final HTTP response status, or null when no response was
+       * received.
+       */
+      http_status: number | null;
+
+      /**
+       * Delivery outcome. delivered means any 2xx response; rejected means a non-2xx
+       * response; failed means no HTTP response was received; skipped_unsafe_url means
+       * the URL failed the public-endpoint safety check.
+       */
+      status: 'delivered' | 'rejected' | 'failed' | 'skipped_unsafe_url';
+    }
+
+    export namespace WebhookDelivery {
+      export interface Error {
+        code: string;
+
+        message: string;
+      }
+    }
+
+    /**
+     * @deprecated Deprecated: use `webhook_deliveries`, which records every attempt
+     * now that a run can deliver multiple events. Omitted when no webhook was
+     * attempted, including historical runs created before delivery tracking was added.
+     */
+    export interface WebhookDelivery {
+      attempted_at: string;
+
+      error: WebhookDelivery.Error | null;
+
+      /**
+       * The event this delivery carried. Deliveries recorded before event selection
+       * existed report change.detected.
+       */
+      event: 'change.detected' | 'run.completed';
+
+      /**
+       * Identifier sent in the X-Context-Id header.
+       */
+      event_id: string;
+
+      /**
+       * The endpoint's final HTTP response status, or null when no response was
+       * received.
+       */
+      http_status: number | null;
+
+      /**
+       * Delivery outcome. delivered means any 2xx response; rejected means a non-2xx
+       * response; failed means no HTTP response was received; skipped_unsafe_url means
+       * the URL failed the public-endpoint safety check.
+       */
+      status: 'delivered' | 'rejected' | 'failed' | 'skipped_unsafe_url';
+    }
+
+    export namespace WebhookDelivery {
+      export interface Error {
+        code: string;
+
+        message: string;
+      }
     }
   }
 }
@@ -1851,14 +1893,14 @@ export namespace MonitorListRunsResponse {
      * fired. Omitted when no webhook was attempted, including runs created before
      * event selection was added.
      */
-    webhook_deliveries?: Array<MonitorsAPI.WebhookDelivery>;
+    webhook_deliveries?: Array<Data.WebhookDelivery>;
 
     /**
      * @deprecated Deprecated: use `webhook_deliveries`, which records every attempt
      * now that a run can deliver multiple events. Omitted when no webhook was
      * attempted, including historical runs created before delivery tracking was added.
      */
-    webhook_delivery?: MonitorsAPI.WebhookDelivery;
+    webhook_delivery?: Data.WebhookDelivery;
   }
 
   export namespace Data {
@@ -1866,6 +1908,87 @@ export namespace MonitorListRunsResponse {
       code: string;
 
       message: string;
+    }
+
+    export interface WebhookDelivery {
+      attempted_at: string;
+
+      error: WebhookDelivery.Error | null;
+
+      /**
+       * The event this delivery carried. Deliveries recorded before event selection
+       * existed report change.detected.
+       */
+      event: 'change.detected' | 'run.completed';
+
+      /**
+       * Identifier sent in the X-Context-Id header.
+       */
+      event_id: string;
+
+      /**
+       * The endpoint's final HTTP response status, or null when no response was
+       * received.
+       */
+      http_status: number | null;
+
+      /**
+       * Delivery outcome. delivered means any 2xx response; rejected means a non-2xx
+       * response; failed means no HTTP response was received; skipped_unsafe_url means
+       * the URL failed the public-endpoint safety check.
+       */
+      status: 'delivered' | 'rejected' | 'failed' | 'skipped_unsafe_url';
+    }
+
+    export namespace WebhookDelivery {
+      export interface Error {
+        code: string;
+
+        message: string;
+      }
+    }
+
+    /**
+     * @deprecated Deprecated: use `webhook_deliveries`, which records every attempt
+     * now that a run can deliver multiple events. Omitted when no webhook was
+     * attempted, including historical runs created before delivery tracking was added.
+     */
+    export interface WebhookDelivery {
+      attempted_at: string;
+
+      error: WebhookDelivery.Error | null;
+
+      /**
+       * The event this delivery carried. Deliveries recorded before event selection
+       * existed report change.detected.
+       */
+      event: 'change.detected' | 'run.completed';
+
+      /**
+       * Identifier sent in the X-Context-Id header.
+       */
+      event_id: string;
+
+      /**
+       * The endpoint's final HTTP response status, or null when no response was
+       * received.
+       */
+      http_status: number | null;
+
+      /**
+       * Delivery outcome. delivered means any 2xx response; rejected means a non-2xx
+       * response; failed means no HTTP response was received; skipped_unsafe_url means
+       * the URL failed the public-endpoint safety check.
+       */
+      status: 'delivered' | 'rejected' | 'failed' | 'skipped_unsafe_url';
+    }
+
+    export namespace WebhookDelivery {
+      export interface Error {
+        code: string;
+
+        message: string;
+      }
     }
   }
 }
@@ -2349,10 +2472,19 @@ export namespace MonitorUpdateParams {
 }
 
 export interface MonitorListParams {
+  /**
+   * Filter by change detection type.
+   */
   change_detection_type?: 'exact' | 'semantic';
 
+  /**
+   * Opaque pagination cursor from a previous response.
+   */
   cursor?: string;
 
+  /**
+   * Maximum number of items to return per page (1-100). Defaults to 25.
+   */
   limit?: number;
 
   /**
@@ -2364,7 +2496,7 @@ export interface MonitorListParams {
    * Comma-separated fields to search with `q`. Defaults to all of them. Note
    * `instructions` only exists on extract monitors.
    */
-  search_by?: Array<'name' | 'url' | 'instructions' | 'tags'>;
+  search_by?: Array<'name' | 'url' | 'instructions' | 'tags'> | null;
 
   /**
    * `prefix` for as-you-type prefix matching (default), `exact` for full-token
@@ -2373,11 +2505,7 @@ export interface MonitorListParams {
   search_type?: 'exact' | 'prefix';
 
   /**
-   * Monitor lifecycle status. `failed` means the most recent run failed (see the
-   * monitor's `last_error`); failed monitors keep running on schedule and flip back
-   * to `active` on the next successful run. Monitors are auto-`paused` after
-   * repeated consecutive failures or insufficient-credit skips; resume by PATCHing
-   * status to `active`.
+   * Filter monitors by lifecycle status.
    */
   status?: 'active' | 'paused' | 'failed';
 
@@ -2389,20 +2517,38 @@ export interface MonitorListParams {
   /**
    * Comma-separated list of tags to filter by (matches monitors having any of them).
    */
-  tags?: Array<string>;
+  tags?: Array<string> | null;
 
+  /**
+   * Filter by target type.
+   */
   target_type?: 'page' | 'sitemap' | 'extract';
 }
 
 export interface MonitorListAccountChangesParams {
+  /**
+   * Filter by change detection type.
+   */
   change_detection_type?: 'exact' | 'semantic';
 
+  /**
+   * Opaque pagination cursor from a previous response.
+   */
   cursor?: string;
 
+  /**
+   * Maximum number of items to return per page (1-100). Defaults to 25.
+   */
   limit?: number;
 
+  /**
+   * Filter changes to a single monitor.
+   */
   monitor_id?: string;
 
+  /**
+   * Only include items at or after this ISO 8601 timestamp.
+   */
   since?: string;
 
   /**
@@ -2410,28 +2556,48 @@ export interface MonitorListAccountChangesParams {
    */
   tag?: string;
 
+  /**
+   * Filter by target type.
+   */
   target_type?: 'page' | 'sitemap' | 'extract';
 
+  /**
+   * Only include items before this ISO 8601 timestamp.
+   */
   until?: string;
 }
 
 export interface MonitorListAccountRunsParams {
+  /**
+   * Opaque pagination cursor from a previous response.
+   */
   cursor?: string;
 
+  /**
+   * Maximum number of items to return per page (1-100). Defaults to 25.
+   */
   limit?: number;
 
   /**
-   * Lifecycle status of a run. `skipped` runs never executed — see `skip_reason`
-   * (insufficient credits, monitor paused, or superseded by a concurrent run).
+   * Filter runs by lifecycle status.
    */
   status?: 'queued' | 'running' | 'completed' | 'failed' | 'skipped';
 }
 
 export interface MonitorListChangesParams {
+  /**
+   * Opaque pagination cursor from a previous response.
+   */
   cursor?: string;
 
+  /**
+   * Maximum number of items to return per page (1-100). Defaults to 25.
+   */
   limit?: number;
 
+  /**
+   * Only include items at or after this ISO 8601 timestamp.
+   */
   since?: string;
 
   /**
@@ -2439,24 +2605,31 @@ export interface MonitorListChangesParams {
    */
   tag?: string;
 
+  /**
+   * Only include items before this ISO 8601 timestamp.
+   */
   until?: string;
 }
 
 export interface MonitorListRunsParams {
+  /**
+   * Opaque pagination cursor from a previous response.
+   */
   cursor?: string;
 
+  /**
+   * Maximum number of items to return per page (1-100). Defaults to 25.
+   */
   limit?: number;
 
   /**
-   * Lifecycle status of a run. `skipped` runs never executed — see `skip_reason`
-   * (insufficient credits, monitor paused, or superseded by a concurrent run).
+   * Filter runs by lifecycle status.
    */
   status?: 'queued' | 'running' | 'completed' | 'failed' | 'skipped';
 }
 
 export declare namespace Monitors {
   export {
-    type WebhookDelivery as WebhookDelivery,
     type MonitorCreateResponse as MonitorCreateResponse,
     type MonitorRetrieveResponse as MonitorRetrieveResponse,
     type MonitorUpdateResponse as MonitorUpdateResponse,
