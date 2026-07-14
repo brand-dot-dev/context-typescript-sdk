@@ -14,7 +14,7 @@ export class Utility extends APIResource {
    * @example
    * ```ts
    * const response = await client.utility.prefetch({
-   *   identifier: { domain: 'domain' },
+   *   identifier: { domain: 'xxx' },
    *   type: 'brand',
    * });
    * ```

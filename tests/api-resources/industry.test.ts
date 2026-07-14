@@ -10,7 +10,7 @@ const client = new ContextDev({
 describe('resource industry', () => {
   // Mock server tests are disabled
   test.skip('retrieveNaics: only required params', async () => {
-    const responsePromise = client.industry.retrieveNaics({ input: 'input' });
+    const responsePromise = client.industry.retrieveNaics({ input: 'xxxx' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -23,7 +23,7 @@ describe('resource industry', () => {
   // Mock server tests are disabled
   test.skip('retrieveNaics: required and optional params', async () => {
     const response = await client.industry.retrieveNaics({
-      input: 'input',
+      input: 'xxxx',
       maxResults: 1,
       minResults: 1,
       tags: ['production', 'team-alpha'],
@@ -33,7 +33,7 @@ describe('resource industry', () => {
 
   // Mock server tests are disabled
   test.skip('retrieveSic: only required params', async () => {
-    const responsePromise = client.industry.retrieveSic({ input: 'input' });
+    const responsePromise = client.industry.retrieveSic({ input: 'xxxx' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -46,7 +46,7 @@ describe('resource industry', () => {
   // Mock server tests are disabled
   test.skip('retrieveSic: required and optional params', async () => {
     const response = await client.industry.retrieveSic({
-      input: 'input',
+      input: 'xxxx',
       maxResults: 1,
       minResults: 1,
       tags: ['production', 'team-alpha'],

@@ -190,7 +190,7 @@ export class Web extends APIResource {
    * @example
    * ```ts
    * const response = await client.web.webScrapeSitemap({
-   *   domain: 'domain',
+   *   domain: 'xxx',
    * });
    * ```
    */
@@ -2062,12 +2062,12 @@ export interface WebExtractFontsParams {
   domain?: string;
 
   /**
-   * Maximum age in milliseconds for cached data before the API performs a hard
+   * Maximum age in milliseconds for cached brand data before the API performs a hard
    * refresh. Defaults to 3 months (7776000000 ms). Values below 1 day (86400000 ms)
    * are clamped to 1 day; values above 1 year (31536000000 ms) are clamped to 1
    * year.
    */
-  maxAgeMs?: number;
+  maxAgeMs?: number | null;
 
   /**
    * Optional comma-separated caller-defined tags for tracking this request. Tags are
@@ -2107,12 +2107,12 @@ export interface WebExtractStyleguideParams {
   domain?: string;
 
   /**
-   * Maximum age in milliseconds for cached data before the API performs a hard
+   * Maximum age in milliseconds for cached brand data before the API performs a hard
    * refresh. Defaults to 3 months (7776000000 ms). Values below 1 day (86400000 ms)
    * are clamped to 1 day; values above 1 year (31536000000 ms) are clamped to 1
    * year.
    */
-  maxAgeMs?: number;
+  maxAgeMs?: number | null;
 
   /**
    * Optional comma-separated caller-defined tags for tracking this request. Tags are
@@ -2137,8 +2137,9 @@ export interface WebScreenshotParams {
   colorScheme?: 'light' | 'dark';
 
   /**
-   * Two-letter ISO 3166-1 alpha-2 country code for the website request location.
-   * When provided, Context.dev fetches the target page from that country.
+   * Two-letter ISO 3166-1 alpha-2 country code identifying a supported Context.dev
+   * residential proxy exit location. Must be one of Context.dev's supported
+   * countries. When provided, Context.dev fetches the target page from that country.
    */
   country?:
     | 'ad'
@@ -2372,14 +2373,14 @@ export interface WebScreenshotParams {
    * dismiss cookie banner before capture. If 'false' or not provided, captures the
    * page without that step.
    */
-  handleCookiePopup?: 'true' | 'false';
+  handleCookiePopup?: boolean | 'true' | 'false';
 
   /**
    * Return a cached screenshot if a prior screenshot for the same parameters exists
    * and is younger than this many milliseconds. Defaults to 1 day (86400000 ms) when
    * omitted. Max is 30 days (2592000000 ms). Set to 0 to always capture fresh.
    */
-  maxAgeMs?: number;
+  maxAgeMs?: number | null;
 
   /**
    * Optional parameter to specify which page type to screenshot. If provided, the
@@ -2398,7 +2399,7 @@ export interface WebScreenshotParams {
    * top to bottom). The final slice may be shorter than the viewport height. Takes
    * precedence over fullScreenshot. Max: 100000.
    */
-  scrollOffset?: number;
+  scrollOffset?: number | null;
 
   /**
    * Optional comma-separated caller-defined tags for tracking this request. Tags are
@@ -2424,7 +2425,7 @@ export interface WebScreenshotParams {
    * the screenshot. Min: 0. Max: 30000 (30 seconds). Defaults to 3000 ms when
    * omitted.
    */
-  waitForMs?: number;
+  waitForMs?: number | null;
 }
 
 export namespace WebScreenshotParams {
@@ -3196,8 +3197,9 @@ export interface WebWebScrapeHTMLParams {
   url: string;
 
   /**
-   * Two-letter ISO 3166-1 alpha-2 country code for the website request location.
-   * When provided, Context.dev fetches the target page from that country.
+   * Two-letter ISO 3166-1 alpha-2 country code identifying a supported Context.dev
+   * residential proxy exit location. Must be one of Context.dev's supported
+   * countries. When provided, Context.dev fetches the target page from that country.
    */
   country?:
     | 'ad'
@@ -3410,7 +3412,7 @@ export interface WebWebScrapeHTMLParams {
    * Exclusion takes precedence: an element matching both is removed. Examples:
    * "nav", "footer", ".ad-banner", "[aria-hidden=true]".
    */
-  excludeSelectors?: Array<string>;
+  excludeSelectors?: Array<string> | null;
 
   /**
    * Optional outbound HTTP headers forwarded only to the target URL, sent as
@@ -3422,21 +3424,21 @@ export interface WebWebScrapeHTMLParams {
   /**
    * When true, iframes are rendered inline into the returned HTML.
    */
-  includeFrames?: boolean;
+  includeFrames?: boolean | 'true' | 'false';
 
   /**
    * CSS selectors. When provided, only matching subtrees (and their descendants) are
    * kept and everything else is dropped. When omitted, the entire document is kept.
    * Examples: "article.main", "#content", "[role=main]".
    */
-  includeSelectors?: Array<string>;
+  includeSelectors?: Array<string> | null;
 
   /**
    * Return a cached result if a prior scrape for the same parameters exists and is
    * younger than this many milliseconds. Defaults to 1 day (86400000 ms) when
    * omitted. Max is 30 days (2592000000 ms). Set to 0 to always scrape fresh.
    */
-  maxAgeMs?: number;
+  maxAgeMs?: number | null;
 
   /**
    * PDF parsing controls. Use start/end to limit text extraction and embedded-image
@@ -3449,7 +3451,7 @@ export interface WebWebScrapeHTMLParams {
    * extracting HTML. Defaults to false. This adds a bit of latency in exchange for
    * more stable output on animated pages.
    */
-  settleAnimations?: boolean;
+  settleAnimations?: boolean | 'true' | 'false';
 
   /**
    * Optional comma-separated caller-defined tags for tracking this request. Tags are
@@ -3469,13 +3471,13 @@ export interface WebWebScrapeHTMLParams {
    * When true, return only the page's main content in the HTML response, excluding
    * headers, footers, sidebars, and navigation when detectable.
    */
-  useMainContentOnly?: boolean;
+  useMainContentOnly?: boolean | 'true' | 'false';
 
   /**
    * Optional browser wait time in milliseconds after initial page load. Min: 0. Max:
    * 30000 (30 seconds).
    */
-  waitForMs?: number;
+  waitForMs?: number | null;
 }
 
 export namespace WebWebScrapeHTMLParams {
@@ -3495,13 +3497,13 @@ export namespace WebWebScrapeHTMLParams {
      * recognized text at each image's position in page reading order while preserving
      * the PDF text layer. This is separate from automatic scanned-PDF OCR fallback.
      */
-    ocr?: boolean;
+    ocr?: boolean | 'true' | 'false';
 
     /**
      * When true, PDF URLs are fetched and parsed. When false, PDF URLs are skipped and
      * a 400 WEBSITE_ACCESS_ERROR is returned.
      */
-    shouldParse?: boolean;
+    shouldParse?: boolean | 'true' | 'false';
 
     /**
      * First 1-based PDF page to parse. When omitted, parsing starts at the first page.
@@ -3522,13 +3524,13 @@ export interface WebWebScrapeImagesParams {
    * group is kept. Images that cannot be downloaded or hashed are kept. Default:
    * false.
    */
-  dedupe?: boolean;
+  dedupe?: boolean | 'true' | 'false';
 
   /**
    * Optional per-image processing, sent as deep-object query params such as
    * enrichment[resolution]=true.
    */
-  enrichment?: WebWebScrapeImagesParams.Enrichment;
+  enrichment?: WebWebScrapeImagesParams.Enrichment | null;
 
   /**
    * Optional outbound HTTP headers forwarded only to the target URL, sent as
@@ -3541,7 +3543,7 @@ export interface WebWebScrapeImagesParams {
    * Reuse a cached result this many milliseconds old or newer. Default: 86400000 (1
    * day). Set to 0 to bypass cache. Maximum: 2592000000 (30 days).
    */
-  maxAgeMs?: number;
+  maxAgeMs?: number | null;
 
   /**
    * Optional comma-separated caller-defined tags for tracking this request. Tags are
@@ -3561,7 +3563,7 @@ export interface WebWebScrapeImagesParams {
    * Optional browser wait time in milliseconds after initial page load before
    * collecting images. Min: 0. Max: 30000 (30 seconds).
    */
-  waitForMs?: number;
+  waitForMs?: number | null;
 }
 
 export namespace WebWebScrapeImagesParams {
@@ -3573,13 +3575,13 @@ export namespace WebWebScrapeImagesParams {
     /**
      * Classify each image by visual asset type.
      */
-    classification?: boolean;
+    classification?: boolean | 'true' | 'false';
 
     /**
      * Host materializable images on the Brand.dev CDN and return their URL and MIME
      * type.
      */
-    hostedUrl?: boolean;
+    hostedUrl?: boolean | 'true' | 'false';
 
     /**
      * Per-image enrichment timeout in milliseconds. Default: 30000. Maximum: 60000.
@@ -3589,7 +3591,7 @@ export namespace WebWebScrapeImagesParams {
     /**
      * Measure image width and height when possible.
      */
-    resolution?: boolean;
+    resolution?: boolean | 'true' | 'false';
   }
 }
 
@@ -3601,8 +3603,9 @@ export interface WebWebScrapeMdParams {
   url: string;
 
   /**
-   * Two-letter ISO 3166-1 alpha-2 country code for the website request location.
-   * When provided, Context.dev fetches the target page from that country.
+   * Two-letter ISO 3166-1 alpha-2 country code identifying a supported Context.dev
+   * residential proxy exit location. Must be one of Context.dev's supported
+   * countries. When provided, Context.dev fetches the target page from that country.
    */
   country?:
     | 'ad'
@@ -3815,7 +3818,7 @@ export interface WebWebScrapeMdParams {
    * includeSelectors. Exclusion takes precedence: an element matching both is
    * removed. Examples: "nav", "footer", ".ad-banner", "[aria-hidden=true]".
    */
-  excludeSelectors?: Array<string>;
+  excludeSelectors?: Array<string> | null;
 
   /**
    * Optional outbound HTTP headers forwarded only to the target URL, sent as
@@ -3827,31 +3830,31 @@ export interface WebWebScrapeMdParams {
   /**
    * When true, the contents of iframes are rendered to Markdown.
    */
-  includeFrames?: boolean;
+  includeFrames?: boolean | 'true' | 'false';
 
   /**
    * Include image references in Markdown output
    */
-  includeImages?: boolean;
+  includeImages?: boolean | 'true' | 'false';
 
   /**
    * Preserve hyperlinks in Markdown output
    */
-  includeLinks?: boolean;
+  includeLinks?: boolean | 'true' | 'false';
 
   /**
    * CSS selectors. When provided, only matching HTML subtrees (and their
    * descendants) are kept before conversion to Markdown. When omitted, the entire
    * document is kept. Examples: "article.main", "#content", "[role=main]".
    */
-  includeSelectors?: Array<string>;
+  includeSelectors?: Array<string> | null;
 
   /**
    * Return a cached result if a prior scrape for the same parameters exists and is
    * younger than this many milliseconds. Defaults to 1 day (86400000 ms) when
    * omitted. Max is 30 days (2592000000 ms). Set to 0 to always scrape fresh.
    */
-  maxAgeMs?: number;
+  maxAgeMs?: number | null;
 
   /**
    * PDF parsing controls. Use start/end to limit text extraction and embedded-image
@@ -3864,12 +3867,12 @@ export interface WebWebScrapeMdParams {
    * converting to Markdown. Defaults to false. This adds a bit of latency in
    * exchange for more stable output on animated pages.
    */
-  settleAnimations?: boolean;
+  settleAnimations?: boolean | 'true' | 'false';
 
   /**
    * Shorten base64-encoded image data in the Markdown output
    */
-  shortenBase64Images?: boolean;
+  shortenBase64Images?: boolean | 'true' | 'false';
 
   /**
    * Optional comma-separated caller-defined tags for tracking this request. Tags are
@@ -3889,13 +3892,13 @@ export interface WebWebScrapeMdParams {
    * Extract only the main content of the page, excluding headers, footers, sidebars,
    * and navigation
    */
-  useMainContentOnly?: boolean;
+  useMainContentOnly?: boolean | 'true' | 'false';
 
   /**
    * Optional browser wait time in milliseconds after initial page load before
    * converting the page to Markdown. Min: 0. Max: 30000 (30 seconds).
    */
-  waitForMs?: number;
+  waitForMs?: number | null;
 }
 
 export namespace WebWebScrapeMdParams {
@@ -3915,13 +3918,13 @@ export namespace WebWebScrapeMdParams {
      * recognized text at each image's position in page reading order while preserving
      * the PDF text layer. This is separate from automatic scanned-PDF OCR fallback.
      */
-    ocr?: boolean;
+    ocr?: boolean | 'true' | 'false';
 
     /**
      * When true, PDF URLs are fetched and parsed. When false, PDF URLs are skipped and
      * a 400 WEBSITE_ACCESS_ERROR is returned.
      */
-    shouldParse?: boolean;
+    shouldParse?: boolean | 'true' | 'false';
 
     /**
      * First 1-based PDF page to parse. When omitted, parsing starts at the first page.
@@ -3948,6 +3951,12 @@ export interface WebWebScrapeSitemapParams {
    * Minimum is 1, maximum is 100,000.
    */
   maxLinks?: number;
+
+  /**
+   * Optional explicit sitemap URL. When provided, exactly this sitemap is crawled
+   * instead of discovering the domain's sitemaps.
+   */
+  sitemapUrl?: string;
 
   /**
    * Optional comma-separated caller-defined tags for tracking this request. Tags are
