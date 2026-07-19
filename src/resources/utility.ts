@@ -85,9 +85,7 @@ export interface UtilityPrefetchParams {
   type: 'brand';
 
   /**
-   * Optional caller-defined tags for tracking this request. Tags are recorded on the
-   * request's usage log and can be used to filter usage on the dashboard usage page.
-   * Up to 20 tags, each 1-50 characters.
+   * Optional tags for tracking usage. Up to 20 tags, each 1 to 50 characters.
    */
   tags?: Array<string>;
 

@@ -50,6 +50,7 @@ describe('resource web', () => {
         shouldParse: true,
         start: 1,
       },
+      settleAnimations: true,
       stopAfterMs: 10000,
       tags: ['production', 'team-alpha'],
       timeoutMS: 1000,
