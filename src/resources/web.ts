@@ -1042,7 +1042,8 @@ export interface WebScreenshotResponse {
   key_metadata?: WebScreenshotResponse.KeyMetadata;
 
   /**
-   * Public URL of the uploaded screenshot image
+   * Public image URL for standard requests, or an in-memory data URL when ZDR is
+   * enabled.
    */
   screenshot?: string;
 
@@ -2431,6 +2432,14 @@ export interface WebScreenshotParams {
    * omitted.
    */
   waitForMs?: number | null;
+
+  /**
+   * Set to enabled to bypass shared caches and omit request and response content
+   * from retained usage logs. Requires zero data retention to be enabled for your
+   * organization (contact support@context.dev), otherwise the request fails with
+   * ZDR_NOT_ENABLED. Successful ZDR responses include X-Context-ZDR: true.
+   */
+  zdr?: 'enabled' | 'disabled';
 }
 
 export namespace WebScreenshotParams {
@@ -3157,6 +3166,14 @@ export interface WebWebCrawlMdParams {
    * crawled page. Min: 0. Max: 30000 (30 seconds).
    */
   waitForMs?: number;
+
+  /**
+   * Set to enabled to bypass shared caches and omit request and response content
+   * from retained usage logs. Requires zero data retention to be enabled for your
+   * organization (contact support@context.dev), otherwise the request fails with
+   * ZDR_NOT_ENABLED. Successful ZDR responses include X-Context-ZDR: true.
+   */
+  zdr?: 'enabled' | 'disabled';
 }
 
 export namespace WebWebCrawlMdParams {
@@ -3479,6 +3496,14 @@ export interface WebWebScrapeHTMLParams {
    * 30000 (30 seconds).
    */
   waitForMs?: number | null;
+
+  /**
+   * Set to enabled to bypass shared caches and omit request and response content
+   * from retained usage logs. Requires zero data retention to be enabled for your
+   * organization (contact support@context.dev), otherwise the request fails with
+   * ZDR_NOT_ENABLED. Successful ZDR responses include X-Context-ZDR: true.
+   */
+  zdr?: 'enabled' | 'disabled';
 }
 
 export namespace WebWebScrapeHTMLParams {
@@ -3900,6 +3925,14 @@ export interface WebWebScrapeMdParams {
    * converting the page to Markdown. Min: 0. Max: 30000 (30 seconds).
    */
   waitForMs?: number | null;
+
+  /**
+   * Set to enabled to bypass shared caches and omit request and response content
+   * from retained usage logs. Requires zero data retention to be enabled for your
+   * organization (contact support@context.dev), otherwise the request fails with
+   * ZDR_NOT_ENABLED. Successful ZDR responses include X-Context-ZDR: true.
+   */
+  zdr?: 'enabled' | 'disabled';
 }
 
 export namespace WebWebScrapeMdParams {
@@ -3978,6 +4011,14 @@ export interface WebWebScrapeSitemapParams {
    * returned and counted against maxLinks.
    */
   urlRegex?: string;
+
+  /**
+   * Set to enabled to bypass shared caches and omit request and response content
+   * from retained usage logs. Requires zero data retention to be enabled for your
+   * organization (contact support@context.dev), otherwise the request fails with
+   * ZDR_NOT_ENABLED. Successful ZDR responses include X-Context-ZDR: true.
+   */
+  zdr?: 'enabled' | 'disabled';
 }
 
 export declare namespace Web {

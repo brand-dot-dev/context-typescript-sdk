@@ -170,6 +170,7 @@ describe('resource web', () => {
           timeoutMS: 1,
           viewport: { height: 240, width: 240 },
           waitForMs: 0,
+          zdr: 'enabled',
         },
         { path: '/_stainless_unknown_path' },
       ),
@@ -259,6 +260,7 @@ describe('resource web', () => {
       urlRegex: '^https?://[^/]+/blog/',
       useMainContentOnly: true,
       waitForMs: 0,
+      zdr: 'enabled',
     });
   });
 
@@ -295,6 +297,7 @@ describe('resource web', () => {
       timeoutMS: 1,
       useMainContentOnly: 'true',
       waitForMs: 0,
+      zdr: 'enabled',
     });
   });
 
@@ -365,6 +368,7 @@ describe('resource web', () => {
       timeoutMS: 1,
       useMainContentOnly: 'true',
       waitForMs: 0,
+      zdr: 'enabled',
     });
   });
 
@@ -390,6 +394,7 @@ describe('resource web', () => {
       tags: ['production', 'team-alpha'],
       timeoutMS: 1,
       urlRegex: '^https?://[^/]+/blog/',
+      zdr: 'enabled',
     });
   });
 });
