@@ -26,6 +26,7 @@ export class Parse extends APIResource {
       shortenBase64Images,
       tags,
       useMainContentOnly,
+      zdr,
     } = params;
     return this._client.post('/parse', {
       body: body,
@@ -39,6 +40,7 @@ export class Parse extends APIResource {
         shortenBase64Images,
         tags,
         useMainContentOnly,
+        zdr,
       },
       ...options,
       headers: buildHeaders([{ 'Content-Type': 'application/octet-stream' }, options?.headers]),
@@ -251,6 +253,15 @@ export interface ParseHandleParams {
    * Query param: Extract only the main content from HTML-like inputs
    */
   useMainContentOnly?: boolean | 'true' | 'false';
+
+  /**
+   * Query param: Set to enabled to bypass shared caches and omit request and
+   * response content from retained usage logs. Requires zero data retention to be
+   * enabled for your organization (contact support@context.dev), otherwise the
+   * request fails with ZDR_NOT_ENABLED. Successful ZDR responses include
+   * X-Context-ZDR: true.
+   */
+  zdr?: 'enabled' | 'disabled';
 }
 
 export namespace ParseHandleParams {
