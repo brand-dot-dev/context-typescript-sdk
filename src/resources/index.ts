@@ -23,6 +23,7 @@ export {
 } from './industry';
 export {
   Monitors,
+  type WebhookDelivery,
   type MonitorCreateResponse,
   type MonitorRetrieveResponse,
   type MonitorUpdateResponse,
