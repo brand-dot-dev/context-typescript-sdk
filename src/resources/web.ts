@@ -119,7 +119,8 @@ export class Web extends APIResource {
   }
 
   /**
-   * Scrapes the given URL and returns the raw HTML content of the page.
+   * Scrapes the given URL and returns the raw HTML content of the page. The base
+   * request costs 1 credit; requests with browser actions cost 2 credits.
    *
    * @example
    * ```ts
@@ -138,8 +139,9 @@ export class Web extends APIResource {
   /**
    * Extract image assets from a web page, including standard URLs, inline SVGs, data
    * URIs, responsive image sources, metadata, CSS backgrounds, video posters, and
-   * embeds. The base request costs 1 credit. When enrichment is enabled, the entire
-   * call costs 5 credits.
+   * embeds. The base request costs 1 credit, or 2 credits with browser actions. When
+   * enrichment is enabled, the entire call costs 5 credits, including requests that
+   * also use actions.
    *
    * @example
    * ```ts
@@ -162,16 +164,16 @@ export class Web extends APIResource {
    *
    * ### Billing & errors
    *
-   * | HTTP status | Billed?        | Meaning                                                                                  |
-   * | ----------- | -------------- | ---------------------------------------------------------------------------------------- |
-   * | 200         | Yes — 1 credit | Successful scrape, including a zero-length result when includeSelectors matched nothing  |
-   * | 400         | No             | Invalid input, skipped PDF, or the page could not be scraped                             |
-   * | 401 / 403   | No             | Invalid/disabled key, insufficient permissions, or credits exhausted; inspect error_code |
-   * | 404         | No             | Target page returned or fingerprinted as not found                                       |
-   * | 408         | No             | Request timed out                                                                        |
-   * | 415         | No             | Unsupported content type                                                                 |
-   * | 429         | No             | Per-minute rate limit exceeded; honor Retry-After                                        |
-   * | 500         | No             | Internal error                                                                           |
+   * | HTTP status | Billed?                                   | Meaning                                                                                  |
+   * | ----------- | ----------------------------------------- | ---------------------------------------------------------------------------------------- |
+   * | 200         | Yes — 1 credit, or 2 credits with actions | Successful scrape, including a zero-length result when includeSelectors matched nothing  |
+   * | 400         | No                                        | Invalid input, skipped PDF, or the page could not be scraped                             |
+   * | 401 / 403   | No                                        | Invalid/disabled key, insufficient permissions, or credits exhausted; inspect error_code |
+   * | 404         | No                                        | Target page returned or fingerprinted as not found                                       |
+   * | 408         | No                                        | Request timed out                                                                        |
+   * | 415         | No                                        | Unsupported content type                                                                 |
+   * | 429         | No                                        | Per-minute rate limit exceeded; honor Retry-After                                        |
+   * | 500         | No                                        | Internal error                                                                           |
    *
    * @example
    * ```ts
@@ -3215,6 +3217,15 @@ export interface WebWebScrapeHTMLParams {
   url: string;
 
   /**
+   * Optional browser actions executed in array order after the page loads and before
+   * content is captured. Requires a paid plan. Send a JSON array in the query
+   * parameter. Maximum: 5 actions.
+   */
+  actions?: Array<
+    WebWebScrapeHTMLParams.WebScrapeWaitAction | WebWebScrapeHTMLParams.WebScrapePerformAction
+  > | null;
+
+  /**
    * Two-letter ISO 3166-1 alpha-2 country code identifying a supported Context.dev
    * residential proxy exit location. Must be one of Context.dev's supported
    * countries. When provided, Context.dev fetches the target page from that country.
@@ -3508,6 +3519,24 @@ export interface WebWebScrapeHTMLParams {
 
 export namespace WebWebScrapeHTMLParams {
   /**
+   * Pause for a fixed number of milliseconds before continuing to the next action.
+   */
+  export interface WebScrapeWaitAction {
+    do: 'wait';
+
+    timeMs: number;
+  }
+
+  /**
+   * Resolve and perform one natural-language browser action.
+   */
+  export interface WebScrapePerformAction {
+    action: string;
+
+    do: 'perform';
+  }
+
+  /**
    * PDF parsing controls. Use start/end to limit text extraction and embedded-image
    * detection/OCR to an inclusive 1-based page range.
    */
@@ -3543,6 +3572,15 @@ export interface WebWebScrapeImagesParams {
    * Page URL to inspect. Must include http:// or https://.
    */
   url: string;
+
+  /**
+   * Optional browser actions executed in array order after the page loads and before
+   * content is captured. Requires a paid plan. Send a JSON array in the query
+   * parameter. Maximum: 5 actions.
+   */
+  actions?: Array<
+    WebWebScrapeImagesParams.WebScrapeWaitAction | WebWebScrapeImagesParams.WebScrapePerformAction
+  > | null;
 
   /**
    * When true, visually duplicate images are removed: every image is loaded and
@@ -3594,6 +3632,24 @@ export interface WebWebScrapeImagesParams {
 
 export namespace WebWebScrapeImagesParams {
   /**
+   * Pause for a fixed number of milliseconds before continuing to the next action.
+   */
+  export interface WebScrapeWaitAction {
+    do: 'wait';
+
+    timeMs: number;
+  }
+
+  /**
+   * Resolve and perform one natural-language browser action.
+   */
+  export interface WebScrapePerformAction {
+    action: string;
+
+    do: 'perform';
+  }
+
+  /**
    * Optional per-image processing, sent as deep-object query params such as
    * enrichment[resolution]=true.
    */
@@ -3627,6 +3683,15 @@ export interface WebWebScrapeMdParams {
    * protocol)
    */
   url: string;
+
+  /**
+   * Optional browser actions executed in array order after the page loads and before
+   * content is captured. Requires a paid plan. Send a JSON array in the query
+   * parameter. Maximum: 5 actions.
+   */
+  actions?: Array<
+    WebWebScrapeMdParams.WebScrapeWaitAction | WebWebScrapeMdParams.WebScrapePerformAction
+  > | null;
 
   /**
    * Two-letter ISO 3166-1 alpha-2 country code identifying a supported Context.dev
@@ -3936,6 +4001,24 @@ export interface WebWebScrapeMdParams {
 }
 
 export namespace WebWebScrapeMdParams {
+  /**
+   * Pause for a fixed number of milliseconds before continuing to the next action.
+   */
+  export interface WebScrapeWaitAction {
+    do: 'wait';
+
+    timeMs: number;
+  }
+
+  /**
+   * Resolve and perform one natural-language browser action.
+   */
+  export interface WebScrapePerformAction {
+    action: string;
+
+    do: 'perform';
+  }
+
   /**
    * PDF parsing controls. Use start/end to limit text extraction and embedded-image
    * detection/OCR to an inclusive 1-based page range.
