@@ -155,6 +155,18 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/monitors/{monitor_id}',
   },
   {
+    clientCallName: 'client.monitors.getCreditUsage',
+    fullyQualifiedName: 'monitors.getCreditUsage',
+    httpMethod: 'get',
+    httpPath: '/monitors/credit-usage',
+  },
+  {
+    clientCallName: 'client.monitors.getLimits',
+    fullyQualifiedName: 'monitors.getLimits',
+    httpMethod: 'get',
+    httpPath: '/monitors/limits',
+  },
+  {
     clientCallName: 'client.monitors.listAccountChanges',
     fullyQualifiedName: 'monitors.listAccountChanges',
     httpMethod: 'get',

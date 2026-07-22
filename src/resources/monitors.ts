@@ -103,6 +103,34 @@ export class Monitors extends APIResource {
   }
 
   /**
+   * Returns credits charged per monitor over an optional [since, until] window,
+   * newest spenders first.
+   *
+   * @example
+   * ```ts
+   * const response = await client.monitors.getCreditUsage();
+   * ```
+   */
+  getCreditUsage(
+    query: MonitorGetCreditUsageParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<MonitorGetCreditUsageResponse> {
+    return this._client.get('/monitors/credit-usage', { query, ...options });
+  }
+
+  /**
+   * Returns how many monitors the account has and the maximum it allows.
+   *
+   * @example
+   * ```ts
+   * const response = await client.monitors.getLimits();
+   * ```
+   */
+  getLimits(options?: RequestOptions): APIPromise<MonitorGetLimitsResponse> {
+    return this._client.get('/monitors/limits', options);
+  }
+
+  /**
    * Returns an account-wide feed of detected changes across monitors.
    *
    * @example
@@ -1561,6 +1589,54 @@ export interface MonitorDeleteResponse {
   deleted: boolean;
 }
 
+export interface MonitorGetCreditUsageResponse {
+  data: Array<MonitorGetCreditUsageResponse.Data>;
+
+  /**
+   * Sum of credits across all monitors in the window.
+   */
+  total_credits: number;
+}
+
+export namespace MonitorGetCreditUsageResponse {
+  export interface Data {
+    /**
+     * Credits charged to this monitor over the window.
+     */
+    credits: number;
+
+    monitor_id: string;
+
+    /**
+     * Monitor name (falls back to the id when the monitor was deleted).
+     */
+    name: string;
+
+    /**
+     * Number of billed runs over the window.
+     */
+    runs: number;
+  }
+}
+
+export interface MonitorGetLimitsResponse {
+  /**
+   * Maximum number of monitors allowed for the account. Defaults to the plan
+   * allowance unless a custom limit is set for the organization.
+   */
+  monitors_limit: number;
+
+  /**
+   * Number of monitors the account currently has.
+   */
+  monitors_used: number;
+
+  /**
+   * The plan tier the limit was resolved from.
+   */
+  plan: 'free' | 'starter' | 'pro' | 'scale';
+}
+
 export interface MonitorListAccountChangesResponse {
   data: Array<MonitorListAccountChangesResponse.Data>;
 
@@ -2525,6 +2601,18 @@ export interface MonitorListParams {
   target_type?: 'page' | 'sitemap' | 'extract';
 }
 
+export interface MonitorGetCreditUsageParams {
+  /**
+   * Only include items at or after this ISO 8601 timestamp.
+   */
+  since?: string;
+
+  /**
+   * Only include items before this ISO 8601 timestamp.
+   */
+  until?: string;
+}
+
 export interface MonitorListAccountChangesParams {
   /**
    * Filter by change detection type.
@@ -2635,6 +2723,8 @@ export declare namespace Monitors {
     type MonitorUpdateResponse as MonitorUpdateResponse,
     type MonitorListResponse as MonitorListResponse,
     type MonitorDeleteResponse as MonitorDeleteResponse,
+    type MonitorGetCreditUsageResponse as MonitorGetCreditUsageResponse,
+    type MonitorGetLimitsResponse as MonitorGetLimitsResponse,
     type MonitorListAccountChangesResponse as MonitorListAccountChangesResponse,
     type MonitorListAccountRunsResponse as MonitorListAccountRunsResponse,
     type MonitorListChangesResponse as MonitorListChangesResponse,
@@ -2644,6 +2734,7 @@ export declare namespace Monitors {
     type MonitorCreateParams as MonitorCreateParams,
     type MonitorUpdateParams as MonitorUpdateParams,
     type MonitorListParams as MonitorListParams,
+    type MonitorGetCreditUsageParams as MonitorGetCreditUsageParams,
     type MonitorListAccountChangesParams as MonitorListAccountChangesParams,
     type MonitorListAccountRunsParams as MonitorListAccountRunsParams,
     type MonitorListChangesParams as MonitorListChangesParams,
