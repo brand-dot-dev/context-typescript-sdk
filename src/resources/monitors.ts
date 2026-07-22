@@ -300,6 +300,7 @@ export interface MonitorCreateResponse {
 
   /**
    * User-defined tags for grouping and filtering monitors and their changes.
+   * Duplicates are removed.
    */
   tags?: Array<string>;
 
@@ -381,12 +382,12 @@ export namespace MonitorCreateResponse {
     url: string;
 
     /**
-     * URL path patterns to exclude.
+     * URL path patterns to exclude (max 50).
      */
     exclude?: Array<string>;
 
     /**
-     * URL path patterns to include.
+     * URL path patterns to include (max 50).
      */
     include?: Array<string>;
 
@@ -640,6 +641,7 @@ export interface MonitorRetrieveResponse {
 
   /**
    * User-defined tags for grouping and filtering monitors and their changes.
+   * Duplicates are removed.
    */
   tags?: Array<string>;
 
@@ -721,12 +723,12 @@ export namespace MonitorRetrieveResponse {
     url: string;
 
     /**
-     * URL path patterns to exclude.
+     * URL path patterns to exclude (max 50).
      */
     exclude?: Array<string>;
 
     /**
-     * URL path patterns to include.
+     * URL path patterns to include (max 50).
      */
     include?: Array<string>;
 
@@ -980,6 +982,7 @@ export interface MonitorUpdateResponse {
 
   /**
    * User-defined tags for grouping and filtering monitors and their changes.
+   * Duplicates are removed.
    */
   tags?: Array<string>;
 
@@ -1061,12 +1064,12 @@ export namespace MonitorUpdateResponse {
     url: string;
 
     /**
-     * URL path patterns to exclude.
+     * URL path patterns to exclude (max 50).
      */
     exclude?: Array<string>;
 
     /**
-     * URL path patterns to include.
+     * URL path patterns to include (max 50).
      */
     include?: Array<string>;
 
@@ -1320,6 +1323,7 @@ export namespace MonitorListResponse {
 
     /**
      * User-defined tags for grouping and filtering monitors and their changes.
+     * Duplicates are removed.
      */
     tags?: Array<string>;
 
@@ -1401,12 +1405,12 @@ export namespace MonitorListResponse {
       url: string;
 
       /**
-       * URL path patterns to exclude.
+       * URL path patterns to exclude (max 50).
        */
       exclude?: Array<string>;
 
       /**
-       * URL path patterns to include.
+       * URL path patterns to include (max 50).
        */
       include?: Array<string>;
 
@@ -1688,6 +1692,7 @@ export namespace MonitorListAccountChangesResponse {
 
     /**
      * User-defined tags for grouping and filtering monitors and their changes.
+     * Duplicates are removed.
      */
     tags?: Array<string>;
   }
@@ -1904,6 +1909,7 @@ export namespace MonitorListChangesResponse {
 
     /**
      * User-defined tags for grouping and filtering monitors and their changes.
+     * Duplicates are removed.
      */
     tags?: Array<string>;
   }
@@ -2100,6 +2106,7 @@ export interface MonitorRetrieveChangeResponse {
 
   /**
    * User-defined tags for grouping and filtering monitors and their changes.
+   * Duplicates are removed.
    */
   tags: Array<string>;
 
@@ -2210,6 +2217,7 @@ export interface MonitorCreateParams {
 
   /**
    * User-defined tags for grouping and filtering monitors and their changes.
+   * Duplicates are removed.
    */
   tags?: Array<string>;
 
@@ -2284,12 +2292,12 @@ export namespace MonitorCreateParams {
     url: string;
 
     /**
-     * URL path patterns to exclude.
+     * URL path patterns to exclude (max 50).
      */
     exclude?: Array<string>;
 
     /**
-     * URL path patterns to include.
+     * URL path patterns to include (max 50).
      */
     include?: Array<string>;
 
@@ -2382,6 +2390,7 @@ export interface MonitorUpdateParams {
 
   /**
    * User-defined tags for grouping and filtering monitors and their changes.
+   * Duplicates are removed.
    */
   tags?: Array<string>;
 
@@ -2467,12 +2476,12 @@ export namespace MonitorUpdateParams {
     url: string;
 
     /**
-     * URL path patterns to exclude.
+     * URL path patterns to exclude (max 50).
      */
     exclude?: Array<string>;
 
     /**
-     * URL path patterns to include.
+     * URL path patterns to include (max 50).
      */
     include?: Array<string>;
 
