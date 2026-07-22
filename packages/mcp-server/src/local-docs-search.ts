@@ -1762,6 +1762,104 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
     },
   },
+  {
+    name: 'get_credit_usage',
+    endpoint: '/monitors/credit-usage',
+    httpMethod: 'get',
+    summary: 'Monitor credit usage',
+    description:
+      'Returns credits charged per monitor over an optional [since, until] window, newest spenders first.',
+    stainlessPath: '(resource) monitors > (method) get_credit_usage',
+    qualified: 'client.monitors.getCreditUsage',
+    params: ['since?: string;', 'until?: string;'],
+    response:
+      '{ data: { credits: number; monitor_id: string; name: string; runs: number; }[]; total_credits: number; }',
+    markdown:
+      "## get_credit_usage\n\n`client.monitors.getCreditUsage(since?: string, until?: string): { data: object[]; total_credits: number; }`\n\n**get** `/monitors/credit-usage`\n\nReturns credits charged per monitor over an optional [since, until] window, newest spenders first.\n\n### Parameters\n\n- `since?: string`\n  Only include items at or after this ISO 8601 timestamp.\n\n- `until?: string`\n  Only include items before this ISO 8601 timestamp.\n\n### Returns\n\n- `{ data: { credits: number; monitor_id: string; name: string; runs: number; }[]; total_credits: number; }`\n\n  - `data: { credits: number; monitor_id: string; name: string; runs: number; }[]`\n  - `total_credits: number`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.monitors.getCreditUsage();\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.monitors.getCreditUsage',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.monitors.getCreditUsage();\n\nconsole.log(response.data);",
+      },
+      python: {
+        method: 'monitors.get_credit_usage',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.monitors.get_credit_usage()\nprint(response.data)',
+      },
+      go: {
+        method: 'client.Monitors.GetCreditUsage',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Monitors.GetCreditUsage(context.TODO(), contextdev.MonitorGetCreditUsageParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Data)\n}\n',
+      },
+      ruby: {
+        method: 'monitors.get_credit_usage',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.monitors.get_credit_usage\n\nputs(response)',
+      },
+      cli: {
+        method: 'monitors get_credit_usage',
+        example: "context-dev monitors get-credit-usage \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'monitors->getCreditUsage',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->monitors->getCreditUsage(\n  since: new \\DateTimeImmutable('2026-06-01T00:00:00Z'),\n  until: new \\DateTimeImmutable('2026-06-28T00:00:00Z'),\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/monitors/credit-usage \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'get_limits',
+    endpoint: '/monitors/limits',
+    httpMethod: 'get',
+    summary: 'Monitor limits',
+    description: 'Returns how many monitors the account has and the maximum it allows.',
+    stainlessPath: '(resource) monitors > (method) get_limits',
+    qualified: 'client.monitors.getLimits',
+    response:
+      "{ monitors_limit: number; monitors_used: number; plan: 'free' | 'starter' | 'pro' | 'scale'; }",
+    markdown:
+      "## get_limits\n\n`client.monitors.getLimits(): { monitors_limit: number; monitors_used: number; plan: 'free' | 'starter' | 'pro' | 'scale'; }`\n\n**get** `/monitors/limits`\n\nReturns how many monitors the account has and the maximum it allows.\n\n### Returns\n\n- `{ monitors_limit: number; monitors_used: number; plan: 'free' | 'starter' | 'pro' | 'scale'; }`\n\n  - `monitors_limit: number`\n  - `monitors_used: number`\n  - `plan: 'free' | 'starter' | 'pro' | 'scale'`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.monitors.getLimits();\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.monitors.getLimits',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.monitors.getLimits();\n\nconsole.log(response.monitors_limit);",
+      },
+      python: {
+        method: 'monitors.get_limits',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.monitors.get_limits()\nprint(response.monitors_limit)',
+      },
+      go: {
+        method: 'client.Monitors.GetLimits',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Monitors.GetLimits(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.MonitorsLimit)\n}\n',
+      },
+      ruby: {
+        method: 'monitors.get_limits',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.monitors.get_limits\n\nputs(response)',
+      },
+      cli: {
+        method: 'monitors get_limits',
+        example: "context-dev monitors get-limits \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'monitors->getLimits',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->monitors->getLimits();\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/monitors/limits \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
+      },
+    },
+  },
 ];
 
 const EMBEDDED_READMES: { language: string; content: string }[] = [

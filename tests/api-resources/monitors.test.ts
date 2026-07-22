@@ -121,6 +121,41 @@ describe('resource monitors', () => {
   });
 
   // Mock server tests are disabled
+  test.skip('getCreditUsage', async () => {
+    const responsePromise = client.monitors.getCreditUsage();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('getCreditUsage: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.monitors.getCreditUsage(
+        { since: '2026-06-01T00:00:00Z', until: '2026-06-28T00:00:00Z' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(ContextDev.NotFoundError);
+  });
+
+  // Mock server tests are disabled
+  test.skip('getLimits', async () => {
+    const responsePromise = client.monitors.getLimits();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
   test.skip('listAccountChanges', async () => {
     const responsePromise = client.monitors.listAccountChanges();
     const rawResponse = await responsePromise.asResponse();
