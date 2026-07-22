@@ -8,6 +8,13 @@ export class AI extends APIResource {
   /**
    * Given a single URL, determines if it is a product page and extracts the product
    * information.
+   *
+   * @example
+   * ```ts
+   * const response = await client.ai.extractProduct({
+   *   url: 'https://example.com',
+   * });
+   * ```
    */
   extractProduct(
     body: AIExtractProductParams,
@@ -20,6 +27,13 @@ export class AI extends APIResource {
    * Extract product information from a brand's website. We will analyze the website
    * and return a list of products with details such as name, description, image,
    * pricing, features, and more.
+   *
+   * @example
+   * ```ts
+   * const response = await client.ai.extractProducts({
+   *   domain: 'domain',
+   * });
+   * ```
    */
   extractProducts(
     body: AIExtractProductsParams,
@@ -262,6 +276,11 @@ export interface AIExtractProductParams {
   maxAgeMs?: number;
 
   /**
+   * Optional tags for tracking usage. Up to 20 tags, each 1 to 50 characters.
+   */
+  tags?: Array<string>;
+
+  /**
    * Optional timeout in milliseconds for the request. If the request takes longer
    * than this value, it will be aborted with a 408 status code. Maximum allowed
    * value is 300000ms (5 minutes).
@@ -291,6 +310,11 @@ export declare namespace AIExtractProductsParams {
     maxProducts?: number;
 
     /**
+     * Optional tags for tracking usage. Up to 20 tags, each 1 to 50 characters.
+     */
+    tags?: Array<string>;
+
+    /**
      * Optional timeout in milliseconds for the request. If the request takes longer
      * than this value, it will be aborted with a 408 status code. Maximum allowed
      * value is 300000ms (5 minutes).
@@ -316,6 +340,11 @@ export declare namespace AIExtractProductsParams {
      * Maximum number of products to extract.
      */
     maxProducts?: number;
+
+    /**
+     * Optional tags for tracking usage. Up to 20 tags, each 1 to 50 characters.
+     */
+    tags?: Array<string>;
 
     /**
      * Optional timeout in milliseconds for the request. If the request takes longer

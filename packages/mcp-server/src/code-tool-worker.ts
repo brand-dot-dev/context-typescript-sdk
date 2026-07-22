@@ -129,6 +129,8 @@ const fuse = new Fuse(
     'client.utility.prefetch',
     'client.monitors.create',
     'client.monitors.delete',
+    'client.monitors.getCreditUsage',
+    'client.monitors.getLimits',
     'client.monitors.list',
     'client.monitors.listAccountChanges',
     'client.monitors.listAccountRuns',

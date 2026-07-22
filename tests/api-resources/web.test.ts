@@ -50,7 +50,9 @@ describe('resource web', () => {
         shouldParse: true,
         start: 1,
       },
+      settleAnimations: true,
       stopAfterMs: 10000,
+      tags: ['production', 'team-alpha'],
       timeoutMS: 1000,
       waitForMs: 0,
     });
@@ -73,6 +75,7 @@ describe('resource web', () => {
     const response = await client.web.extractCompetitors({
       domain: 'xxx',
       numCompetitors: 1,
+      tags: ['production', 'team-alpha'],
       timeoutMS: 1000,
     });
   });
@@ -96,8 +99,9 @@ describe('resource web', () => {
       client.web.extractFonts(
         {
           directUrl: 'https://example.com',
-          domain: 'domain',
-          maxAgeMs: 86400000,
+          domain: 'xxx',
+          maxAgeMs: 0,
+          tags: ['production', 'team-alpha'],
           timeoutMS: 1000,
         },
         { path: '/_stainless_unknown_path' },
@@ -125,8 +129,9 @@ describe('resource web', () => {
         {
           colorScheme: 'light',
           directUrl: 'https://example.com',
-          domain: 'domain',
-          maxAgeMs: 86400000,
+          domain: 'xxx',
+          maxAgeMs: 0,
+          tags: ['production', 'team-alpha'],
           timeoutMS: 1000,
         },
         { path: '/_stainless_unknown_path' },
@@ -155,15 +160,17 @@ describe('resource web', () => {
           colorScheme: 'light',
           country: 'de',
           directUrl: 'https://example.com',
-          domain: 'domain',
+          domain: 'xxx',
           fullScreenshot: 'true',
           handleCookiePopup: 'true',
           maxAgeMs: 0,
           page: 'login',
           scrollOffset: 0,
-          timeoutMS: 1000,
+          tags: ['production', 'team-alpha'],
+          timeoutMS: 1,
           viewport: { height: 240, width: 240 },
           waitForMs: 0,
+          zdr: 'enabled',
         },
         { path: '/_stainless_unknown_path' },
       ),
@@ -208,6 +215,7 @@ describe('resource web', () => {
       },
       numResults: 10,
       queryFanout: true,
+      tags: ['production', 'team-alpha'],
       timeoutMS: 1000,
     });
   });
@@ -247,10 +255,12 @@ describe('resource web', () => {
       settleAnimations: true,
       shortenBase64Images: true,
       stopAfterMs: 10000,
+      tags: ['production', 'team-alpha'],
       timeoutMS: 1000,
       urlRegex: '^https?://[^/]+/blog/',
       useMainContentOnly: true,
       waitForMs: 0,
+      zdr: 'enabled',
     });
   });
 
@@ -270,22 +280,25 @@ describe('resource web', () => {
   test.skip('webScrapeHTML: required and optional params', async () => {
     const response = await client.web.webScrapeHTML({
       url: 'https://example.com',
+      actions: [{ do: 'wait', timeMs: 0 }],
       country: 'de',
-      excludeSelectors: ['string'],
+      excludeSelectors: ['x'],
       headers: { foo: 'J!' },
-      includeFrames: true,
-      includeSelectors: ['string'],
+      includeFrames: 'true',
+      includeSelectors: ['x'],
       maxAgeMs: 0,
       pdf: {
         end: 1,
-        ocr: true,
-        shouldParse: true,
+        ocr: 'true',
+        shouldParse: 'true',
         start: 1,
       },
-      settleAnimations: true,
-      timeoutMS: 1000,
-      useMainContentOnly: true,
+      settleAnimations: 'true',
+      tags: ['production', 'team-alpha'],
+      timeoutMS: 1,
+      useMainContentOnly: 'true',
       waitForMs: 0,
+      zdr: 'enabled',
     });
   });
 
@@ -305,16 +318,18 @@ describe('resource web', () => {
   test.skip('webScrapeImages: required and optional params', async () => {
     const response = await client.web.webScrapeImages({
       url: 'https://example.com',
-      dedupe: true,
+      actions: [{ do: 'wait', timeMs: 0 }],
+      dedupe: 'true',
       enrichment: {
-        classification: true,
-        hostedUrl: true,
+        classification: 'true',
+        hostedUrl: 'true',
         maxTimePerMs: 1,
-        resolution: true,
+        resolution: 'true',
       },
       headers: { foo: 'J!' },
       maxAgeMs: 0,
-      timeoutMS: 1000,
+      tags: ['production', 'team-alpha'],
+      timeoutMS: 1,
       waitForMs: 0,
     });
   });
@@ -335,31 +350,34 @@ describe('resource web', () => {
   test.skip('webScrapeMd: required and optional params', async () => {
     const response = await client.web.webScrapeMd({
       url: 'https://example.com',
+      actions: [{ do: 'wait', timeMs: 0 }],
       country: 'de',
-      excludeSelectors: ['string'],
+      excludeSelectors: ['x'],
       headers: { foo: 'J!' },
-      includeFrames: true,
-      includeImages: true,
-      includeLinks: true,
-      includeSelectors: ['string'],
+      includeFrames: 'true',
+      includeImages: 'true',
+      includeLinks: 'true',
+      includeSelectors: ['x'],
       maxAgeMs: 0,
       pdf: {
         end: 1,
-        ocr: true,
-        shouldParse: true,
+        ocr: 'true',
+        shouldParse: 'true',
         start: 1,
       },
-      settleAnimations: true,
-      shortenBase64Images: true,
-      timeoutMS: 1000,
-      useMainContentOnly: true,
+      settleAnimations: 'true',
+      shortenBase64Images: 'true',
+      tags: ['production', 'team-alpha'],
+      timeoutMS: 1,
+      useMainContentOnly: 'true',
       waitForMs: 0,
+      zdr: 'enabled',
     });
   });
 
   // Mock server tests are disabled
   test.skip('webScrapeSitemap: only required params', async () => {
-    const responsePromise = client.web.webScrapeSitemap({ domain: 'domain' });
+    const responsePromise = client.web.webScrapeSitemap({ domain: 'xxx' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -372,11 +390,14 @@ describe('resource web', () => {
   // Mock server tests are disabled
   test.skip('webScrapeSitemap: required and optional params', async () => {
     const response = await client.web.webScrapeSitemap({
-      domain: 'domain',
+      domain: 'xxx',
       headers: { foo: 'J!' },
       maxLinks: 1,
-      timeoutMS: 1000,
+      sitemapUrl: 'https://example.com',
+      tags: ['production', 'team-alpha'],
+      timeoutMS: 1,
       urlRegex: '^https?://[^/]+/blog/',
+      zdr: 'enabled',
     });
   });
 });

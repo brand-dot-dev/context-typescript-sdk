@@ -10,6 +10,14 @@ export class Utility extends APIResource {
    * selects what to prefetch (currently only 'brand') and identifier carries exactly
    * one lookup key: a domain, or an email whose domain is extracted and validated
    * (free email providers and disposable email addresses are not allowed).
+   *
+   * @example
+   * ```ts
+   * const response = await client.utility.prefetch({
+   *   identifier: { domain: 'xxx' },
+   *   type: 'brand',
+   * });
+   * ```
    */
   prefetch(body: UtilityPrefetchParams, options?: RequestOptions): APIPromise<UtilityPrefetchResponse> {
     return this._client.post('/utility/prefetch', { body, ...options });
@@ -75,6 +83,11 @@ export interface UtilityPrefetchParams {
    * What to prefetch. Currently only 'brand' is supported.
    */
   type: 'brand';
+
+  /**
+   * Optional tags for tracking usage. Up to 20 tags, each 1 to 50 characters.
+   */
+  tags?: Array<string>;
 
   /**
    * Optional timeout in milliseconds for the request. If the request takes longer

@@ -9,20 +9,39 @@ import { RequestOptions } from '../internal/request-options';
 export class Parse extends APIResource {
   /**
    * Converts raw text, source code, web/data, PDF, Microsoft Office, and image bytes
-   * into LLM-usable Markdown. The base request costs 1 credit. When OCR runs
-   * (requires ocr=true), the entire call costs 5 credits; ocr=true requests where no
-   * OCR ends up running still cost 1 credit.
+   * into LLM-usable Markdown.
    */
   handle(
     body: Uploadable,
     params: ParseHandleParams,
     options?: RequestOptions,
   ): APIPromise<ParseHandleResponse> {
-    const { extension, includeImages, includeLinks, ocr, pdf, shortenBase64Images, useMainContentOnly } =
-      params;
+    const {
+      client,
+      extension,
+      includeImages,
+      includeLinks,
+      ocr,
+      pdf,
+      shortenBase64Images,
+      tags,
+      useMainContentOnly,
+      zdr,
+    } = params;
     return this._client.post('/parse', {
       body: body,
-      query: { extension, includeImages, includeLinks, ocr, pdf, shortenBase64Images, useMainContentOnly },
+      query: {
+        client,
+        extension,
+        includeImages,
+        includeLinks,
+        ocr,
+        pdf,
+        shortenBase64Images,
+        tags,
+        useMainContentOnly,
+        zdr,
+      },
       ...options,
       headers: buildHeaders([{ 'Content-Type': 'application/octet-stream' }, options?.headers]),
     });
@@ -113,8 +132,13 @@ export namespace ParseHandleResponse {
 
 export interface ParseHandleParams {
   /**
-   * Query param: Optional file extension hint. Case-insensitive; a leading dot is
-   * accepted (e.g. ".pdf").
+   * Query param: Optional client identifier used for usage attribution.
+   */
+  client?: string;
+
+  /**
+   * Query param: Optional file extension hint, such as pdf, docx, xlsx, pptx, html,
+   * json, csv, md, py, rtf, jpg, png, or txt.
    */
   extension?:
     | 'txt'
@@ -191,45 +215,58 @@ export interface ParseHandleParams {
   /**
    * Query param: Include image references in Markdown output
    */
-  includeImages?: boolean;
+  includeImages?: boolean | 'true' | 'false';
 
   /**
    * Query param: Preserve hyperlinks in Markdown output
    */
-  includeLinks?: boolean;
+  includeLinks?: boolean | 'true' | 'false';
 
   /**
-   * Query param: Gates all OCR. When true, PDFs get embedded-image OCR (recognized
-   * text inserted at each image's position in page reading order, preserving the
-   * text layer; pdf.start/pdf.end limit the page range), scanned PDFs with no text
-   * layer get full-document OCR, and raster images get their visible text
-   * transcribed. When false, no OCR runs: scanned PDFs may yield no content and
-   * images return only format/dimension metadata. Calls where OCR actually runs cost
-   * 5 credits instead of 1.
+   * Query param: When true for PDF inputs, detect and OCR images embedded in the
+   * selected pages, inserting recognized text at each image's position in page
+   * reading order while preserving the PDF text layer. pdf.start/pdf.end limit the
+   * inclusive page range. When false, all OCR is disabled, including the automatic
+   * scanned-PDF fallback.
    */
-  ocr?: boolean;
+  ocr?: boolean | 'true' | 'false';
 
   /**
-   * Query param: PDF page-range controls. Use start/end to limit parsing (and OCR
-   * when ocr=true) to an inclusive 1-based page range.
+   * Query param: PDF page-range options as a JSON object, e.g. {"start": 2, "end":
+   * 5}.
    */
   pdf?: ParseHandleParams.Pdf;
 
   /**
    * Query param: Shorten base64-encoded image data in the Markdown output
    */
-  shortenBase64Images?: boolean;
+  shortenBase64Images?: boolean | 'true' | 'false';
+
+  /**
+   * Query param: Optional comma-separated caller-defined tags for tracking this
+   * request. Tags are recorded on the request's usage log and can be used to filter
+   * usage on the dashboard usage page. Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
 
   /**
    * Query param: Extract only the main content from HTML-like inputs
    */
-  useMainContentOnly?: boolean;
+  useMainContentOnly?: boolean | 'true' | 'false';
+
+  /**
+   * Query param: Set to enabled to bypass shared caches and omit request and
+   * response content from retained usage logs. Requires zero data retention to be
+   * enabled for your organization (contact support@context.dev), otherwise the
+   * request fails with ZDR_NOT_ENABLED. Successful ZDR responses include
+   * X-Context-ZDR: true.
+   */
+  zdr?: 'enabled' | 'disabled';
 }
 
 export namespace ParseHandleParams {
   /**
-   * PDF page-range controls. Use start/end to limit parsing (and OCR when ocr=true)
-   * to an inclusive 1-based page range.
+   * PDF page-range options as a JSON object, e.g. {"start": 2, "end": 5}.
    */
   export interface Pdf {
     /**

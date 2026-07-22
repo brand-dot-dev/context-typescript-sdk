@@ -104,6 +104,34 @@ export class Monitors extends APIResource {
   }
 
   /**
+   * Returns credits charged per monitor over an optional [since, until] window,
+   * newest spenders first.
+   *
+   * @example
+   * ```ts
+   * const response = await client.monitors.getCreditUsage();
+   * ```
+   */
+  getCreditUsage(
+    query: MonitorGetCreditUsageParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<MonitorGetCreditUsageResponse> {
+    return this._client.get('/monitors/credit-usage', { query, ...options });
+  }
+
+  /**
+   * Returns how many monitors the account has and the maximum it allows.
+   *
+   * @example
+   * ```ts
+   * const response = await client.monitors.getLimits();
+   * ```
+   */
+  getLimits(options?: RequestOptions): APIPromise<MonitorGetLimitsResponse> {
+    return this._client.get('/monitors/limits', options);
+  }
+
+  /**
    * Returns an account-wide feed of detected changes across monitors.
    *
    * @example
@@ -311,6 +339,7 @@ export interface MonitorCreateResponse {
 
   /**
    * User-defined tags for grouping and filtering monitors and their changes.
+   * Duplicates are removed.
    */
   tags?: Array<string>;
 
@@ -392,12 +421,12 @@ export namespace MonitorCreateResponse {
     url: string;
 
     /**
-     * URL path patterns to exclude.
+     * URL path patterns to exclude (max 50).
      */
     exclude?: Array<string>;
 
     /**
-     * URL path patterns to include.
+     * URL path patterns to include (max 50).
      */
     include?: Array<string>;
 
@@ -651,6 +680,7 @@ export interface MonitorRetrieveResponse {
 
   /**
    * User-defined tags for grouping and filtering monitors and their changes.
+   * Duplicates are removed.
    */
   tags?: Array<string>;
 
@@ -732,12 +762,12 @@ export namespace MonitorRetrieveResponse {
     url: string;
 
     /**
-     * URL path patterns to exclude.
+     * URL path patterns to exclude (max 50).
      */
     exclude?: Array<string>;
 
     /**
-     * URL path patterns to include.
+     * URL path patterns to include (max 50).
      */
     include?: Array<string>;
 
@@ -991,6 +1021,7 @@ export interface MonitorUpdateResponse {
 
   /**
    * User-defined tags for grouping and filtering monitors and their changes.
+   * Duplicates are removed.
    */
   tags?: Array<string>;
 
@@ -1072,12 +1103,12 @@ export namespace MonitorUpdateResponse {
     url: string;
 
     /**
-     * URL path patterns to exclude.
+     * URL path patterns to exclude (max 50).
      */
     exclude?: Array<string>;
 
     /**
-     * URL path patterns to include.
+     * URL path patterns to include (max 50).
      */
     include?: Array<string>;
 
@@ -1331,6 +1362,7 @@ export namespace MonitorListResponse {
 
     /**
      * User-defined tags for grouping and filtering monitors and their changes.
+     * Duplicates are removed.
      */
     tags?: Array<string>;
 
@@ -1412,12 +1444,12 @@ export namespace MonitorListResponse {
       url: string;
 
       /**
-       * URL path patterns to exclude.
+       * URL path patterns to exclude (max 50).
        */
       exclude?: Array<string>;
 
       /**
-       * URL path patterns to include.
+       * URL path patterns to include (max 50).
        */
       include?: Array<string>;
 
@@ -1600,6 +1632,54 @@ export interface MonitorDeleteResponse {
   deleted: boolean;
 }
 
+export interface MonitorGetCreditUsageResponse {
+  data: Array<MonitorGetCreditUsageResponse.Data>;
+
+  /**
+   * Sum of credits across all monitors in the window.
+   */
+  total_credits: number;
+}
+
+export namespace MonitorGetCreditUsageResponse {
+  export interface Data {
+    /**
+     * Credits charged to this monitor over the window.
+     */
+    credits: number;
+
+    monitor_id: string;
+
+    /**
+     * Monitor name (falls back to the id when the monitor was deleted).
+     */
+    name: string;
+
+    /**
+     * Number of billed runs over the window.
+     */
+    runs: number;
+  }
+}
+
+export interface MonitorGetLimitsResponse {
+  /**
+   * Maximum number of monitors allowed for the account. Defaults to the plan
+   * allowance unless a custom limit is set for the organization.
+   */
+  monitors_limit: number;
+
+  /**
+   * Number of monitors the account currently has.
+   */
+  monitors_used: number;
+
+  /**
+   * The plan tier the limit was resolved from.
+   */
+  plan: 'free' | 'starter' | 'pro' | 'scale';
+}
+
 export interface MonitorListAccountChangesResponse {
   data: Array<MonitorListAccountChangesResponse.Data>;
 
@@ -1651,6 +1731,7 @@ export namespace MonitorListAccountChangesResponse {
 
     /**
      * User-defined tags for grouping and filtering monitors and their changes.
+     * Duplicates are removed.
      */
     tags?: Array<string>;
   }
@@ -1786,6 +1867,7 @@ export namespace MonitorListChangesResponse {
 
     /**
      * User-defined tags for grouping and filtering monitors and their changes.
+     * Duplicates are removed.
      */
     tags?: Array<string>;
   }
@@ -1901,6 +1983,7 @@ export interface MonitorRetrieveChangeResponse {
 
   /**
    * User-defined tags for grouping and filtering monitors and their changes.
+   * Duplicates are removed.
    */
   tags: Array<string>;
 
@@ -2011,6 +2094,7 @@ export interface MonitorCreateParams {
 
   /**
    * User-defined tags for grouping and filtering monitors and their changes.
+   * Duplicates are removed.
    */
   tags?: Array<string>;
 
@@ -2085,12 +2169,12 @@ export namespace MonitorCreateParams {
     url: string;
 
     /**
-     * URL path patterns to exclude.
+     * URL path patterns to exclude (max 50).
      */
     exclude?: Array<string>;
 
     /**
-     * URL path patterns to include.
+     * URL path patterns to include (max 50).
      */
     include?: Array<string>;
 
@@ -2183,6 +2267,7 @@ export interface MonitorUpdateParams {
 
   /**
    * User-defined tags for grouping and filtering monitors and their changes.
+   * Duplicates are removed.
    */
   tags?: Array<string>;
 
@@ -2268,12 +2353,12 @@ export namespace MonitorUpdateParams {
     url: string;
 
     /**
-     * URL path patterns to exclude.
+     * URL path patterns to exclude (max 50).
      */
     exclude?: Array<string>;
 
     /**
-     * URL path patterns to include.
+     * URL path patterns to include (max 50).
      */
     include?: Array<string>;
 
@@ -2349,10 +2434,19 @@ export namespace MonitorUpdateParams {
 }
 
 export interface MonitorListParams {
+  /**
+   * Filter by change detection type.
+   */
   change_detection_type?: 'exact' | 'semantic';
 
+  /**
+   * Opaque pagination cursor from a previous response.
+   */
   cursor?: string;
 
+  /**
+   * Maximum number of items to return per page (1-100). Defaults to 25.
+   */
   limit?: number;
 
   /**
@@ -2364,7 +2458,7 @@ export interface MonitorListParams {
    * Comma-separated fields to search with `q`. Defaults to all of them. Note
    * `instructions` only exists on extract monitors.
    */
-  search_by?: Array<'name' | 'url' | 'instructions' | 'tags'>;
+  search_by?: Array<'name' | 'url' | 'instructions' | 'tags'> | null;
 
   /**
    * `prefix` for as-you-type prefix matching (default), `exact` for full-token
@@ -2373,11 +2467,7 @@ export interface MonitorListParams {
   search_type?: 'exact' | 'prefix';
 
   /**
-   * Monitor lifecycle status. `failed` means the most recent run failed (see the
-   * monitor's `last_error`); failed monitors keep running on schedule and flip back
-   * to `active` on the next successful run. Monitors are auto-`paused` after
-   * repeated consecutive failures or insufficient-credit skips; resume by PATCHing
-   * status to `active`.
+   * Filter monitors by lifecycle status.
    */
   status?: 'active' | 'paused' | 'failed';
 
@@ -2389,20 +2479,50 @@ export interface MonitorListParams {
   /**
    * Comma-separated list of tags to filter by (matches monitors having any of them).
    */
-  tags?: Array<string>;
+  tags?: Array<string> | null;
 
+  /**
+   * Filter by target type.
+   */
   target_type?: 'page' | 'sitemap' | 'extract';
 }
 
+export interface MonitorGetCreditUsageParams {
+  /**
+   * Only include items at or after this ISO 8601 timestamp.
+   */
+  since?: string;
+
+  /**
+   * Only include items before this ISO 8601 timestamp.
+   */
+  until?: string;
+}
+
 export interface MonitorListAccountChangesParams {
+  /**
+   * Filter by change detection type.
+   */
   change_detection_type?: 'exact' | 'semantic';
 
+  /**
+   * Opaque pagination cursor from a previous response.
+   */
   cursor?: string;
 
+  /**
+   * Maximum number of items to return per page (1-100). Defaults to 25.
+   */
   limit?: number;
 
+  /**
+   * Filter changes to a single monitor.
+   */
   monitor_id?: string;
 
+  /**
+   * Only include items at or after this ISO 8601 timestamp.
+   */
   since?: string;
 
   /**
@@ -2410,28 +2530,48 @@ export interface MonitorListAccountChangesParams {
    */
   tag?: string;
 
+  /**
+   * Filter by target type.
+   */
   target_type?: 'page' | 'sitemap' | 'extract';
 
+  /**
+   * Only include items before this ISO 8601 timestamp.
+   */
   until?: string;
 }
 
 export interface MonitorListAccountRunsParams {
+  /**
+   * Opaque pagination cursor from a previous response.
+   */
   cursor?: string;
 
+  /**
+   * Maximum number of items to return per page (1-100). Defaults to 25.
+   */
   limit?: number;
 
   /**
-   * Lifecycle status of a run. `skipped` runs never executed — see `skip_reason`
-   * (insufficient credits, monitor paused, or superseded by a concurrent run).
+   * Filter runs by lifecycle status.
    */
   status?: 'queued' | 'running' | 'completed' | 'failed' | 'skipped';
 }
 
 export interface MonitorListChangesParams {
+  /**
+   * Opaque pagination cursor from a previous response.
+   */
   cursor?: string;
 
+  /**
+   * Maximum number of items to return per page (1-100). Defaults to 25.
+   */
   limit?: number;
 
+  /**
+   * Only include items at or after this ISO 8601 timestamp.
+   */
   since?: string;
 
   /**
@@ -2439,17 +2579,25 @@ export interface MonitorListChangesParams {
    */
   tag?: string;
 
+  /**
+   * Only include items before this ISO 8601 timestamp.
+   */
   until?: string;
 }
 
 export interface MonitorListRunsParams {
+  /**
+   * Opaque pagination cursor from a previous response.
+   */
   cursor?: string;
 
+  /**
+   * Maximum number of items to return per page (1-100). Defaults to 25.
+   */
   limit?: number;
 
   /**
-   * Lifecycle status of a run. `skipped` runs never executed — see `skip_reason`
-   * (insufficient credits, monitor paused, or superseded by a concurrent run).
+   * Filter runs by lifecycle status.
    */
   status?: 'queued' | 'running' | 'completed' | 'failed' | 'skipped';
 }
@@ -2462,6 +2610,8 @@ export declare namespace Monitors {
     type MonitorUpdateResponse as MonitorUpdateResponse,
     type MonitorListResponse as MonitorListResponse,
     type MonitorDeleteResponse as MonitorDeleteResponse,
+    type MonitorGetCreditUsageResponse as MonitorGetCreditUsageResponse,
+    type MonitorGetLimitsResponse as MonitorGetLimitsResponse,
     type MonitorListAccountChangesResponse as MonitorListAccountChangesResponse,
     type MonitorListAccountRunsResponse as MonitorListAccountRunsResponse,
     type MonitorListChangesResponse as MonitorListChangesResponse,
@@ -2471,6 +2621,7 @@ export declare namespace Monitors {
     type MonitorCreateParams as MonitorCreateParams,
     type MonitorUpdateParams as MonitorUpdateParams,
     type MonitorListParams as MonitorListParams,
+    type MonitorGetCreditUsageParams as MonitorGetCreditUsageParams,
     type MonitorListAccountChangesParams as MonitorListAccountChangesParams,
     type MonitorListAccountRunsParams as MonitorListAccountRunsParams,
     type MonitorListChangesParams as MonitorListChangesParams,

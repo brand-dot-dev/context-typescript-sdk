@@ -119,7 +119,8 @@ export class Web extends APIResource {
   }
 
   /**
-   * Scrapes the given URL and returns the raw HTML content of the page.
+   * Scrapes the given URL and returns the raw HTML content of the page. The base
+   * request costs 1 credit; requests with browser actions cost 2 credits.
    *
    * @example
    * ```ts
@@ -138,8 +139,9 @@ export class Web extends APIResource {
   /**
    * Extract image assets from a web page, including standard URLs, inline SVGs, data
    * URIs, responsive image sources, metadata, CSS backgrounds, video posters, and
-   * embeds. The base request costs 1 credit. When enrichment is enabled, the entire
-   * call costs 5 credits.
+   * embeds. The base request costs 1 credit, or 2 credits with browser actions. When
+   * enrichment is enabled, the entire call costs 5 credits, including requests that
+   * also use actions.
    *
    * @example
    * ```ts
@@ -162,16 +164,16 @@ export class Web extends APIResource {
    *
    * ### Billing & errors
    *
-   * | HTTP status | Billed?        | Meaning                                                                                  |
-   * | ----------- | -------------- | ---------------------------------------------------------------------------------------- |
-   * | 200         | Yes — 1 credit | Successful scrape, including a zero-length result when includeSelectors matched nothing  |
-   * | 400         | No             | Invalid input, skipped PDF, or the page could not be scraped                             |
-   * | 401 / 403   | No             | Invalid/disabled key, insufficient permissions, or credits exhausted; inspect error_code |
-   * | 404         | No             | Target page returned or fingerprinted as not found                                       |
-   * | 408         | No             | Request timed out                                                                        |
-   * | 415         | No             | Unsupported content type                                                                 |
-   * | 429         | No             | Per-minute rate limit exceeded; honor Retry-After                                        |
-   * | 500         | No             | Internal error                                                                           |
+   * | HTTP status | Billed?                                   | Meaning                                                                                  |
+   * | ----------- | ----------------------------------------- | ---------------------------------------------------------------------------------------- |
+   * | 200         | Yes — 1 credit, or 2 credits with actions | Successful scrape, including a zero-length result when includeSelectors matched nothing  |
+   * | 400         | No                                        | Invalid input, skipped PDF, or the page could not be scraped                             |
+   * | 401 / 403   | No                                        | Invalid/disabled key, insufficient permissions, or credits exhausted; inspect error_code |
+   * | 404         | No                                        | Target page returned or fingerprinted as not found                                       |
+   * | 408         | No                                        | Request timed out                                                                        |
+   * | 415         | No                                        | Unsupported content type                                                                 |
+   * | 429         | No                                        | Per-minute rate limit exceeded; honor Retry-After                                        |
+   * | 500         | No                                        | Internal error                                                                           |
    *
    * @example
    * ```ts
@@ -190,7 +192,7 @@ export class Web extends APIResource {
    * @example
    * ```ts
    * const response = await client.web.webScrapeSitemap({
-   *   domain: 'domain',
+   *   domain: 'xxx',
    * });
    * ```
    */
@@ -1042,7 +1044,8 @@ export interface WebScreenshotResponse {
   key_metadata?: WebScreenshotResponse.KeyMetadata;
 
   /**
-   * Public URL of the uploaded screenshot image
+   * Public image URL for standard requests, or an in-memory data URL when ZDR is
+   * enabled.
    */
   screenshot?: string;
 
@@ -1973,10 +1976,22 @@ export interface WebExtractParams {
   pdf?: WebExtractParams.Pdf;
 
   /**
+   * When true, waits briefly for CSS and transition animations to settle before
+   * extracting each crawled page. Defaults to false. This adds a bit of latency in
+   * exchange for more stable output on animated pages.
+   */
+  settleAnimations?: boolean;
+
+  /**
    * Soft time budget for the crawl in milliseconds. Min: 10000 (10s). Max: 110000
    * (110s). Default: 80000 (80s).
    */
   stopAfterMs?: number;
+
+  /**
+   * Optional tags for tracking usage. Up to 20 tags, each 1 to 50 characters.
+   */
+  tags?: Array<string>;
 
   /**
    * Optional timeout in milliseconds for the request. If the request takes longer
@@ -2025,6 +2040,13 @@ export interface WebExtractCompetitorsParams {
   numCompetitors?: number;
 
   /**
+   * Optional comma-separated caller-defined tags for tracking this request. Tags are
+   * recorded on the request's usage log and can be used to filter usage on the
+   * dashboard usage page. Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
+
+  /**
    * Optional timeout in milliseconds for the request. If the request takes longer
    * than this value, it will be aborted with a 408 status code. Maximum allowed
    * value is 300000ms (5 minutes).
@@ -2048,12 +2070,19 @@ export interface WebExtractFontsParams {
   domain?: string;
 
   /**
-   * Maximum age in milliseconds for cached data before the API performs a hard
+   * Maximum age in milliseconds for cached brand data before the API performs a hard
    * refresh. Defaults to 3 months (7776000000 ms). Values below 1 day (86400000 ms)
    * are clamped to 1 day; values above 1 year (31536000000 ms) are clamped to 1
    * year.
    */
-  maxAgeMs?: number;
+  maxAgeMs?: number | null;
+
+  /**
+   * Optional comma-separated caller-defined tags for tracking this request. Tags are
+   * recorded on the request's usage log and can be used to filter usage on the
+   * dashboard usage page. Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
 
   /**
    * Optional timeout in milliseconds for the request. If the request takes longer
@@ -2086,12 +2115,19 @@ export interface WebExtractStyleguideParams {
   domain?: string;
 
   /**
-   * Maximum age in milliseconds for cached data before the API performs a hard
+   * Maximum age in milliseconds for cached brand data before the API performs a hard
    * refresh. Defaults to 3 months (7776000000 ms). Values below 1 day (86400000 ms)
    * are clamped to 1 day; values above 1 year (31536000000 ms) are clamped to 1
    * year.
    */
-  maxAgeMs?: number;
+  maxAgeMs?: number | null;
+
+  /**
+   * Optional comma-separated caller-defined tags for tracking this request. Tags are
+   * recorded on the request's usage log and can be used to filter usage on the
+   * dashboard usage page. Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
 
   /**
    * Optional timeout in milliseconds for the request. If the request takes longer
@@ -2109,8 +2145,9 @@ export interface WebScreenshotParams {
   colorScheme?: 'light' | 'dark';
 
   /**
-   * Two-letter ISO 3166-1 alpha-2 country code for the website request location.
-   * When provided, Context.dev fetches the target page from that country.
+   * Two-letter ISO 3166-1 alpha-2 country code identifying a supported Context.dev
+   * residential proxy exit location. Must be one of Context.dev's supported
+   * countries. When provided, Context.dev fetches the target page from that country.
    */
   country?:
     | 'ad'
@@ -2344,14 +2381,14 @@ export interface WebScreenshotParams {
    * dismiss cookie banner before capture. If 'false' or not provided, captures the
    * page without that step.
    */
-  handleCookiePopup?: 'true' | 'false';
+  handleCookiePopup?: boolean | 'true' | 'false';
 
   /**
    * Return a cached screenshot if a prior screenshot for the same parameters exists
    * and is younger than this many milliseconds. Defaults to 1 day (86400000 ms) when
    * omitted. Max is 30 days (2592000000 ms). Set to 0 to always capture fresh.
    */
-  maxAgeMs?: number;
+  maxAgeMs?: number | null;
 
   /**
    * Optional parameter to specify which page type to screenshot. If provided, the
@@ -2370,7 +2407,14 @@ export interface WebScreenshotParams {
    * top to bottom). The final slice may be shorter than the viewport height. Takes
    * precedence over fullScreenshot. Max: 100000.
    */
-  scrollOffset?: number;
+  scrollOffset?: number | null;
+
+  /**
+   * Optional comma-separated caller-defined tags for tracking this request. Tags are
+   * recorded on the request's usage log and can be used to filter usage on the
+   * dashboard usage page. Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
 
   /**
    * Optional timeout in milliseconds for the request. If the request takes longer
@@ -2389,7 +2433,15 @@ export interface WebScreenshotParams {
    * the screenshot. Min: 0. Max: 30000 (30 seconds). Defaults to 3000 ms when
    * omitted.
    */
-  waitForMs?: number;
+  waitForMs?: number | null;
+
+  /**
+   * Set to enabled to bypass shared caches and omit request and response content
+   * from retained usage logs. Requires zero data retention to be enabled for your
+   * organization (contact support@context.dev), otherwise the request fails with
+   * ZDR_NOT_ENABLED. Successful ZDR responses include X-Context-ZDR: true.
+   */
+  zdr?: 'enabled' | 'disabled';
 }
 
 export namespace WebScreenshotParams {
@@ -2692,6 +2744,11 @@ export interface WebSearchParams {
    * Expand the query into multiple parallel variants for broader recall.
    */
   queryFanout?: boolean;
+
+  /**
+   * Optional tags for tracking usage. Up to 20 tags, each 1 to 50 characters.
+   */
+  tags?: Array<string>;
 
   /**
    * Optional timeout in milliseconds for the request. If the request takes longer
@@ -3084,6 +3141,11 @@ export interface WebWebCrawlMdParams {
   stopAfterMs?: number;
 
   /**
+   * Optional tags for tracking usage. Up to 20 tags, each 1 to 50 characters.
+   */
+  tags?: Array<string>;
+
+  /**
    * Optional timeout in milliseconds for the request. If the request takes longer
    * than this value, it will be aborted with a 408 status code. Maximum allowed
    * value is 300000ms (5 minutes).
@@ -3106,6 +3168,14 @@ export interface WebWebCrawlMdParams {
    * crawled page. Min: 0. Max: 30000 (30 seconds).
    */
   waitForMs?: number;
+
+  /**
+   * Set to enabled to bypass shared caches and omit request and response content
+   * from retained usage logs. Requires zero data retention to be enabled for your
+   * organization (contact support@context.dev), otherwise the request fails with
+   * ZDR_NOT_ENABLED. Successful ZDR responses include X-Context-ZDR: true.
+   */
+  zdr?: 'enabled' | 'disabled';
 }
 
 export namespace WebWebCrawlMdParams {
@@ -3147,8 +3217,18 @@ export interface WebWebScrapeHTMLParams {
   url: string;
 
   /**
-   * Two-letter ISO 3166-1 alpha-2 country code for the website request location.
-   * When provided, Context.dev fetches the target page from that country.
+   * Optional browser actions executed in array order after the page loads and before
+   * content is captured. Requires a paid plan. Send a JSON array in the query
+   * parameter. Maximum: 5 actions.
+   */
+  actions?: Array<
+    WebWebScrapeHTMLParams.WebScrapeWaitAction | WebWebScrapeHTMLParams.WebScrapePerformAction
+  > | null;
+
+  /**
+   * Two-letter ISO 3166-1 alpha-2 country code identifying a supported Context.dev
+   * residential proxy exit location. Must be one of Context.dev's supported
+   * countries. When provided, Context.dev fetches the target page from that country.
    */
   country?:
     | 'ad'
@@ -3361,7 +3441,7 @@ export interface WebWebScrapeHTMLParams {
    * Exclusion takes precedence: an element matching both is removed. Examples:
    * "nav", "footer", ".ad-banner", "[aria-hidden=true]".
    */
-  excludeSelectors?: Array<string>;
+  excludeSelectors?: Array<string> | null;
 
   /**
    * Optional outbound HTTP headers forwarded only to the target URL, sent as
@@ -3373,21 +3453,21 @@ export interface WebWebScrapeHTMLParams {
   /**
    * When true, iframes are rendered inline into the returned HTML.
    */
-  includeFrames?: boolean;
+  includeFrames?: boolean | 'true' | 'false';
 
   /**
    * CSS selectors. When provided, only matching subtrees (and their descendants) are
    * kept and everything else is dropped. When omitted, the entire document is kept.
    * Examples: "article.main", "#content", "[role=main]".
    */
-  includeSelectors?: Array<string>;
+  includeSelectors?: Array<string> | null;
 
   /**
    * Return a cached result if a prior scrape for the same parameters exists and is
    * younger than this many milliseconds. Defaults to 1 day (86400000 ms) when
    * omitted. Max is 30 days (2592000000 ms). Set to 0 to always scrape fresh.
    */
-  maxAgeMs?: number;
+  maxAgeMs?: number | null;
 
   /**
    * PDF parsing controls. Use start/end to limit text extraction and embedded-image
@@ -3400,7 +3480,14 @@ export interface WebWebScrapeHTMLParams {
    * extracting HTML. Defaults to false. This adds a bit of latency in exchange for
    * more stable output on animated pages.
    */
-  settleAnimations?: boolean;
+  settleAnimations?: boolean | 'true' | 'false';
+
+  /**
+   * Optional comma-separated caller-defined tags for tracking this request. Tags are
+   * recorded on the request's usage log and can be used to filter usage on the
+   * dashboard usage page. Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
 
   /**
    * Optional timeout in milliseconds for the request. If the request takes longer
@@ -3413,16 +3500,42 @@ export interface WebWebScrapeHTMLParams {
    * When true, return only the page's main content in the HTML response, excluding
    * headers, footers, sidebars, and navigation when detectable.
    */
-  useMainContentOnly?: boolean;
+  useMainContentOnly?: boolean | 'true' | 'false';
 
   /**
    * Optional browser wait time in milliseconds after initial page load. Min: 0. Max:
    * 30000 (30 seconds).
    */
-  waitForMs?: number;
+  waitForMs?: number | null;
+
+  /**
+   * Set to enabled to bypass shared caches and omit request and response content
+   * from retained usage logs. Requires zero data retention to be enabled for your
+   * organization (contact support@context.dev), otherwise the request fails with
+   * ZDR_NOT_ENABLED. Successful ZDR responses include X-Context-ZDR: true.
+   */
+  zdr?: 'enabled' | 'disabled';
 }
 
 export namespace WebWebScrapeHTMLParams {
+  /**
+   * Pause for a fixed number of milliseconds before continuing to the next action.
+   */
+  export interface WebScrapeWaitAction {
+    do: 'wait';
+
+    timeMs: number;
+  }
+
+  /**
+   * Resolve and perform one natural-language browser action.
+   */
+  export interface WebScrapePerformAction {
+    action: string;
+
+    do: 'perform';
+  }
+
   /**
    * PDF parsing controls. Use start/end to limit text extraction and embedded-image
    * detection/OCR to an inclusive 1-based page range.
@@ -3439,13 +3552,13 @@ export namespace WebWebScrapeHTMLParams {
      * recognized text at each image's position in page reading order while preserving
      * the PDF text layer. This is separate from automatic scanned-PDF OCR fallback.
      */
-    ocr?: boolean;
+    ocr?: boolean | 'true' | 'false';
 
     /**
      * When true, PDF URLs are fetched and parsed. When false, PDF URLs are skipped and
      * a 400 WEBSITE_ACCESS_ERROR is returned.
      */
-    shouldParse?: boolean;
+    shouldParse?: boolean | 'true' | 'false';
 
     /**
      * First 1-based PDF page to parse. When omitted, parsing starts at the first page.
@@ -3461,18 +3574,27 @@ export interface WebWebScrapeImagesParams {
   url: string;
 
   /**
+   * Optional browser actions executed in array order after the page loads and before
+   * content is captured. Requires a paid plan. Send a JSON array in the query
+   * parameter. Maximum: 5 actions.
+   */
+  actions?: Array<
+    WebWebScrapeImagesParams.WebScrapeWaitAction | WebWebScrapeImagesParams.WebScrapePerformAction
+  > | null;
+
+  /**
    * When true, visually duplicate images are removed: every image is loaded and
    * perceptually hashed, and only the highest-resolution copy of each duplicate
    * group is kept. Images that cannot be downloaded or hashed are kept. Default:
    * false.
    */
-  dedupe?: boolean;
+  dedupe?: boolean | 'true' | 'false';
 
   /**
    * Optional per-image processing, sent as deep-object query params such as
    * enrichment[resolution]=true.
    */
-  enrichment?: WebWebScrapeImagesParams.Enrichment;
+  enrichment?: WebWebScrapeImagesParams.Enrichment | null;
 
   /**
    * Optional outbound HTTP headers forwarded only to the target URL, sent as
@@ -3485,7 +3607,14 @@ export interface WebWebScrapeImagesParams {
    * Reuse a cached result this many milliseconds old or newer. Default: 86400000 (1
    * day). Set to 0 to bypass cache. Maximum: 2592000000 (30 days).
    */
-  maxAgeMs?: number;
+  maxAgeMs?: number | null;
+
+  /**
+   * Optional comma-separated caller-defined tags for tracking this request. Tags are
+   * recorded on the request's usage log and can be used to filter usage on the
+   * dashboard usage page. Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
 
   /**
    * Optional timeout in milliseconds for the request. If the request takes longer
@@ -3498,10 +3627,28 @@ export interface WebWebScrapeImagesParams {
    * Optional browser wait time in milliseconds after initial page load before
    * collecting images. Min: 0. Max: 30000 (30 seconds).
    */
-  waitForMs?: number;
+  waitForMs?: number | null;
 }
 
 export namespace WebWebScrapeImagesParams {
+  /**
+   * Pause for a fixed number of milliseconds before continuing to the next action.
+   */
+  export interface WebScrapeWaitAction {
+    do: 'wait';
+
+    timeMs: number;
+  }
+
+  /**
+   * Resolve and perform one natural-language browser action.
+   */
+  export interface WebScrapePerformAction {
+    action: string;
+
+    do: 'perform';
+  }
+
   /**
    * Optional per-image processing, sent as deep-object query params such as
    * enrichment[resolution]=true.
@@ -3510,13 +3657,13 @@ export namespace WebWebScrapeImagesParams {
     /**
      * Classify each image by visual asset type.
      */
-    classification?: boolean;
+    classification?: boolean | 'true' | 'false';
 
     /**
      * Host materializable images on the Brand.dev CDN and return their URL and MIME
      * type.
      */
-    hostedUrl?: boolean;
+    hostedUrl?: boolean | 'true' | 'false';
 
     /**
      * Per-image enrichment timeout in milliseconds. Default: 30000. Maximum: 60000.
@@ -3526,7 +3673,7 @@ export namespace WebWebScrapeImagesParams {
     /**
      * Measure image width and height when possible.
      */
-    resolution?: boolean;
+    resolution?: boolean | 'true' | 'false';
   }
 }
 
@@ -3538,8 +3685,18 @@ export interface WebWebScrapeMdParams {
   url: string;
 
   /**
-   * Two-letter ISO 3166-1 alpha-2 country code for the website request location.
-   * When provided, Context.dev fetches the target page from that country.
+   * Optional browser actions executed in array order after the page loads and before
+   * content is captured. Requires a paid plan. Send a JSON array in the query
+   * parameter. Maximum: 5 actions.
+   */
+  actions?: Array<
+    WebWebScrapeMdParams.WebScrapeWaitAction | WebWebScrapeMdParams.WebScrapePerformAction
+  > | null;
+
+  /**
+   * Two-letter ISO 3166-1 alpha-2 country code identifying a supported Context.dev
+   * residential proxy exit location. Must be one of Context.dev's supported
+   * countries. When provided, Context.dev fetches the target page from that country.
    */
   country?:
     | 'ad'
@@ -3752,7 +3909,7 @@ export interface WebWebScrapeMdParams {
    * includeSelectors. Exclusion takes precedence: an element matching both is
    * removed. Examples: "nav", "footer", ".ad-banner", "[aria-hidden=true]".
    */
-  excludeSelectors?: Array<string>;
+  excludeSelectors?: Array<string> | null;
 
   /**
    * Optional outbound HTTP headers forwarded only to the target URL, sent as
@@ -3764,31 +3921,31 @@ export interface WebWebScrapeMdParams {
   /**
    * When true, the contents of iframes are rendered to Markdown.
    */
-  includeFrames?: boolean;
+  includeFrames?: boolean | 'true' | 'false';
 
   /**
    * Include image references in Markdown output
    */
-  includeImages?: boolean;
+  includeImages?: boolean | 'true' | 'false';
 
   /**
    * Preserve hyperlinks in Markdown output
    */
-  includeLinks?: boolean;
+  includeLinks?: boolean | 'true' | 'false';
 
   /**
    * CSS selectors. When provided, only matching HTML subtrees (and their
    * descendants) are kept before conversion to Markdown. When omitted, the entire
    * document is kept. Examples: "article.main", "#content", "[role=main]".
    */
-  includeSelectors?: Array<string>;
+  includeSelectors?: Array<string> | null;
 
   /**
    * Return a cached result if a prior scrape for the same parameters exists and is
    * younger than this many milliseconds. Defaults to 1 day (86400000 ms) when
    * omitted. Max is 30 days (2592000000 ms). Set to 0 to always scrape fresh.
    */
-  maxAgeMs?: number;
+  maxAgeMs?: number | null;
 
   /**
    * PDF parsing controls. Use start/end to limit text extraction and embedded-image
@@ -3801,12 +3958,19 @@ export interface WebWebScrapeMdParams {
    * converting to Markdown. Defaults to false. This adds a bit of latency in
    * exchange for more stable output on animated pages.
    */
-  settleAnimations?: boolean;
+  settleAnimations?: boolean | 'true' | 'false';
 
   /**
    * Shorten base64-encoded image data in the Markdown output
    */
-  shortenBase64Images?: boolean;
+  shortenBase64Images?: boolean | 'true' | 'false';
+
+  /**
+   * Optional comma-separated caller-defined tags for tracking this request. Tags are
+   * recorded on the request's usage log and can be used to filter usage on the
+   * dashboard usage page. Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
 
   /**
    * Optional timeout in milliseconds for the request. If the request takes longer
@@ -3819,16 +3983,42 @@ export interface WebWebScrapeMdParams {
    * Extract only the main content of the page, excluding headers, footers, sidebars,
    * and navigation
    */
-  useMainContentOnly?: boolean;
+  useMainContentOnly?: boolean | 'true' | 'false';
 
   /**
    * Optional browser wait time in milliseconds after initial page load before
    * converting the page to Markdown. Min: 0. Max: 30000 (30 seconds).
    */
-  waitForMs?: number;
+  waitForMs?: number | null;
+
+  /**
+   * Set to enabled to bypass shared caches and omit request and response content
+   * from retained usage logs. Requires zero data retention to be enabled for your
+   * organization (contact support@context.dev), otherwise the request fails with
+   * ZDR_NOT_ENABLED. Successful ZDR responses include X-Context-ZDR: true.
+   */
+  zdr?: 'enabled' | 'disabled';
 }
 
 export namespace WebWebScrapeMdParams {
+  /**
+   * Pause for a fixed number of milliseconds before continuing to the next action.
+   */
+  export interface WebScrapeWaitAction {
+    do: 'wait';
+
+    timeMs: number;
+  }
+
+  /**
+   * Resolve and perform one natural-language browser action.
+   */
+  export interface WebScrapePerformAction {
+    action: string;
+
+    do: 'perform';
+  }
+
   /**
    * PDF parsing controls. Use start/end to limit text extraction and embedded-image
    * detection/OCR to an inclusive 1-based page range.
@@ -3845,13 +4035,13 @@ export namespace WebWebScrapeMdParams {
      * recognized text at each image's position in page reading order while preserving
      * the PDF text layer. This is separate from automatic scanned-PDF OCR fallback.
      */
-    ocr?: boolean;
+    ocr?: boolean | 'true' | 'false';
 
     /**
      * When true, PDF URLs are fetched and parsed. When false, PDF URLs are skipped and
      * a 400 WEBSITE_ACCESS_ERROR is returned.
      */
-    shouldParse?: boolean;
+    shouldParse?: boolean | 'true' | 'false';
 
     /**
      * First 1-based PDF page to parse. When omitted, parsing starts at the first page.
@@ -3880,6 +4070,19 @@ export interface WebWebScrapeSitemapParams {
   maxLinks?: number;
 
   /**
+   * Optional explicit sitemap URL. When provided, exactly this sitemap is crawled
+   * instead of discovering the domain's sitemaps.
+   */
+  sitemapUrl?: string;
+
+  /**
+   * Optional comma-separated caller-defined tags for tracking this request. Tags are
+   * recorded on the request's usage log and can be used to filter usage on the
+   * dashboard usage page. Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
+
+  /**
    * Optional timeout in milliseconds for the request. If the request takes longer
    * than this value, it will be aborted with a 408 status code. Maximum allowed
    * value is 300000ms (5 minutes).
@@ -3891,6 +4094,14 @@ export interface WebWebScrapeSitemapParams {
    * returned and counted against maxLinks.
    */
   urlRegex?: string;
+
+  /**
+   * Set to enabled to bypass shared caches and omit request and response content
+   * from retained usage logs. Requires zero data retention to be enabled for your
+   * organization (contact support@context.dev), otherwise the request fails with
+   * ZDR_NOT_ENABLED. Successful ZDR responses include X-Context-ZDR: true.
+   */
+  zdr?: 'enabled' | 'disabled';
 }
 
 export declare namespace Web {

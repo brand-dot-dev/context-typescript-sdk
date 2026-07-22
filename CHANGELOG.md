@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.6.0 (2026-07-22)
+
+Full Changelog: [v2.5.0...v2.6.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v2.5.0...v2.6.0)
+
+### Features
+
+* **api:** api update ([8c1f563](https://github.com/context-dot-dev/context-typescript-sdk/commit/8c1f563edf6dcc1d73f9227991031bda015c658f))
+* **api:** api update ([8b7d1bd](https://github.com/context-dot-dev/context-typescript-sdk/commit/8b7d1bdb94fb10c9912d783040ac577b015b8f8e))
+* **api:** api update ([270e0f4](https://github.com/context-dot-dev/context-typescript-sdk/commit/270e0f48fc2b8d3e313b744562220c2ed8b2b82f))
+* **api:** api update ([4ad7020](https://github.com/context-dot-dev/context-typescript-sdk/commit/4ad70200cc9afd8ae4cf97b2bec2e40149636d16))
+* **api:** api update ([23b9a00](https://github.com/context-dot-dev/context-typescript-sdk/commit/23b9a006879c27aa6f11c18b7967acf67e95c3d5))
+* **api:** api update ([fa3004d](https://github.com/context-dot-dev/context-typescript-sdk/commit/fa3004d20081d2eb9cc4f3d2906990972b62d9f2))
+* **api:** api update ([424b19c](https://github.com/context-dot-dev/context-typescript-sdk/commit/424b19c072dcbeea4bc2f1e24a1470bb6df15b5b))
+* **api:** manual updates ([cb78520](https://github.com/context-dot-dev/context-typescript-sdk/commit/cb785201d3f7ad522b69dfaa048baaa9ba5483b6))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([762d40d](https://github.com/context-dot-dev/context-typescript-sdk/commit/762d40d91a3cfd7ed0b7810470c8add41081dca2))
+
 ## 2.5.0 (2026-07-12)
 
 Full Changelog: [v2.4.0...v2.5.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v2.4.0...v2.5.0)

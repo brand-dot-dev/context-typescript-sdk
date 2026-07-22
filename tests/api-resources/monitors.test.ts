@@ -95,12 +95,12 @@ describe('resource monitors', () => {
           change_detection_type: 'exact',
           cursor: 'cursor',
           limit: 1,
-          q: 'q',
+          q: 'pricing',
           search_by: ['name'],
           search_type: 'exact',
           status: 'active',
-          tag: 'tag',
-          tags: ['string'],
+          tag: 'pricing',
+          tags: ['x'],
           target_type: 'page',
         },
         { path: '/_stainless_unknown_path' },
@@ -111,6 +111,41 @@ describe('resource monitors', () => {
   // Mock server tests are disabled
   test.skip('delete', async () => {
     const responsePromise = client.monitors.delete('mon_123');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('getCreditUsage', async () => {
+    const responsePromise = client.monitors.getCreditUsage();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('getCreditUsage: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.monitors.getCreditUsage(
+        { since: '2026-06-01T00:00:00Z', until: '2026-06-28T00:00:00Z' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(ContextDev.NotFoundError);
+  });
+
+  // Mock server tests are disabled
+  test.skip('getLimits', async () => {
+    const responsePromise = client.monitors.getLimits();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -141,11 +176,11 @@ describe('resource monitors', () => {
           change_detection_type: 'exact',
           cursor: 'cursor',
           limit: 1,
-          monitor_id: 'monitor_id',
-          since: '2019-12-27T18:11:19.117Z',
-          tag: 'tag',
+          monitor_id: 'mon_123',
+          since: '2026-06-01T00:00:00Z',
+          tag: 'pricing',
           target_type: 'page',
-          until: '2019-12-27T18:11:19.117Z',
+          until: '2026-06-28T00:00:00Z',
         },
         { path: '/_stainless_unknown_path' },
       ),
@@ -200,9 +235,9 @@ describe('resource monitors', () => {
         {
           cursor: 'cursor',
           limit: 1,
-          since: '2019-12-27T18:11:19.117Z',
-          tag: 'tag',
-          until: '2019-12-27T18:11:19.117Z',
+          since: '2026-06-01T00:00:00Z',
+          tag: 'pricing',
+          until: '2026-06-28T00:00:00Z',
         },
         { path: '/_stainless_unknown_path' },
       ),

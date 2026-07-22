@@ -32,7 +32,7 @@ export class Brand extends APIResource {
    * @example
    * ```ts
    * const response = await client.brand.retrieveSimplified({
-   *   domain: 'domain',
+   *   domain: 'xxx',
    * });
    * ```
    */
@@ -128,8 +128,7 @@ export namespace BrandRetrieveResponse {
     phone?: string;
 
     /**
-     * The primary language of the brand's website content. Detected from the HTML lang
-     * tag, page content analysis, or social media descriptions.
+     * Language to force for the retrieved brand data.
      */
     primary_language?:
       | 'afrikaans'
@@ -475,7 +474,6 @@ export namespace BrandRetrieveResponse {
           | 'Streaming Platforms (Video, Music, Audio)'
           | 'Gaming & Interactive Entertainment'
           | 'Creator Economy & Influencer Platforms'
-          | 'Advertising, Adtech & Media Buying'
           | 'Film, TV & Production Studios'
           | 'Events, Venues & Live Entertainment'
           | 'Virtual Worlds & Metaverse Experiences'
@@ -536,6 +534,7 @@ export namespace BrandRetrieveResponse {
           | 'Streetwear & Emerging Luxury'
           | 'Couture & Made-to-Measure'
           | 'News Publishing & Journalism'
+          | 'Advertising, Adtech & Media Buying'
           | 'Digital Media & Content Platforms'
           | 'Broadcasting (TV & Radio)'
           | 'Podcasting & Audio Media'
@@ -1162,7 +1161,8 @@ export declare namespace BrandRetrieveParams {
       | 'xhosa'
       | 'yiddish'
       | 'yoruba'
-      | 'zulu';
+      | 'zulu'
+      | null;
 
     /**
      * Maximum age in milliseconds for cached brand data before the API performs a hard
@@ -1178,6 +1178,11 @@ export declare namespace BrandRetrieveParams {
      * less comprehensive data.
      */
     maxSpeed?: boolean;
+
+    /**
+     * Optional tags for tracking usage. Up to 20 tags, each 1 to 50 characters.
+     */
+    tags?: Array<string>;
 
     /**
      * Optional timeout in milliseconds for the request. If the request takes longer
@@ -1324,7 +1329,8 @@ export declare namespace BrandRetrieveParams {
       | 'xhosa'
       | 'yiddish'
       | 'yoruba'
-      | 'zulu';
+      | 'zulu'
+      | null;
 
     /**
      * Maximum age in milliseconds for cached brand data before the API performs a hard
@@ -1340,6 +1346,11 @@ export declare namespace BrandRetrieveParams {
      * less comprehensive data.
      */
     maxSpeed?: boolean;
+
+    /**
+     * Optional tags for tracking usage. Up to 20 tags, each 1 to 50 characters.
+     */
+    tags?: Array<string>;
 
     /**
      * Optional timeout in milliseconds for the request. If the request takes longer
@@ -1480,7 +1491,8 @@ export declare namespace BrandRetrieveParams {
       | 'xhosa'
       | 'yiddish'
       | 'yoruba'
-      | 'zulu';
+      | 'zulu'
+      | null;
 
     /**
      * Maximum age in milliseconds for cached brand data before the API performs a hard
@@ -1496,6 +1508,11 @@ export declare namespace BrandRetrieveParams {
      * less comprehensive data.
      */
     maxSpeed?: boolean;
+
+    /**
+     * Optional tags for tracking usage. Up to 20 tags, each 1 to 50 characters.
+     */
+    tags?: Array<string>;
 
     /**
      * Optional timeout in milliseconds for the request. If the request takes longer
@@ -1636,7 +1653,8 @@ export declare namespace BrandRetrieveParams {
       | 'xhosa'
       | 'yiddish'
       | 'yoruba'
-      | 'zulu';
+      | 'zulu'
+      | null;
 
     /**
      * Maximum age in milliseconds for cached brand data before the API performs a hard
@@ -1652,6 +1670,11 @@ export declare namespace BrandRetrieveParams {
      * less comprehensive data.
      */
     maxSpeed?: boolean;
+
+    /**
+     * Optional tags for tracking usage. Up to 20 tags, each 1 to 50 characters.
+     */
+    tags?: Array<string>;
 
     /**
      * Optional stock exchange for the ticker. Defaults to NASDAQ if not specified.
@@ -1678,6 +1701,11 @@ export declare namespace BrandRetrieveParams {
      * Discriminator for direct-URL-based brand retrieval.
      */
     type: 'by_direct_url';
+
+    /**
+     * Optional tags for tracking usage. Up to 20 tags, each 1 to 50 characters.
+     */
+    tags?: Array<string>;
 
     /**
      * Optional timeout in milliseconds for the request. If the request takes longer
@@ -1829,7 +1857,8 @@ export declare namespace BrandRetrieveParams {
       | 'xhosa'
       | 'yiddish'
       | 'yoruba'
-      | 'zulu';
+      | 'zulu'
+      | null;
 
     /**
      * When set to true, the API performs additional verification to ensure the
@@ -1848,12 +1877,17 @@ export declare namespace BrandRetrieveParams {
      * Optional Merchant Category Code (MCC) to help identify the business category or
      * industry.
      */
-    mcc?: number;
+    mcc?: string | number;
 
     /**
      * Optional phone number from the transaction to help verify brand match.
      */
-    phone?: number;
+    phone?: string | number;
+
+    /**
+     * Optional tags for tracking usage. Up to 20 tags, each 1 to 50 characters.
+     */
+    tags?: Array<string>;
 
     /**
      * Optional timeout in milliseconds for the request. If the request takes longer
@@ -1876,7 +1910,19 @@ export interface BrandRetrieveSimplifiedParams {
    * are clamped to 1 day; values above 1 year (31536000000 ms) are clamped to 1
    * year.
    */
-  maxAgeMs?: number;
+  maxAgeMs?: number | null;
+
+  /**
+   * Optional comma-separated caller-defined tags for tracking this request. Tags are
+   * recorded on the request's usage log and can be used to filter usage on the
+   * dashboard usage page. Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
+
+  /**
+   * Optional theme preference used when selecting brand assets.
+   */
+  theme?: 'light' | 'dark';
 
   /**
    * Optional timeout in milliseconds for the request. If the request takes longer

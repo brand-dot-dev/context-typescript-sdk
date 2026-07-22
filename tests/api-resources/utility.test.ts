@@ -11,7 +11,7 @@ describe('resource utility', () => {
   // Mock server tests are disabled
   test.skip('prefetch: only required params', async () => {
     const responsePromise = client.utility.prefetch({
-      identifier: { domain: 'domain' },
+      identifier: { domain: 'xxx' },
       type: 'brand',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -26,8 +26,9 @@ describe('resource utility', () => {
   // Mock server tests are disabled
   test.skip('prefetch: required and optional params', async () => {
     const response = await client.utility.prefetch({
-      identifier: { domain: 'domain' },
+      identifier: { domain: 'xxx' },
       type: 'brand',
+      tags: ['production', 'team-alpha'],
       timeoutMS: 1000,
     });
   });

@@ -94,6 +94,8 @@ Types:
 - <code><a href="./src/resources/monitors.ts">MonitorUpdateResponse</a></code>
 - <code><a href="./src/resources/monitors.ts">MonitorListResponse</a></code>
 - <code><a href="./src/resources/monitors.ts">MonitorDeleteResponse</a></code>
+- <code><a href="./src/resources/monitors.ts">MonitorGetCreditUsageResponse</a></code>
+- <code><a href="./src/resources/monitors.ts">MonitorGetLimitsResponse</a></code>
 - <code><a href="./src/resources/monitors.ts">MonitorListAccountChangesResponse</a></code>
 - <code><a href="./src/resources/monitors.ts">MonitorListAccountRunsResponse</a></code>
 - <code><a href="./src/resources/monitors.ts">MonitorListChangesResponse</a></code>
@@ -108,6 +110,8 @@ Methods:
 - <code title="patch /monitors/{monitor_id}">client.monitors.<a href="./src/resources/monitors.ts">update</a>(monitorID, { ...params }) -> MonitorUpdateResponse</code>
 - <code title="get /monitors">client.monitors.<a href="./src/resources/monitors.ts">list</a>({ ...params }) -> MonitorListResponse</code>
 - <code title="delete /monitors/{monitor_id}">client.monitors.<a href="./src/resources/monitors.ts">delete</a>(monitorID) -> MonitorDeleteResponse</code>
+- <code title="get /monitors/credit-usage">client.monitors.<a href="./src/resources/monitors.ts">getCreditUsage</a>({ ...params }) -> MonitorGetCreditUsageResponse</code>
+- <code title="get /monitors/limits">client.monitors.<a href="./src/resources/monitors.ts">getLimits</a>() -> MonitorGetLimitsResponse</code>
 - <code title="get /monitors/changes">client.monitors.<a href="./src/resources/monitors.ts">listAccountChanges</a>({ ...params }) -> MonitorListAccountChangesResponse</code>
 - <code title="get /monitors/runs">client.monitors.<a href="./src/resources/monitors.ts">listAccountRuns</a>({ ...params }) -> MonitorListAccountRunsResponse</code>
 - <code title="get /monitors/{monitor_id}/changes">client.monitors.<a href="./src/resources/monitors.ts">listChanges</a>(monitorID, { ...params }) -> MonitorListChangesResponse</code>
