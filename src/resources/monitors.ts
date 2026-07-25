@@ -18,15 +18,15 @@ export class Monitors extends APIResource {
    * @example
    * ```ts
    * const monitor = await client.monitors.create({
-   *   change_detection: { type: 'exact' },
    *   name: 'Acme pricing page',
+   *   target: { type: 'page', url: 'https://acme.com/pricing' },
+   *   change_detection: { type: 'exact' },
+   *   mode: 'web',
    *   schedule: {
    *     type: 'interval',
    *     frequency: 6,
    *     unit: 'hours',
    *   },
-   *   target: { type: 'page', url: 'https://acme.com/pricing' },
-   *   mode: 'web',
    *   webhook: { url: 'https://example.com/webhook' },
    * });
    * ```
@@ -262,8 +262,8 @@ export namespace WebhookDelivery {
 }
 
 /**
- * A web monitor. `mode` is the constant `web`; behavior is described by `target`
- * (page/sitemap/extract) and `change_detection` (exact/semantic).
+ * A newly created monitor plus `initial_run_id`, the id of the baseline run queued
+ * at creation.
  */
 export interface MonitorCreateResponse {
   id: string;
@@ -276,6 +276,13 @@ export interface MonitorCreateResponse {
     | MonitorCreateResponse.MonitorsSemanticChangeDetection;
 
   created_at: string;
+
+  /**
+   * The baseline run queued by this create call, or null if it could not be queued
+   * immediately (in which case the baseline runs on the next scheduled tick). Poll
+   * GET /monitors/{monitor_id}/runs/{run_id}.
+   */
+  initial_run_id: string | null;
 
   /**
    * Top-level monitor category. Always `web` today; the concrete behavior is
@@ -2062,21 +2069,7 @@ export interface MonitorRunResponse {
 }
 
 export interface MonitorCreateParams {
-  /**
-   * Discriminated union describing how changes are detected.
-   */
-  change_detection:
-    | MonitorCreateParams.MonitorsExactChangeDetection
-    | MonitorCreateParams.MonitorsSemanticChangeDetection;
-
   name: string;
-
-  /**
-   * Run the monitor on a fixed interval defined by a frequency and a unit, e.g.
-   * every 6 hours or every 2 days. The total interval (frequency × unit) must be
-   * between 10 minutes and 1 year.
-   */
-  schedule: MonitorCreateParams.Schedule;
 
   /**
    * Discriminated union describing what the monitor watches.
@@ -2087,10 +2080,24 @@ export interface MonitorCreateParams {
     | MonitorCreateParams.MonitorsExtractTarget;
 
   /**
+   * Discriminated union describing how changes are detected.
+   */
+  change_detection?:
+    | MonitorCreateParams.MonitorsExactChangeDetection
+    | MonitorCreateParams.MonitorsSemanticChangeDetection;
+
+  /**
    * Top-level monitor category. Always `web` today; the concrete behavior is
    * described by `target` and `change_detection`.
    */
   mode?: 'web';
+
+  /**
+   * Run the monitor on a fixed interval defined by a frequency and a unit, e.g.
+   * every 6 hours or every 2 days. The total interval (frequency × unit) must be
+   * between 10 minutes and 1 year.
+   */
+  schedule?: MonitorCreateParams.Schedule;
 
   /**
    * User-defined tags for grouping and filtering monitors and their changes.
@@ -2102,43 +2109,6 @@ export interface MonitorCreateParams {
 }
 
 export namespace MonitorCreateParams {
-  /**
-   * Detect exact changes. For page targets, this means visible text diffs. For
-   * sitemap targets, this means URL additions and removals.
-   */
-  export interface MonitorsExactChangeDetection {
-    type: 'exact';
-  }
-
-  /**
-   * Detect meaning-level changes to tracked page content, ignoring cosmetic or
-   * paraphrase-only differences. Which changes are meaningful is judged against the
-   * extract target's `instructions` (and `schema`, when provided).
-   */
-  export interface MonitorsSemanticChangeDetection {
-    type: 'semantic';
-
-    confidence_threshold?: number;
-  }
-
-  /**
-   * Run the monitor on a fixed interval defined by a frequency and a unit, e.g.
-   * every 6 hours or every 2 days. The total interval (frequency × unit) must be
-   * between 10 minutes and 1 year.
-   */
-  export interface Schedule {
-    /**
-     * Number of units between runs. The resulting interval (frequency × unit) must be
-     * at least 10 minutes and at most 1 year (e.g. minimum 10 when unit is minutes;
-     * maximum 365 when unit is days).
-     */
-    frequency: number;
-
-    type: 'interval';
-
-    unit: 'minutes' | 'hours' | 'days';
-  }
-
   /**
    * Watch a single web page.
    */
@@ -2228,6 +2198,43 @@ export namespace MonitorCreateParams {
      * is used.
      */
     schema?: { [key: string]: unknown };
+  }
+
+  /**
+   * Detect exact changes. For page targets, this means visible text diffs. For
+   * sitemap targets, this means URL additions and removals.
+   */
+  export interface MonitorsExactChangeDetection {
+    type: 'exact';
+  }
+
+  /**
+   * Detect meaning-level changes to tracked page content, ignoring cosmetic or
+   * paraphrase-only differences. Which changes are meaningful is judged against the
+   * extract target's `instructions` (and `schema`, when provided).
+   */
+  export interface MonitorsSemanticChangeDetection {
+    type: 'semantic';
+
+    confidence_threshold?: number;
+  }
+
+  /**
+   * Run the monitor on a fixed interval defined by a frequency and a unit, e.g.
+   * every 6 hours or every 2 days. The total interval (frequency × unit) must be
+   * between 10 minutes and 1 year.
+   */
+  export interface Schedule {
+    /**
+     * Number of units between runs. The resulting interval (frequency × unit) must be
+     * at least 10 minutes and at most 1 year (e.g. minimum 10 when unit is minutes;
+     * maximum 365 when unit is days).
+     */
+    frequency: number;
+
+    type: 'interval';
+
+    unit: 'minutes' | 'hours' | 'days';
   }
 
   export interface Webhook {
