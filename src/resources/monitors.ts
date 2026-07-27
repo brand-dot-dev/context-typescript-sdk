@@ -370,9 +370,10 @@ export namespace MonitorCreateResponse {
   }
 
   /**
-   * Detect meaning-level changes to tracked page content, ignoring cosmetic or
-   * paraphrase-only differences. Which changes are meaningful is judged against the
-   * extract target's `instructions` (and `schema`, when provided).
+   * Detect meaning-level changes to page content, ignoring cosmetic or
+   * instruction-irrelevant differences. Which changes are meaningful is judged
+   * against the page or extract target's `instructions` (and an extract target's
+   * `schema`, when provided).
    */
   export interface MonitorsSemanticChangeDetection {
     type: 'semantic';
@@ -399,12 +400,19 @@ export namespace MonitorCreateResponse {
   }
 
   /**
-   * Watch a single web page.
+   * Watch a single web page. Exact detection reports visible-text diffs; semantic
+   * detection judges confirmed stable diffs against `instructions`.
    */
   export interface MonitorsPageTarget {
     type: 'page';
 
     url: string;
+
+    /**
+     * Plain-language goal describing which page changes matter. When provided without
+     * change_detection, semantic detection is inferred.
+     */
+    instructions?: string;
 
     /**
      * Normalize whitespace before comparing or analyzing text.
@@ -711,9 +719,10 @@ export namespace MonitorRetrieveResponse {
   }
 
   /**
-   * Detect meaning-level changes to tracked page content, ignoring cosmetic or
-   * paraphrase-only differences. Which changes are meaningful is judged against the
-   * extract target's `instructions` (and `schema`, when provided).
+   * Detect meaning-level changes to page content, ignoring cosmetic or
+   * instruction-irrelevant differences. Which changes are meaningful is judged
+   * against the page or extract target's `instructions` (and an extract target's
+   * `schema`, when provided).
    */
   export interface MonitorsSemanticChangeDetection {
     type: 'semantic';
@@ -740,12 +749,19 @@ export namespace MonitorRetrieveResponse {
   }
 
   /**
-   * Watch a single web page.
+   * Watch a single web page. Exact detection reports visible-text diffs; semantic
+   * detection judges confirmed stable diffs against `instructions`.
    */
   export interface MonitorsPageTarget {
     type: 'page';
 
     url: string;
+
+    /**
+     * Plain-language goal describing which page changes matter. When provided without
+     * change_detection, semantic detection is inferred.
+     */
+    instructions?: string;
 
     /**
      * Normalize whitespace before comparing or analyzing text.
@@ -1052,9 +1068,10 @@ export namespace MonitorUpdateResponse {
   }
 
   /**
-   * Detect meaning-level changes to tracked page content, ignoring cosmetic or
-   * paraphrase-only differences. Which changes are meaningful is judged against the
-   * extract target's `instructions` (and `schema`, when provided).
+   * Detect meaning-level changes to page content, ignoring cosmetic or
+   * instruction-irrelevant differences. Which changes are meaningful is judged
+   * against the page or extract target's `instructions` (and an extract target's
+   * `schema`, when provided).
    */
   export interface MonitorsSemanticChangeDetection {
     type: 'semantic';
@@ -1081,12 +1098,19 @@ export namespace MonitorUpdateResponse {
   }
 
   /**
-   * Watch a single web page.
+   * Watch a single web page. Exact detection reports visible-text diffs; semantic
+   * detection judges confirmed stable diffs against `instructions`.
    */
   export interface MonitorsPageTarget {
     type: 'page';
 
     url: string;
+
+    /**
+     * Plain-language goal describing which page changes matter. When provided without
+     * change_detection, semantic detection is inferred.
+     */
+    instructions?: string;
 
     /**
      * Normalize whitespace before comparing or analyzing text.
@@ -1393,9 +1417,10 @@ export namespace MonitorListResponse {
     }
 
     /**
-     * Detect meaning-level changes to tracked page content, ignoring cosmetic or
-     * paraphrase-only differences. Which changes are meaningful is judged against the
-     * extract target's `instructions` (and `schema`, when provided).
+     * Detect meaning-level changes to page content, ignoring cosmetic or
+     * instruction-irrelevant differences. Which changes are meaningful is judged
+     * against the page or extract target's `instructions` (and an extract target's
+     * `schema`, when provided).
      */
     export interface MonitorsSemanticChangeDetection {
       type: 'semantic';
@@ -1422,12 +1447,19 @@ export namespace MonitorListResponse {
     }
 
     /**
-     * Watch a single web page.
+     * Watch a single web page. Exact detection reports visible-text diffs; semantic
+     * detection judges confirmed stable diffs against `instructions`.
      */
     export interface MonitorsPageTarget {
       type: 'page';
 
       url: string;
+
+      /**
+       * Plain-language goal describing which page changes matter. When provided without
+       * change_detection, semantic detection is inferred.
+       */
+      instructions?: string;
 
       /**
        * Normalize whitespace before comparing or analyzing text.
@@ -2110,12 +2142,19 @@ export interface MonitorCreateParams {
 
 export namespace MonitorCreateParams {
   /**
-   * Watch a single web page.
+   * Watch a single web page. Exact detection reports visible-text diffs; semantic
+   * detection judges confirmed stable diffs against `instructions`.
    */
   export interface MonitorsPageTarget {
     type: 'page';
 
     url: string;
+
+    /**
+     * Plain-language goal describing which page changes matter. When provided without
+     * change_detection, semantic detection is inferred.
+     */
+    instructions?: string;
 
     /**
      * Normalize whitespace before comparing or analyzing text.
@@ -2209,9 +2248,10 @@ export namespace MonitorCreateParams {
   }
 
   /**
-   * Detect meaning-level changes to tracked page content, ignoring cosmetic or
-   * paraphrase-only differences. Which changes are meaningful is judged against the
-   * extract target's `instructions` (and `schema`, when provided).
+   * Detect meaning-level changes to page content, ignoring cosmetic or
+   * instruction-irrelevant differences. Which changes are meaningful is judged
+   * against the page or extract target's `instructions` (and an extract target's
+   * `schema`, when provided).
    */
   export interface MonitorsSemanticChangeDetection {
     type: 'semantic';
@@ -2302,9 +2342,10 @@ export namespace MonitorUpdateParams {
   }
 
   /**
-   * Detect meaning-level changes to tracked page content, ignoring cosmetic or
-   * paraphrase-only differences. Which changes are meaningful is judged against the
-   * extract target's `instructions` (and `schema`, when provided).
+   * Detect meaning-level changes to page content, ignoring cosmetic or
+   * instruction-irrelevant differences. Which changes are meaningful is judged
+   * against the page or extract target's `instructions` (and an extract target's
+   * `schema`, when provided).
    */
   export interface MonitorsSemanticChangeDetection {
     type: 'semantic';
@@ -2331,12 +2372,19 @@ export namespace MonitorUpdateParams {
   }
 
   /**
-   * Watch a single web page.
+   * Watch a single web page. Exact detection reports visible-text diffs; semantic
+   * detection judges confirmed stable diffs against `instructions`.
    */
   export interface MonitorsPageTarget {
     type: 'page';
 
     url: string;
+
+    /**
+     * Plain-language goal describing which page changes matter. When provided without
+     * change_detection, semantic detection is inferred.
+     */
+    instructions?: string;
 
     /**
      * Normalize whitespace before comparing or analyzing text.
