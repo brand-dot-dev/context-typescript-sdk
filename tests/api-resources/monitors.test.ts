@@ -30,6 +30,8 @@ describe('resource monitors', () => {
       target: {
         type: 'page',
         url: 'https://acme.com/pricing',
+        instructions:
+          'Report pricing or plan availability changes. Ignore counters, timestamps, testimonials, and navigation.',
         normalize_whitespace: true,
       },
       change_detection: { type: 'exact' },
