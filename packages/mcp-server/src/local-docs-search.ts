@@ -1864,6 +1864,259 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
     },
   },
+  {
+    name: 'submit',
+    endpoint: '/people/retrieve',
+    httpMethod: 'post',
+    summary: 'Retrieve Person',
+    description: 'Retrieve and normalize a person profile from identifiers.',
+    stainlessPath: '(resource) batch > (method) submit',
+    qualified: 'client.batch.submit',
+    params: ['identifiers: { linkedinUrl?: string; };', 'tags?: string[];', 'timeoutMS?: number;'],
+    response:
+      "{ code: 200; metadata: { identifiers: { linkedinUrl?: string; }; sourcesAttempted: 'linkedin' | 'cv' | 'manual' | 'github' | 'other'[]; sourcesSucceeded: 'linkedin' | 'cv' | 'manual' | 'github' | 'other'[]; urlsAnalyzed: string[]; personalWebsiteUrl?: string; }; person: { education: { institution: object; dates?: object; description?: string; fieldOfStudy?: string; qualification?: string; }[]; experience: { company: object; title: string; dates?: object; description?: string; }[]; profile: { fullName?: string; headline?: string; location?: string; profilePictureUrl?: string; summary?: string; }; skills: { name: string; normalized?: string; proficiency?: string; }[]; }; status: 'ok'; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }",
+    markdown:
+      "## submit\n\n`client.batch.submit(identifiers: { linkedinUrl?: string; }, tags?: string[], timeoutMS?: number): { code: 200; metadata: object; person: object; status: 'ok'; key_metadata?: object; }`\n\n**post** `/people/retrieve`\n\nRetrieve and normalize a person profile from identifiers.\n\n### Parameters\n\n- `identifiers: { linkedinUrl?: string; }`\n  Known identifiers for the person. At least one identifier is required.\n  - `linkedinUrl?: string`\n    LinkedIn profile URL, e.g. https://www.linkedin.com/in/yahia-bakour/.\n\n- `tags?: string[]`\n  Optional tags for tracking usage. Up to 20 tags, each 1 to 50 characters.\n\n- `timeoutMS?: number`\n  Optional timeout in milliseconds for the request. If the request takes longer than this value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5 minutes).\n\n### Returns\n\n- `{ code: 200; metadata: { identifiers: { linkedinUrl?: string; }; sourcesAttempted: 'linkedin' | 'cv' | 'manual' | 'github' | 'other'[]; sourcesSucceeded: 'linkedin' | 'cv' | 'manual' | 'github' | 'other'[]; urlsAnalyzed: string[]; personalWebsiteUrl?: string; }; person: { education: { institution: object; dates?: object; description?: string; fieldOfStudy?: string; qualification?: string; }[]; experience: { company: object; title: string; dates?: object; description?: string; }[]; profile: { fullName?: string; headline?: string; location?: string; profilePictureUrl?: string; summary?: string; }; skills: { name: string; normalized?: string; proficiency?: string; }[]; }; status: 'ok'; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }`\n\n  - `code: 200`\n  - `metadata: { identifiers: { linkedinUrl?: string; }; sourcesAttempted: 'linkedin' | 'cv' | 'manual' | 'github' | 'other'[]; sourcesSucceeded: 'linkedin' | 'cv' | 'manual' | 'github' | 'other'[]; urlsAnalyzed: string[]; personalWebsiteUrl?: string; }`\n  - `person: { education: { institution: { display: string; normalized?: string; }; dates?: { endDate?: { year: number; day?: number; month?: number; }; isCurrent?: boolean; startDate?: { year: number; day?: number; month?: number; }; }; description?: string; fieldOfStudy?: string; qualification?: string; }[]; experience: { company: { display: string; normalized?: string; }; title: string; dates?: { endDate?: { year: number; day?: number; month?: number; }; isCurrent?: boolean; startDate?: { year: number; day?: number; month?: number; }; }; description?: string; }[]; profile: { fullName?: string; headline?: string; location?: string; profilePictureUrl?: string; summary?: string; }; skills: { name: string; normalized?: string; proficiency?: string; }[]; }`\n  - `status: 'ok'`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.batch.submit({ identifiers: {} });\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.batch.submit',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.batch.submit({\n  identifiers: { linkedinUrl: 'https://www.linkedin.com/in/yahia-bakour/' },\n});\n\nconsole.log(response.code);",
+      },
+      python: {
+        method: 'batch.submit',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.batch.submit(\n    identifiers={\n        "linkedin_url": "https://www.linkedin.com/in/yahia-bakour/"\n    },\n)\nprint(response.code)',
+      },
+      go: {
+        method: 'client.Batch.Submit',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Batch.Submit(context.TODO(), contextdev.BatchSubmitParams{\n\t\tIdentifiers: contextdev.BatchSubmitParamsIdentifiers{\n\t\t\tLinkedinURL: contextdev.String("https://www.linkedin.com/in/yahia-bakour/"),\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Code)\n}\n',
+      },
+      ruby: {
+        method: 'batch.submit',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.batch.submit(identifiers: {})\n\nputs(response)',
+      },
+      cli: {
+        method: 'batch submit',
+        example: "context-dev batch submit \\\n  --api-key 'My API Key' \\\n  --identifiers '{}'",
+      },
+      php: {
+        method: 'batch->submit',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->batch->submit(\n  identifiers: ['linkedinURL' => 'https://www.linkedin.com/in/yahia-bakour/'],\n  tags: ['production', 'team-alpha'],\n  timeoutMs: 1000,\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/people/retrieve \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "identifiers": {\n            "linkedinUrl": "https://www.linkedin.com/in/yahia-bakour/"\n          },\n          "tags": [\n            "production",\n            "team-alpha"\n          ]\n        }\'',
+      },
+    },
+  },
+  {
+    name: 'list',
+    endpoint: '/batch/list',
+    httpMethod: 'get',
+    summary: 'List batches',
+    description: 'List your batches from newest to oldest. Filter by status or continue with a cursor.',
+    stainlessPath: '(resource) batch > (method) list',
+    qualified: 'client.batch.list',
+    params: [
+      'cursor?: string;',
+      'limit?: number;',
+      "status?: 'queued' | 'running' | 'cancelling' | 'completed' | 'cancelled' | 'failed';",
+      'tags?: string[];',
+    ],
+    response:
+      "{ data?: { id: string; credits: { charged: number; estimated: number; }; error: { code: string; message: string; }; errors: { code: string; count: number; }[]; input: { accepted: number; duplicates: number; invalid: number; submitted: number; }; mode: 'scrape' | 'crawl'; progress: { failed: number; pending: number; succeeded: number; }; results: { expires_at: string; files: object[]; }; status: 'queued' | 'running' | 'cancelling' | 'completed' | 'cancelled' | 'failed'; timing: { completed_at: string; created_at: string; started_at: string; }; type: 'markdown' | 'html'; }[]; has_more?: boolean; key_metadata?: { credits_consumed: number; credits_remaining: number; }; next_cursor?: string; }",
+    markdown:
+      "## list\n\n`client.batch.list(cursor?: string, limit?: number, status?: 'queued' | 'running' | 'cancelling' | 'completed' | 'cancelled' | 'failed', tags?: string[]): { data?: object[]; has_more?: boolean; key_metadata?: object; next_cursor?: string; }`\n\n**get** `/batch/list`\n\nList your batches from newest to oldest. Filter by status or continue with a cursor.\n\n### Parameters\n\n- `cursor?: string`\n  Cursor from the previous page.\n\n- `limit?: number`\n  Batches per page. Defaults to 25.\n\n- `status?: 'queued' | 'running' | 'cancelling' | 'completed' | 'cancelled' | 'failed'`\n  Filter by status.\n\n- `tags?: string[]`\n  Optional comma-separated caller-defined tags for tracking this request. Tags are recorded on the request's usage log and can be used to filter usage on the dashboard usage page. Up to 20 tags, each 1-50 characters.\n\n### Returns\n\n- `{ data?: { id: string; credits: { charged: number; estimated: number; }; error: { code: string; message: string; }; errors: { code: string; count: number; }[]; input: { accepted: number; duplicates: number; invalid: number; submitted: number; }; mode: 'scrape' | 'crawl'; progress: { failed: number; pending: number; succeeded: number; }; results: { expires_at: string; files: object[]; }; status: 'queued' | 'running' | 'cancelling' | 'completed' | 'cancelled' | 'failed'; timing: { completed_at: string; created_at: string; started_at: string; }; type: 'markdown' | 'html'; }[]; has_more?: boolean; key_metadata?: { credits_consumed: number; credits_remaining: number; }; next_cursor?: string; }`\n\n  - `data?: { id: string; credits: { charged: number; estimated: number; }; error: { code: string; message: string; }; errors: { code: string; count: number; }[]; input: { accepted: number; duplicates: number; invalid: number; submitted: number; }; mode: 'scrape' | 'crawl'; progress: { failed: number; pending: number; succeeded: number; }; results: { expires_at: string; files: { bytes: number; items: number; url: string; }[]; }; status: 'queued' | 'running' | 'cancelling' | 'completed' | 'cancelled' | 'failed'; timing: { completed_at: string; created_at: string; started_at: string; }; type: 'markdown' | 'html'; }[]`\n  - `has_more?: boolean`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n  - `next_cursor?: string`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst batches = await client.batch.list();\n\nconsole.log(batches);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.batch.list',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst batches = await client.batch.list();\n\nconsole.log(batches.data);",
+      },
+      python: {
+        method: 'batch.list',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nbatches = client.batch.list()\nprint(batches.data)',
+      },
+      go: {
+        method: 'client.Batch.List',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tbatches, err := client.Batch.List(context.TODO(), contextdev.BatchListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", batches.Data)\n}\n',
+      },
+      ruby: {
+        method: 'batch.list',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nbatches = context_dev.batch.list\n\nputs(batches)',
+      },
+      cli: {
+        method: 'batch list',
+        example: "context-dev batch list \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'batch->list',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$batches = $client->batch->list(\n  cursor: 'cursor',\n  limit: 1,\n  status: 'queued',\n  tags: ['production', 'team-alpha'],\n);\n\nvar_dump($batches);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/batch/list \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'retrieve',
+    endpoint: '/batch/{batch_id}',
+    httpMethod: 'get',
+    summary: 'Get a batch',
+    description:
+      'Check progress and get download links when the batch finishes. Also returns the rejected-URL list and webhook signing secret from submission, so nothing is lost if the submit response was dropped.',
+    stainlessPath: '(resource) batch > (method) retrieve',
+    qualified: 'client.batch.retrieve',
+    params: ['batch_id: string;', 'tags?: string[];'],
+    response:
+      "{ id: string; credits: { charged: number; estimated: number; }; error: { code: string; message: string; }; errors: { code: string; count: number; }[]; input: { accepted: number; duplicates: number; invalid: number; submitted: number; }; invalid_urls: { reason: string; url: string; }[]; mode: 'scrape' | 'crawl'; progress: { failed: number; pending: number; succeeded: number; }; results: { expires_at: string; files: { bytes: number; items: number; url: string; }[]; }; status: 'queued' | 'running' | 'cancelling' | 'completed' | 'cancelled' | 'failed'; timing: { completed_at: string; created_at: string; started_at: string; }; type: 'markdown' | 'html'; key_metadata?: { credits_consumed: number; credits_remaining: number; }; webhook_secret?: string; }",
+    markdown:
+      "## retrieve\n\n`client.batch.retrieve(batch_id: string, tags?: string[]): { id: string; credits: object; error: object; errors: object[]; input: object; invalid_urls: object[]; mode: 'scrape' | 'crawl'; progress: object; results: object; status: 'queued' | 'running' | 'cancelling' | 'completed' | 'cancelled' | 'failed'; timing: object; type: 'markdown' | 'html'; key_metadata?: object; webhook_secret?: string; }`\n\n**get** `/batch/{batch_id}`\n\nCheck progress and get download links when the batch finishes. Also returns the rejected-URL list and webhook signing secret from submission, so nothing is lost if the submit response was dropped.\n\n### Parameters\n\n- `batch_id: string`\n  ID of the batch to retrieve or cancel.\n\n- `tags?: string[]`\n  Optional comma-separated caller-defined tags for tracking this request. Tags are recorded on the request's usage log and can be used to filter usage on the dashboard usage page. Up to 20 tags, each 1-50 characters.\n\n### Returns\n\n- `{ id: string; credits: { charged: number; estimated: number; }; error: { code: string; message: string; }; errors: { code: string; count: number; }[]; input: { accepted: number; duplicates: number; invalid: number; submitted: number; }; invalid_urls: { reason: string; url: string; }[]; mode: 'scrape' | 'crawl'; progress: { failed: number; pending: number; succeeded: number; }; results: { expires_at: string; files: { bytes: number; items: number; url: string; }[]; }; status: 'queued' | 'running' | 'cancelling' | 'completed' | 'cancelled' | 'failed'; timing: { completed_at: string; created_at: string; started_at: string; }; type: 'markdown' | 'html'; key_metadata?: { credits_consumed: number; credits_remaining: number; }; webhook_secret?: string; }`\n\n  - `id: string`\n  - `credits: { charged: number; estimated: number; }`\n  - `error: { code: string; message: string; }`\n  - `errors: { code: string; count: number; }[]`\n  - `input: { accepted: number; duplicates: number; invalid: number; submitted: number; }`\n  - `invalid_urls: { reason: string; url: string; }[]`\n  - `mode: 'scrape' | 'crawl'`\n  - `progress: { failed: number; pending: number; succeeded: number; }`\n  - `results: { expires_at: string; files: { bytes: number; items: number; url: string; }[]; }`\n  - `status: 'queued' | 'running' | 'cancelling' | 'completed' | 'cancelled' | 'failed'`\n  - `timing: { completed_at: string; created_at: string; started_at: string; }`\n  - `type: 'markdown' | 'html'`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n  - `webhook_secret?: string`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst batch = await client.batch.retrieve('batch_9f2c8a');\n\nconsole.log(batch);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.batch.retrieve',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst batch = await client.batch.retrieve('batch_9f2c8a');\n\nconsole.log(batch.id);",
+      },
+      python: {
+        method: 'batch.retrieve',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nbatch = client.batch.retrieve(\n    batch_id="batch_9f2c8a",\n)\nprint(batch.id)',
+      },
+      go: {
+        method: 'client.Batch.Get',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tbatch, err := client.Batch.Get(\n\t\tcontext.TODO(),\n\t\t"batch_9f2c8a",\n\t\tcontextdev.BatchGetParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", batch.ID)\n}\n',
+      },
+      ruby: {
+        method: 'batch.retrieve',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nbatch = context_dev.batch.retrieve("batch_9f2c8a")\n\nputs(batch)',
+      },
+      cli: {
+        method: 'batch retrieve',
+        example: "context-dev batch retrieve \\\n  --api-key 'My API Key' \\\n  --batch-id batch_9f2c8a",
+      },
+      php: {
+        method: 'batch->retrieve',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$batch = $client->batch->retrieve(\n  'batch_9f2c8a', tags: ['production', 'team-alpha']\n);\n\nvar_dump($batch);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/batch/$BATCH_ID \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'get_results',
+    endpoint: '/batch/{batch_id}/results',
+    httpMethod: 'get',
+    summary: 'Get batch results',
+    description:
+      'Page through the result records of a finished batch as JSON, in the same order as the downloadable result files. Use this instead of downloading and parsing the NDJSON files yourself.',
+    stainlessPath: '(resource) batch > (method) get_results',
+    qualified: 'client.batch.getResults',
+    params: ['batch_id: string;', 'cursor?: string;', 'limit?: number;', 'tags?: string[];'],
+    response:
+      "{ data?: { final_url: string; http_status: number; metadata: { finalUrl: string; sourceUrl: string; additionalMeta?: object; alternates?: object[]; author?: string; canonicalUrl?: string; description?: string; favicon?: string; image?: string; jsonLd?: object[]; keywords?: string[]; language?: string; modifiedTime?: string; openGraph?: object; publishedTime?: string; robots?: string; siteName?: string; title?: string; twitter?: object; }; status: 'ok'; url: string; html?: string; itemId?: string; markdown?: string; meta?: object; } | { error_code: string; message: string; status: 'error'; url: string; itemId?: string; meta?: object; }[]; has_more?: boolean; key_metadata?: { credits_consumed: number; credits_remaining: number; }; next_cursor?: string; }",
+    markdown:
+      "## get_results\n\n`client.batch.getResults(batch_id: string, cursor?: string, limit?: number, tags?: string[]): { data?: object | object[]; has_more?: boolean; key_metadata?: object; next_cursor?: string; }`\n\n**get** `/batch/{batch_id}/results`\n\nPage through the result records of a finished batch as JSON, in the same order as the downloadable result files. Use this instead of downloading and parsing the NDJSON files yourself.\n\n### Parameters\n\n- `batch_id: string`\n  ID of the batch to retrieve or cancel.\n\n- `cursor?: string`\n  next_cursor from the previous page.\n\n- `limit?: number`\n  Records per page. Defaults to 25. A page can close early so its payload stays under ~8 MB; rely on next_cursor rather than counting records.\n\n- `tags?: string[]`\n  Optional comma-separated caller-defined tags for tracking this request. Tags are recorded on the request's usage log and can be used to filter usage on the dashboard usage page. Up to 20 tags, each 1-50 characters.\n\n### Returns\n\n- `{ data?: { final_url: string; http_status: number; metadata: { finalUrl: string; sourceUrl: string; additionalMeta?: object; alternates?: object[]; author?: string; canonicalUrl?: string; description?: string; favicon?: string; image?: string; jsonLd?: object[]; keywords?: string[]; language?: string; modifiedTime?: string; openGraph?: object; publishedTime?: string; robots?: string; siteName?: string; title?: string; twitter?: object; }; status: 'ok'; url: string; html?: string; itemId?: string; markdown?: string; meta?: object; } | { error_code: string; message: string; status: 'error'; url: string; itemId?: string; meta?: object; }[]; has_more?: boolean; key_metadata?: { credits_consumed: number; credits_remaining: number; }; next_cursor?: string; }`\n\n  - `data?: { final_url: string; http_status: number; metadata: { finalUrl: string; sourceUrl: string; additionalMeta?: object; alternates?: { href: string; hreflang?: string; title?: string; type?: string; }[]; author?: string; canonicalUrl?: string; description?: string; favicon?: string; image?: string; jsonLd?: object[]; keywords?: string[]; language?: string; modifiedTime?: string; openGraph?: object; publishedTime?: string; robots?: string; siteName?: string; title?: string; twitter?: object; }; status: 'ok'; url: string; html?: string; itemId?: string; markdown?: string; meta?: object; } | { error_code: string; message: string; status: 'error'; url: string; itemId?: string; meta?: object; }[]`\n  - `has_more?: boolean`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n  - `next_cursor?: string`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.batch.getResults('batch_9f2c8a');\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.batch.getResults',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.batch.getResults('batch_9f2c8a');\n\nconsole.log(response.data);",
+      },
+      python: {
+        method: 'batch.get_results',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.batch.get_results(\n    batch_id="batch_9f2c8a",\n)\nprint(response.data)',
+      },
+      go: {
+        method: 'client.Batch.GetResults',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Batch.GetResults(\n\t\tcontext.TODO(),\n\t\t"batch_9f2c8a",\n\t\tcontextdev.BatchGetResultsParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Data)\n}\n',
+      },
+      ruby: {
+        method: 'batch.get_results',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.batch.get_results("batch_9f2c8a")\n\nputs(response)',
+      },
+      cli: {
+        method: 'batch get_results',
+        example: "context-dev batch get-results \\\n  --api-key 'My API Key' \\\n  --batch-id batch_9f2c8a",
+      },
+      php: {
+        method: 'batch->getResults',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->batch->getResults(\n  'batch_9f2c8a', cursor: 'cursor', limit: 1, tags: ['production', 'team-alpha']\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/batch/$BATCH_ID/results \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'cancel',
+    endpoint: '/batch/{batch_id}/cancel',
+    httpMethod: 'post',
+    summary: 'Cancel a batch',
+    description:
+      'Stop a batch from starting new pages. In-progress pages finish, and unused credits are refunded.',
+    stainlessPath: '(resource) batch > (method) cancel',
+    qualified: 'client.batch.cancel',
+    params: ['batch_id: string;', 'tags?: string[];'],
+    response:
+      "{ id: string; credits: { charged: number; estimated: number; }; error: { code: string; message: string; }; errors: { code: string; count: number; }[]; input: { accepted: number; duplicates: number; invalid: number; submitted: number; }; mode: 'scrape' | 'crawl'; progress: { failed: number; pending: number; succeeded: number; }; results: { expires_at: string; files: { bytes: number; items: number; url: string; }[]; }; status: 'queued' | 'running' | 'cancelling' | 'completed' | 'cancelled' | 'failed'; timing: { completed_at: string; created_at: string; started_at: string; }; type: 'markdown' | 'html'; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }",
+    markdown:
+      "## cancel\n\n`client.batch.cancel(batch_id: string, tags?: string[]): { id: string; credits: object; error: object; errors: object[]; input: object; mode: 'scrape' | 'crawl'; progress: object; results: object; status: 'queued' | 'running' | 'cancelling' | 'completed' | 'cancelled' | 'failed'; timing: object; type: 'markdown' | 'html'; key_metadata?: object; }`\n\n**post** `/batch/{batch_id}/cancel`\n\nStop a batch from starting new pages. In-progress pages finish, and unused credits are refunded.\n\n### Parameters\n\n- `batch_id: string`\n  ID of the batch to retrieve or cancel.\n\n- `tags?: string[]`\n  Optional comma-separated caller-defined tags for tracking this request. Tags are recorded on the request's usage log and can be used to filter usage on the dashboard usage page. Up to 20 tags, each 1-50 characters.\n\n### Returns\n\n- `{ id: string; credits: { charged: number; estimated: number; }; error: { code: string; message: string; }; errors: { code: string; count: number; }[]; input: { accepted: number; duplicates: number; invalid: number; submitted: number; }; mode: 'scrape' | 'crawl'; progress: { failed: number; pending: number; succeeded: number; }; results: { expires_at: string; files: { bytes: number; items: number; url: string; }[]; }; status: 'queued' | 'running' | 'cancelling' | 'completed' | 'cancelled' | 'failed'; timing: { completed_at: string; created_at: string; started_at: string; }; type: 'markdown' | 'html'; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }`\n\n  - `id: string`\n  - `credits: { charged: number; estimated: number; }`\n  - `error: { code: string; message: string; }`\n  - `errors: { code: string; count: number; }[]`\n  - `input: { accepted: number; duplicates: number; invalid: number; submitted: number; }`\n  - `mode: 'scrape' | 'crawl'`\n  - `progress: { failed: number; pending: number; succeeded: number; }`\n  - `results: { expires_at: string; files: { bytes: number; items: number; url: string; }[]; }`\n  - `status: 'queued' | 'running' | 'cancelling' | 'completed' | 'cancelled' | 'failed'`\n  - `timing: { completed_at: string; created_at: string; started_at: string; }`\n  - `type: 'markdown' | 'html'`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.batch.cancel('batch_9f2c8a');\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.batch.cancel',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.batch.cancel('batch_9f2c8a');\n\nconsole.log(response.id);",
+      },
+      python: {
+        method: 'batch.cancel',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.batch.cancel(\n    batch_id="batch_9f2c8a",\n)\nprint(response.id)',
+      },
+      go: {
+        method: 'client.Batch.Cancel',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Batch.Cancel(\n\t\tcontext.TODO(),\n\t\t"batch_9f2c8a",\n\t\tcontextdev.BatchCancelParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ID)\n}\n',
+      },
+      ruby: {
+        method: 'batch.cancel',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.batch.cancel("batch_9f2c8a")\n\nputs(response)',
+      },
+      cli: {
+        method: 'batch cancel',
+        example: "context-dev batch cancel \\\n  --api-key 'My API Key' \\\n  --batch-id batch_9f2c8a",
+      },
+      php: {
+        method: 'batch->cancel',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->batch->cancel(\n  'batch_9f2c8a', tags: ['production', 'team-alpha']\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/batch/$BATCH_ID/cancel \\\n    -X POST \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
+      },
+    },
+  },
 ];
 
 const EMBEDDED_READMES: { language: string; content: string }[] = [

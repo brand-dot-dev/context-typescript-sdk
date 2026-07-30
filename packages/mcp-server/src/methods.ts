@@ -202,6 +202,36 @@ export const sdkMethods: SdkMethod[] = [
     httpMethod: 'post',
     httpPath: '/monitors/{monitor_id}/run',
   },
+  {
+    clientCallName: 'client.batch.retrieve',
+    fullyQualifiedName: 'batch.retrieve',
+    httpMethod: 'get',
+    httpPath: '/batch/{batch_id}',
+  },
+  {
+    clientCallName: 'client.batch.list',
+    fullyQualifiedName: 'batch.list',
+    httpMethod: 'get',
+    httpPath: '/batch/list',
+  },
+  {
+    clientCallName: 'client.batch.cancel',
+    fullyQualifiedName: 'batch.cancel',
+    httpMethod: 'post',
+    httpPath: '/batch/{batch_id}/cancel',
+  },
+  {
+    clientCallName: 'client.batch.getResults',
+    fullyQualifiedName: 'batch.getResults',
+    httpMethod: 'get',
+    httpPath: '/batch/{batch_id}/results',
+  },
+  {
+    clientCallName: 'client.batch.submit',
+    fullyQualifiedName: 'batch.submit',
+    httpMethod: 'post',
+    httpPath: '/people/retrieve',
+  },
 ];
 
 function allowedMethodsForCodeTool(options: McpOptions | undefined): SdkMethod[] | undefined {
