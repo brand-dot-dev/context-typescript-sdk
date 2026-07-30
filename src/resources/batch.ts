@@ -16,12 +16,8 @@ export class Batch extends APIResource {
    * const batch = await client.batch.retrieve('batch_9f2c8a');
    * ```
    */
-  retrieve(
-    batchID: string,
-    query: BatchRetrieveParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<BatchRetrieveResponse> {
-    return this._client.get(path`/batch/${batchID}`, { query, ...options });
+  retrieve(batchID: string, options?: RequestOptions): APIPromise<BatchRetrieveResponse> {
+    return this._client.get(path`/batch/${batchID}`, options);
   }
 
   /**
@@ -49,13 +45,8 @@ export class Batch extends APIResource {
    * const response = await client.batch.cancel('batch_9f2c8a');
    * ```
    */
-  cancel(
-    batchID: string,
-    params: BatchCancelParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<BatchCancelResponse> {
-    const { tags } = params ?? {};
-    return this._client.post(path`/batch/${batchID}/cancel`, { query: { tags }, ...options });
+  cancel(batchID: string, options?: RequestOptions): APIPromise<BatchCancelResponse> {
+    return this._client.post(path`/batch/${batchID}/cancel`, options);
   }
 
   /**
@@ -147,6 +138,11 @@ export interface BatchRetrieveResponse {
    * Current state. `completed`, `cancelled`, and `failed` are final.
    */
   status: 'queued' | 'running' | 'cancelling' | 'completed' | 'cancelled' | 'failed';
+
+  /**
+   * Tags stored on the batch at submission.
+   */
+  tags: Array<string>;
 
   timing: BatchRetrieveResponse.Timing;
 
@@ -409,6 +405,11 @@ export namespace BatchListResponse {
      */
     status: 'queued' | 'running' | 'cancelling' | 'completed' | 'cancelled' | 'failed';
 
+    /**
+     * Tags stored on the batch at submission.
+     */
+    tags: Array<string>;
+
     timing: Data.Timing;
 
     /**
@@ -622,6 +623,11 @@ export interface BatchCancelResponse {
    * Current state. `completed`, `cancelled`, and `failed` are final.
    */
   status: 'queued' | 'running' | 'cancelling' | 'completed' | 'cancelled' | 'failed';
+
+  /**
+   * Tags stored on the batch at submission.
+   */
+  tags: Array<string>;
 
   timing: BatchCancelResponse.Timing;
 
@@ -1415,15 +1421,6 @@ export namespace BatchSubmitResponse {
   }
 }
 
-export interface BatchRetrieveParams {
-  /**
-   * Optional comma-separated caller-defined tags for tracking this request. Tags are
-   * recorded on the request's usage log and can be used to filter usage on the
-   * dashboard usage page. Up to 20 tags, each 1-50 characters.
-   */
-  tags?: Array<string>;
-}
-
 export interface BatchListParams {
   /**
    * Cursor from the previous page.
@@ -1436,25 +1433,26 @@ export interface BatchListParams {
   limit?: number;
 
   /**
+   * Free-text search term, matched against the batch id, crawl source (start URL or
+   * sitemap domain), and tags.
+   */
+  q?: string;
+
+  /**
+   * `prefix` for as-you-type prefix matching (default), `exact` for full-token
+   * matching.
+   */
+  search_type?: 'exact' | 'prefix';
+
+  /**
    * Filter by status.
    */
   status?: 'queued' | 'running' | 'cancelling' | 'completed' | 'cancelled' | 'failed';
 
   /**
-   * Optional comma-separated caller-defined tags for tracking this request. Tags are
-   * recorded on the request's usage log and can be used to filter usage on the
-   * dashboard usage page. Up to 20 tags, each 1-50 characters.
+   * Comma-separated list of tags to filter by (matches batches having any of them).
    */
-  tags?: Array<string>;
-}
-
-export interface BatchCancelParams {
-  /**
-   * Optional comma-separated caller-defined tags for tracking this request. Tags are
-   * recorded on the request's usage log and can be used to filter usage on the
-   * dashboard usage page. Up to 20 tags, each 1-50 characters.
-   */
-  tags?: Array<string>;
+  tags?: string;
 }
 
 export interface BatchGetResultsParams {
@@ -1468,13 +1466,6 @@ export interface BatchGetResultsParams {
    * under ~8 MB; rely on next_cursor rather than counting records.
    */
   limit?: number;
-
-  /**
-   * Optional comma-separated caller-defined tags for tracking this request. Tags are
-   * recorded on the request's usage log and can be used to filter usage on the
-   * dashboard usage page. Up to 20 tags, each 1-50 characters.
-   */
-  tags?: Array<string>;
 }
 
 export interface BatchSubmitParams {
@@ -1515,9 +1506,7 @@ export declare namespace Batch {
     type BatchCancelResponse as BatchCancelResponse,
     type BatchGetResultsResponse as BatchGetResultsResponse,
     type BatchSubmitResponse as BatchSubmitResponse,
-    type BatchRetrieveParams as BatchRetrieveParams,
     type BatchListParams as BatchListParams,
-    type BatchCancelParams as BatchCancelParams,
     type BatchGetResultsParams as BatchGetResultsParams,
     type BatchSubmitParams as BatchSubmitParams,
   };

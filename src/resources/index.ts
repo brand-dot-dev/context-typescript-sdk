@@ -14,9 +14,7 @@ export {
   type BatchCancelResponse,
   type BatchGetResultsResponse,
   type BatchSubmitResponse,
-  type BatchRetrieveParams,
   type BatchListParams,
-  type BatchCancelParams,
   type BatchGetResultsParams,
   type BatchSubmitParams,
 } from './batch';
