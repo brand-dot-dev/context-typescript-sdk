@@ -8,6 +8,19 @@ export {
   type AIExtractProductsParams,
 } from './ai';
 export {
+  Batch,
+  type BatchRetrieveResponse,
+  type BatchListResponse,
+  type BatchCancelResponse,
+  type BatchGetResultsResponse,
+  type BatchSubmitResponse,
+  type BatchRetrieveParams,
+  type BatchListParams,
+  type BatchCancelParams,
+  type BatchGetResultsParams,
+  type BatchSubmitParams,
+} from './batch';
+export {
   Brand,
   type BrandRetrieveResponse,
   type BrandRetrieveSimplifiedResponse,

@@ -140,6 +140,11 @@ const fuse = new Fuse(
     'client.monitors.retrieveChange',
     'client.monitors.run',
     'client.monitors.update',
+    'client.batch.cancel',
+    'client.batch.getResults',
+    'client.batch.list',
+    'client.batch.retrieve',
+    'client.batch.submit',
   ],
   { threshold: 1, shouldSort: true },
 );
