@@ -21,18 +21,6 @@ describe('resource batch', () => {
   });
 
   // Mock server tests are disabled
-  test.skip('retrieve: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.batch.retrieve(
-        'batch_9f2c8a',
-        { tags: ['production', 'team-alpha'] },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(ContextDev.NotFoundError);
-  });
-
-  // Mock server tests are disabled
   test.skip('list', async () => {
     const responsePromise = client.batch.list();
     const rawResponse = await responsePromise.asResponse();
@@ -52,8 +40,10 @@ describe('resource batch', () => {
         {
           cursor: 'cursor',
           limit: 1,
+          q: 'batch_1a2b',
+          search_type: 'exact',
           status: 'queued',
-          tags: ['production', 'team-alpha'],
+          tags: 'docs,competitor',
         },
         { path: '/_stainless_unknown_path' },
       ),
@@ -70,18 +60,6 @@ describe('resource batch', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  // Mock server tests are disabled
-  test.skip('cancel: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.batch.cancel(
-        'batch_9f2c8a',
-        { tags: ['production', 'team-alpha'] },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(ContextDev.NotFoundError);
   });
 
   // Mock server tests are disabled
@@ -102,11 +80,7 @@ describe('resource batch', () => {
     await expect(
       client.batch.getResults(
         'batch_9f2c8a',
-        {
-          cursor: 'cursor',
-          limit: 1,
-          tags: ['production', 'team-alpha'],
-        },
+        { cursor: 'cursor', limit: 1 },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(ContextDev.NotFoundError);

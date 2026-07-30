@@ -26,13 +26,11 @@ import {
 } from './resources/ai';
 import {
   Batch,
-  BatchCancelParams,
   BatchCancelResponse,
   BatchGetResultsParams,
   BatchGetResultsResponse,
   BatchListParams,
   BatchListResponse,
-  BatchRetrieveParams,
   BatchRetrieveResponse,
   BatchSubmitParams,
   BatchSubmitResponse,
@@ -940,9 +938,7 @@ export declare namespace ContextDev {
     type BatchCancelResponse as BatchCancelResponse,
     type BatchGetResultsResponse as BatchGetResultsResponse,
     type BatchSubmitResponse as BatchSubmitResponse,
-    type BatchRetrieveParams as BatchRetrieveParams,
     type BatchListParams as BatchListParams,
-    type BatchCancelParams as BatchCancelParams,
     type BatchGetResultsParams as BatchGetResultsParams,
     type BatchSubmitParams as BatchSubmitParams,
   };
