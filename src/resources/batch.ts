@@ -630,7 +630,7 @@ export namespace BatchListResponse {
 
 export interface BatchCancelResponse {
   /**
-   * Batch ID used to retrieve or cancel the job.
+   * Batch ID.
    */
   id: string;
 
@@ -641,19 +641,12 @@ export interface BatchCancelResponse {
   crawl: CrawlControls | null;
 
   /**
-   * What this batch has done to your credit balance.
+   * What this batch cost so far.
    */
   credits: BatchCancelResponse.Credits;
 
   /**
-   * A failure of the batch as a whole, distinct from the per-page failures in
-   * `page_errors`.
-   */
-  failure: Failure | null;
-
-  /**
-   * What each page is returned as. Matches `input.data.format` on the submit
-   * request.
+   * What each page is returned as.
    */
   format: 'markdown' | 'html';
 
@@ -663,37 +656,34 @@ export interface BatchCancelResponse {
   input: Intake;
 
   /**
-   * How pages were selected. Matches `input.mode` on the submit request.
+   * How pages were selected.
    */
   mode: 'scrape' | 'crawl';
 
   /**
-   * Individual page failures grouped by error code, sorted by count. Unrelated to
-   * `failure`, which is the batch itself failing.
+   * Page failures so far, grouped by error code and sorted by count.
    */
   page_errors: Array<PageErrorCount>;
 
   /**
-   * Pages attempted so far. Use `status` to check completion.
+   * How far the batch got before cancellation.
    */
   progress: BatchCancelResponse.Progress;
 
   /**
-   * Download links, available once the batch reaches a final status and null before
-   * then. GET /batch/{batch_id}/results serves the same records as paginated JSON.
+   * Always `cancelling`. Work already in flight finishes; the batch reaches
+   * `cancelled` shortly after.
    */
-  results: BatchCancelResponse.Results | null;
-
-  /**
-   * Current state. `completed`, `cancelled`, and `failed` are final.
-   */
-  status: 'queued' | 'running' | 'cancelling' | 'completed' | 'cancelled' | 'failed';
+  status: 'cancelling';
 
   /**
    * Tags stored on the batch at submission.
    */
   tags: Array<string>;
 
+  /**
+   * There is no finish time yet — the batch is still winding down.
+   */
   timing: BatchCancelResponse.Timing;
 
   /**
@@ -704,98 +694,47 @@ export interface BatchCancelResponse {
 
 export namespace BatchCancelResponse {
   /**
-   * What this batch has done to your credit balance.
+   * What this batch cost so far.
    */
   export interface Credits {
     /**
-     * `reserved` minus `refunded` — what the batch has cost so far. Equal to
-     * `reserved` until the batch settles.
-     */
-    net: number;
-
-    /**
-     * Credits returned for pages that did not succeed. Stays 0 until the batch reaches
-     * a final status, then settles in one movement.
-     */
-    refunded: number;
-
-    /**
-     * Credits debited from your balance the moment the batch was accepted. This is a
-     * charge, not a forecast — the whole amount leaves the balance up front.
+     * Credits debited at submission. The unspent remainder is refunded once the batch
+     * settles — read `credits.refunded` from GET /batch/{batch_id} then.
      */
     reserved: number;
   }
 
   /**
-   * Pages attempted so far. Use `status` to check completion.
+   * How far the batch got before cancellation.
    */
   export interface Progress {
     /**
-     * Pages that could not be scraped.
+     * Pages that could not be scraped before the request landed.
      */
     failed: number;
 
     /**
-     * Reserved pages not yet attempted. A cancelled batch keeps reporting the URLs it
-     * never reached; a crawl whose `input.reserved_is_ceiling` is true reports 0 once
-     * final, because its unspent budget was never real pages.
+     * Reserved pages that will now be skipped, and refunded when the batch settles.
      */
     pending: number;
 
     /**
-     * Pages scraped successfully.
+     * Pages scraped successfully before the request landed.
      */
     succeeded: number;
   }
 
   /**
-   * Download links, available once the batch reaches a final status and null before
-   * then. GET /batch/{batch_id}/results serves the same records as paginated JSON.
+   * There is no finish time yet — the batch is still winding down.
    */
-  export interface Results {
-    /**
-     * When the download URLs expire.
-     */
-    expires_at: string;
-
-    /**
-     * Result files. Order is not guaranteed.
-     */
-    files: Array<Results.File>;
-  }
-
-  export namespace Results {
-    export interface File {
-      /**
-       * Compressed file size in bytes.
-       */
-      bytes: number;
-
-      /**
-       * Results in this file.
-       */
-      items: number;
-
-      /**
-       * Temporary URL for a gzipped NDJSON file.
-       */
-      url: string;
-    }
-  }
-
   export interface Timing {
-    /**
-     * When processing finished. Null while active.
-     */
-    completed_at: string | null;
-
     /**
      * When the batch was created.
      */
     created_at: string;
 
     /**
-     * When processing started. Null while queued.
+     * When processing started. Null if it was cancelled while still queued.
      */
     started_at: string | null;
   }
