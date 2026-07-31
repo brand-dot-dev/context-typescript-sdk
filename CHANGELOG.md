@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.7.0 (2026-07-31)
+
+Full Changelog: [v2.6.0...v2.7.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v2.6.0...v2.7.0)
+
+### Features
+
+* **api:** api update ([47d8000](https://github.com/context-dot-dev/context-typescript-sdk/commit/47d80006d38f7ef8773c0c62fccd73ed11342453))
+* **api:** api update ([5fa7a85](https://github.com/context-dot-dev/context-typescript-sdk/commit/5fa7a85eb0033571484c3badfada513d948736e4))
+* **api:** api update ([df82d37](https://github.com/context-dot-dev/context-typescript-sdk/commit/df82d37a48db2f31a5a134349dee53a74e3ac2c1))
+* **api:** api update ([d8cc126](https://github.com/context-dot-dev/context-typescript-sdk/commit/d8cc126ae50c1922706ade5c598a63fef97077ef))
+* **api:** api update ([54940ea](https://github.com/context-dot-dev/context-typescript-sdk/commit/54940ea4237cf68a517cff23b36b3a4dd0c56283))
+* **api:** api update ([09c34c9](https://github.com/context-dot-dev/context-typescript-sdk/commit/09c34c9d22462550b52a3468818b28848a291cf9))
+* **api:** api update ([dc895a6](https://github.com/context-dot-dev/context-typescript-sdk/commit/dc895a6f73ace40d48d008ba447d80d1283061aa))
+* **api:** manual updates ([7ececf2](https://github.com/context-dot-dev/context-typescript-sdk/commit/7ececf23429c46cebf13d4c1edfb93312426fd4c))
+
 ## 2.6.0 (2026-07-22)
 
 Full Changelog: [v2.5.0...v2.6.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v2.5.0...v2.6.0)
