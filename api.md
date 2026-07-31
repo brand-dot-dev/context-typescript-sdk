@@ -123,6 +123,8 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/batch.ts">ErrorCount</a></code>
+- <code><a href="./src/resources/batch.ts">Error</a></code>
 - <code><a href="./src/resources/batch.ts">BatchRetrieveResponse</a></code>
 - <code><a href="./src/resources/batch.ts">BatchListResponse</a></code>
 - <code><a href="./src/resources/batch.ts">BatchCancelResponse</a></code>

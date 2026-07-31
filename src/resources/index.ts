@@ -9,6 +9,8 @@ export {
 } from './ai';
 export {
   Batch,
+  type ErrorCount,
+  type Error,
   type BatchRetrieveResponse,
   type BatchListResponse,
   type BatchCancelResponse,

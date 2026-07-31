@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
+import * as BatchAPI from './batch';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
@@ -87,6 +88,36 @@ export class Batch extends APIResource {
   }
 }
 
+/**
+ * Page failures sharing one error code.
+ */
+export interface ErrorCount {
+  /**
+   * Error code for these failures.
+   */
+  code: string;
+
+  /**
+   * Pages that failed with this code.
+   */
+  count: number;
+}
+
+/**
+ * Why the batch failed.
+ */
+export interface Error {
+  /**
+   * Batch error code.
+   */
+  code: string;
+
+  /**
+   * Batch error message.
+   */
+  message: string;
+}
+
 export interface BatchRetrieveResponse {
   /**
    * Batch ID used to retrieve or cancel the job.
@@ -99,14 +130,14 @@ export interface BatchRetrieveResponse {
   credits: BatchRetrieveResponse.Credits;
 
   /**
-   * Batch-level error. Null unless `status` is `failed`.
+   * Why the batch failed.
    */
-  error: BatchRetrieveResponse.Error | null;
+  error: Error | null;
 
   /**
    * Page failures grouped by error code.
    */
-  errors: Array<BatchRetrieveResponse.Error>;
+  errors: Array<ErrorCount>;
 
   /**
    * Submission counts.
@@ -176,33 +207,6 @@ export namespace BatchRetrieveResponse {
      * Credits reserved when the batch was accepted.
      */
     estimated: number;
-  }
-
-  /**
-   * Batch-level error. Null unless `status` is `failed`.
-   */
-  export interface Error {
-    /**
-     * Batch error code.
-     */
-    code: string;
-
-    /**
-     * Batch error message.
-     */
-    message: string;
-  }
-
-  export interface Error {
-    /**
-     * Error code for these failures.
-     */
-    code: string;
-
-    /**
-     * Pages that failed with this code.
-     */
-    count: number;
   }
 
   /**
@@ -370,14 +374,14 @@ export namespace BatchListResponse {
     credits: Data.Credits;
 
     /**
-     * Batch-level error. Null unless `status` is `failed`.
+     * Why the batch failed.
      */
-    error: Data.Error | null;
+    error: BatchAPI.Error | null;
 
     /**
      * Page failures grouped by error code.
      */
-    errors: Array<Data.Error>;
+    errors: Array<BatchAPI.ErrorCount>;
 
     /**
      * Submission counts.
@@ -432,33 +436,6 @@ export namespace BatchListResponse {
        * Credits reserved when the batch was accepted.
        */
       estimated: number;
-    }
-
-    /**
-     * Batch-level error. Null unless `status` is `failed`.
-     */
-    export interface Error {
-      /**
-       * Batch error code.
-       */
-      code: string;
-
-      /**
-       * Batch error message.
-       */
-      message: string;
-    }
-
-    export interface Error {
-      /**
-       * Error code for these failures.
-       */
-      code: string;
-
-      /**
-       * Pages that failed with this code.
-       */
-      count: number;
     }
 
     /**
@@ -589,14 +566,14 @@ export interface BatchCancelResponse {
   credits: BatchCancelResponse.Credits;
 
   /**
-   * Batch-level error. Null unless `status` is `failed`.
+   * Why the batch failed.
    */
-  error: BatchCancelResponse.Error | null;
+  error: Error | null;
 
   /**
    * Page failures grouped by error code.
    */
-  errors: Array<BatchCancelResponse.Error>;
+  errors: Array<ErrorCount>;
 
   /**
    * Submission counts.
@@ -656,33 +633,6 @@ export namespace BatchCancelResponse {
      * Credits reserved when the batch was accepted.
      */
     estimated: number;
-  }
-
-  /**
-   * Batch-level error. Null unless `status` is `failed`.
-   */
-  export interface Error {
-    /**
-     * Batch error code.
-     */
-    code: string;
-
-    /**
-     * Batch error message.
-     */
-    message: string;
-  }
-
-  export interface Error {
-    /**
-     * Error code for these failures.
-     */
-    code: string;
-
-    /**
-     * Pages that failed with this code.
-     */
-    count: number;
   }
 
   /**
@@ -1501,6 +1451,8 @@ export namespace BatchSubmitParams {
 
 export declare namespace Batch {
   export {
+    type ErrorCount as ErrorCount,
+    type Error as Error,
     type BatchRetrieveResponse as BatchRetrieveResponse,
     type BatchListResponse as BatchListResponse,
     type BatchCancelResponse as BatchCancelResponse,
