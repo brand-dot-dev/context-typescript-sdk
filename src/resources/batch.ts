@@ -9,8 +9,8 @@ import { path } from '../internal/utils/path';
 export class Batch extends APIResource {
   /**
    * Check progress and get download links when the batch finishes. Also returns the
-   * rejected-URL list and webhook signing secret from submission, so nothing is lost
-   * if the submit response was dropped.
+   * rejected-URL list from submission. The webhook signing secret is not repeated
+   * here — it is returned once, by the submit response.
    *
    * @example
    * ```ts
@@ -91,7 +91,7 @@ export class Batch extends APIResource {
 /**
  * Page failures sharing one error code.
  */
-export interface ErrorCount {
+export interface PageErrorCount {
   /**
    * Error code for these failures.
    */
@@ -104,18 +104,111 @@ export interface ErrorCount {
 }
 
 /**
- * Why the batch failed.
+ * A failure of the batch as a whole, distinct from the per-page failures in
+ * `page_errors`.
  */
-export interface Error {
+export interface Failure {
   /**
-   * Batch error code.
+   * Why the batch itself stopped.
    */
   code: string;
 
   /**
-   * Batch error message.
+   * Human-readable explanation.
    */
   message: string;
+}
+
+/**
+ * The crawl controls as submitted, so the limits requested can be compared against
+ * what the crawl reached.
+ */
+export interface CrawlControls {
+  /**
+   * Whether links to subdomains were followed. Always false for a sitemap crawl.
+   */
+  follow_subdomains: boolean;
+
+  /**
+   * Link depth limit. Always 0 for a sitemap crawl, which never follows links off
+   * its URLs; null when a `start_url` crawl set no limit.
+   */
+  max_depth: number | null;
+
+  /**
+   * The `maxUrls` submitted with the crawl. A sitemap crawl scrapes only the URLs
+   * its sitemap actually lists, up to this many, so `input.reserved` is often lower.
+   */
+  max_pages: number;
+
+  /**
+   * Where the crawl started.
+   */
+  source: CrawlControls.UnionMember0 | CrawlControls.UnionMember1;
+
+  /**
+   * RE2 pattern URLs had to match to be crawled. Null when the crawl set none.
+   */
+  url_pattern: string | null;
+}
+
+export namespace CrawlControls {
+  export interface UnionMember0 {
+    type: 'start_url';
+
+    /**
+     * Page the crawl started from.
+     */
+    url: string;
+  }
+
+  export interface UnionMember1 {
+    /**
+     * Domain whose sitemap supplied the pages.
+     */
+    domain: string;
+
+    type: 'sitemap';
+  }
+}
+
+/**
+ * What submission took in, and what it charged for.
+ */
+export interface Intake {
+  /**
+   * URLs dropped before reserving because another entry resolved to the same page.
+   * Non-zero for sitemap crawls too, whose sitemaps routinely list a page more than
+   * once.
+   */
+  duplicates: number;
+
+  /**
+   * URLs from your list rejected as unusable; the same ones are itemised in
+   * `invalid_urls` at submission. Null for a crawl — a crawl that resolves no usable
+   * page is rejected outright with a 400 rather than accepted with an empty list.
+   */
+  invalid: number | null;
+
+  /**
+   * Pages credits were reserved for. Everything else — progress, the refund, the
+   * completion percentage — is measured against this.
+   */
+  reserved: number;
+
+  /**
+   * Whether `reserved` is an upper bound the batch may finish under. True only for a
+   * crawl that follows links, whose reachable page count is unknowable until it
+   * runs. False for a scrape and for a sitemap crawl, where `reserved` is an exact
+   * page count.
+   */
+  reserved_is_ceiling: boolean;
+
+  /**
+   * URLs in the list you sent, before validation and de-duplication. Null for a
+   * crawl, which is given a source rather than a list.
+   */
+  submitted: number | null;
 }
 
 export interface BatchRetrieveResponse {
@@ -125,24 +218,32 @@ export interface BatchRetrieveResponse {
   id: string;
 
   /**
-   * Reserved and used credits.
+   * The crawl controls as submitted, so the limits requested can be compared against
+   * what the crawl reached.
+   */
+  crawl: CrawlControls | null;
+
+  /**
+   * What this batch has done to your credit balance.
    */
   credits: BatchRetrieveResponse.Credits;
 
   /**
-   * Why the batch failed.
+   * A failure of the batch as a whole, distinct from the per-page failures in
+   * `page_errors`.
    */
-  error: Error | null;
+  failure: Failure | null;
 
   /**
-   * Page failures grouped by error code.
+   * What each page is returned as. Matches `input.data.format` on the submit
+   * request.
    */
-  errors: Array<ErrorCount>;
+  format: 'markdown' | 'html';
 
   /**
-   * Submission counts.
+   * What submission took in, and what it charged for.
    */
-  input: BatchRetrieveResponse.Input;
+  input: Intake;
 
   /**
    * Rejected URLs, up to 100. These are not charged.
@@ -150,18 +251,24 @@ export interface BatchRetrieveResponse {
   invalid_urls: Array<BatchRetrieveResponse.InvalidURL>;
 
   /**
-   * How pages are selected.
+   * How pages were selected. Matches `input.mode` on the submit request.
    */
   mode: 'scrape' | 'crawl';
 
   /**
-   * Current processing counts. Use `status` to check completion.
+   * Individual page failures grouped by error code, sorted by count. Unrelated to
+   * `failure`, which is the batch itself failing.
+   */
+  page_errors: Array<PageErrorCount>;
+
+  /**
+   * Pages attempted so far. Use `status` to check completion.
    */
   progress: BatchRetrieveResponse.Progress;
 
   /**
-   * Download links available when the batch finishes. GET /batch/{batch_id}/results
-   * serves the same records as paginated JSON.
+   * Download links, available once the batch reaches a final status and null before
+   * then. GET /batch/{batch_id}/results serves the same records as paginated JSON.
    */
   results: BatchRetrieveResponse.Results | null;
 
@@ -178,60 +285,33 @@ export interface BatchRetrieveResponse {
   timing: BatchRetrieveResponse.Timing;
 
   /**
-   * Output format.
-   */
-  type: 'markdown' | 'html';
-
-  /**
    * API key usage for this request.
    */
   key_metadata?: BatchRetrieveResponse.KeyMetadata;
-
-  /**
-   * Webhook signing secret. Also returned by GET /batch/{batch_id}.
-   */
-  webhook_secret?: string;
 }
 
 export namespace BatchRetrieveResponse {
   /**
-   * Reserved and used credits.
+   * What this batch has done to your credit balance.
    */
   export interface Credits {
     /**
-     * Credits used by successful pages.
+     * `reserved` minus `refunded` — what the batch has cost so far. Equal to
+     * `reserved` until the batch settles.
      */
-    charged: number;
+    net: number;
 
     /**
-     * Credits reserved when the batch was accepted.
+     * Credits returned for pages that did not succeed. Stays 0 until the batch reaches
+     * a final status, then settles in one movement.
      */
-    estimated: number;
-  }
-
-  /**
-   * Submission counts.
-   */
-  export interface Input {
-    /**
-     * Pages accepted, or the crawl page limit. Credits are reserved for this count.
-     */
-    accepted: number;
+    refunded: number;
 
     /**
-     * Duplicate URL and `itemId` pairs skipped. Always 0 for crawls.
+     * Credits debited from your balance the moment the batch was accepted. This is a
+     * charge, not a forecast — the whole amount leaves the balance up front.
      */
-    duplicates: number;
-
-    /**
-     * Pages rejected during validation.
-     */
-    invalid: number;
-
-    /**
-     * Pages submitted before validation. For a crawl, the page limit.
-     */
-    submitted: number;
+    reserved: number;
   }
 
   export interface InvalidURL {
@@ -247,7 +327,7 @@ export namespace BatchRetrieveResponse {
   }
 
   /**
-   * Current processing counts. Use `status` to check completion.
+   * Pages attempted so far. Use `status` to check completion.
    */
   export interface Progress {
     /**
@@ -256,8 +336,9 @@ export namespace BatchRetrieveResponse {
     failed: number;
 
     /**
-     * Accepted pages not yet attempted. Always 0 once the batch completes; a crawl can
-     * finish under its page limit when the site has no more reachable pages.
+     * Reserved pages not yet attempted. A cancelled batch keeps reporting the URLs it
+     * never reached; a crawl whose `input.reserved_is_ceiling` is true reports 0 once
+     * final, because its unspent budget was never real pages.
      */
     pending: number;
 
@@ -268,8 +349,8 @@ export namespace BatchRetrieveResponse {
   }
 
   /**
-   * Download links available when the batch finishes. GET /batch/{batch_id}/results
-   * serves the same records as paginated JSON.
+   * Download links, available once the batch reaches a final status and null before
+   * then. GET /batch/{batch_id}/results serves the same records as paginated JSON.
    */
   export interface Results {
     /**
@@ -369,38 +450,52 @@ export namespace BatchListResponse {
     id: string;
 
     /**
-     * Reserved and used credits.
+     * The crawl controls as submitted, so the limits requested can be compared against
+     * what the crawl reached.
+     */
+    crawl: BatchAPI.CrawlControls | null;
+
+    /**
+     * What this batch has done to your credit balance.
      */
     credits: Data.Credits;
 
     /**
-     * Why the batch failed.
+     * A failure of the batch as a whole, distinct from the per-page failures in
+     * `page_errors`.
      */
-    error: BatchAPI.Error | null;
+    failure: BatchAPI.Failure | null;
 
     /**
-     * Page failures grouped by error code.
+     * What each page is returned as. Matches `input.data.format` on the submit
+     * request.
      */
-    errors: Array<BatchAPI.ErrorCount>;
+    format: 'markdown' | 'html';
 
     /**
-     * Submission counts.
+     * What submission took in, and what it charged for.
      */
-    input: Data.Input;
+    input: BatchAPI.Intake;
 
     /**
-     * How pages are selected.
+     * How pages were selected. Matches `input.mode` on the submit request.
      */
     mode: 'scrape' | 'crawl';
 
     /**
-     * Current processing counts. Use `status` to check completion.
+     * Individual page failures grouped by error code, sorted by count. Unrelated to
+     * `failure`, which is the batch itself failing.
+     */
+    page_errors: Array<BatchAPI.PageErrorCount>;
+
+    /**
+     * Pages attempted so far. Use `status` to check completion.
      */
     progress: Data.Progress;
 
     /**
-     * Download links available when the batch finishes. GET /batch/{batch_id}/results
-     * serves the same records as paginated JSON.
+     * Download links, available once the batch reaches a final status and null before
+     * then. GET /batch/{batch_id}/results serves the same records as paginated JSON.
      */
     results: Data.Results | null;
 
@@ -415,56 +510,34 @@ export namespace BatchListResponse {
     tags: Array<string>;
 
     timing: Data.Timing;
-
-    /**
-     * Output format.
-     */
-    type: 'markdown' | 'html';
   }
 
   export namespace Data {
     /**
-     * Reserved and used credits.
+     * What this batch has done to your credit balance.
      */
     export interface Credits {
       /**
-       * Credits used by successful pages.
+       * `reserved` minus `refunded` — what the batch has cost so far. Equal to
+       * `reserved` until the batch settles.
        */
-      charged: number;
+      net: number;
 
       /**
-       * Credits reserved when the batch was accepted.
+       * Credits returned for pages that did not succeed. Stays 0 until the batch reaches
+       * a final status, then settles in one movement.
        */
-      estimated: number;
+      refunded: number;
+
+      /**
+       * Credits debited from your balance the moment the batch was accepted. This is a
+       * charge, not a forecast — the whole amount leaves the balance up front.
+       */
+      reserved: number;
     }
 
     /**
-     * Submission counts.
-     */
-    export interface Input {
-      /**
-       * Pages accepted, or the crawl page limit. Credits are reserved for this count.
-       */
-      accepted: number;
-
-      /**
-       * Duplicate URL and `itemId` pairs skipped. Always 0 for crawls.
-       */
-      duplicates: number;
-
-      /**
-       * Pages rejected during validation.
-       */
-      invalid: number;
-
-      /**
-       * Pages submitted before validation. For a crawl, the page limit.
-       */
-      submitted: number;
-    }
-
-    /**
-     * Current processing counts. Use `status` to check completion.
+     * Pages attempted so far. Use `status` to check completion.
      */
     export interface Progress {
       /**
@@ -473,8 +546,9 @@ export namespace BatchListResponse {
       failed: number;
 
       /**
-       * Accepted pages not yet attempted. Always 0 once the batch completes; a crawl can
-       * finish under its page limit when the site has no more reachable pages.
+       * Reserved pages not yet attempted. A cancelled batch keeps reporting the URLs it
+       * never reached; a crawl whose `input.reserved_is_ceiling` is true reports 0 once
+       * final, because its unspent budget was never real pages.
        */
       pending: number;
 
@@ -485,8 +559,8 @@ export namespace BatchListResponse {
     }
 
     /**
-     * Download links available when the batch finishes. GET /batch/{batch_id}/results
-     * serves the same records as paginated JSON.
+     * Download links, available once the batch reaches a final status and null before
+     * then. GET /batch/{batch_id}/results serves the same records as paginated JSON.
      */
     export interface Results {
       /**
@@ -561,38 +635,52 @@ export interface BatchCancelResponse {
   id: string;
 
   /**
-   * Reserved and used credits.
+   * The crawl controls as submitted, so the limits requested can be compared against
+   * what the crawl reached.
+   */
+  crawl: CrawlControls | null;
+
+  /**
+   * What this batch has done to your credit balance.
    */
   credits: BatchCancelResponse.Credits;
 
   /**
-   * Why the batch failed.
+   * A failure of the batch as a whole, distinct from the per-page failures in
+   * `page_errors`.
    */
-  error: Error | null;
+  failure: Failure | null;
 
   /**
-   * Page failures grouped by error code.
+   * What each page is returned as. Matches `input.data.format` on the submit
+   * request.
    */
-  errors: Array<ErrorCount>;
+  format: 'markdown' | 'html';
 
   /**
-   * Submission counts.
+   * What submission took in, and what it charged for.
    */
-  input: BatchCancelResponse.Input;
+  input: Intake;
 
   /**
-   * How pages are selected.
+   * How pages were selected. Matches `input.mode` on the submit request.
    */
   mode: 'scrape' | 'crawl';
 
   /**
-   * Current processing counts. Use `status` to check completion.
+   * Individual page failures grouped by error code, sorted by count. Unrelated to
+   * `failure`, which is the batch itself failing.
+   */
+  page_errors: Array<PageErrorCount>;
+
+  /**
+   * Pages attempted so far. Use `status` to check completion.
    */
   progress: BatchCancelResponse.Progress;
 
   /**
-   * Download links available when the batch finishes. GET /batch/{batch_id}/results
-   * serves the same records as paginated JSON.
+   * Download links, available once the batch reaches a final status and null before
+   * then. GET /batch/{batch_id}/results serves the same records as paginated JSON.
    */
   results: BatchCancelResponse.Results | null;
 
@@ -609,11 +697,6 @@ export interface BatchCancelResponse {
   timing: BatchCancelResponse.Timing;
 
   /**
-   * Output format.
-   */
-  type: 'markdown' | 'html';
-
-  /**
    * API key usage for this request.
    */
   key_metadata?: BatchCancelResponse.KeyMetadata;
@@ -621,47 +704,30 @@ export interface BatchCancelResponse {
 
 export namespace BatchCancelResponse {
   /**
-   * Reserved and used credits.
+   * What this batch has done to your credit balance.
    */
   export interface Credits {
     /**
-     * Credits used by successful pages.
+     * `reserved` minus `refunded` — what the batch has cost so far. Equal to
+     * `reserved` until the batch settles.
      */
-    charged: number;
+    net: number;
 
     /**
-     * Credits reserved when the batch was accepted.
+     * Credits returned for pages that did not succeed. Stays 0 until the batch reaches
+     * a final status, then settles in one movement.
      */
-    estimated: number;
+    refunded: number;
+
+    /**
+     * Credits debited from your balance the moment the batch was accepted. This is a
+     * charge, not a forecast — the whole amount leaves the balance up front.
+     */
+    reserved: number;
   }
 
   /**
-   * Submission counts.
-   */
-  export interface Input {
-    /**
-     * Pages accepted, or the crawl page limit. Credits are reserved for this count.
-     */
-    accepted: number;
-
-    /**
-     * Duplicate URL and `itemId` pairs skipped. Always 0 for crawls.
-     */
-    duplicates: number;
-
-    /**
-     * Pages rejected during validation.
-     */
-    invalid: number;
-
-    /**
-     * Pages submitted before validation. For a crawl, the page limit.
-     */
-    submitted: number;
-  }
-
-  /**
-   * Current processing counts. Use `status` to check completion.
+   * Pages attempted so far. Use `status` to check completion.
    */
   export interface Progress {
     /**
@@ -670,8 +736,9 @@ export namespace BatchCancelResponse {
     failed: number;
 
     /**
-     * Accepted pages not yet attempted. Always 0 once the batch completes; a crawl can
-     * finish under its page limit when the site has no more reachable pages.
+     * Reserved pages not yet attempted. A cancelled batch keeps reporting the URLs it
+     * never reached; a crawl whose `input.reserved_is_ceiling` is true reports 0 once
+     * final, because its unspent budget was never real pages.
      */
     pending: number;
 
@@ -682,8 +749,8 @@ export namespace BatchCancelResponse {
   }
 
   /**
-   * Download links available when the batch finishes. GET /batch/{batch_id}/results
-   * serves the same records as paginated JSON.
+   * Download links, available once the batch reaches a final status and null before
+   * then. GET /batch/{batch_id}/results serves the same records as paginated JSON.
    */
   export interface Results {
     /**
@@ -1451,8 +1518,10 @@ export namespace BatchSubmitParams {
 
 export declare namespace Batch {
   export {
-    type ErrorCount as ErrorCount,
-    type Error as Error,
+    type PageErrorCount as PageErrorCount,
+    type Failure as Failure,
+    type CrawlControls as CrawlControls,
+    type Intake as Intake,
     type BatchRetrieveResponse as BatchRetrieveResponse,
     type BatchListResponse as BatchListResponse,
     type BatchCancelResponse as BatchCancelResponse,

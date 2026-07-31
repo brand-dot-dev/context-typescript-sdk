@@ -34,8 +34,10 @@ import {
   BatchRetrieveResponse,
   BatchSubmitParams,
   BatchSubmitResponse,
-  Error,
-  ErrorCount,
+  CrawlControls,
+  Failure,
+  Intake,
+  PageErrorCount,
 } from './resources/batch';
 import {
   Brand,
@@ -935,8 +937,10 @@ export declare namespace ContextDev {
 
   export {
     Batch as Batch,
-    type ErrorCount as ErrorCount,
-    type Error as Error,
+    type PageErrorCount as PageErrorCount,
+    type Failure as Failure,
+    type CrawlControls as CrawlControls,
+    type Intake as Intake,
     type BatchRetrieveResponse as BatchRetrieveResponse,
     type BatchListResponse as BatchListResponse,
     type BatchCancelResponse as BatchCancelResponse,
