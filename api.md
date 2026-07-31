@@ -118,3 +118,23 @@ Methods:
 - <code title="get /monitors/{monitor_id}/runs">client.monitors.<a href="./src/resources/monitors.ts">listRuns</a>(monitorID, { ...params }) -> MonitorListRunsResponse</code>
 - <code title="get /monitors/changes/{change_id}">client.monitors.<a href="./src/resources/monitors.ts">retrieveChange</a>(changeID) -> MonitorRetrieveChangeResponse</code>
 - <code title="post /monitors/{monitor_id}/run">client.monitors.<a href="./src/resources/monitors.ts">run</a>(monitorID) -> MonitorRunResponse</code>
+
+# Batch
+
+Types:
+
+- <code><a href="./src/resources/batch.ts">ErrorCount</a></code>
+- <code><a href="./src/resources/batch.ts">Error</a></code>
+- <code><a href="./src/resources/batch.ts">BatchRetrieveResponse</a></code>
+- <code><a href="./src/resources/batch.ts">BatchListResponse</a></code>
+- <code><a href="./src/resources/batch.ts">BatchCancelResponse</a></code>
+- <code><a href="./src/resources/batch.ts">BatchGetResultsResponse</a></code>
+- <code><a href="./src/resources/batch.ts">BatchSubmitResponse</a></code>
+
+Methods:
+
+- <code title="get /batch/{batch_id}">client.batch.<a href="./src/resources/batch.ts">retrieve</a>(batchID) -> BatchRetrieveResponse</code>
+- <code title="get /batch/list">client.batch.<a href="./src/resources/batch.ts">list</a>({ ...params }) -> BatchListResponse</code>
+- <code title="post /batch/{batch_id}/cancel">client.batch.<a href="./src/resources/batch.ts">cancel</a>(batchID) -> BatchCancelResponse</code>
+- <code title="get /batch/{batch_id}/results">client.batch.<a href="./src/resources/batch.ts">getResults</a>(batchID, { ...params }) -> BatchGetResultsResponse</code>
+- <code title="post /people/retrieve">client.batch.<a href="./src/resources/batch.ts">submit</a>({ ...params }) -> BatchSubmitResponse</code>
