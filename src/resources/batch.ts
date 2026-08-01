@@ -8,9 +8,7 @@ import { path } from '../internal/utils/path';
 
 export class Batch extends APIResource {
   /**
-   * Check progress and get download links when the batch finishes. Also returns the
-   * rejected-URL list from submission. The webhook signing secret is not repeated
-   * here — it is returned once, by the submit response.
+   * Check progress, and get download links once the batch finishes.
    *
    * @example
    * ```ts
@@ -51,9 +49,8 @@ export class Batch extends APIResource {
   }
 
   /**
-   * Page through the result records of a finished batch as JSON, in the same order
-   * as the downloadable result files. Use this instead of downloading and parsing
-   * the NDJSON files yourself.
+   * Page through a finished batch's results as JSON instead of downloading the
+   * NDJSON files.
    *
    * @example
    * ```ts
