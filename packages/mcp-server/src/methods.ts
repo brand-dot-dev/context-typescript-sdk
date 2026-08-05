@@ -107,6 +107,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/brand/retrieve-simplified',
   },
   {
+    clientCallName: 'client.brand.search',
+    fullyQualifiedName: 'brand.search',
+    httpMethod: 'get',
+    httpPath: '/brand/search',
+  },
+  {
     clientCallName: 'client.industry.retrieveNaics',
     fullyQualifiedName: 'industry.retrieveNaics',
     httpMethod: 'get',

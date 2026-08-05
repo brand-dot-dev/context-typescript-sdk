@@ -55,4 +55,21 @@ describe('resource brand', () => {
       timeoutMS: 1000,
     });
   });
+
+  // Mock server tests are disabled
+  test.skip('search: only required params', async () => {
+    const responsePromise = client.brand.search({ query: 'x' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('search: required and optional params', async () => {
+    const response = await client.brand.search({ query: 'x', tags: ['production', 'team-alpha'] });
+  });
 });

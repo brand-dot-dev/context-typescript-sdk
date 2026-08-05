@@ -45,6 +45,8 @@ import {
   BrandRetrieveResponse,
   BrandRetrieveSimplifiedParams,
   BrandRetrieveSimplifiedResponse,
+  BrandSearchParams,
+  BrandSearchResponse,
 } from './resources/brand';
 import {
   Industry,
@@ -891,8 +893,10 @@ export declare namespace ContextDev {
     Brand as Brand,
     type BrandRetrieveResponse as BrandRetrieveResponse,
     type BrandRetrieveSimplifiedResponse as BrandRetrieveSimplifiedResponse,
+    type BrandSearchResponse as BrandSearchResponse,
     type BrandRetrieveParams as BrandRetrieveParams,
     type BrandRetrieveSimplifiedParams as BrandRetrieveSimplifiedParams,
+    type BrandSearchParams as BrandSearchParams,
   };
 
   export {
