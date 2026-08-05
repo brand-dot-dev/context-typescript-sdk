@@ -124,6 +124,7 @@ const fuse = new Fuse(
     'client.ai.extractProducts',
     'client.brand.retrieve',
     'client.brand.retrieveSimplified',
+    'client.brand.search',
     'client.industry.retrieveNaics',
     'client.industry.retrieveSic',
     'client.utility.prefetch',

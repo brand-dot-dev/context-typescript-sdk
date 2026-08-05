@@ -947,6 +947,56 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     },
   },
   {
+    name: 'search',
+    endpoint: '/brand/search',
+    httpMethod: 'get',
+    summary: 'Brand Search',
+    description:
+      'Search brands by name or domain and get back up to 10 lightweight matches (domain, name, logo), most popular first: by Tranco rank, then market cap for brands outside the Tranco list, with text relevance breaking ties. Matching is prefix-based with no typo tolerance, so it is suited to autocomplete. Only brands already in the Context.dev index are returned — use /brand/retrieve to fetch (and index) a specific domain. Free on Pro and Scale plans; costs 1 credit per request on the Free and Starter plans.',
+    stainlessPath: '(resource) brand > (method) search',
+    qualified: 'client.brand.search',
+    params: ['query: string;', 'tags?: string[];'],
+    response:
+      '{ results: { domain: string; logo: string; name: string; }[]; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }',
+    markdown:
+      "## search\n\n`client.brand.search(query: string, tags?: string[]): { results: object[]; key_metadata?: object; }`\n\n**get** `/brand/search`\n\nSearch brands by name or domain and get back up to 10 lightweight matches (domain, name, logo), most popular first: by Tranco rank, then market cap for brands outside the Tranco list, with text relevance breaking ties. Matching is prefix-based with no typo tolerance, so it is suited to autocomplete. Only brands already in the Context.dev index are returned — use /brand/retrieve to fetch (and index) a specific domain. Free on Pro and Scale plans; costs 1 credit per request on the Free and Starter plans.\n\n### Parameters\n\n- `query: string`\n  Search term, matched against brand names and domains by prefix (e.g. 'nike', 'nike.com', 'nik').\n\n- `tags?: string[]`\n  Optional comma-separated caller-defined tags for tracking this request. Tags are recorded on the request's usage log and can be used to filter usage on the dashboard usage page. Up to 20 tags, each 1-50 characters.\n\n### Returns\n\n- `{ results: { domain: string; logo: string; name: string; }[]; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }`\n\n  - `results: { domain: string; logo: string; name: string; }[]`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.brand.search({ query: 'x' });\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.brand.search',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.brand.search({ query: 'x' });\n\nconsole.log(response.results);",
+      },
+      python: {
+        method: 'brand.search',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.brand.search(\n    query="x",\n)\nprint(response.results)',
+      },
+      go: {
+        method: 'client.Brand.Search',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Brand.Search(context.TODO(), contextdev.BrandSearchParams{\n\t\tQuery: "x",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Results)\n}\n',
+      },
+      ruby: {
+        method: 'brand.search',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.brand.search(query: "x")\n\nputs(response)',
+      },
+      cli: {
+        method: 'brand search',
+        example: "context-dev brand search \\\n  --api-key 'My API Key' \\\n  --query x",
+      },
+      php: {
+        method: 'brand->search',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->brand->search(\n  query: 'x', tags: ['production', 'team-alpha']\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/brand/search \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
+      },
+    },
+  },
+  {
     name: 'retrieve_simplified',
     endpoint: '/brand/retrieve-simplified',
     httpMethod: 'get',

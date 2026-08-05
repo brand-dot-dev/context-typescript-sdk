@@ -56,11 +56,13 @@ Types:
 
 - <code><a href="./src/resources/brand.ts">BrandRetrieveResponse</a></code>
 - <code><a href="./src/resources/brand.ts">BrandRetrieveSimplifiedResponse</a></code>
+- <code><a href="./src/resources/brand.ts">BrandSearchResponse</a></code>
 
 Methods:
 
 - <code title="post /brand/retrieve">client.brand.<a href="./src/resources/brand.ts">retrieve</a>({ ...params }) -> BrandRetrieveResponse</code>
 - <code title="get /brand/retrieve-simplified">client.brand.<a href="./src/resources/brand.ts">retrieveSimplified</a>({ ...params }) -> BrandRetrieveSimplifiedResponse</code>
+- <code title="get /brand/search">client.brand.<a href="./src/resources/brand.ts">search</a>({ ...params }) -> BrandSearchResponse</code>
 
 # Industry
 
