@@ -42,6 +42,24 @@ export class Brand extends APIResource {
   ): APIPromise<BrandRetrieveSimplifiedResponse> {
     return this._client.get('/brand/retrieve-simplified', { query, ...options });
   }
+
+  /**
+   * Search brands by name or domain and get back up to 10 lightweight matches
+   * (domain, name, logo), most popular first: by Tranco rank, then market cap for
+   * brands outside the Tranco list, with text relevance breaking ties. Matching is
+   * prefix-based with no typo tolerance, so it is suited to autocomplete. Only
+   * brands already in the Context.dev index are returned — use /brand/retrieve to
+   * fetch (and index) a specific domain. Free on Pro and Scale plans; costs 1 credit
+   * per request on the Free and Starter plans.
+   *
+   * @example
+   * ```ts
+   * const response = await client.brand.search({ query: 'x' });
+   * ```
+   */
+  search(query: BrandSearchParams, options?: RequestOptions): APIPromise<BrandSearchResponse> {
+    return this._client.get('/brand/search', { query, ...options });
+  }
 }
 
 export interface BrandRetrieveResponse {
@@ -1021,6 +1039,55 @@ export namespace BrandRetrieveSimplifiedResponse {
   }
 }
 
+export interface BrandSearchResponse {
+  /**
+   * Up to 10 matching brands, most popular first. Empty when nothing matches.
+   */
+  results: Array<BrandSearchResponse.Result>;
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  key_metadata?: BrandSearchResponse.KeyMetadata;
+}
+
+export namespace BrandSearchResponse {
+  export interface Result {
+    /**
+     * The brand's domain.
+     */
+    domain: string;
+
+    /**
+     * Logo link URL that serves the brand's logo, generated per request for the
+     * calling organization.
+     */
+    logo: string;
+
+    /**
+     * The brand's name. Empty string when unknown.
+     */
+    name: string;
+  }
+
+  /**
+   * Metadata about the API key used for the request. Included in every response
+   * whenever a valid API key is provided, even when the response status is not 200.
+   */
+  export interface KeyMetadata {
+    /**
+     * The number of credits consumed by this request.
+     */
+    credits_consumed: number;
+
+    /**
+     * The number of credits remaining for your organization after this request.
+     */
+    credits_remaining: number;
+  }
+}
+
 export type BrandRetrieveParams =
   | BrandRetrieveParams.BrandRetrieveByDomainRequest
   | BrandRetrieveParams.BrandRetrieveByNameRequest
@@ -1932,11 +1999,28 @@ export interface BrandRetrieveSimplifiedParams {
   timeoutMS?: number;
 }
 
+export interface BrandSearchParams {
+  /**
+   * Search term, matched against brand names and domains by prefix (e.g. 'nike',
+   * 'nike.com', 'nik').
+   */
+  query: string;
+
+  /**
+   * Optional comma-separated caller-defined tags for tracking this request. Tags are
+   * recorded on the request's usage log and can be used to filter usage on the
+   * dashboard usage page. Up to 20 tags, each 1-50 characters.
+   */
+  tags?: Array<string>;
+}
+
 export declare namespace Brand {
   export {
     type BrandRetrieveResponse as BrandRetrieveResponse,
     type BrandRetrieveSimplifiedResponse as BrandRetrieveSimplifiedResponse,
+    type BrandSearchResponse as BrandSearchResponse,
     type BrandRetrieveParams as BrandRetrieveParams,
     type BrandRetrieveSimplifiedParams as BrandRetrieveSimplifiedParams,
+    type BrandSearchParams as BrandSearchParams,
   };
 }

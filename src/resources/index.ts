@@ -26,8 +26,10 @@ export {
   Brand,
   type BrandRetrieveResponse,
   type BrandRetrieveSimplifiedResponse,
+  type BrandSearchResponse,
   type BrandRetrieveParams,
   type BrandRetrieveSimplifiedParams,
+  type BrandSearchParams,
 } from './brand';
 export {
   Industry,
