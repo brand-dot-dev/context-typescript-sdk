@@ -3622,7 +3622,7 @@ export namespace WebWebScrapeHTMLParams {
 
     /**
      * When true, PDF URLs are fetched and parsed. When false, PDF URLs are skipped and
-     * a 400 WEBSITE_ACCESS_ERROR is returned.
+     * a 400 PDF_SKIPPED is returned.
      */
     shouldParse?: boolean | 'true' | 'false';
 
@@ -4104,7 +4104,7 @@ export namespace WebWebScrapeMdParams {
 
     /**
      * When true, PDF URLs are fetched and parsed. When false, PDF URLs are skipped and
-     * a 400 WEBSITE_ACCESS_ERROR is returned.
+     * a 400 PDF_SKIPPED is returned.
      */
     shouldParse?: boolean | 'true' | 'false';
 
