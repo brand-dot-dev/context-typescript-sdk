@@ -188,7 +188,11 @@ export class Web extends APIResource {
   }
 
   /**
-   * Crawl an entire website's sitemap and return all discovered page URLs.
+   * Crawl an entire website's sitemap and return all discovered page URLs. Pass
+   * `search` to have the crawled sitemap filtered down to the pages about a phrase
+   * (for example `pricing and plans` or `api authentication docs`), most relevant
+   * first — a searched crawl scans the whole sitemap and costs 2 credits instead
+   * of 1.
    *
    * @example
    * ```ts
@@ -1931,7 +1935,8 @@ export interface WebWebScrapeSitemapResponse {
   success: true;
 
   /**
-   * Array of discovered page URLs from the sitemap (max 500)
+   * Discovered page URLs from the sitemap, up to `maxLinks`. When `search` is set
+   * these are only the matching pages, most relevant first.
    */
   urls: Array<string>;
 
@@ -4133,6 +4138,13 @@ export interface WebWebScrapeSitemapParams {
    * Minimum is 1, maximum is 100,000.
    */
   maxLinks?: number;
+
+  /**
+   * Optional search phrase. When provided, the crawled sitemap is filtered to the
+   * pages whose URLs are about that phrase, most relevant first, and the request
+   * costs 2 credits instead of 1.
+   */
+  search?: string;
 
   /**
    * Optional explicit sitemap URL. When provided, exactly this sitemap is crawled
