@@ -162,6 +162,18 @@ export class Web extends APIResource {
    * responses from a recognized API key; use error_code to distinguish stable
    * failure categories.
    *
+   * ### YouTube
+   *
+   * YouTube URLs return the video or channel itself rather than the surrounding
+   * player and navigation chrome. A URL addressing a single video (`/watch`,
+   * `youtu.be`, `/shorts`, `/embed`, `/live`) returns its title, channel, duration,
+   * view count, keywords, full description, and the transcript when the video has
+   * captions that can be retrieved; videos without captions return everything except
+   * the transcript. A channel URL (`/channel/UC…`, `/@handle`, `/c/…`, `/user/…`)
+   * returns its name, handle, subscriber count, video count, and full description.
+   * When `includeImages=true`, video responses also include the thumbnail and
+   * channel responses include the avatar. Costs the same as any other scrape.
+   *
    * ### Billing & errors
    *
    * | HTTP status | Billed?                                   | Meaning                                                                                  |
@@ -1139,7 +1151,7 @@ export namespace WebSearchResponse {
       /**
        * Per-result scrape outcome. Inspect this before reading `markdown`.
        */
-      code: 'SUCCESS' | 'NOT_REQUESTED' | 'TIMEOUT' | 'WEBSITE_ACCESS_ERROR' | 'ERROR';
+      code: 'SUCCESS' | 'NOT_REQUESTED' | 'TIMEOUT' | 'CONTENT_TOO_LARGE' | 'WEBSITE_ACCESS_ERROR' | 'ERROR';
 
       /**
        * GFM Markdown of the page. Null unless markdownOptions.enabled is true and
