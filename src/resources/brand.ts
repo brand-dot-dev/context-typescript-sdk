@@ -45,7 +45,8 @@ export class Brand extends APIResource {
 
   /**
    * Search brands by name or domain and get back up to 10 lightweight matches
-   * (domain, name, logo), most popular first: by Tranco rank, then market cap for
+   * (domain, name, logo). Name matches rank ahead of domain matches; within each
+   * group the most popular brands come first: by Tranco rank, then market cap for
    * brands outside the Tranco list, with text relevance breaking ties. Matching is
    * prefix-based with no typo tolerance, so it is suited to autocomplete. Only
    * brands already in the Context.dev index are returned — use /brand/retrieve to
@@ -119,6 +120,11 @@ export namespace BrandRetrieveResponse {
      * Company email address
      */
     email?: string;
+
+    /**
+     * Employee headcount information for the brand (will be null if unknown)
+     */
+    employees?: Brand.Employees;
 
     /**
      * Industry classification information for the brand
@@ -395,6 +401,29 @@ export namespace BrandRetrieveResponse {
        * Name of the color
        */
       name?: string;
+    }
+
+    /**
+     * Employee headcount information for the brand (will be null if unknown)
+     */
+    export interface Employees {
+      /**
+       * Exact employee count when a precise headcount is known
+       */
+      exact?: number;
+
+      /**
+       * Employee count range for the brand (e.g. '11 to 50')
+       */
+      range?:
+        | '1 to 10'
+        | '11 to 50'
+        | '51 to 200'
+        | '201 to 500'
+        | '501 to 1000'
+        | '1001 to 5000'
+        | '5001 to 10000'
+        | '10001+';
     }
 
     /**
@@ -1041,7 +1070,8 @@ export namespace BrandRetrieveSimplifiedResponse {
 
 export interface BrandSearchResponse {
   /**
-   * Up to 10 matching brands, most popular first. Empty when nothing matches.
+   * Up to 10 matching brands, name matches first, then domain matches, most popular
+   * first within each group. Empty when nothing matches.
    */
   results: Array<BrandSearchResponse.Result>;
 

@@ -3263,9 +3263,10 @@ export namespace WebWebCrawlMdParams {
     end?: number;
 
     /**
-     * When true, detect and OCR images embedded in the selected PDF pages, inserting
-     * recognized text at each image's position in page reading order while preserving
-     * the PDF text layer. This is separate from automatic scanned-PDF OCR fallback.
+     * When true, OCR the selected PDF pages that have no usable text layer (scans),
+     * replacing each recovered page's text with the OCR result while pages with a real
+     * text layer keep it. Billed at 1 credit per page OCR actually recovered, on top
+     * of the base request cost.
      */
     ocr?: boolean;
 
@@ -3619,9 +3620,10 @@ export namespace WebWebScrapeHTMLParams {
     end?: number;
 
     /**
-     * When true, detect and OCR images embedded in the selected PDF pages, inserting
-     * recognized text at each image's position in page reading order while preserving
-     * the PDF text layer. When false, no OCR runs.
+     * When true, OCR the selected PDF pages that have no usable text layer (scans),
+     * replacing each recovered page's text with the OCR result while pages with a real
+     * text layer keep it. Billed at 1 credit per page OCR actually recovered, on top
+     * of the base request cost. When false, no OCR runs.
      */
     ocr?: boolean | 'true' | 'false';
 
@@ -4101,9 +4103,10 @@ export namespace WebWebScrapeMdParams {
     end?: number;
 
     /**
-     * When true, detect and OCR images embedded in the selected PDF pages, inserting
-     * recognized text at each image's position in page reading order while preserving
-     * the PDF text layer. When false, no OCR runs.
+     * When true, OCR the selected PDF pages that have no usable text layer (scans),
+     * replacing each recovered page's text with the OCR result while pages with a real
+     * text layer keep it. Billed at 1 credit per page OCR actually recovered, on top
+     * of the base request cost. When false, no OCR runs.
      */
     ocr?: boolean | 'true' | 'false';
 

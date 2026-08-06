@@ -293,10 +293,16 @@ export namespace BatchRetrieveResponse {
    */
   export interface Credits {
     /**
-     * `reserved` minus `refunded` — what the batch has cost so far. Equal to
-     * `reserved` until the batch settles.
+     * `reserved` minus `refunded` plus `ocr_charged` — what the batch has cost so far.
+     * Equal to `reserved` until the batch settles.
      */
     net: number;
+
+    /**
+     * Credits charged for PDF pages recovered by OCR (pdf.ocr=true), 1 per recovered
+     * page, on top of `reserved`. Stays 0 until the batch settles.
+     */
+    ocr_charged: number;
 
     /**
      * Credits returned for pages that did not succeed. Stays 0 until the batch reaches
@@ -515,10 +521,16 @@ export namespace BatchListResponse {
      */
     export interface Credits {
       /**
-       * `reserved` minus `refunded` — what the batch has cost so far. Equal to
-       * `reserved` until the batch settles.
+       * `reserved` minus `refunded` plus `ocr_charged` — what the batch has cost so far.
+       * Equal to `reserved` until the batch settles.
        */
       net: number;
+
+      /**
+       * Credits charged for PDF pages recovered by OCR (pdf.ocr=true), 1 per recovered
+       * page, on top of `reserved`. Stays 0 until the batch settles.
+       */
+      ocr_charged: number;
 
       /**
        * Credits returned for pages that did not succeed. Stays 0 until the batch reaches
@@ -824,6 +836,12 @@ export namespace BatchGetResultsResponse {
      * Caller-supplied metadata echoed from submission.
      */
     meta?: { [key: string]: unknown };
+
+    /**
+     * PDF pages of this document recovered by OCR (pdf.ocr=true). Each recovered page
+     * bills 1 credit on top of the page base credit; absent when no OCR ran.
+     */
+    ocr_pages?: number;
   }
 
   export namespace Ok {
