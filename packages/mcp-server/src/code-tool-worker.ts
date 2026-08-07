@@ -142,10 +142,12 @@ const fuse = new Fuse(
     'client.monitors.run',
     'client.monitors.update',
     'client.batch.cancel',
+    'client.batch.delete',
     'client.batch.getResults',
     'client.batch.list',
     'client.batch.retrieve',
     'client.batch.submit',
+    'client.people.enrich',
   ],
   { threshold: 1, shouldSort: true },
 );
