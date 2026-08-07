@@ -27,6 +27,7 @@ import {
 import {
   Batch,
   BatchCancelResponse,
+  BatchDeleteResponse,
   BatchGetResultsParams,
   BatchGetResultsResponse,
   BatchListParams,
@@ -81,6 +82,7 @@ import {
   WebhookDelivery,
 } from './resources/monitors';
 import { Parse, ParseHandleParams, ParseHandleResponse } from './resources/parse';
+import { People, PersonEnrichParams, PersonEnrichResponse } from './resources/people';
 import { Utility, UtilityPrefetchParams, UtilityPrefetchResponse } from './resources/utility';
 import {
   Web,
@@ -834,7 +836,11 @@ export class ContextDev {
    * Monitor pages, sitemaps, and extracted website data for exact or semantic changes. Webhook payloads are documented by the MonitorsChangeDetectedWebhookPayload and MonitorsRunCompletedWebhookPayload schemas.
    */
   monitors: API.Monitors = new API.Monitors(this);
+  /**
+   * Scrape many pages or crawl a site asynchronously.
+   */
   batch: API.Batch = new API.Batch(this);
+  people: API.People = new API.People(this);
 }
 
 ContextDev.Parse = Parse;
@@ -845,6 +851,7 @@ ContextDev.Industry = Industry;
 ContextDev.Utility = Utility;
 ContextDev.Monitors = Monitors;
 ContextDev.Batch = Batch;
+ContextDev.People = People;
 
 export declare namespace ContextDev {
   export type RequestOptions = Opts.RequestOptions;
@@ -947,11 +954,18 @@ export declare namespace ContextDev {
     type Intake as Intake,
     type BatchRetrieveResponse as BatchRetrieveResponse,
     type BatchListResponse as BatchListResponse,
+    type BatchDeleteResponse as BatchDeleteResponse,
     type BatchCancelResponse as BatchCancelResponse,
     type BatchGetResultsResponse as BatchGetResultsResponse,
     type BatchSubmitResponse as BatchSubmitResponse,
     type BatchListParams as BatchListParams,
     type BatchGetResultsParams as BatchGetResultsParams,
     type BatchSubmitParams as BatchSubmitParams,
+  };
+
+  export {
+    People as People,
+    type PersonEnrichResponse as PersonEnrichResponse,
+    type PersonEnrichParams as PersonEnrichParams,
   };
 }

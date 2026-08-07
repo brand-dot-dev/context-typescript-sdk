@@ -1918,50 +1918,56 @@ const EMBEDDED_METHODS: MethodEntry[] = [
   },
   {
     name: 'submit',
-    endpoint: '/people/retrieve',
+    endpoint: '/batch/submit',
     httpMethod: 'post',
-    summary: 'Retrieve Person',
-    description: 'Retrieve and normalize a person profile from identifiers.',
+    summary: 'Submit a batch',
+    description: 'Scrape 25K URLs or crawl large websites asynchronously. ',
     stainlessPath: '(resource) batch > (method) submit',
     qualified: 'client.batch.submit',
-    params: ['identifiers: { linkedinUrl?: string; };', 'tags?: string[];', 'timeoutMS?: number;'],
+    params: [
+      "input: { data: { format: 'markdown'; urls: { url: string; itemId?: string; meta?: object; }[]; options?: { country?: string; excludeSelectors?: string[]; includeImages?: boolean; includeLinks?: boolean; includeSelectors?: string[]; maxAgeMs?: number; pdf?: { end?: number; ocr?: boolean | 'true' | 'false'; shouldParse?: boolean | 'true' | 'false'; start?: number; }; settleAnimations?: boolean; shortenBase64Images?: boolean; useMainContentOnly?: boolean; waitForMs?: number; }; } | { format: 'html'; urls: { url: string; itemId?: string; meta?: object; }[]; options?: { country?: string; excludeSelectors?: string[]; includeSelectors?: string[]; maxAgeMs?: number; pdf?: { end?: number; ocr?: boolean | 'true' | 'false'; shouldParse?: boolean | 'true' | 'false'; start?: number; }; settleAnimations?: boolean; useMainContentOnly?: boolean; waitForMs?: number; }; }; mode: 'scrape'; } | { data: { format: 'markdown'; source: { type: 'start_url'; url: string; controls?: { followSubdomains?: boolean; maxDepth?: number; maxUrls?: number; regex?: string; }; } | { domain: string; type: 'sitemap'; controls?: { maxUrls?: number; regex?: string; }; }; options?: { country?: string; excludeSelectors?: string[]; includeImages?: boolean; includeLinks?: boolean; includeSelectors?: string[]; maxAgeMs?: number; pdf?: { end?: number; ocr?: boolean | 'true' | 'false'; shouldParse?: boolean | 'true' | 'false'; start?: number; }; settleAnimations?: boolean; shortenBase64Images?: boolean; useMainContentOnly?: boolean; waitForMs?: number; }; } | { format: 'html'; source: { type: 'start_url'; url: string; controls?: { followSubdomains?: boolean; maxDepth?: number; maxUrls?: number; regex?: string; }; } | { domain: string; type: 'sitemap'; controls?: { maxUrls?: number; regex?: string; }; }; options?: { country?: string; excludeSelectors?: string[]; includeSelectors?: string[]; maxAgeMs?: number; pdf?: { end?: number; ocr?: boolean | 'true' | 'false'; shouldParse?: boolean | 'true' | 'false'; start?: number; }; settleAnimations?: boolean; useMainContentOnly?: boolean; waitForMs?: number; }; }; mode: 'crawl'; };",
+      'tags?: string[];',
+      'webhookUrl?: string;',
+      'Idempotency-Key?: string;',
+    ],
     response:
-      "{ code: 200; metadata: { identifiers: { linkedinUrl?: string; }; sourcesAttempted: 'linkedin' | 'cv' | 'manual' | 'github' | 'other'[]; sourcesSucceeded: 'linkedin' | 'cv' | 'manual' | 'github' | 'other'[]; urlsAnalyzed: string[]; personalWebsiteUrl?: string; }; person: { education: { institution: object; dates?: object; description?: string; fieldOfStudy?: string; qualification?: string; }[]; experience: { company: object; title: string; dates?: object; description?: string; }[]; profile: { fullName?: string; headline?: string; location?: string; profilePictureUrl?: string; summary?: string; }; skills: { name: string; normalized?: string; proficiency?: string; }[]; }; status: 'ok'; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }",
+      "{ id: string; crawl: { follow_subdomains: boolean; max_depth: number; max_pages: number; source: object | object; url_pattern: string; }; created_at: string; credits: { reserved: number; }; format: 'markdown' | 'html'; input: { duplicates: number; invalid: number; reserved: number; reserved_is_ceiling: boolean; submitted: number; }; invalid_urls: { reason: string; url: string; }[]; mode: 'scrape' | 'crawl'; status: 'queued'; tags: string[]; key_metadata?: { credits_consumed: number; credits_remaining: number; }; webhook_secret?: string; }",
     markdown:
-      "## submit\n\n`client.batch.submit(identifiers: { linkedinUrl?: string; }, tags?: string[], timeoutMS?: number): { code: 200; metadata: object; person: object; status: 'ok'; key_metadata?: object; }`\n\n**post** `/people/retrieve`\n\nRetrieve and normalize a person profile from identifiers.\n\n### Parameters\n\n- `identifiers: { linkedinUrl?: string; }`\n  Known identifiers for the person. At least one identifier is required.\n  - `linkedinUrl?: string`\n    LinkedIn profile URL, e.g. https://www.linkedin.com/in/yahia-bakour/.\n\n- `tags?: string[]`\n  Optional tags for tracking usage. Up to 20 tags, each 1 to 50 characters.\n\n- `timeoutMS?: number`\n  Optional timeout in milliseconds for the request. If the request takes longer than this value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5 minutes).\n\n### Returns\n\n- `{ code: 200; metadata: { identifiers: { linkedinUrl?: string; }; sourcesAttempted: 'linkedin' | 'cv' | 'manual' | 'github' | 'other'[]; sourcesSucceeded: 'linkedin' | 'cv' | 'manual' | 'github' | 'other'[]; urlsAnalyzed: string[]; personalWebsiteUrl?: string; }; person: { education: { institution: object; dates?: object; description?: string; fieldOfStudy?: string; qualification?: string; }[]; experience: { company: object; title: string; dates?: object; description?: string; }[]; profile: { fullName?: string; headline?: string; location?: string; profilePictureUrl?: string; summary?: string; }; skills: { name: string; normalized?: string; proficiency?: string; }[]; }; status: 'ok'; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }`\n\n  - `code: 200`\n  - `metadata: { identifiers: { linkedinUrl?: string; }; sourcesAttempted: 'linkedin' | 'cv' | 'manual' | 'github' | 'other'[]; sourcesSucceeded: 'linkedin' | 'cv' | 'manual' | 'github' | 'other'[]; urlsAnalyzed: string[]; personalWebsiteUrl?: string; }`\n  - `person: { education: { institution: { display: string; normalized?: string; }; dates?: { endDate?: { year: number; day?: number; month?: number; }; isCurrent?: boolean; startDate?: { year: number; day?: number; month?: number; }; }; description?: string; fieldOfStudy?: string; qualification?: string; }[]; experience: { company: { display: string; normalized?: string; }; title: string; dates?: { endDate?: { year: number; day?: number; month?: number; }; isCurrent?: boolean; startDate?: { year: number; day?: number; month?: number; }; }; description?: string; }[]; profile: { fullName?: string; headline?: string; location?: string; profilePictureUrl?: string; summary?: string; }; skills: { name: string; normalized?: string; proficiency?: string; }[]; }`\n  - `status: 'ok'`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.batch.submit({ identifiers: {} });\n\nconsole.log(response);\n```",
+      "## submit\n\n`client.batch.submit(input: { data: { format: 'markdown'; urls: object[]; options?: object; } | { format: 'html'; urls: object[]; options?: object; }; mode: 'scrape'; } | { data: { format: 'markdown'; source: object | object; options?: object; } | { format: 'html'; source: object | object; options?: object; }; mode: 'crawl'; }, tags?: string[], webhookUrl?: string, Idempotency-Key?: string): { id: string; crawl: crawl_controls; created_at: string; credits: object; format: 'markdown' | 'html'; input: intake; invalid_urls: object[]; mode: 'scrape' | 'crawl'; status: 'queued'; tags: string[]; key_metadata?: object; webhook_secret?: string; }`\n\n**post** `/batch/submit`\n\nScrape 25K URLs or crawl large websites asynchronously. \n\n### Parameters\n\n- `input: { data: { format: 'markdown'; urls: { url: string; itemId?: string; meta?: object; }[]; options?: { country?: string; excludeSelectors?: string[]; includeImages?: boolean; includeLinks?: boolean; includeSelectors?: string[]; maxAgeMs?: number; pdf?: { end?: number; ocr?: boolean | 'true' | 'false'; shouldParse?: boolean | 'true' | 'false'; start?: number; }; settleAnimations?: boolean; shortenBase64Images?: boolean; useMainContentOnly?: boolean; waitForMs?: number; }; } | { format: 'html'; urls: { url: string; itemId?: string; meta?: object; }[]; options?: { country?: string; excludeSelectors?: string[]; includeSelectors?: string[]; maxAgeMs?: number; pdf?: { end?: number; ocr?: boolean | 'true' | 'false'; shouldParse?: boolean | 'true' | 'false'; start?: number; }; settleAnimations?: boolean; useMainContentOnly?: boolean; waitForMs?: number; }; }; mode: 'scrape'; } | { data: { format: 'markdown'; source: { type: 'start_url'; url: string; controls?: { followSubdomains?: boolean; maxDepth?: number; maxUrls?: number; regex?: string; }; } | { domain: string; type: 'sitemap'; controls?: { maxUrls?: number; regex?: string; }; }; options?: { country?: string; excludeSelectors?: string[]; includeImages?: boolean; includeLinks?: boolean; includeSelectors?: string[]; maxAgeMs?: number; pdf?: { end?: number; ocr?: boolean | 'true' | 'false'; shouldParse?: boolean | 'true' | 'false'; start?: number; }; settleAnimations?: boolean; shortenBase64Images?: boolean; useMainContentOnly?: boolean; waitForMs?: number; }; } | { format: 'html'; source: { type: 'start_url'; url: string; controls?: { followSubdomains?: boolean; maxDepth?: number; maxUrls?: number; regex?: string; }; } | { domain: string; type: 'sitemap'; controls?: { maxUrls?: number; regex?: string; }; }; options?: { country?: string; excludeSelectors?: string[]; includeSelectors?: string[]; maxAgeMs?: number; pdf?: { end?: number; ocr?: boolean | 'true' | 'false'; shouldParse?: boolean | 'true' | 'false'; start?: number; }; settleAnimations?: boolean; useMainContentOnly?: boolean; waitForMs?: number; }; }; mode: 'crawl'; }`\n  Choose a URL list or a site crawl.\n\n- `tags?: string[]`\n  Tags stored on the batch. Filter the batch list by them later.\n\n- `webhookUrl?: string`\n  URL notified when the batch finishes.\n\n- `Idempotency-Key?: string`\n  Any string unique to this submission. Retries with the same key return the original batch.\n\n### Returns\n\n- `{ id: string; crawl: { follow_subdomains: boolean; max_depth: number; max_pages: number; source: object | object; url_pattern: string; }; created_at: string; credits: { reserved: number; }; format: 'markdown' | 'html'; input: { duplicates: number; invalid: number; reserved: number; reserved_is_ceiling: boolean; submitted: number; }; invalid_urls: { reason: string; url: string; }[]; mode: 'scrape' | 'crawl'; status: 'queued'; tags: string[]; key_metadata?: { credits_consumed: number; credits_remaining: number; }; webhook_secret?: string; }`\n\n  - `id: string`\n  - `crawl: { follow_subdomains: boolean; max_depth: number; max_pages: number; source: { type: 'start_url'; url: string; } | { domain: string; type: 'sitemap'; }; url_pattern: string; }`\n  - `created_at: string`\n  - `credits: { reserved: number; }`\n  - `format: 'markdown' | 'html'`\n  - `input: { duplicates: number; invalid: number; reserved: number; reserved_is_ceiling: boolean; submitted: number; }`\n  - `invalid_urls: { reason: string; url: string; }[]`\n  - `mode: 'scrape' | 'crawl'`\n  - `status: 'queued'`\n  - `tags: string[]`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n  - `webhook_secret?: string`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.batch.submit({ input: {\n  data: { format: 'markdown', urls: [{ url: 'https://example.com/products/anvil' }, { url: 'https://example.com/products/hammer' }] },\n  mode: 'scrape',\n} });\n\nconsole.log(response);\n```",
     perLanguage: {
       typescript: {
         method: 'client.batch.submit',
         example:
-          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.batch.submit({\n  identifiers: { linkedinUrl: 'https://www.linkedin.com/in/yahia-bakour/' },\n});\n\nconsole.log(response.code);",
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.batch.submit({\n  input: {\n    data: {\n      urls: [\n        {\n          url: 'https://example.com/products/anvil',\n          itemId: 'sku-1',\n          meta: { category: 'tools' },\n        },\n        { url: 'https://example.com/products/hammer', itemId: 'sku-2' },\n      ],\n      options: { useMainContentOnly: true },\n    },\n  },\n});\n\nconsole.log(response.id);",
       },
       python: {
         method: 'batch.submit',
         example:
-          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.batch.submit(\n    identifiers={\n        "linkedin_url": "https://www.linkedin.com/in/yahia-bakour/"\n    },\n)\nprint(response.code)',
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.batch.submit(\n    input={\n        "data": {\n            "urls": [{\n                "url": "https://example.com/products/anvil",\n                "item_id": "sku-1",\n                "meta": {\n                    "category": "tools"\n                },\n            }, {\n                "url": "https://example.com/products/hammer",\n                "item_id": "sku-2",\n            }],\n            "options": {\n                "use_main_content_only": True\n            },\n        }\n    },\n)\nprint(response.id)',
       },
       go: {
         method: 'client.Batch.Submit',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Batch.Submit(context.TODO(), contextdev.BatchSubmitParams{\n\t\tIdentifiers: contextdev.BatchSubmitParamsIdentifiers{\n\t\t\tLinkedinURL: contextdev.String("https://www.linkedin.com/in/yahia-bakour/"),\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Code)\n}\n',
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Batch.Submit(context.TODO(), contextdev.BatchSubmitParams{\n\t\tInput: contextdev.BatchSubmitParamsInputUnion{\n\t\t\tOfScrape: &contextdev.BatchSubmitParamsInputScrape{\n\t\t\t\tData: contextdev.BatchSubmitParamsInputScrapeDataUnion{\n\t\t\t\t\tOfMarkdown: &contextdev.BatchSubmitParamsInputScrapeDataMarkdown{\n\t\t\t\t\t\tURLs: []contextdev.BatchSubmitParamsInputScrapeDataMarkdownURL{{\n\t\t\t\t\t\t\tURL:    "https://example.com/products/anvil",\n\t\t\t\t\t\t\tItemID: contextdev.String("sku-1"),\n\t\t\t\t\t\t\tMeta: map[string]any{\n\t\t\t\t\t\t\t\t"category": "tools",\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t}, {\n\t\t\t\t\t\t\tURL:    "https://example.com/products/hammer",\n\t\t\t\t\t\t\tItemID: contextdev.String("sku-2"),\n\t\t\t\t\t\t}},\n\t\t\t\t\t\tOptions: contextdev.BatchSubmitParamsInputScrapeDataMarkdownOptions{\n\t\t\t\t\t\t\tUseMainContentOnly: contextdev.Bool(true),\n\t\t\t\t\t\t},\n\t\t\t\t\t},\n\t\t\t\t},\n\t\t\t},\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ID)\n}\n',
       },
       ruby: {
         method: 'batch.submit',
         example:
-          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.batch.submit(identifiers: {})\n\nputs(response)',
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.batch.submit(\n  input: {\n    data: {\n      format: :markdown,\n      urls: [{url: "https://example.com/products/anvil"}, {url: "https://example.com/products/hammer"}]\n    },\n    mode: :scrape\n  }\n)\n\nputs(response)',
       },
       cli: {
         method: 'batch submit',
-        example: "context-dev batch submit \\\n  --api-key 'My API Key' \\\n  --identifiers '{}'",
+        example:
+          "context-dev batch submit \\\n  --api-key 'My API Key' \\\n  --input '{data: {format: markdown, urls: [{url: https://example.com/products/anvil}, {url: https://example.com/products/hammer}]}, mode: scrape}'",
       },
       php: {
         method: 'batch->submit',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->batch->submit(\n  identifiers: ['linkedinURL' => 'https://www.linkedin.com/in/yahia-bakour/'],\n  tags: ['production', 'team-alpha'],\n  timeoutMs: 1000,\n);\n\nvar_dump($response);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->batch->submit(\n  input: [\n    'data' => [\n      'format' => 'markdown',\n      'urls' => [\n        [\n          'url' => 'https://example.com/products/anvil',\n          'itemID' => 'sku-1',\n          'meta' => ['category' => 'bar'],\n        ],\n        [\n          'url' => 'https://example.com/products/hammer',\n          'itemID' => 'sku-2',\n          'meta' => ['foo' => 'bar'],\n        ],\n      ],\n      'options' => [\n        'country' => 'de',\n        'excludeSelectors' => ['x'],\n        'includeImages' => true,\n        'includeLinks' => true,\n        'includeSelectors' => ['x'],\n        'maxAgeMs' => 0,\n        'pdf' => [\n          'end' => 1, 'ocr' => 'true', 'shouldParse' => 'true', 'start' => 1\n        ],\n        'settleAnimations' => true,\n        'shortenBase64Images' => true,\n        'useMainContentOnly' => true,\n        'waitForMs' => 0,\n      ],\n    ],\n    'mode' => 'scrape',\n  ],\n  tags: ['docs', 'competitor'],\n  webhookURL: 'webhookUrl',\n  idempotencyKey: 'Idempotency-Key',\n);\n\nvar_dump($response);",
       },
       http: {
         example:
-          'curl https://api.context.dev/v1/people/retrieve \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "identifiers": {\n            "linkedinUrl": "https://www.linkedin.com/in/yahia-bakour/"\n          },\n          "tags": [\n            "production",\n            "team-alpha"\n          ]\n        }\'',
+          'curl https://api.context.dev/v1/batch/submit \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "input": {\n            "data": {\n              "format": "markdown",\n              "urls": [\n                {\n                  "url": "https://example.com/products/anvil",\n                  "itemId": "sku-1",\n                  "meta": {\n                    "category": "bar"\n                  }\n                },\n                {\n                  "url": "https://example.com/products/hammer",\n                  "itemId": "sku-2"\n                }\n              ],\n              "options": {\n                "useMainContentOnly": true\n              }\n            },\n            "mode": "scrape"\n          },\n          "tags": [\n            "docs",\n            "competitor"\n          ]\n        }\'',
       },
     },
   },
@@ -2166,6 +2172,115 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       http: {
         example:
           'curl https://api.context.dev/v1/batch/$BATCH_ID/cancel \\\n    -X POST \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'delete',
+    endpoint: '/batch/{batch_id}',
+    httpMethod: 'delete',
+    summary: 'Delete a batch',
+    description:
+      'Permanently delete a finished batch and its stored results. Active batches must settle first.',
+    stainlessPath: '(resource) batch > (method) delete',
+    qualified: 'client.batch.delete',
+    params: ['batch_id: string;'],
+    response:
+      '{ id?: string; deleted?: boolean; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }',
+    markdown:
+      "## delete\n\n`client.batch.delete(batch_id: string): { id?: string; deleted?: boolean; key_metadata?: object; }`\n\n**delete** `/batch/{batch_id}`\n\nPermanently delete a finished batch and its stored results. Active batches must settle first.\n\n### Parameters\n\n- `batch_id: string`\n  ID of the batch to retrieve or cancel.\n\n### Returns\n\n- `{ id?: string; deleted?: boolean; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }`\n\n  - `id?: string`\n  - `deleted?: boolean`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst batch = await client.batch.delete('batch_9f2c8a');\n\nconsole.log(batch);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.batch.delete',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst batch = await client.batch.delete('batch_9f2c8a');\n\nconsole.log(batch.id);",
+      },
+      python: {
+        method: 'batch.delete',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nbatch = client.batch.delete(\n    "batch_9f2c8a",\n)\nprint(batch.id)',
+      },
+      go: {
+        method: 'client.Batch.Delete',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tbatch, err := client.Batch.Delete(context.TODO(), "batch_9f2c8a")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", batch.ID)\n}\n',
+      },
+      ruby: {
+        method: 'batch.delete',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nbatch = context_dev.batch.delete("batch_9f2c8a")\n\nputs(batch)',
+      },
+      cli: {
+        method: 'batch delete',
+        example: "context-dev batch delete \\\n  --api-key 'My API Key' \\\n  --batch-id batch_9f2c8a",
+      },
+      php: {
+        method: 'batch->delete',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$batch = $client->batch->delete('batch_9f2c8a');\n\nvar_dump($batch);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/batch/$BATCH_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY"',
+      },
+    },
+  },
+  {
+    name: 'enrich',
+    endpoint: '/people/enrich',
+    httpMethod: 'post',
+    summary: 'Enrich Person',
+    description:
+      'Finds and normalizes the best available person candidate from additive identity clues, then assigns an identity match score from 0 to 100. Available on Pro and Scale plans. Successful requests cost 20 credits. Disposable and free email addresses (like gmail.com, yahoo.com) will throw a 422 error.',
+    stainlessPath: '(resource) people > (method) enrich',
+    qualified: 'client.people.enrich',
+    params: [
+      'company?: { domain?: string; name?: string; };',
+      'education?: { degree?: string; field_of_study?: string; graduation_year?: number; institution?: { domain?: string; name?: string; }; }[];',
+      'email?: string;',
+      'location?: { city?: string; country?: string; region?: string; };',
+      'name?: { first?: string; last?: string; };',
+      'social_urls?: string[];',
+      'tags?: string[];',
+      'timeoutMS?: number;',
+    ],
+    response:
+      "{ match: { person: { education: object[]; experience: object[]; skills: string[]; social_urls: string[]; website_urls: string[]; avatar_url?: string; bio?: string; current_role?: object; email?: string; location?: object; name?: object; }; score: number; status: 'candidate'; } | { person: null; score: null; status: 'not_found'; }; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }",
+    markdown:
+      "## enrich\n\n`client.people.enrich(company?: { domain?: string; name?: string; }, education?: { degree?: string; field_of_study?: string; graduation_year?: number; institution?: { domain?: string; name?: string; }; }[], email?: string, location?: { city?: string; country?: string; region?: string; }, name?: { first?: string; last?: string; }, social_urls?: string[], tags?: string[], timeoutMS?: number): { match: object | object; key_metadata?: object; }`\n\n**post** `/people/enrich`\n\nFinds and normalizes the best available person candidate from additive identity clues, then assigns an identity match score from 0 to 100. Available on Pro and Scale plans. Successful requests cost 20 credits. Disposable and free email addresses (like gmail.com, yahoo.com) will throw a 422 error.\n\n### Parameters\n\n- `company?: { domain?: string; name?: string; }`\n  - `domain?: string`\n  - `name?: string`\n\n- `education?: { degree?: string; field_of_study?: string; graduation_year?: number; institution?: { domain?: string; name?: string; }; }[]`\n\n- `email?: string`\n\n- `location?: { city?: string; country?: string; region?: string; }`\n  - `city?: string`\n  - `country?: string`\n  - `region?: string`\n\n- `name?: { first?: string; last?: string; }`\n  - `first?: string`\n  - `last?: string`\n\n- `social_urls?: string[]`\n\n- `tags?: string[]`\n  Optional tags for tracking usage. Up to 20 tags, each 1 to 50 characters.\n\n- `timeoutMS?: number`\n  Optional timeout in milliseconds for the request. If the request takes longer than this value, it will be aborted with a 408 status code. Maximum allowed value is 300000ms (5 minutes).\n\n### Returns\n\n- `{ match: { person: { education: object[]; experience: object[]; skills: string[]; social_urls: string[]; website_urls: string[]; avatar_url?: string; bio?: string; current_role?: object; email?: string; location?: object; name?: object; }; score: number; status: 'candidate'; } | { person: null; score: null; status: 'not_found'; }; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }`\n\n  - `match: { person: { education: { institution: { name: string; domain?: string; }; degree?: string; description?: string; end_date?: { year: number; day?: number; month?: number; }; field_of_study?: string; start_date?: { year: number; day?: number; month?: number; }; }[]; experience: { organization: { name: string; domain?: string; }; title: string; description?: string; end_date?: { year: number; day?: number; month?: number; }; is_current?: boolean; location?: string; start_date?: { year: number; day?: number; month?: number; }; }[]; skills: string[]; social_urls: string[]; website_urls: string[]; avatar_url?: string; bio?: string; current_role?: { organization: { name: string; domain?: string; }; title: string; description?: string; end_date?: { year: number; day?: number; month?: number; }; is_current?: boolean; location?: string; start_date?: { year: number; day?: number; month?: number; }; }; email?: string; location?: { city?: string; country?: string; country_code?: string; display?: string; region?: string; }; name?: { first?: string; full?: string; last?: string; }; }; score: number; status: 'candidate'; } | { person: null; score: null; status: 'not_found'; }`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.people.enrich();\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.people.enrich',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.people.enrich({\n  company: { name: 'Analytical Engines', domain: 'analyticalengines.example' },\n  name: { first: 'Ada', last: 'Lovelace' },\n  social_urls: ['https://www.linkedin.com/in/ada-lovelace/'],\n});\n\nconsole.log(response.match);",
+      },
+      python: {
+        method: 'people.enrich',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.people.enrich(\n    company={\n        "name": "Analytical Engines",\n        "domain": "analyticalengines.example",\n    },\n    name={\n        "first": "Ada",\n        "last": "Lovelace",\n    },\n    social_urls=["https://www.linkedin.com/in/ada-lovelace/"],\n)\nprint(response.match)',
+      },
+      go: {
+        method: 'client.People.Enrich',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.People.Enrich(context.TODO(), contextdev.PersonEnrichParams{\n\t\tCompany: contextdev.PersonEnrichParamsCompany{\n\t\t\tName:   contextdev.String("Analytical Engines"),\n\t\t\tDomain: contextdev.String("analyticalengines.example"),\n\t\t},\n\t\tName: contextdev.PersonEnrichParamsName{\n\t\t\tFirst: contextdev.String("Ada"),\n\t\t\tLast:  contextdev.String("Lovelace"),\n\t\t},\n\t\tSocialURLs: []string{"https://www.linkedin.com/in/ada-lovelace/"},\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Match)\n}\n',
+      },
+      ruby: {
+        method: 'people.enrich',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.people.enrich\n\nputs(response)',
+      },
+      cli: {
+        method: 'people enrich',
+        example: "context-dev people enrich \\\n  --api-key 'My API Key'",
+      },
+      php: {
+        method: 'people->enrich',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->people->enrich(\n  company: [\n    'domain' => 'analyticalengines.example', 'name' => 'Analytical Engines'\n  ],\n  education: [\n    [\n      'degree' => 'x',\n      'fieldOfStudy' => 'x',\n      'graduationYear' => 1900,\n      'institution' => ['domain' => 'x', 'name' => 'x'],\n    ],\n  ],\n  email: 'dev@stainless.com',\n  location: ['city' => 'x', 'country' => 'x', 'region' => 'x'],\n  name: ['first' => 'Ada', 'last' => 'Lovelace'],\n  socialURLs: ['https://www.linkedin.com/in/ada-lovelace/'],\n  tags: ['production', 'team-alpha'],\n  timeoutMs: 1000,\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/people/enrich \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "company": {\n            "domain": "analyticalengines.example",\n            "name": "Analytical Engines"\n          },\n          "name": {\n            "first": "Ada",\n            "last": "Lovelace"\n          },\n          "social_urls": [\n            "https://www.linkedin.com/in/ada-lovelace/"\n          ],\n          "tags": [\n            "production",\n            "team-alpha"\n          ]\n        }\'',
       },
     },
   },

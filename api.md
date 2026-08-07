@@ -131,6 +131,7 @@ Types:
 - <code><a href="./src/resources/batch.ts">Intake</a></code>
 - <code><a href="./src/resources/batch.ts">BatchRetrieveResponse</a></code>
 - <code><a href="./src/resources/batch.ts">BatchListResponse</a></code>
+- <code><a href="./src/resources/batch.ts">BatchDeleteResponse</a></code>
 - <code><a href="./src/resources/batch.ts">BatchCancelResponse</a></code>
 - <code><a href="./src/resources/batch.ts">BatchGetResultsResponse</a></code>
 - <code><a href="./src/resources/batch.ts">BatchSubmitResponse</a></code>
@@ -139,6 +140,17 @@ Methods:
 
 - <code title="get /batch/{batch_id}">client.batch.<a href="./src/resources/batch.ts">retrieve</a>(batchID) -> BatchRetrieveResponse</code>
 - <code title="get /batch/list">client.batch.<a href="./src/resources/batch.ts">list</a>({ ...params }) -> BatchListResponse</code>
+- <code title="delete /batch/{batch_id}">client.batch.<a href="./src/resources/batch.ts">delete</a>(batchID) -> BatchDeleteResponse</code>
 - <code title="post /batch/{batch_id}/cancel">client.batch.<a href="./src/resources/batch.ts">cancel</a>(batchID) -> BatchCancelResponse</code>
 - <code title="get /batch/{batch_id}/results">client.batch.<a href="./src/resources/batch.ts">getResults</a>(batchID, { ...params }) -> BatchGetResultsResponse</code>
-- <code title="post /people/retrieve">client.batch.<a href="./src/resources/batch.ts">submit</a>({ ...params }) -> BatchSubmitResponse</code>
+- <code title="post /batch/submit">client.batch.<a href="./src/resources/batch.ts">submit</a>({ ...params }) -> BatchSubmitResponse</code>
+
+# People
+
+Types:
+
+- <code><a href="./src/resources/people.ts">PersonEnrichResponse</a></code>
+
+Methods:
+
+- <code title="post /people/enrich">client.people.<a href="./src/resources/people.ts">enrich</a>({ ...params }) -> PersonEnrichResponse</code>
