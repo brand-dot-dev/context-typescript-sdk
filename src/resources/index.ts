@@ -15,6 +15,7 @@ export {
   type Intake,
   type BatchRetrieveResponse,
   type BatchListResponse,
+  type BatchDeleteResponse,
   type BatchCancelResponse,
   type BatchGetResultsResponse,
   type BatchSubmitResponse,
@@ -64,6 +65,7 @@ export {
   type MonitorListRunsParams,
 } from './monitors';
 export { Parse, type ParseHandleResponse, type ParseHandleParams } from './parse';
+export { People, type PersonEnrichResponse, type PersonEnrichParams } from './people';
 export { Utility, type UtilityPrefetchResponse, type UtilityPrefetchParams } from './utility';
 export {
   Web,

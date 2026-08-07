@@ -162,6 +162,18 @@ export class Web extends APIResource {
    * responses from a recognized API key; use error_code to distinguish stable
    * failure categories.
    *
+   * ### YouTube
+   *
+   * YouTube URLs return the video or channel itself rather than the surrounding
+   * player and navigation chrome. A URL addressing a single video (`/watch`,
+   * `youtu.be`, `/shorts`, `/embed`, `/live`) returns its title, channel, duration,
+   * view count, keywords, full description, and the transcript when the video has
+   * captions that can be retrieved; videos without captions return everything except
+   * the transcript. A channel URL (`/channel/UC…`, `/@handle`, `/c/…`, `/user/…`)
+   * returns its name, handle, subscriber count, video count, and full description.
+   * When `includeImages=true`, video responses also include the thumbnail and
+   * channel responses include the avatar. Costs the same as any other scrape.
+   *
    * ### Billing & errors
    *
    * | HTTP status | Billed?                                   | Meaning                                                                                  |
@@ -171,6 +183,7 @@ export class Web extends APIResource {
    * | 401 / 403   | No                                        | Invalid/disabled key, insufficient permissions, or credits exhausted; inspect error_code |
    * | 404         | No                                        | Target page returned or fingerprinted as not found                                       |
    * | 408         | No                                        | Request timed out                                                                        |
+   * | 413         | No                                        | Target content exceeds the maximum supported size (20 MB)                                |
    * | 415         | No                                        | Unsupported content type                                                                 |
    * | 429         | No                                        | Per-minute rate limit exceeded; honor Retry-After                                        |
    * | 500         | No                                        | Internal error                                                                           |
@@ -187,7 +200,11 @@ export class Web extends APIResource {
   }
 
   /**
-   * Crawl an entire website's sitemap and return all discovered page URLs.
+   * Crawl an entire website's sitemap and return all discovered page URLs. Pass
+   * `search` to have the crawled sitemap filtered down to the pages about a phrase
+   * (for example `pricing and plans` or `api authentication docs`), most relevant
+   * first — a searched crawl scans the whole sitemap and costs 2 credits instead
+   * of 1.
    *
    * @example
    * ```ts
@@ -1134,7 +1151,7 @@ export namespace WebSearchResponse {
       /**
        * Per-result scrape outcome. Inspect this before reading `markdown`.
        */
-      code: 'SUCCESS' | 'NOT_REQUESTED' | 'TIMEOUT' | 'WEBSITE_ACCESS_ERROR' | 'ERROR';
+      code: 'SUCCESS' | 'NOT_REQUESTED' | 'TIMEOUT' | 'CONTENT_TOO_LARGE' | 'WEBSITE_ACCESS_ERROR' | 'ERROR';
 
       /**
        * GFM Markdown of the page. Null unless markdownOptions.enabled is true and
@@ -1930,7 +1947,8 @@ export interface WebWebScrapeSitemapResponse {
   success: true;
 
   /**
-   * Array of discovered page URLs from the sitemap (max 500)
+   * Discovered page URLs from the sitemap, up to `maxLinks`. When `search` is set
+   * these are only the matching pages, most relevant first.
    */
   urls: Array<string>;
 
@@ -3257,9 +3275,10 @@ export namespace WebWebCrawlMdParams {
     end?: number;
 
     /**
-     * When true, detect and OCR images embedded in the selected PDF pages, inserting
-     * recognized text at each image's position in page reading order while preserving
-     * the PDF text layer. This is separate from automatic scanned-PDF OCR fallback.
+     * When true, OCR the selected PDF pages that have no usable text layer (scans),
+     * replacing each recovered page's text with the OCR result while pages with a real
+     * text layer keep it. Billed at 1 credit per page OCR actually recovered, on top
+     * of the base request cost.
      */
     ocr?: boolean;
 
@@ -3613,15 +3632,16 @@ export namespace WebWebScrapeHTMLParams {
     end?: number;
 
     /**
-     * When true, detect and OCR images embedded in the selected PDF pages, inserting
-     * recognized text at each image's position in page reading order while preserving
-     * the PDF text layer. This is separate from automatic scanned-PDF OCR fallback.
+     * When true, OCR the selected PDF pages that have no usable text layer (scans),
+     * replacing each recovered page's text with the OCR result while pages with a real
+     * text layer keep it. Billed at 1 credit per page OCR actually recovered, on top
+     * of the base request cost. When false, no OCR runs.
      */
     ocr?: boolean | 'true' | 'false';
 
     /**
      * When true, PDF URLs are fetched and parsed. When false, PDF URLs are skipped and
-     * a 400 WEBSITE_ACCESS_ERROR is returned.
+     * a 400 PDF_SKIPPED is returned.
      */
     shouldParse?: boolean | 'true' | 'false';
 
@@ -4095,15 +4115,16 @@ export namespace WebWebScrapeMdParams {
     end?: number;
 
     /**
-     * When true, detect and OCR images embedded in the selected PDF pages, inserting
-     * recognized text at each image's position in page reading order while preserving
-     * the PDF text layer. This is separate from automatic scanned-PDF OCR fallback.
+     * When true, OCR the selected PDF pages that have no usable text layer (scans),
+     * replacing each recovered page's text with the OCR result while pages with a real
+     * text layer keep it. Billed at 1 credit per page OCR actually recovered, on top
+     * of the base request cost. When false, no OCR runs.
      */
     ocr?: boolean | 'true' | 'false';
 
     /**
      * When true, PDF URLs are fetched and parsed. When false, PDF URLs are skipped and
-     * a 400 WEBSITE_ACCESS_ERROR is returned.
+     * a 400 PDF_SKIPPED is returned.
      */
     shouldParse?: boolean | 'true' | 'false';
 
@@ -4132,6 +4153,13 @@ export interface WebWebScrapeSitemapParams {
    * Minimum is 1, maximum is 100,000.
    */
   maxLinks?: number;
+
+  /**
+   * Optional search phrase. When provided, the crawled sitemap is filtered to the
+   * pages whose URLs are about that phrase, most relevant first, and the request
+   * costs 2 credits instead of 1.
+   */
+  search?: string;
 
   /**
    * Optional explicit sitemap URL. When provided, exactly this sitemap is crawled

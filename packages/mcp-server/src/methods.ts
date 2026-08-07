@@ -221,6 +221,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/batch/list',
   },
   {
+    clientCallName: 'client.batch.delete',
+    fullyQualifiedName: 'batch.delete',
+    httpMethod: 'delete',
+    httpPath: '/batch/{batch_id}',
+  },
+  {
     clientCallName: 'client.batch.cancel',
     fullyQualifiedName: 'batch.cancel',
     httpMethod: 'post',
@@ -236,7 +242,13 @@ export const sdkMethods: SdkMethod[] = [
     clientCallName: 'client.batch.submit',
     fullyQualifiedName: 'batch.submit',
     httpMethod: 'post',
-    httpPath: '/people/retrieve',
+    httpPath: '/batch/submit',
+  },
+  {
+    clientCallName: 'client.people.enrich',
+    fullyQualifiedName: 'people.enrich',
+    httpMethod: 'post',
+    httpPath: '/people/enrich',
   },
 ];
 

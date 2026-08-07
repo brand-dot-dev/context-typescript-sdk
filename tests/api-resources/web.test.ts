@@ -393,6 +393,7 @@ describe('resource web', () => {
       domain: 'xxx',
       headers: { foo: 'J!' },
       maxLinks: 1,
+      search: 'help center and troubleshooting articles',
       sitemapUrl: 'https://example.com',
       tags: ['production', 'team-alpha'],
       timeoutMS: 1,

@@ -51,6 +51,18 @@ describe('resource batch', () => {
   });
 
   // Mock server tests are disabled
+  test.skip('delete', async () => {
+    const responsePromise = client.batch.delete('batch_9f2c8a');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
   test.skip('cancel', async () => {
     const responsePromise = client.batch.cancel('batch_9f2c8a');
     const rawResponse = await responsePromise.asResponse();
@@ -88,7 +100,18 @@ describe('resource batch', () => {
 
   // Mock server tests are disabled
   test.skip('submit: only required params', async () => {
-    const responsePromise = client.batch.submit({ identifiers: {} });
+    const responsePromise = client.batch.submit({
+      input: {
+        data: {
+          format: 'markdown',
+          urls: [
+            { url: 'https://example.com/products/anvil' },
+            { url: 'https://example.com/products/hammer' },
+          ],
+        },
+        mode: 'scrape',
+      },
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -101,9 +124,45 @@ describe('resource batch', () => {
   // Mock server tests are disabled
   test.skip('submit: required and optional params', async () => {
     const response = await client.batch.submit({
-      identifiers: { linkedinUrl: 'https://www.linkedin.com/in/yahia-bakour/' },
-      tags: ['production', 'team-alpha'],
-      timeoutMS: 1000,
+      input: {
+        data: {
+          format: 'markdown',
+          urls: [
+            {
+              url: 'https://example.com/products/anvil',
+              itemId: 'sku-1',
+              meta: { category: 'bar' },
+            },
+            {
+              url: 'https://example.com/products/hammer',
+              itemId: 'sku-2',
+              meta: { foo: 'bar' },
+            },
+          ],
+          options: {
+            country: 'de',
+            excludeSelectors: ['x'],
+            includeImages: true,
+            includeLinks: true,
+            includeSelectors: ['x'],
+            maxAgeMs: 0,
+            pdf: {
+              end: 1,
+              ocr: 'true',
+              shouldParse: 'true',
+              start: 1,
+            },
+            settleAnimations: true,
+            shortenBase64Images: true,
+            useMainContentOnly: true,
+            waitForMs: 0,
+          },
+        },
+        mode: 'scrape',
+      },
+      tags: ['docs', 'competitor'],
+      webhookUrl: 'webhookUrl',
+      'Idempotency-Key': 'Idempotency-Key',
     });
   });
 });
