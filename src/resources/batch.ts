@@ -970,6 +970,12 @@ export namespace BatchGetResultsResponse {
       favicon?: string;
 
       /**
+       * Page headings (h1–h6) in document order, extracted from the unfiltered document.
+       * Capped at the first 500 headings. Omitted when the page has none.
+       */
+      headings?: Array<Metadata.Heading>;
+
+      /**
        * Primary resolved preview image from Open Graph, Twitter, or image metadata.
        */
       image?: string;
@@ -1046,6 +1052,18 @@ export namespace BatchGetResultsResponse {
          * Alternate resource MIME type, when present.
          */
         type?: string;
+      }
+
+      export interface Heading {
+        /**
+         * Heading level, 1–6 (from h1–h6).
+         */
+        level: number;
+
+        /**
+         * Heading text with whitespace collapsed, truncated to 1000 characters.
+         */
+        text: string;
       }
     }
   }
