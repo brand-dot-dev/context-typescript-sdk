@@ -6,10 +6,11 @@ import { RequestOptions } from '../internal/request-options';
 
 export class Utility extends APIResource {
   /**
-   * Signal that you may fetch brand data soon to improve latency. The type field
-   * selects what to prefetch (currently only 'brand') and identifier carries exactly
-   * one lookup key: a domain, or an email whose domain is extracted and validated
-   * (free email providers and disposable email addresses are not allowed).
+   * Signal that you may fetch data soon to improve latency. The type field selects
+   * what to prefetch ('brand' queues a brand data fetch, 'styleguide' queues a
+   * styleguide extraction) and identifier carries exactly one lookup key: a domain,
+   * or an email whose domain is extracted and validated (free email providers and
+   * disposable email addresses are not allowed).
    *
    * @example
    * ```ts
@@ -47,10 +48,9 @@ export interface UtilityPrefetchResponse {
   status?: string;
 
   /**
-   * The type of prefetch that was queued, echoed from the request (currently always
-   * 'brand')
+   * The type of prefetch that was queued, echoed from the request
    */
-  type?: 'brand';
+  type?: 'brand' | 'styleguide';
 }
 
 export namespace UtilityPrefetchResponse {
@@ -73,16 +73,17 @@ export namespace UtilityPrefetchResponse {
 
 export interface UtilityPrefetchParams {
   /**
-   * Identifier of the brand to prefetch. Provide exactly one of domain or email.
+   * Identifier of the target to prefetch. Provide exactly one of domain or email.
    */
   identifier:
     | UtilityPrefetchParams.UtilityPrefetchDomainIdentifier
     | UtilityPrefetchParams.UtilityPrefetchEmailIdentifier;
 
   /**
-   * What to prefetch. Currently only 'brand' is supported.
+   * What to prefetch: 'brand' warms the brand data cache, 'styleguide' warms the
+   * styleguide cache.
    */
-  type: 'brand';
+  type: 'brand' | 'styleguide';
 
   /**
    * Optional tags for tracking usage. Up to 20 tags, each 1 to 50 characters.
@@ -99,23 +100,23 @@ export interface UtilityPrefetchParams {
 
 export namespace UtilityPrefetchParams {
   /**
-   * Prefetch brand data by domain.
+   * Prefetch by domain.
    */
   export interface UtilityPrefetchDomainIdentifier {
     /**
-     * Domain name to prefetch brand data for
+     * Domain name to prefetch data for
      */
     domain: string;
   }
 
   /**
-   * Prefetch brand data by email. The domain will be extracted and validated.
+   * Prefetch by email. The domain will be extracted and validated.
    */
   export interface UtilityPrefetchEmailIdentifier {
     /**
-     * Email address to prefetch brand data for. The domain will be extracted from the
-     * email. Free email providers (gmail.com, yahoo.com, etc.) and disposable email
-     * addresses are not allowed.
+     * Email address to prefetch data for. The domain will be extracted from the email.
+     * Free email providers (gmail.com, yahoo.com, etc.) and disposable email addresses
+     * are not allowed.
      */
     email: string;
   }

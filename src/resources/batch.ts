@@ -897,7 +897,8 @@ export namespace BatchGetResultsResponse {
     url: string;
 
     /**
-     * Raw page HTML. Present on html batches.
+     * Page HTML. Present on html batches, and on markdown batches submitted with
+     * `options.includeHTML`.
      */
     html?: string;
 
@@ -1572,6 +1573,12 @@ export namespace BatchSubmitParams {
          * so an element matching both is removed.
          */
         excludeSelectors?: Array<string> | null;
+
+        /**
+         * Also include each page's HTML in its result record, as an `html` field alongside
+         * the Markdown.
+         */
+        includeHTML?: boolean;
 
         /**
          * Include image references in the Markdown.
@@ -2335,6 +2342,12 @@ export namespace BatchSubmitParams {
          * so an element matching both is removed.
          */
         excludeSelectors?: Array<string> | null;
+
+        /**
+         * Also include each page's HTML in its result record, as an `html` field alongside
+         * the Markdown.
+         */
+        includeHTML?: boolean;
 
         /**
          * Include image references in the Markdown.
