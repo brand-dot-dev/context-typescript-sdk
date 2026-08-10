@@ -1794,6 +1794,13 @@ export interface WebWebScrapeMdResponse {
   actionsHtmlStale?: boolean;
 
   /**
+   * Only present when includeHTML=true: the page HTML the Markdown was converted
+   * from — the same body the Scrape HTML endpoint returns for the equivalent
+   * request.
+   */
+  html?: string;
+
+  /**
    * Metadata about the API key used for the request. Included in every response
    * whenever a valid API key is provided, even when the response status is not 200.
    */
@@ -4060,6 +4067,13 @@ export interface WebWebScrapeMdParams {
    * When true, the contents of iframes are rendered to Markdown.
    */
   includeFrames?: boolean | 'true' | 'false';
+
+  /**
+   * When true, the response also includes an `html` field with the page HTML the
+   * Markdown was converted from — the same body the Scrape HTML endpoint returns for
+   * the equivalent request.
+   */
+  includeHTML?: boolean | 'true' | 'false';
 
   /**
    * Include image references in Markdown output

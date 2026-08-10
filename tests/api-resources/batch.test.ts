@@ -142,6 +142,7 @@ describe('resource batch', () => {
           options: {
             country: 'de',
             excludeSelectors: ['x'],
+            includeHTML: true,
             includeImages: true,
             includeLinks: true,
             includeSelectors: ['x'],
