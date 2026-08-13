@@ -215,12 +215,12 @@ export interface ParseHandleParams {
   /**
    * Query param: Include image references in Markdown output
    */
-  includeImages?: boolean | 'true' | 'false';
+  includeImages?: boolean;
 
   /**
    * Query param: Preserve hyperlinks in Markdown output
    */
-  includeLinks?: boolean | 'true' | 'false';
+  includeLinks?: boolean;
 
   /**
    * Query param: When true for PDF inputs, OCR the selected pages that have no
@@ -229,7 +229,7 @@ export interface ParseHandleParams {
    * inclusive page range. Billed at 1 credit per page OCR actually recovered, on top
    * of the base request cost. When false, no OCR runs.
    */
-  ocr?: boolean | 'true' | 'false';
+  ocr?: boolean;
 
   /**
    * Query param: PDF page-range options as a JSON object, e.g. {"start": 2, "end":
@@ -240,7 +240,7 @@ export interface ParseHandleParams {
   /**
    * Query param: Shorten base64-encoded image data in the Markdown output
    */
-  shortenBase64Images?: boolean | 'true' | 'false';
+  shortenBase64Images?: boolean;
 
   /**
    * Query param: Optional comma-separated caller-defined tags for tracking this
@@ -252,7 +252,7 @@ export interface ParseHandleParams {
   /**
    * Query param: Extract only the main content from HTML-like inputs
    */
-  useMainContentOnly?: boolean | 'true' | 'false';
+  useMainContentOnly?: boolean;
 
   /**
    * Query param: Set to enabled to bypass shared caches and omit request and
