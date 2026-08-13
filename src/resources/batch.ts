@@ -1649,13 +1649,13 @@ export namespace BatchSubmitParams {
            * text layer keep it. Billed at 1 credit per page OCR actually recovered, on top
            * of the base request cost. When false, no OCR runs.
            */
-          ocr?: boolean | 'true' | 'false';
+          ocr?: boolean;
 
           /**
            * When true, PDF URLs are fetched and parsed. When false, PDF URLs are skipped and
            * a 400 PDF_SKIPPED is returned.
            */
-          shouldParse?: boolean | 'true' | 'false';
+          shouldParse?: boolean;
 
           /**
            * First 1-based PDF page to parse. When omitted, parsing starts at the first page.
@@ -1981,13 +1981,13 @@ export namespace BatchSubmitParams {
            * text layer keep it. Billed at 1 credit per page OCR actually recovered, on top
            * of the base request cost. When false, no OCR runs.
            */
-          ocr?: boolean | 'true' | 'false';
+          ocr?: boolean;
 
           /**
            * When true, PDF URLs are fetched and parsed. When false, PDF URLs are skipped and
            * a 400 PDF_SKIPPED is returned.
            */
-          shouldParse?: boolean | 'true' | 'false';
+          shouldParse?: boolean;
 
           /**
            * First 1-based PDF page to parse. When omitted, parsing starts at the first page.
@@ -2418,13 +2418,13 @@ export namespace BatchSubmitParams {
            * text layer keep it. Billed at 1 credit per page OCR actually recovered, on top
            * of the base request cost. When false, no OCR runs.
            */
-          ocr?: boolean | 'true' | 'false';
+          ocr?: boolean;
 
           /**
            * When true, PDF URLs are fetched and parsed. When false, PDF URLs are skipped and
            * a 400 PDF_SKIPPED is returned.
            */
-          shouldParse?: boolean | 'true' | 'false';
+          shouldParse?: boolean;
 
           /**
            * First 1-based PDF page to parse. When omitted, parsing starts at the first page.
@@ -2817,13 +2817,13 @@ export namespace BatchSubmitParams {
            * text layer keep it. Billed at 1 credit per page OCR actually recovered, on top
            * of the base request cost. When false, no OCR runs.
            */
-          ocr?: boolean | 'true' | 'false';
+          ocr?: boolean;
 
           /**
            * When true, PDF URLs are fetched and parsed. When false, PDF URLs are skipped and
            * a 400 PDF_SKIPPED is returned.
            */
-          shouldParse?: boolean | 'true' | 'false';
+          shouldParse?: boolean;
 
           /**
            * First 1-based PDF page to parse. When omitted, parsing starts at the first page.

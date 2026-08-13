@@ -149,8 +149,8 @@ describe('resource batch', () => {
             maxAgeMs: 0,
             pdf: {
               end: 1,
-              ocr: 'true',
-              shouldParse: 'true',
+              ocr: true,
+              shouldParse: true,
               start: 1,
             },
             settleAnimations: true,
