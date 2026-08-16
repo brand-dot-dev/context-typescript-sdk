@@ -59,6 +59,14 @@ export namespace PersonEnrichResponse {
 
   export namespace PersonEnrichmentCandidateMatch {
     export interface Person {
+      /**
+       * Whether the person's current role is known. `present` — current_role is
+       * populated. `none` — the work history explicitly shows every role has ended.
+       * `unknown` — our data sources could not confirm either way; treat a missing
+       * current_role as unverified rather than vacant.
+       */
+      current_role_status: 'present' | 'none' | 'unknown';
+
       education: Array<Person.Education>;
 
       experience: Array<Person.Experience>;
@@ -73,9 +81,20 @@ export namespace PersonEnrichResponse {
 
       bio?: string;
 
+      /**
+       * When we last refreshed this profile from our data sources (ISO 8601).
+       */
+      checked_at?: string;
+
       current_role?: Person.CurrentRole;
 
       email?: string;
+
+      /**
+       * When the underlying profile data last changed in our data sources (ISO 8601).
+       * Omitted when unknown.
+       */
+      last_updated?: string;
 
       location?: Person.Location;
 
