@@ -70,6 +70,12 @@ describe('resource brand', () => {
 
   // Mock server tests are disabled
   test.skip('search: required and optional params', async () => {
-    const response = await client.brand.search({ query: 'x', tags: ['production', 'team-alpha'] });
+    const response = await client.brand.search({
+      query: 'x',
+      autocomplete: true,
+      queryBy: ['name'],
+      tags: ['production', 'team-alpha'],
+      typoTolerance: 0,
+    });
   });
 });

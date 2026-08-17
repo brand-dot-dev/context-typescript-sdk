@@ -176,17 +176,17 @@ export class Web extends APIResource {
    *
    * ### Billing & errors
    *
-   * | HTTP status | Billed?                                   | Meaning                                                                                  |
-   * | ----------- | ----------------------------------------- | ---------------------------------------------------------------------------------------- |
-   * | 200         | Yes — 1 credit, or 2 credits with actions | Successful scrape, including a zero-length result when includeSelectors matched nothing  |
-   * | 400         | No                                        | Invalid input, skipped PDF, or the page could not be scraped                             |
-   * | 401 / 403   | No                                        | Invalid/disabled key, insufficient permissions, or credits exhausted; inspect error_code |
-   * | 404         | No                                        | Target page returned or fingerprinted as not found                                       |
-   * | 408         | No                                        | Request timed out                                                                        |
-   * | 413         | No                                        | Target content exceeds the maximum supported size (20 MB)                                |
-   * | 415         | No                                        | Unsupported content type                                                                 |
-   * | 429         | No                                        | Per-minute rate limit exceeded; honor Retry-After                                        |
-   * | 500         | No                                        | Internal error                                                                           |
+   * | HTTP status | Billed?                                   | Meaning                                                                                                                                                                                                                                                                                                       |
+   * | ----------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+   * | 200         | Yes — 1 credit, or 2 credits with actions | Successful scrape, including a zero-length result when includeSelectors matched nothing                                                                                                                                                                                                                       |
+   * | 400         | No                                        | Invalid input, skipped PDF, or the page could not be scraped. error_code WEBSITE_BLOCKED specifically means the site answered with an anti-bot challenge, CAPTCHA wall, or login shell instead of the page (even when the site returned HTTP 200) — retrying later or from another country sometimes succeeds |
+   * | 401 / 403   | No                                        | Invalid/disabled key, insufficient permissions, or credits exhausted; inspect error_code                                                                                                                                                                                                                      |
+   * | 404         | No                                        | Target page returned or fingerprinted as not found                                                                                                                                                                                                                                                            |
+   * | 408         | No                                        | Request timed out                                                                                                                                                                                                                                                                                             |
+   * | 413         | No                                        | Target content exceeds the maximum supported size (20 MB)                                                                                                                                                                                                                                                     |
+   * | 415         | No                                        | Unsupported content type                                                                                                                                                                                                                                                                                      |
+   * | 429         | No                                        | Per-minute rate limit exceeded; honor Retry-After                                                                                                                                                                                                                                                             |
+   * | 500         | No                                        | Internal error                                                                                                                                                                                                                                                                                                |
    *
    * @example
    * ```ts
@@ -1297,6 +1297,12 @@ export namespace WebWebCrawlMdResponse {
       favicon?: string;
 
       /**
+       * Page headings (h1–h6) in document order, extracted from the unfiltered document.
+       * Capped at the first 500 headings. Omitted when the page has none.
+       */
+      headings?: Array<Metadata.Heading>;
+
+      /**
        * Primary resolved preview image from Open Graph, Twitter, or image metadata.
        */
       image?: string;
@@ -1368,6 +1374,18 @@ export namespace WebWebCrawlMdResponse {
          * Alternate resource MIME type, when present.
          */
         type?: string;
+      }
+
+      export interface Heading {
+        /**
+         * Heading level, 1–6 (from h1–h6).
+         */
+        level: number;
+
+        /**
+         * Heading text with whitespace collapsed, truncated to 1000 characters.
+         */
+        text: string;
       }
     }
   }
@@ -1499,6 +1517,12 @@ export namespace WebWebScrapeHTMLResponse {
     favicon?: string;
 
     /**
+     * Page headings (h1–h6) in document order, extracted from the unfiltered document.
+     * Capped at the first 500 headings. Omitted when the page has none.
+     */
+    headings?: Array<Metadata.Heading>;
+
+    /**
      * Primary resolved preview image from Open Graph, Twitter, or image metadata.
      */
     image?: string;
@@ -1575,6 +1599,18 @@ export namespace WebWebScrapeHTMLResponse {
        * Alternate resource MIME type, when present.
        */
       type?: string;
+    }
+
+    export interface Heading {
+      /**
+       * Heading level, 1–6 (from h1–h6).
+       */
+      level: number;
+
+      /**
+       * Heading text with whitespace collapsed, truncated to 1000 characters.
+       */
+      text: string;
     }
   }
 
@@ -1758,6 +1794,13 @@ export interface WebWebScrapeMdResponse {
   actionsHtmlStale?: boolean;
 
   /**
+   * Only present when includeHTML=true: the page HTML the Markdown was converted
+   * from — the same body the Scrape HTML endpoint returns for the equivalent
+   * request.
+   */
+  html?: string;
+
+  /**
    * Metadata about the API key used for the request. Included in every response
    * whenever a valid API key is provided, even when the response status is not 200.
    */
@@ -1809,6 +1852,12 @@ export namespace WebWebScrapeMdResponse {
      * Resolved favicon URL, when present.
      */
     favicon?: string;
+
+    /**
+     * Page headings (h1–h6) in document order, extracted from the unfiltered document.
+     * Capped at the first 500 headings. Omitted when the page has none.
+     */
+    headings?: Array<Metadata.Heading>;
 
     /**
      * Primary resolved preview image from Open Graph, Twitter, or image metadata.
@@ -1887,6 +1936,18 @@ export namespace WebWebScrapeMdResponse {
        * Alternate resource MIME type, when present.
        */
       type?: string;
+    }
+
+    export interface Heading {
+      /**
+       * Heading level, 1–6 (from h1–h6).
+       */
+      level: number;
+
+      /**
+       * Heading text with whitespace collapsed, truncated to 1000 characters.
+       */
+      text: string;
     }
   }
 
@@ -2466,7 +2527,7 @@ export interface WebScreenshotParams {
    * dismiss cookie banner before capture. If 'false' or not provided, captures the
    * page without that step.
    */
-  handleCookiePopup?: boolean | 'true' | 'false';
+  handleCookiePopup?: boolean;
 
   /**
    * Return a cached screenshot if a prior screenshot for the same parameters exists
@@ -3537,7 +3598,7 @@ export interface WebWebScrapeHTMLParams {
   /**
    * When true, iframes are rendered inline into the returned HTML.
    */
-  includeFrames?: boolean | 'true' | 'false';
+  includeFrames?: boolean;
 
   /**
    * CSS selectors. When provided, only matching subtrees (and their descendants) are
@@ -3564,7 +3625,7 @@ export interface WebWebScrapeHTMLParams {
    * extracting HTML. Defaults to false. This adds a bit of latency in exchange for
    * more stable output on animated pages.
    */
-  settleAnimations?: boolean | 'true' | 'false';
+  settleAnimations?: boolean;
 
   /**
    * Optional comma-separated caller-defined tags for tracking this request. Tags are
@@ -3584,7 +3645,7 @@ export interface WebWebScrapeHTMLParams {
    * When true, return only the page's main content in the HTML response, excluding
    * headers, footers, sidebars, and navigation when detectable.
    */
-  useMainContentOnly?: boolean | 'true' | 'false';
+  useMainContentOnly?: boolean;
 
   /**
    * Optional browser wait time in milliseconds after initial page load. Min: 0. Max:
@@ -3637,13 +3698,13 @@ export namespace WebWebScrapeHTMLParams {
      * text layer keep it. Billed at 1 credit per page OCR actually recovered, on top
      * of the base request cost. When false, no OCR runs.
      */
-    ocr?: boolean | 'true' | 'false';
+    ocr?: boolean;
 
     /**
      * When true, PDF URLs are fetched and parsed. When false, PDF URLs are skipped and
      * a 400 PDF_SKIPPED is returned.
      */
-    shouldParse?: boolean | 'true' | 'false';
+    shouldParse?: boolean;
 
     /**
      * First 1-based PDF page to parse. When omitted, parsing starts at the first page.
@@ -3673,7 +3734,7 @@ export interface WebWebScrapeImagesParams {
    * group is kept. Images that cannot be downloaded or hashed are kept. Default:
    * false.
    */
-  dedupe?: boolean | 'true' | 'false';
+  dedupe?: boolean;
 
   /**
    * Optional per-image processing, sent as deep-object query params such as
@@ -3742,13 +3803,13 @@ export namespace WebWebScrapeImagesParams {
     /**
      * Classify each image by visual asset type.
      */
-    classification?: boolean | 'true' | 'false';
+    classification?: boolean;
 
     /**
      * Host materializable images on the Brand.dev CDN and return their URL and MIME
      * type.
      */
-    hostedUrl?: boolean | 'true' | 'false';
+    hostedUrl?: boolean;
 
     /**
      * Per-image enrichment timeout in milliseconds. Default: 30000. Maximum: 60000.
@@ -3758,7 +3819,7 @@ export namespace WebWebScrapeImagesParams {
     /**
      * Measure image width and height when possible.
      */
-    resolution?: boolean | 'true' | 'false';
+    resolution?: boolean;
   }
 }
 
@@ -4005,17 +4066,24 @@ export interface WebWebScrapeMdParams {
   /**
    * When true, the contents of iframes are rendered to Markdown.
    */
-  includeFrames?: boolean | 'true' | 'false';
+  includeFrames?: boolean;
+
+  /**
+   * When true, the response also includes an `html` field with the page HTML the
+   * Markdown was converted from — the same body the Scrape HTML endpoint returns for
+   * the equivalent request.
+   */
+  includeHTML?: boolean;
 
   /**
    * Include image references in Markdown output
    */
-  includeImages?: boolean | 'true' | 'false';
+  includeImages?: boolean;
 
   /**
    * Preserve hyperlinks in Markdown output
    */
-  includeLinks?: boolean | 'true' | 'false';
+  includeLinks?: boolean;
 
   /**
    * CSS selectors. When provided, only matching HTML subtrees (and their
@@ -4042,12 +4110,12 @@ export interface WebWebScrapeMdParams {
    * converting to Markdown. Defaults to false. This adds a bit of latency in
    * exchange for more stable output on animated pages.
    */
-  settleAnimations?: boolean | 'true' | 'false';
+  settleAnimations?: boolean;
 
   /**
    * Shorten base64-encoded image data in the Markdown output
    */
-  shortenBase64Images?: boolean | 'true' | 'false';
+  shortenBase64Images?: boolean;
 
   /**
    * Optional comma-separated caller-defined tags for tracking this request. Tags are
@@ -4067,7 +4135,7 @@ export interface WebWebScrapeMdParams {
    * Extract only the main content of the page, excluding headers, footers, sidebars,
    * and navigation
    */
-  useMainContentOnly?: boolean | 'true' | 'false';
+  useMainContentOnly?: boolean;
 
   /**
    * Optional browser wait time in milliseconds after initial page load before
@@ -4120,13 +4188,13 @@ export namespace WebWebScrapeMdParams {
      * text layer keep it. Billed at 1 credit per page OCR actually recovered, on top
      * of the base request cost. When false, no OCR runs.
      */
-    ocr?: boolean | 'true' | 'false';
+    ocr?: boolean;
 
     /**
      * When true, PDF URLs are fetched and parsed. When false, PDF URLs are skipped and
      * a 400 PDF_SKIPPED is returned.
      */
-    shouldParse?: boolean | 'true' | 'false';
+    shouldParse?: boolean;
 
     /**
      * First 1-based PDF page to parse. When omitted, parsing starts at the first page.
