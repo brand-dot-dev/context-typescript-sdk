@@ -954,15 +954,20 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     endpoint: '/brand/search',
     httpMethod: 'get',
     summary: 'Brand Search',
-    description:
-      'Search brands by name or domain and get back up to 10 lightweight matches (domain, name, logo). Name matches rank ahead of domain matches; within each group the most popular brands come first: by Tranco rank, then market cap for brands outside the Tranco list, with text relevance breaking ties. Matching is prefix-based with no typo tolerance, so it is suited to autocomplete. Only brands already in the Context.dev index are returned — use /brand/retrieve to fetch (and index) a specific domain. Free on Pro and Scale plans; costs 1 credit per request on the Free and Starter plans.',
+    description: 'Search indexed brands by name or domain',
     stainlessPath: '(resource) brand > (method) search',
     qualified: 'client.brand.search',
-    params: ['query: string;', 'tags?: string[];'],
+    params: [
+      'query: string;',
+      'autocomplete?: boolean;',
+      "queryBy?: 'name' | 'domain'[];",
+      'tags?: string[];',
+      'typoTolerance?: number;',
+    ],
     response:
       '{ results: { domain: string; logo: string; name: string; }[]; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }',
     markdown:
-      "## search\n\n`client.brand.search(query: string, tags?: string[]): { results: object[]; key_metadata?: object; }`\n\n**get** `/brand/search`\n\nSearch brands by name or domain and get back up to 10 lightweight matches (domain, name, logo). Name matches rank ahead of domain matches; within each group the most popular brands come first: by Tranco rank, then market cap for brands outside the Tranco list, with text relevance breaking ties. Matching is prefix-based with no typo tolerance, so it is suited to autocomplete. Only brands already in the Context.dev index are returned — use /brand/retrieve to fetch (and index) a specific domain. Free on Pro and Scale plans; costs 1 credit per request on the Free and Starter plans.\n\n### Parameters\n\n- `query: string`\n  Search term, matched against brand names and domains by prefix (e.g. 'nike', 'nike.com', 'nik').\n\n- `tags?: string[]`\n  Optional comma-separated caller-defined tags for tracking this request. Tags are recorded on the request's usage log and can be used to filter usage on the dashboard usage page. Up to 20 tags, each 1-50 characters.\n\n### Returns\n\n- `{ results: { domain: string; logo: string; name: string; }[]; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }`\n\n  - `results: { domain: string; logo: string; name: string; }[]`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.brand.search({ query: 'x' });\n\nconsole.log(response);\n```",
+      "## search\n\n`client.brand.search(query: string, autocomplete?: boolean, queryBy?: 'name' | 'domain'[], tags?: string[], typoTolerance?: number): { results: object[]; key_metadata?: object; }`\n\n**get** `/brand/search`\n\nSearch indexed brands by name or domain\n\n### Parameters\n\n- `query: string`\n  Search term, matched against the fields selected by queryBy (e.g. 'nike', 'nike.com', 'nik').\n\n- `autocomplete?: boolean`\n  Whether the search term matches by prefix, so partial words match as they are typed (e.g. 'nik' matches Nike). Set to false to match whole words only.\n\n- `queryBy?: 'name' | 'domain'[]`\n  Fields to match the search term against, as a comma-separated list or repeated parameter: 'name', 'domain', or both. Defaults to both.\n\n- `tags?: string[]`\n  Optional comma-separated caller-defined tags for tracking this request. Tags are recorded on the request's usage log and can be used to filter usage on the dashboard usage page. Up to 20 tags, each 1-50 characters.\n\n- `typoTolerance?: number`\n  Maximum number of typos tolerated when matching, from 0 to 2. Defaults to 0 (no typo tolerance).\n\n### Returns\n\n- `{ results: { domain: string; logo: string; name: string; }[]; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }`\n\n  - `results: { domain: string; logo: string; name: string; }[]`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.brand.search({ query: 'x' });\n\nconsole.log(response);\n```",
     perLanguage: {
       typescript: {
         method: 'client.brand.search',
@@ -991,7 +996,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       php: {
         method: 'brand->search',
         example:
-          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->brand->search(\n  query: 'x', tags: ['production', 'team-alpha']\n);\n\nvar_dump($response);",
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->brand->search(\n  query: 'x',\n  autocomplete: true,\n  queryBy: ['name'],\n  tags: ['production', 'team-alpha'],\n  typoTolerance: 0,\n);\n\nvar_dump($response);",
       },
       http: {
         example:
