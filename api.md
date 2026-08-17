@@ -154,3 +154,13 @@ Types:
 Methods:
 
 - <code title="post /people/enrich">client.people.<a href="./src/resources/people.ts">enrich</a>({ ...params }) -> PersonEnrichResponse</code>
+
+# News
+
+Types:
+
+- <code><a href="./src/resources/news.ts">NewsSearchResponse</a></code>
+
+Methods:
+
+- <code title="post /news/search">client.news.<a href="./src/resources/news.ts">search</a>({ ...params }) -> NewsSearchResponse</code>

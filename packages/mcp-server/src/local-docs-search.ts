@@ -2290,6 +2290,64 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
     },
   },
+  {
+    name: 'search',
+    endpoint: '/news/search',
+    httpMethod: 'post',
+    summary: 'Search company news',
+    description:
+      'Searches live and historical company news for one company, identified in searchBy by name, domain, ticker (optionally disambiguated by exchange), or ISIN. Results can be filtered by publisher domain, publisher country, article language, article type, and published-at date, and include stable story IDs, source metadata, verified entity relevance, and cursor pagination.',
+    stainlessPath: '(resource) news > (method) search',
+    qualified: 'client.news.search',
+    params: [
+      "searchBy: { entity: { name: string; type: 'name'; } | { domain: string; type: 'domain'; } | { ticker: string; type: 'ticker'; exchange?: string; } | { isin: string; type: 'isin'; }; type: 'entity'; };",
+      'cursor?: string;',
+      "filterBy?: { articleLanguage?: 'ar' | 'de' | 'en' | 'es' | 'fr' | 'hi' | 'it' | 'ja' | 'ko' | 'nl' | 'pt' | 'ru' | 'zh'[]; articleType?: 'editorial' | 'press_release' | 'regulatory_filing' | 'advisory'[]; date?: { from?: number; to?: number; }; sourceCountry?: string[]; sourceDomain?: string[]; };",
+      'limit?: number;',
+      "sortBy?: { type: 'relevance' | 'newest'; };",
+      'tags?: string[];',
+    ],
+    response:
+      "{ data: { id: string; authors: string[]; description: string; image_url: string; language: string; match: { confidence: number; level: 'primary' | 'secondary'; }; published_at: string; source: { direct: boolean; domain: string; name: string; }; story_id: string; title: string; type: 'editorial' | 'press_release' | 'regulatory_filing' | 'advisory'; url: string; }[]; has_more: boolean; meta: { count: number; }; next_cursor: string; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }",
+    markdown:
+      "## search\n\n`client.news.search(searchBy: { entity: { name: string; type: 'name'; } | { domain: string; type: 'domain'; } | { ticker: string; type: 'ticker'; exchange?: string; } | { isin: string; type: 'isin'; }; type: 'entity'; }, cursor?: string, filterBy?: { articleLanguage?: 'ar' | 'de' | 'en' | 'es' | 'fr' | 'hi' | 'it' | 'ja' | 'ko' | 'nl' | 'pt' | 'ru' | 'zh'[]; articleType?: 'editorial' | 'press_release' | 'regulatory_filing' | 'advisory'[]; date?: { from?: number; to?: number; }; sourceCountry?: string[]; sourceDomain?: string[]; }, limit?: number, sortBy?: { type: 'relevance' | 'newest'; }, tags?: string[]): { data: object[]; has_more: boolean; meta: object; next_cursor: string; key_metadata?: object; }`\n\n**post** `/news/search`\n\nSearches live and historical company news for one company, identified in searchBy by name, domain, ticker (optionally disambiguated by exchange), or ISIN. Results can be filtered by publisher domain, publisher country, article language, article type, and published-at date, and include stable story IDs, source metadata, verified entity relevance, and cursor pagination.\n\n### Parameters\n\n- `searchBy: { entity: { name: string; type: 'name'; } | { domain: string; type: 'domain'; } | { ticker: string; type: 'ticker'; exchange?: string; } | { isin: string; type: 'isin'; }; type: 'entity'; }`\n  What to search for.\n  - `entity: { name: string; type: 'name'; } | { domain: string; type: 'domain'; } | { ticker: string; type: 'ticker'; exchange?: string; } | { isin: string; type: 'isin'; }`\n    The company to search news for, identified by name, domain, ticker, or ISIN.\n  - `type: 'entity'`\n    How to search. Only entity search is supported.\n\n- `cursor?: string`\n  Opaque next_cursor from the previous response, or null for the first page.\n\n- `filterBy?: { articleLanguage?: 'ar' | 'de' | 'en' | 'es' | 'fr' | 'hi' | 'it' | 'ja' | 'ko' | 'nl' | 'pt' | 'ru' | 'zh'[]; articleType?: 'editorial' | 'press_release' | 'regulatory_filing' | 'advisory'[]; date?: { from?: number; to?: number; }; sourceCountry?: string[]; sourceDomain?: string[]; }`\n  Optional result filters.\n  - `articleLanguage?: 'ar' | 'de' | 'en' | 'es' | 'fr' | 'hi' | 'it' | 'ja' | 'ko' | 'nl' | 'pt' | 'ru' | 'zh'[]`\n    Article languages to include. Up to 3.\n  - `articleType?: 'editorial' | 'press_release' | 'regulatory_filing' | 'advisory'[]`\n    Article types to include. Up to 3.\n  - `date?: { from?: number; to?: number; }`\n    Published-at window in epoch milliseconds.\n  - `sourceCountry?: string[]`\n    Publisher countries to include, as lowercase ISO 3166-1 alpha-2 codes. Up to 3.\n  - `sourceDomain?: string[]`\n    Publisher domains to include. Up to 3.\n\n- `limit?: number`\n  Maximum results to return. Defaults to 10.\n\n- `sortBy?: { type: 'relevance' | 'newest'; }`\n  Result ordering. Defaults to newest.\n  - `type: 'relevance' | 'newest'`\n    Result ordering.\n\n- `tags?: string[]`\n  Optional tags for tracking usage. Up to 20 tags, each 1 to 50 characters.\n\n### Returns\n\n- `{ data: { id: string; authors: string[]; description: string; image_url: string; language: string; match: { confidence: number; level: 'primary' | 'secondary'; }; published_at: string; source: { direct: boolean; domain: string; name: string; }; story_id: string; title: string; type: 'editorial' | 'press_release' | 'regulatory_filing' | 'advisory'; url: string; }[]; has_more: boolean; meta: { count: number; }; next_cursor: string; key_metadata?: { credits_consumed: number; credits_remaining: number; }; }`\n\n  - `data: { id: string; authors: string[]; description: string; image_url: string; language: string; match: { confidence: number; level: 'primary' | 'secondary'; }; published_at: string; source: { direct: boolean; domain: string; name: string; }; story_id: string; title: string; type: 'editorial' | 'press_release' | 'regulatory_filing' | 'advisory'; url: string; }[]`\n  - `has_more: boolean`\n  - `meta: { count: number; }`\n  - `next_cursor: string`\n  - `key_metadata?: { credits_consumed: number; credits_remaining: number; }`\n\n### Example\n\n```typescript\nimport ContextDev from 'context.dev';\n\nconst client = new ContextDev();\n\nconst response = await client.news.search({ searchBy: {\n  entity: { name: 'xx', type: 'name' },\n  type: 'entity',\n} });\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.news.search',
+        example:
+          "import ContextDev from 'context.dev';\n\nconst client = new ContextDev({\n  apiKey: process.env['CONTEXT_DEV_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.news.search({\n  searchBy: {\n    entity: { name: 'xx', type: 'name' },\n    type: 'entity',\n  },\n});\n\nconsole.log(response.data);",
+      },
+      python: {
+        method: 'news.search',
+        example:
+          'import os\nfrom context.dev import ContextDev\n\nclient = ContextDev(\n    api_key=os.environ.get("CONTEXT_DEV_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.news.search(\n    search_by={\n        "entity": {\n            "name": "xx",\n            "type": "name",\n        },\n        "type": "entity",\n    },\n)\nprint(response.data)',
+      },
+      go: {
+        method: 'client.News.Search',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/context-dot-dev/context-go-sdk"\n\t"github.com/context-dot-dev/context-go-sdk/option"\n)\n\nfunc main() {\n\tclient := contextdev.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.News.Search(context.TODO(), contextdev.NewsSearchParams{\n\t\tSearchBy: contextdev.NewsSearchParamsSearchBy{\n\t\t\tEntity: contextdev.NewsSearchParamsSearchByEntityUnion{\n\t\t\t\tOfName: &contextdev.NewsSearchParamsSearchByEntityName{\n\t\t\t\t\tName: "xx",\n\t\t\t\t},\n\t\t\t},\n\t\t\tType: "entity",\n\t\t},\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Data)\n}\n',
+      },
+      ruby: {
+        method: 'news.search',
+        example:
+          'require "context_dev"\n\ncontext_dev = ContextDev::Client.new(api_key: "My API Key")\n\nresponse = context_dev.news.search(search_by: {entity: {name: "xx", type: :name}, type: :entity})\n\nputs(response)',
+      },
+      cli: {
+        method: 'news search',
+        example:
+          "context-dev news search \\\n  --api-key 'My API Key' \\\n  --search-by '{entity: {name: xx, type: name}, type: entity}'",
+      },
+      php: {
+        method: 'news->search',
+        example:
+          "<?php\n\nrequire_once dirname(__DIR__) . '/vendor/autoload.php';\n\n$client = new Client(apiKey: 'My API Key');\n\n$response = $client->news->search(\n  searchBy: [\n    'entity' => ['name' => 'xx', 'type' => 'name'], 'type' => 'entity'\n  ],\n  cursor: 'cursor',\n  filterBy: [\n    'articleLanguage' => ['ar'],\n    'articleType' => ['editorial'],\n    'date' => ['from' => 0, 'to' => 0],\n    'sourceCountry' => ['ae'],\n    'sourceDomain' => ['x'],\n  ],\n  limit: 1,\n  sortBy: ['type' => 'relevance'],\n  tags: ['production', 'team-alpha'],\n);\n\nvar_dump($response);",
+      },
+      http: {
+        example:
+          'curl https://api.context.dev/v1/news/search \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $CONTEXT_DEV_API_KEY" \\\n    -d \'{\n          "searchBy": {\n            "entity": {\n              "name": "xx",\n              "type": "name"\n            },\n            "type": "entity"\n          },\n          "tags": [\n            "production",\n            "team-alpha"\n          ]\n        }\'',
+      },
+    },
+  },
 ];
 
 const EMBEDDED_READMES: { language: string; content: string }[] = [
