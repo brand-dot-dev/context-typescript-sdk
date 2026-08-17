@@ -148,6 +148,7 @@ const fuse = new Fuse(
     'client.batch.retrieve',
     'client.batch.submit',
     'client.people.enrich',
+    'client.news.search',
   ],
   { threshold: 1, shouldSort: true },
 );

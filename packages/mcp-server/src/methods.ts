@@ -250,6 +250,12 @@ export const sdkMethods: SdkMethod[] = [
     httpMethod: 'post',
     httpPath: '/people/enrich',
   },
+  {
+    clientCallName: 'client.news.search',
+    fullyQualifiedName: 'news.search',
+    httpMethod: 'post',
+    httpPath: '/news/search',
+  },
 ];
 
 function allowedMethodsForCodeTool(options: McpOptions | undefined): SdkMethod[] | undefined {

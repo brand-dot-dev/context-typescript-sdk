@@ -81,6 +81,7 @@ import {
   Monitors,
   WebhookDelivery,
 } from './resources/monitors';
+import { News, NewsSearchParams, NewsSearchResponse } from './resources/news';
 import { Parse, ParseHandleParams, ParseHandleResponse } from './resources/parse';
 import { People, PersonEnrichParams, PersonEnrichResponse } from './resources/people';
 import { Utility, UtilityPrefetchParams, UtilityPrefetchResponse } from './resources/utility';
@@ -841,6 +842,10 @@ export class ContextDev {
    */
   batch: API.Batch = new API.Batch(this);
   people: API.People = new API.People(this);
+  /**
+   * Search live first-party RSS and free historical news data by company identity.
+   */
+  news: API.News = new API.News(this);
 }
 
 ContextDev.Parse = Parse;
@@ -852,6 +857,7 @@ ContextDev.Utility = Utility;
 ContextDev.Monitors = Monitors;
 ContextDev.Batch = Batch;
 ContextDev.People = People;
+ContextDev.News = News;
 
 export declare namespace ContextDev {
   export type RequestOptions = Opts.RequestOptions;
@@ -967,5 +973,11 @@ export declare namespace ContextDev {
     People as People,
     type PersonEnrichResponse as PersonEnrichResponse,
     type PersonEnrichParams as PersonEnrichParams,
+  };
+
+  export {
+    News as News,
+    type NewsSearchResponse as NewsSearchResponse,
+    type NewsSearchParams as NewsSearchParams,
   };
 }
