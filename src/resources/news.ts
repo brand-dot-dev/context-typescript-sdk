@@ -404,6 +404,7 @@ export namespace NewsSearchParams {
       | 'cg'
       | 'ch'
       | 'cl'
+      | 'cz'
       | 'de'
       | 'fi'
       | 'fr'
