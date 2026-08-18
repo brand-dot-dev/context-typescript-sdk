@@ -31,12 +31,25 @@ export class News extends APIResource {
 }
 
 export interface NewsSearchResponse {
+  /**
+   * Articles matching the search, in the requested order.
+   */
   data: Array<NewsSearchResponse.Data>;
 
+  /**
+   * True when more results are available beyond this page.
+   */
   has_more: boolean;
 
+  /**
+   * Summary information about this response.
+   */
   meta: NewsSearchResponse.Meta;
 
+  /**
+   * Pass as cursor in the next request to fetch the following page. Null when there
+   * are no more results.
+   */
   next_cursor: string | null;
 
   /**
@@ -48,54 +61,117 @@ export interface NewsSearchResponse {
 
 export namespace NewsSearchResponse {
   export interface Data {
+    /**
+     * Stable unique identifier for this article. Use it to deduplicate or reference an
+     * article across requests.
+     */
     id: string;
 
+    /**
+     * Bylined authors. Empty when no byline is available.
+     */
     authors: Array<string>;
 
+    /**
+     * Short summary or excerpt of the article, when the publisher provides one.
+     */
     description: string | null;
 
+    /**
+     * Lead image for the article, when one is available.
+     */
     image_url: string | null;
 
+    /**
+     * Language the article is written in, as a lowercase ISO 639-1 code such as en.
+     * Null when unknown.
+     */
     language: string | null;
 
+    /**
+     * How the article relates to the company you searched for.
+     */
     match: Data.Match;
 
+    /**
+     * When the article was published, as an ISO 8601 timestamp. Null when the
+     * publisher does not state a reliable date.
+     */
     published_at: string | null;
 
+    /**
+     * The publication that published the article.
+     */
     source: Data.Source;
 
     /**
-     * Groups matching normalized headlines published on the same UTC day.
+     * Shared by articles covering the same story on the same day. Use it to group or
+     * collapse syndicated copies of one announcement across outlets.
      */
     story_id: string;
 
+    /**
+     * Article headline.
+     */
     title: string;
 
+    /**
+     * Kind of coverage. Use it to separate independent reporting (editorial) from
+     * company-issued content (press_release, regulatory_filing, advisory).
+     */
     type: 'editorial' | 'press_release' | 'regulatory_filing' | 'advisory';
 
+    /**
+     * Link to the article on the publisher site.
+     */
     url: string;
   }
 
   export namespace Data {
+    /**
+     * How the article relates to the company you searched for.
+     */
     export interface Match {
+      /**
+       * How confident the match is, from 0 to 1. Null when a score is unavailable.
+       */
       confidence: number | null;
 
+      /**
+       * primary when the article is mainly about the company, secondary when the company
+       * is mentioned but is not the main subject.
+       */
       level: 'primary' | 'secondary';
     }
 
+    /**
+     * The publication that published the article.
+     */
     export interface Source {
       /**
        * True when Context observed this article in the publisher-owned feed.
        */
       direct: boolean;
 
+      /**
+       * Website domain of the publication.
+       */
       domain: string;
 
+      /**
+       * Name of the publication, such as Reuters.
+       */
       name: string;
     }
   }
 
+  /**
+   * Summary information about this response.
+   */
   export interface Meta {
+    /**
+     * Number of articles in this page.
+     */
     count: number;
   }
 
