@@ -3307,7 +3307,9 @@ export interface WebWebCrawlMdParams {
   timeoutMS?: number;
 
   /**
-   * Regex pattern. Only URLs matching this pattern will be followed and scraped.
+   * Regex pattern. Only URLs matching this pattern will be followed and scraped. An
+   * automatic prefix scope in the form ^<starting URL> follows a redirect of the
+   * starting page.
    */
   urlRegex?: string;
 
@@ -3318,8 +3320,8 @@ export interface WebWebCrawlMdParams {
   useMainContentOnly?: boolean;
 
   /**
-   * Optional browser wait time in milliseconds after initial page load for each
-   * crawled page. Min: 0. Max: 30000 (30 seconds).
+   * Browser wait time in milliseconds after initial page load for each crawled page.
+   * Defaults to 3500 (3.5 seconds). Min: 0. Max: 30000 (30 seconds).
    */
   waitForMs?: number;
 
