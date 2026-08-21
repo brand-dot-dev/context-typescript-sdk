@@ -123,6 +123,19 @@ export namespace AIExtractProductResponse {
     target_audience: Array<string>;
 
     /**
+     * Normalized stock or ordering availability
+     */
+    availability?:
+      | 'in_stock'
+      | 'out_of_stock'
+      | 'limited_availability'
+      | 'preorder'
+      | 'backorder'
+      | 'made_to_order'
+      | 'discontinued'
+      | null;
+
+    /**
      * Billing frequency for the product
      */
     billing_frequency?: 'monthly' | 'yearly' | 'one_time' | 'usage_based' | null;
@@ -138,6 +151,11 @@ export namespace AIExtractProductResponse {
     currency?: string | null;
 
     /**
+     * Dimension statements shown for the product, preserving labels, values, and units
+     */
+    dimensions?: Array<string>;
+
+    /**
      * URL to the product image
      */
     image_url?: string | null;
@@ -151,6 +169,11 @@ export namespace AIExtractProductResponse {
      * Pricing model for the product
      */
     pricing_model?: 'per_seat' | 'flat' | 'tiered' | 'freemium' | 'custom' | null;
+
+    /**
+     * Original or regular price before a displayed discount
+     */
+    regular_price?: number | null;
 
     /**
      * URL to the product page
@@ -226,6 +249,19 @@ export namespace AIExtractProductsResponse {
     target_audience: Array<string>;
 
     /**
+     * Normalized stock or ordering availability
+     */
+    availability?:
+      | 'in_stock'
+      | 'out_of_stock'
+      | 'limited_availability'
+      | 'preorder'
+      | 'backorder'
+      | 'made_to_order'
+      | 'discontinued'
+      | null;
+
+    /**
      * Billing frequency for the product
      */
     billing_frequency?: 'monthly' | 'yearly' | 'one_time' | 'usage_based' | null;
@@ -241,6 +277,11 @@ export namespace AIExtractProductsResponse {
     currency?: string | null;
 
     /**
+     * Dimension statements shown for the product, preserving labels, values, and units
+     */
+    dimensions?: Array<string>;
+
+    /**
      * URL to the product image
      */
     image_url?: string | null;
@@ -254,6 +295,11 @@ export namespace AIExtractProductsResponse {
      * Pricing model for the product
      */
     pricing_model?: 'per_seat' | 'flat' | 'tiered' | 'freemium' | 'custom' | null;
+
+    /**
+     * Original or regular price before a displayed discount
+     */
+    regular_price?: number | null;
 
     /**
      * URL to the product page

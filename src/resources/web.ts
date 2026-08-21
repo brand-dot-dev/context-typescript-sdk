@@ -268,6 +268,36 @@ export namespace WebExtractResponse {
     numSucceeded: number;
 
     numUrls: number;
+
+    /**
+     * One verified outcome per requested browser action, in request order.
+     */
+    actionsApplied?: Array<Metadata.ActionsApplied>;
+  }
+
+  export namespace Metadata {
+    export interface ActionsApplied {
+      instruction: string;
+
+      /**
+       * Applied means the requested page state was visibly verified. Failed means it was
+       * not verified. Skipped means it was not attempted.
+       */
+      status: 'applied' | 'failed' | 'skipped';
+
+      /**
+       * Visible page evidence used to verify an applied action.
+       */
+      completionEvidence?: string;
+
+      durationMs?: number;
+
+      error?: string;
+
+      method?: string;
+
+      targetDescription?: string;
+    }
   }
 
   /**
@@ -2065,9 +2095,11 @@ export namespace WebWebScrapeSitemapResponse {
 
 export interface WebExtractParams {
   /**
-   * JSON Schema for the returned data object. TypeScript Zod users can pass a JSON
-   * Schema generated from a Zod object; Python users can pass the equivalent JSON
-   * Schema object.
+   * JSON Schema for the returned data object. Image fields such as `image_urls` or
+   * `product_photos` automatically make page image references available to
+   * extraction, so product data and photos can be returned in one call. TypeScript
+   * Zod users can pass a JSON Schema generated from a Zod object; Python users can
+   * pass the equivalent JSON Schema object.
    */
   schema: { [key: string]: unknown };
 
@@ -2076,6 +2108,13 @@ export interface WebExtractParams {
    * https://.
    */
   url: string;
+
+  /**
+   * Optional browser actions executed in order on the requested page after it loads
+   * and before extraction. Requires a paid plan. When actions are provided and
+   * stopAfterMs is omitted, the crawl budget defaults to 110000 ms.
+   */
+  actions?: Array<WebExtractParams.WebScrapeWaitAction | WebExtractParams.WebScrapePerformAction>;
 
   /**
    * When true, every returned value must be grounded in facts stated on the page;
@@ -2131,7 +2170,8 @@ export interface WebExtractParams {
 
   /**
    * Soft time budget for the crawl in milliseconds. Min: 10000 (10s). Max: 110000
-   * (110s). Default: 80000 (80s).
+   * (110s). Defaults to 80000 (80s), or 110000 (110s) when browser actions are
+   * provided.
    */
   stopAfterMs?: number;
 
@@ -2155,6 +2195,24 @@ export interface WebExtractParams {
 }
 
 export namespace WebExtractParams {
+  /**
+   * Pause for a fixed number of milliseconds before continuing to the next action.
+   */
+  export interface WebScrapeWaitAction {
+    do: 'wait';
+
+    timeMs: number;
+  }
+
+  /**
+   * Resolve and perform one natural-language browser action.
+   */
+  export interface WebScrapePerformAction {
+    action: string;
+
+    do: 'perform';
+  }
+
   export interface Pdf {
     /**
      * Last 1-based PDF page to parse. Must be greater than or equal to start when both
