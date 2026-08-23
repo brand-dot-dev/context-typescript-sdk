@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.13.0 (2026-08-23)
+
+Full Changelog: [v2.12.0...v2.13.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v2.12.0...v2.13.0)
+
+### Features
+
+* **api:** api update ([58fd8f0](https://github.com/context-dot-dev/context-typescript-sdk/commit/58fd8f0980a8369625ebe0ea062490bede6332c0))
+* **api:** api update ([f5eb318](https://github.com/context-dot-dev/context-typescript-sdk/commit/f5eb318e838c4f1fd12b5c4655ac611845b7cdc7))
+* **api:** api update ([ffd01d5](https://github.com/context-dot-dev/context-typescript-sdk/commit/ffd01d589e8b1aefcc9898d3106293e8e1dbc7ac))
+* **api:** api update ([b1101a1](https://github.com/context-dot-dev/context-typescript-sdk/commit/b1101a1dbe73834cd33fd721a28158822128c92a))
+
 ## 2.12.0 (2026-08-18)
 
 Full Changelog: [v2.11.0...v2.12.0](https://github.com/context-dot-dev/context-typescript-sdk/compare/v2.11.0...v2.12.0)
