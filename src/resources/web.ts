@@ -1701,6 +1701,11 @@ export interface WebWebScrapeImagesResponse {
   url: string;
 
   /**
+   * One verified outcome per requested browser action, in request order.
+   */
+  actionsApplied?: Array<WebWebScrapeImagesResponse.ActionsApplied>;
+
+  /**
    * Metadata about the API key used for the request. Included in every response
    * whenever a valid API key is provided, even when the response status is not 200.
    */
@@ -1765,6 +1770,29 @@ export namespace WebWebScrapeImagesResponse {
        */
       width?: number;
     }
+  }
+
+  export interface ActionsApplied {
+    instruction: string;
+
+    /**
+     * Applied means the requested page state was visibly verified. Failed means it was
+     * not verified. Skipped means it was not attempted.
+     */
+    status: 'applied' | 'failed' | 'skipped';
+
+    /**
+     * Visible page evidence used to verify an applied action.
+     */
+    completionEvidence?: string;
+
+    durationMs?: number;
+
+    error?: string;
+
+    method?: string;
+
+    targetDescription?: string;
   }
 
   /**
@@ -2110,11 +2138,16 @@ export interface WebExtractParams {
   url: string;
 
   /**
-   * Optional browser actions executed in order on the requested page after it loads
-   * and before extraction. Requires a paid plan. When actions are provided and
-   * stopAfterMs is omitted, the crawl budget defaults to 110000 ms.
+   * Optional browser actions executed in order on the requested page after it loads,
+   * before links are discovered or additional pages are crawled. Requires a paid
+   * plan. When actions are provided and stopAfterMs is omitted, the crawl budget
+   * defaults to 110000 ms.
    */
-  actions?: Array<WebExtractParams.WebScrapeWaitAction | WebExtractParams.WebScrapePerformAction>;
+  actions?: Array<
+    | WebExtractParams.WebScrapeWaitAction
+    | WebExtractParams.WebScrapePerformAction
+    | WebExtractParams.WebScrapeScrollAction
+  >;
 
   /**
    * When true, every returned value must be grounded in facts stated on the page;
@@ -2211,6 +2244,36 @@ export namespace WebExtractParams {
     action: string;
 
     do: 'perform';
+  }
+
+  /**
+   * Scroll the page or a selected scrollable container, waiting adaptively for
+   * content and dimensions to settle after each iteration.
+   */
+  export interface WebScrapeScrollAction {
+    do: 'scroll';
+
+    /**
+     * Pixels per scroll, one visible viewport, or the current scroll boundary.
+     * Defaults to viewport.
+     */
+    amount?: number | 'viewport' | 'max';
+
+    /**
+     * CSS selector for the first matching scroll container. Defaults to the page.
+     */
+    container?: string;
+
+    /**
+     * Direction to scroll. Defaults to down.
+     */
+    direction?: 'up' | 'down' | 'left' | 'right';
+
+    /**
+     * Maximum scroll iterations. Stops early when scrolling and scrollable extent stop
+     * changing. Defaults to 1.
+     */
+    maxScrolls?: number;
   }
 
   export interface Pdf {
@@ -3437,7 +3500,9 @@ export interface WebWebScrapeHTMLParams {
    * parameter. Maximum: 5 actions.
    */
   actions?: Array<
-    WebWebScrapeHTMLParams.WebScrapeWaitAction | WebWebScrapeHTMLParams.WebScrapePerformAction
+    | WebWebScrapeHTMLParams.WebScrapeWaitAction
+    | WebWebScrapeHTMLParams.WebScrapePerformAction
+    | WebWebScrapeHTMLParams.WebScrapeScrollAction
   > | null;
 
   /**
@@ -3751,6 +3816,36 @@ export namespace WebWebScrapeHTMLParams {
   }
 
   /**
+   * Scroll the page or a selected scrollable container, waiting adaptively for
+   * content and dimensions to settle after each iteration.
+   */
+  export interface WebScrapeScrollAction {
+    do: 'scroll';
+
+    /**
+     * Pixels per scroll, one visible viewport, or the current scroll boundary.
+     * Defaults to viewport.
+     */
+    amount?: number | 'viewport' | 'max';
+
+    /**
+     * CSS selector for the first matching scroll container. Defaults to the page.
+     */
+    container?: string;
+
+    /**
+     * Direction to scroll. Defaults to down.
+     */
+    direction?: 'up' | 'down' | 'left' | 'right';
+
+    /**
+     * Maximum scroll iterations. Stops early when scrolling and scrollable extent stop
+     * changing. Defaults to 1.
+     */
+    maxScrolls?: number;
+  }
+
+  /**
    * PDF parsing controls. Use start/end to limit text extraction and embedded-image
    * detection/OCR to an inclusive 1-based page range.
    */
@@ -3794,7 +3889,9 @@ export interface WebWebScrapeImagesParams {
    * parameter. Maximum: 5 actions.
    */
   actions?: Array<
-    WebWebScrapeImagesParams.WebScrapeWaitAction | WebWebScrapeImagesParams.WebScrapePerformAction
+    | WebWebScrapeImagesParams.WebScrapeWaitAction
+    | WebWebScrapeImagesParams.WebScrapePerformAction
+    | WebWebScrapeImagesParams.WebScrapeScrollAction
   > | null;
 
   /**
@@ -3865,6 +3962,36 @@ export namespace WebWebScrapeImagesParams {
   }
 
   /**
+   * Scroll the page or a selected scrollable container, waiting adaptively for
+   * content and dimensions to settle after each iteration.
+   */
+  export interface WebScrapeScrollAction {
+    do: 'scroll';
+
+    /**
+     * Pixels per scroll, one visible viewport, or the current scroll boundary.
+     * Defaults to viewport.
+     */
+    amount?: number | 'viewport' | 'max';
+
+    /**
+     * CSS selector for the first matching scroll container. Defaults to the page.
+     */
+    container?: string;
+
+    /**
+     * Direction to scroll. Defaults to down.
+     */
+    direction?: 'up' | 'down' | 'left' | 'right';
+
+    /**
+     * Maximum scroll iterations. Stops early when scrolling and scrollable extent stop
+     * changing. Defaults to 1.
+     */
+    maxScrolls?: number;
+  }
+
+  /**
    * Optional per-image processing, sent as deep-object query params such as
    * enrichment[resolution]=true.
    */
@@ -3905,7 +4032,9 @@ export interface WebWebScrapeMdParams {
    * parameter. Maximum: 5 actions.
    */
   actions?: Array<
-    WebWebScrapeMdParams.WebScrapeWaitAction | WebWebScrapeMdParams.WebScrapePerformAction
+    | WebWebScrapeMdParams.WebScrapeWaitAction
+    | WebWebScrapeMdParams.WebScrapePerformAction
+    | WebWebScrapeMdParams.WebScrapeScrollAction
   > | null;
 
   /**
@@ -4238,6 +4367,36 @@ export namespace WebWebScrapeMdParams {
     action: string;
 
     do: 'perform';
+  }
+
+  /**
+   * Scroll the page or a selected scrollable container, waiting adaptively for
+   * content and dimensions to settle after each iteration.
+   */
+  export interface WebScrapeScrollAction {
+    do: 'scroll';
+
+    /**
+     * Pixels per scroll, one visible viewport, or the current scroll boundary.
+     * Defaults to viewport.
+     */
+    amount?: number | 'viewport' | 'max';
+
+    /**
+     * CSS selector for the first matching scroll container. Defaults to the page.
+     */
+    container?: string;
+
+    /**
+     * Direction to scroll. Defaults to down.
+     */
+    direction?: 'up' | 'down' | 'left' | 'right';
+
+    /**
+     * Maximum scroll iterations. Stops early when scrolling and scrollable extent stop
+     * changing. Defaults to 1.
+     */
+    maxScrolls?: number;
   }
 
   /**
