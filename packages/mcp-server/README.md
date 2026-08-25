@@ -54,11 +54,7 @@ If you use Claude Code, you can install the MCP server by running the command be
 environment variables in Claude Code's `.claude.json`, which can be found in your home directory.
 
 ```
-<<<<<<< HEAD
 claude mcp add context.dev_mcp_api --env CONTEXT_DEV_API_KEY="My API Key" -- npx -y context.dev-mcp
-=======
-claude mcp add context_dev_mcp_api --header "x-context-dev-api-key: My API Key" --transport http https://context-dev.stlmcp.com
->>>>>>> ce795a2 (Apply custom code)
 ```
 
 ## Code Mode
