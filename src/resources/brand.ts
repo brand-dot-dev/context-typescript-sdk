@@ -58,6 +58,13 @@ export class Brand extends APIResource {
 
 export interface BrandRetrieveResponse {
   /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  cache_metadata: BrandRetrieveResponse.CacheMetadata;
+
+  /**
    * Detailed brand information
    */
   brand?: BrandRetrieveResponse.Brand;
@@ -80,6 +87,24 @@ export interface BrandRetrieveResponse {
 }
 
 export namespace BrandRetrieveResponse {
+  /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  export interface CacheMetadata {
+    /**
+     * Age of the cached data in milliseconds. Zero for miss and zdr responses.
+     */
+    age_ms: number;
+
+    /**
+     * Whether the response was served from cache, required fresh work, or honored
+     * zero-data-retention cache bypass.
+     */
+    status: 'hit' | 'miss' | 'zdr';
+  }
+
   /**
    * Detailed brand information
    */
@@ -873,6 +898,13 @@ export namespace BrandRetrieveResponse {
 
 export interface BrandRetrieveSimplifiedResponse {
   /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  cache_metadata: BrandRetrieveSimplifiedResponse.CacheMetadata;
+
+  /**
    * Simplified brand information
    */
   brand?: BrandRetrieveSimplifiedResponse.Brand;
@@ -895,6 +927,24 @@ export interface BrandRetrieveSimplifiedResponse {
 }
 
 export namespace BrandRetrieveSimplifiedResponse {
+  /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  export interface CacheMetadata {
+    /**
+     * Age of the cached data in milliseconds. Zero for miss and zdr responses.
+     */
+    age_ms: number;
+
+    /**
+     * Whether the response was served from cache, required fresh work, or honored
+     * zero-data-retention cache bypass.
+     */
+    status: 'hit' | 'miss' | 'zdr';
+  }
+
   /**
    * Simplified brand information
    */

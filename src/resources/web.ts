@@ -223,6 +223,13 @@ export class Web extends APIResource {
 
 export interface WebExtractResponse {
   /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  cache_metadata: WebExtractResponse.CacheMetadata;
+
+  /**
    * Extracted data matching the request schema
    */
   data: { [key: string]: unknown };
@@ -252,6 +259,24 @@ export interface WebExtractResponse {
 }
 
 export namespace WebExtractResponse {
+  /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  export interface CacheMetadata {
+    /**
+     * Age of the cached data in milliseconds. Zero for miss and zdr responses.
+     */
+    age_ms: number;
+
+    /**
+     * Whether the response was served from cache, required fresh work, or honored
+     * zero-data-retention cache bypass.
+     */
+    status: 'hit' | 'miss' | 'zdr';
+  }
+
   export interface Metadata {
     maxCrawlDepth: number;
 
@@ -422,6 +447,13 @@ export namespace WebExtractCompetitorsResponse {
 
 export interface WebExtractFontsResponse {
   /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  cache_metadata: WebExtractFontsResponse.CacheMetadata;
+
+  /**
    * HTTP status code, e.g., 200
    */
   code: number;
@@ -456,6 +488,24 @@ export interface WebExtractFontsResponse {
 }
 
 export namespace WebExtractFontsResponse {
+  /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  export interface CacheMetadata {
+    /**
+     * Age of the cached data in milliseconds. Zero for miss and zdr responses.
+     */
+    age_ms: number;
+
+    /**
+     * Whether the response was served from cache, required fresh work, or honored
+     * zero-data-retention cache bypass.
+     */
+    status: 'hit' | 'miss' | 'zdr';
+  }
+
   export interface Font {
     /**
      * Array of fallback font families
@@ -535,6 +585,13 @@ export namespace WebExtractFontsResponse {
 
 export interface WebExtractStyleguideResponse {
   /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  cache_metadata: WebExtractStyleguideResponse.CacheMetadata;
+
+  /**
    * HTTP status code
    */
   code?: number;
@@ -562,6 +619,24 @@ export interface WebExtractStyleguideResponse {
 }
 
 export namespace WebExtractStyleguideResponse {
+  /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  export interface CacheMetadata {
+    /**
+     * Age of the cached data in milliseconds. Zero for miss and zdr responses.
+     */
+    age_ms: number;
+
+    /**
+     * Whether the response was served from cache, required fresh work, or honored
+     * zero-data-retention cache bypass.
+     */
+    status: 'hit' | 'miss' | 'zdr';
+  }
+
   /**
    * Metadata about the API key used for the request. Included in every response
    * whenever a valid API key is provided, even when the response status is not 200.
@@ -1070,6 +1145,13 @@ export namespace WebExtractStyleguideResponse {
 
 export interface WebScreenshotResponse {
   /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  cache_metadata: WebScreenshotResponse.CacheMetadata;
+
+  /**
    * HTTP status code
    */
   code?: number;
@@ -1114,6 +1196,24 @@ export interface WebScreenshotResponse {
 
 export namespace WebScreenshotResponse {
   /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  export interface CacheMetadata {
+    /**
+     * Age of the cached data in milliseconds. Zero for miss and zdr responses.
+     */
+    age_ms: number;
+
+    /**
+     * Whether the response was served from cache, required fresh work, or honored
+     * zero-data-retention cache bypass.
+     */
+    status: 'hit' | 'miss' | 'zdr';
+  }
+
+  /**
    * Metadata about the API key used for the request. Included in every response
    * whenever a valid API key is provided, even when the response status is not 200.
    */
@@ -1132,6 +1232,13 @@ export namespace WebScreenshotResponse {
 
 export interface WebSearchResponse {
   /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  cache_metadata: WebSearchResponse.CacheMetadata;
+
+  /**
    * Echo of the original query (useful when fanout was enabled).
    */
   query: string;
@@ -1146,6 +1253,24 @@ export interface WebSearchResponse {
 }
 
 export namespace WebSearchResponse {
+  /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  export interface CacheMetadata {
+    /**
+     * Age of the cached data in milliseconds. Zero for miss and zdr responses.
+     */
+    age_ms: number;
+
+    /**
+     * Whether the response was served from cache, required fresh work, or honored
+     * zero-data-retention cache bypass.
+     */
+    status: 'hit' | 'miss' | 'zdr';
+  }
+
   export interface Result {
     /**
      * Snippet excerpt from the page.
@@ -1209,6 +1334,13 @@ export namespace WebSearchResponse {
 }
 
 export interface WebWebCrawlMdResponse {
+  /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  cache_metadata: WebWebCrawlMdResponse.CacheMetadata;
+
   metadata: WebWebCrawlMdResponse.Metadata;
 
   results: Array<WebWebCrawlMdResponse.Result>;
@@ -1221,6 +1353,24 @@ export interface WebWebCrawlMdResponse {
 }
 
 export namespace WebWebCrawlMdResponse {
+  /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  export interface CacheMetadata {
+    /**
+     * Age of the cached data in milliseconds. Zero for miss and zdr responses.
+     */
+    age_ms: number;
+
+    /**
+     * Whether the response was served from cache, required fresh work, or honored
+     * zero-data-retention cache bypass.
+     */
+    status: 'hit' | 'miss' | 'zdr';
+  }
+
   export interface Metadata {
     /**
      * Maximum crawl depth reached during the crawl
@@ -1439,6 +1589,13 @@ export namespace WebWebCrawlMdResponse {
 
 export interface WebWebScrapeHTMLResponse {
   /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  cache_metadata: WebWebScrapeHTMLResponse.CacheMetadata;
+
+  /**
    * The scraped content of the page. For normal pages this is the raw HTML. When the
    * page is a sitemap or feed served behind an XSL stylesheet (which browsers render
    * into HTML), this is the underlying XML instead — see the `type` field.
@@ -1501,6 +1658,24 @@ export interface WebWebScrapeHTMLResponse {
 }
 
 export namespace WebWebScrapeHTMLResponse {
+  /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  export interface CacheMetadata {
+    /**
+     * Age of the cached data in milliseconds. Zero for miss and zdr responses.
+     */
+    age_ms: number;
+
+    /**
+     * Whether the response was served from cache, required fresh work, or honored
+     * zero-data-retention cache bypass.
+     */
+    status: 'hit' | 'miss' | 'zdr';
+  }
+
   /**
    * Metadata extracted from the scraped page HTML.
    */
@@ -1686,6 +1861,13 @@ export namespace WebWebScrapeHTMLResponse {
 
 export interface WebWebScrapeImagesResponse {
   /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  cache_metadata: WebWebScrapeImagesResponse.CacheMetadata;
+
+  /**
    * Images found on the page.
    */
   images: Array<WebWebScrapeImagesResponse.Image>;
@@ -1713,6 +1895,24 @@ export interface WebWebScrapeImagesResponse {
 }
 
 export namespace WebWebScrapeImagesResponse {
+  /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  export interface CacheMetadata {
+    /**
+     * Age of the cached data in milliseconds. Zero for miss and zdr responses.
+     */
+    age_ms: number;
+
+    /**
+     * Whether the response was served from cache, required fresh work, or honored
+     * zero-data-retention cache bypass.
+     */
+    status: 'hit' | 'miss' | 'zdr';
+  }
+
   export interface Image {
     /**
      * Image alt text, or null when unavailable.
@@ -1814,6 +2014,13 @@ export namespace WebWebScrapeImagesResponse {
 
 export interface WebWebScrapeMdResponse {
   /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  cache_metadata: WebWebScrapeMdResponse.CacheMetadata;
+
+  /**
    * UTF-8 byte length of the returned Markdown. Use 0 to identify an empty result
    * and compare small values against your workload's minimum useful-content
    * threshold.
@@ -1866,6 +2073,24 @@ export interface WebWebScrapeMdResponse {
 }
 
 export namespace WebWebScrapeMdResponse {
+  /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  export interface CacheMetadata {
+    /**
+     * Age of the cached data in milliseconds. Zero for miss and zdr responses.
+     */
+    age_ms: number;
+
+    /**
+     * Whether the response was served from cache, required fresh work, or honored
+     * zero-data-retention cache bypass.
+     */
+    status: 'hit' | 'miss' | 'zdr';
+  }
+
   /**
    * Metadata extracted from the scraped page HTML.
    */

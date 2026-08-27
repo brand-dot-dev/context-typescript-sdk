@@ -872,6 +872,13 @@ export namespace BatchGetResultsResponse {
    */
   export interface Ok {
     /**
+     * Cache outcome for this response. Composite responses are hits only when every
+     * cache-controlled fetch contributing to the output was a hit; age_ms is the
+     * oldest contributing hit.
+     */
+    cache_metadata: Ok.CacheMetadata;
+
+    /**
      * URL the content was read from, after redirects.
      */
     final_url: string;
@@ -925,6 +932,24 @@ export namespace BatchGetResultsResponse {
   }
 
   export namespace Ok {
+    /**
+     * Cache outcome for this response. Composite responses are hits only when every
+     * cache-controlled fetch contributing to the output was a hit; age_ms is the
+     * oldest contributing hit.
+     */
+    export interface CacheMetadata {
+      /**
+       * Age of the cached data in milliseconds. Zero for miss and zdr responses.
+       */
+      age_ms: number;
+
+      /**
+       * Whether the response was served from cache, required fresh work, or honored
+       * zero-data-retention cache bypass.
+       */
+      status: 'hit' | 'miss' | 'zdr';
+    }
+
     /**
      * Metadata extracted from the scraped page HTML.
      */
@@ -1128,6 +1153,13 @@ export interface BatchSubmitResponse {
   id: string;
 
   /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  cache_metadata: BatchSubmitResponse.CacheMetadata;
+
+  /**
    * The crawl controls as submitted, so the limits requested can be compared against
    * what the crawl reached.
    */
@@ -1186,6 +1218,24 @@ export interface BatchSubmitResponse {
 }
 
 export namespace BatchSubmitResponse {
+  /**
+   * Cache outcome for this response. Composite responses are hits only when every
+   * cache-controlled fetch contributing to the output was a hit; age_ms is the
+   * oldest contributing hit.
+   */
+  export interface CacheMetadata {
+    /**
+     * Age of the cached data in milliseconds. Zero for miss and zdr responses.
+     */
+    age_ms: number;
+
+    /**
+     * Whether the response was served from cache, required fresh work, or honored
+     * zero-data-retention cache bypass.
+     */
+    status: 'hit' | 'miss' | 'zdr';
+  }
+
   /**
    * What accepting this batch cost.
    */
