@@ -27,7 +27,7 @@ For example:
 async function run(client) {
   const brand = await client.brand.retrieve({ domain: 'REPLACE_ME', type: 'by_domain' });
 
-  console.log(brand.brand);
+  console.log(brand.cache_metadata);
 }
 \`\`\`
 
